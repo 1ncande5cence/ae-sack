@@ -42,6 +42,10 @@
 #include "debug.h"
 #include "alloc-inl.h"
 #include "hash.h"
+#include <regex.h>
+
+// using Jansson for JSON configuration parsing
+#include <jansson.h>
 
 #include <stdio.h>
 #include <unistd.h>
@@ -88,6 +92,10 @@
    really makes no sense to haul them around as function parameters. */
 
 #define NOT_TRIGGERED   10000000
+#define MAX_FILE_NUM    65536
+#define MAX_LOC_LEN     128
+#define MAX_SYSTEM_COMMANDS 10
+
 
 u64 dry_run_exec_us;
 time_t dry_run_start, dry_run_end;
@@ -289,6 +297,22 @@ u32 total_null_flip = 0;
 #define ICALL_TIME_LOG_FILE "./log/icall_time_log"
 #define NGINX_ACCESS_LOG    "./log/host.access.log"
 #define ICALL_VIOLATION_LOG "./log/icall_violation_log"
+#define PATTERN "obtained shmid ([0-9]+) for BanTable"   /*for proftpd P2 login limit*/
+
+char *config_path = NULL;  // config file path
+char *access_log_path = NULL; // e.g., ./log/host.access.log
+char *probe_log_path = NULL;  // e.g., ./log/probe_nginx_log
+
+char *target_oracle = NULL; // target oracle (proftpd-p2)
+char *system_commands[MAX_SYSTEM_COMMANDS];
+
+
+int num_system_commands = 0;
+
+char *branch_flipping_only_mode = "off" ;    //always branch_flipping mode, default is off
+char *require_stdin_redirect = "off"; // like sqlite, it require save stdin to file
+
+
 
 unsigned int total_bb_num = 0;
 u8 * file_name;                         /*Value: pointer to file name*/
@@ -390,6 +414,120 @@ enum {
   /* 04 */ FAULT_NOINST,
   /* 05 */ FAULT_NOBITS
 };
+
+
+/*for proftpd P2 login limit*/
+void execute_ipcrm(int shmid) {
+  char command[50];
+  snprintf(command, sizeof(command), "ipcrm -m %d", shmid);
+  printf("Executing: %s\n", command);
+  system(command);
+}
+
+/*for proftpd P2 login limit*/
+int extract_shmid(const char *line) {
+  regex_t regex;
+  regmatch_t matches[2];  // We need at least one capture group
+  int shmid = -1;
+
+  if (regcomp(&regex, PATTERN, REG_EXTENDED) != 0) {
+      fprintf(stderr, "Failed to compile regex\n");
+      return -1;
+  }
+
+  if (regexec(&regex, line, 2, matches, 0) == 0) {
+      char shmid_str[20];
+      int length = matches[1].rm_eo - matches[1].rm_so;
+      strncpy(shmid_str, line + matches[1].rm_so, length);
+      shmid_str[length] = '\0';
+      shmid = atoi(shmid_str);
+  }
+  
+  regfree(&regex);
+  return shmid;
+}
+
+void load_config(const char *filename) {
+  json_t *root;
+  json_error_t error;
+
+  root = json_load_file(filename, 0, &error);
+  if (!root) {
+      fprintf(stderr, "Error parsing config: %s\n", error.text);
+      exit(1);
+  }
+
+
+  /*load target_oracle, access_log and probe_log*/
+
+  json_t *target = json_object_get(root, "target");
+  json_t *access_log = json_object_get(root, "access_log");
+  json_t *probe_log = json_object_get(root, "probe_log");
+
+  if (!json_is_string(access_log) || !json_is_string(probe_log) || !json_is_string(target) ) {
+      fprintf(stderr, "Invalid or missing keys in config.\n");
+      json_decref(root);
+      exit(1);
+  }
+
+  target_oracle = strdup(json_string_value(target));
+  if (strlen(target_oracle) == 0) {   //"" if you don't need this keyword
+      free(target_oracle);
+      target_oracle = NULL;
+  }
+
+  access_log_path = strdup(json_string_value(access_log));
+  if (strlen(access_log_path) == 0) {   //"" if you don't need this keyword
+      free(access_log_path);
+      access_log_path = NULL;
+  }
+
+  probe_log_path = strdup(json_string_value(probe_log));
+  if (strlen(probe_log_path) == 0) {
+      free(probe_log_path);
+      probe_log_path = NULL;
+  } 
+
+  /*load branch_flipping only mode*/
+  json_t *br_flip_only_mode = json_object_get(root, "branch_flipping_only_mode");
+
+  if (!json_is_string(br_flip_only_mode)) {
+      fprintf(stderr, "Invalid or missing keys in config.\n");
+      json_decref(root);
+      exit(1);
+  }
+
+  branch_flipping_only_mode = strdup(json_string_value(br_flip_only_mode));
+
+  /*load require_stdin_redirect*/ //not necessary, if don't have this keyword just remain default (off)
+  
+  json_t *stdin_redirect = json_object_get(root, "require_stdin_redirect");
+
+  if (json_is_string(stdin_redirect)) { 
+    ACTF("Require_stdin_redirect found");
+    require_stdin_redirect = strdup(json_string_value(stdin_redirect));
+    ACTF("Require_stdin_redirect:%s",require_stdin_redirect);
+  }
+
+
+  /*load system_recovery_command*/
+  json_t *cmd_array = json_object_get(root, "system_command");
+  if (json_is_array(cmd_array)) {
+    size_t index;
+    json_t *cmd;
+    json_array_foreach(cmd_array, index, cmd) {
+      if (!json_is_string(cmd)) continue;
+      const char *cmd_str = json_string_value(cmd);
+      if (strlen(cmd_str) == 0) continue; // optional: skip empty strings
+      if (num_system_commands < MAX_SYSTEM_COMMANDS) {
+        system_commands[num_system_commands++] = strdup(cmd_str);
+      }
+    }
+  }
+
+  json_decref(root);
+}
+
 
 /* helper function, to recursively copy linked list*/
 
@@ -4918,8 +5056,8 @@ static u8 fuzz_one(char** argv) {
 
     // skip icall if it only has single target
     if (overall_icall_numof_target[icall_id] <= 1 ||
-	!dryrun_load_flip[icall_id])
-      continue;
+	      !dryrun_load_flip[icall_id])
+        continue;
 
     total_numof_triggered_icall++;
 
@@ -4950,6 +5088,13 @@ static u8 fuzz_one(char** argv) {
 
           system("ps aux | grep \"nginx: master process\" | grep -v grep | awk '{print $2}' | xargs -r kill -9");
           system("ps aux | grep \"nginx: worker process\" | grep -v grep | awk '{print $2}' | xargs -r kill -9");
+          
+          /*execute system recovery command*/
+          for (int i = 0; i < num_system_commands; i++) {
+            //fprintf(stderr, "[*] Executing system command: %s\n", system_commands[i]);
+            system(system_commands[i]);
+          }
+          
           /* do the flipping */
           if (common_fuzz_stuff(argv, out_buf, len, icall_id, target_id, 1, flipped_target_address, 0)) goto abandon_entry;
           
@@ -4957,13 +5102,95 @@ static u8 fuzz_one(char** argv) {
 
           /* update flip_happened value */   // use trace_bits  // decide continue or exit
           flip_happened = trace_bits[MAP_SIZE+BLOCK_SIZE];
-          ACTF("flip happended:%d",flip_happened);
+          ACTF("flip happened:%d",flip_happened);
 
-          if (flip_happened == false || target_id >= 1000) {
-	    if (target_id == 0) ACTF("segment fault may happened during flipping");
-            ACTF("flip doesn't happen in this execution\n");
-            break;
+      /* add-on measurement for proftpd p2 auth limit, we may need to execute more than 1 times */
+      
+      if (target_oracle != NULL && strcmp(target_oracle,"proftpd-p2") == 0) {
+        
+        OKF("add-on measurement for Proftpd-P2");
+      
+
+        if (common_fuzz_stuff(argv, out_buf, len, branch_id, 0, br_counter_id, load_counter_id, cond_set_to_True, flip_mode)) goto abandon_entry;
+        if (common_fuzz_stuff(argv, out_buf, len, branch_id, 0, br_counter_id, load_counter_id, cond_set_to_True, flip_mode)) goto abandon_entry;
+
+        FILE *ban_log = fopen("./ban.log", "r");
+        if (!ban_log) {
+          perror("Error opening ban log file");
+          return EXIT_FAILURE;
+        }
+        char ban_line[512];
+        int last_shmid = -1;
+
+        while (fgets(ban_line, sizeof(ban_line), ban_log)) {
+            int shmid = extract_shmid(ban_line);
+            if (shmid != -1) {
+                last_shmid = shmid;
+            }
+        }
+
+        fclose(ban_log);
+
+        if (last_shmid != -1) {
+            execute_ipcrm(last_shmid);
+        } else {
+            printf("No matching shmid found in log file.\n");
+        }
+
+        // clear ban.log
+        FILE *file = fopen("./ban.log", "w");
+        if (file) {
+          fclose(file);  // Truncate the file by opening in "w" mode and closing it immediately
+          printf("Log file cleared.\n");
+        } else {
+          perror("Error clearing log file");
+        }
+
+        /*end of addon measurement for proftpd p2 auth limit*/
+      }
+
+
+      if (strcmp(require_stdin_redirect,"on") == 0) {
+        
+        oracle_file = fopen("./oracle/my_log.txt", "r");
+        if (oracle_file) {
+          fseek(oracle_file, 0, SEEK_END);
+          long file_size = ftell(oracle_file);
+          fclose(oracle_file);
+        
+          // Only rename if file is NOT empty, flip happened and branch reached
+          if (file_size > 0 && flip_happened && branch_reached) {
+            
+            int origin_br_value = 255;
+
+            if (flip_mode) {
+              // branch-flipping mode
+              if (cond_set_to_True) origin_br_value = 0;
+              else origin_br_value = 1;
+
+              snprintf(command, sizeof(command), "mv ./oracle/my_log.txt ./oracle/%d_%d_%d_%d", branch_id,br_counter_id,origin_br_value,origin_br_value^1);
+            }
+            else {
+              // mem-modification mode 
+              if (cond_set_to_True) origin_br_value = 2;
+              else origin_br_value = 3;
+
+              snprintf(command, sizeof(command), "mv ./oracle/my_log.txt ./oracle/%d_%d_%d_%d", branch_id,br_counter_id,origin_br_value,origin_br_value^1);
+            }
+              system(command);
           }
+        }
+
+      }
+
+
+      if (flip_happened == false || target_id >= 1000) {
+	        if (target_id == 0) ACTF("segment fault may happened during flipping");
+          
+          ACTF("flip doesn't happen in this execution or reach the entering limit\n");
+          break;
+          
+        }
           target_id ++;
       }
 
@@ -5508,6 +5735,7 @@ static void usage(u8* argv0) {
 
        "Required parameters:\n\n"
 
+       "  -c dir        - config setting for the target oracle and program\n"
        "  -i dir        - input directory with test cases\n"
        "  -o dir        - output directory for fuzzer findings\n\n"
 
@@ -6272,9 +6500,17 @@ int main(int argc, char** argv) {
   gettimeofday(&tv, &tz);//获取当前时间，分别存入tv和tz
   srandom(tv.tv_sec ^ tv.tv_usec ^ getpid()); //设置随机数生成器的种子
 
-  while ((opt = getopt(argc, argv, "+i:o:f:m:b:t:T:dnCB:S:M:x:QV")) > 0) //处理命令行参数，如果解析完所有选项则返回-1， :表示:之前的变量需要携带参数， opt存储下一个选项的字符，optarg存储该变量的参数
+
+  while ((opt = getopt(argc, argv, "+i:o:f:m:b:t:T:dnCB:S:M:x:QVD:a:c:")) > 0)
 
     switch (opt) {
+
+      case 'c': /* config file */
+
+        if (config_path) FATAL("Multiple -c options not supported");
+        config_path = optarg;
+        load_config(config_path); 
+        break;
 
       case 'i': /* input dir */
 
@@ -6463,7 +6699,8 @@ int main(int argc, char** argv) {
 
     }
 
-  if (optind == argc || !in_dir || !out_dir) usage(argv[0]);  //optind是opt参数的数量吧
+  if (optind == argc || !in_dir || !out_dir || !config_path) usage(argv[0]);
+
 
   setup_signal_handlers();
   check_asan_opts();
@@ -6562,16 +6799,38 @@ int main(int argc, char** argv) {
 
   dry_run_start = time(NULL);
 
+  if (access_log_path && access(access_log_path, F_OK) == 0) {
+    remove(access_log_path);
+  }
+  
+  if (probe_log_path && access(probe_log_path, F_OK) == 0) {
+    remove(probe_log_path);
+    int fd = open(probe_log_path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+    if (fd >= 0) {
+        close(fd);
+        // ensure permission is 666 even if umask restricted it
+        chmod(probe_log_path, 0666);
+    } else {
+        perror("open");
+    }
+  }
+
   if (!access(ADDRESS_LOG_FILE,F_OK) == 0) 
     remove(ADDRESS_LOG_FILE);
 
   perform_dry_run(use_argv);
   collect_dryrun();
+  system("cp log/address_log log/subgt-extract/address_dryrun_log");
 
   u8* vfn = alloc_printf(ICALL_VIOLATION_LOG);
   FILE* icall_vio_log = fopen(vfn,"w");
   fclose(icall_vio_log);
   ck_free(vfn);
+
+  if (strcmp(require_stdin_redirect,"on") == 0)
+  { system("rm -rf ./oracle");
+    system("mkdir ./oracle");
+  }
 
   dry_run_end = time(NULL);
 
@@ -6682,6 +6941,9 @@ int main(int argc, char** argv) {
 
 stop_fuzzing:
 
+  SAYF(CURSOR_SHOW cLRD "\n\n+++ stop_soon value:%d +++\n" cRST,
+       stop_soon);
+
   SAYF(CURSOR_SHOW cLRD "\n\n+++ Testing aborted %s +++\n" cRST,
        stop_soon == 2 ? "programmatically" : "by user");
 
@@ -6706,6 +6968,10 @@ stop_fuzzing:
   OKF("We're done here. Have a nice day!\n");
 
   exit(0);
+  if (access_log_path)
+    free(access_log_path);
+  if (probe_log_path)
+    free(probe_log_path);
 
 }
 
