@@ -42,6 +42,7 @@
 #include <sys/shm.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <errno.h>
 
 /* This is a somewhat ugly hack for the experimental 'trace-pc-guard' mode.
    Basically, we need to make sure that the forkserver is initialized after
@@ -68,10 +69,8 @@ u8  __afl_area_initial[(MAP_SIZE + 1)];
 u8* __afl_area_ptr = __afl_area_initial;
 
 u64 indirect_call_map[MAP_SIZE];
-u64 fptr_cmp_map[MAP_SIZE];
 u64 store_map[MAP_SIZE];
 
-int indirect_call_enter_time[MAP_SIZE];
 
 __thread u32 __afl_prev_loc;
 
@@ -93,51 +92,17 @@ static u64 flipped_target_address = (u32)(-2);
 
 int has_flipped = 0;    // represent whether we have already flipped it or not, if yes, we do not flipped 
 int counter = 0;        // mark current enter counter
-int cmp_has_flipped = 0;
-int cmp_counter = 0;
 
 
 /* Load map setting*/
 
 #define MAX_TARGETS   100 // max targets num of one icall
 #define MAX_NAME_LEN  50  // max name length of one function
-#define MAX_ICALL_NUM 500 // max icall num in one program 
-#define MAX_FUNC_NUM 3000 // max function num in one program (need to consider)
-// typedef struct {
-//   int total_targets;  // how many icall targets this icall has
-//   char target_func_names[MAX_TARGETS][MAX_NAME_LEN]; // target function names respectively 
-// } ICallEntryMap;
-
-// ICallEntryMap icall_target_maps[MAX_ICALL_NUM];  // icall_targets_map 
-// // #define ICALL_TARGET_FILE   "./log/summary_csv"
-
-// typedef struct {
-//     char function_name[MAX_NAME_LEN];  // function name
-//     int address;  // function address 
-// } FunctionEntry;
-
-// FunctionEntry function_entry_maps[MAX_FUNC_NUM];   // function_address_map
-// #define FUNC_ENTRY_FILE     "./log/func_map"
-// int function_count = 0; // current function num
-
-#define FLIP_RESULT_FILE    "./log/flip_result"
-/* Log file setting */
 
 FILE *address_log = NULL;
-FILE *fptr_log = NULL;
-FILE *load_log = NULL;
-FILE *icall_time_log = NULL;
-FILE *load_flip_result_log = NULL;
-FILE *record_sequence_log = NULL;
-FILE *null_flip_result_log = NULL;
 
 #define ADDRESS_LOG_FILE    "./log/address_log"
-#define FPTR_LOG_FILE    "./log/fptr_log"
-#define LOAD_LOG_FILE    "./log/load_log"
-#define ICALL_TIME_LOG_FILE "./log/icall_time_log"
-#define LOAD_FLIP_RESULT_LOG_FILE "./log/load_flip_result"
-#define RECORD_SEQUENCE_LOG_FILE "./log/record_sequence"
-#define NULL_FLIP_RESULT_LOG_FILE "./log/null_flip_result"
+
 /* SHM setup. */
 
 static void __afl_map_shm(void) {
@@ -204,49 +169,9 @@ static void __afl_start_forkserver(void) {
     chmod(ADDRESS_LOG_FILE, 0777);
     close(fd);
 
-    if (!access(FPTR_LOG_FILE,F_OK)) remove(FPTR_LOG_FILE);
-    fd = open(FPTR_LOG_FILE, O_WRONLY | O_CREAT | O_EXCL, 0777);
-    chmod(FPTR_LOG_FILE, 0777);
-    close(fd);
-  
-    // if (!access(LOAD_LOG_FILE,F_OK)) remove(LOAD_LOG_FILE);
-    fd = open(LOAD_LOG_FILE, O_WRONLY | O_CREAT | O_EXCL, 0777);
-    chmod(LOAD_LOG_FILE, 0777);
-    close(fd);
-  
-    if (!access(FLIP_RESULT_FILE,F_OK)) remove(FLIP_RESULT_FILE);
-    fd = open(FLIP_RESULT_FILE, O_WRONLY | O_CREAT | O_EXCL, 0777);
-    chmod(FLIP_RESULT_FILE, 0777);
-    close(fd);
-  
-    if (!access(ICALL_TIME_LOG_FILE,F_OK)) remove(ICALL_TIME_LOG_FILE);
-    fd = open(ICALL_TIME_LOG_FILE, O_WRONLY | O_CREAT | O_EXCL, 0777);
-    chmod(ICALL_TIME_LOG_FILE, 0777);
-    close(fd);
-  
-    if (!access("./log/record_sequence",F_OK)) remove("./log/record_sequence");
-    fd = open("./log/record_sequence", O_WRONLY | O_CREAT | O_EXCL, 0777);
-    chmod("./log/record_sequence", 0777);
-    close(fd);
-  
-    //if (!access("./log/load_flip_result",F_OK)) remove("./log/load_flip_result");
-    fd = open("./log/load_flip_result", O_WRONLY | O_CREAT | O_EXCL, 0777);
-    chmod("./log/load_flip_result", 0777);
-    close(fd);
-  
-    fd = open("./log/null_flip_result", O_WRONLY | O_CREAT | O_EXCL, 0777);
-    chmod("./log/null_flip_result", 0777);
-    close(fd);
-  
-    
-    if (record_sequence_log) fclose(record_sequence_log);
-    record_sequence_log = fopen(RECORD_SEQUENCE_LOG_FILE,"a");
-    
     if (address_log) fclose(address_log);
     address_log = fopen(ADDRESS_LOG_FILE,"ab");
 
-    if (fptr_log) fclose(fptr_log);
-    fptr_log = fopen(FPTR_LOG_FILE,"ab");
     /* If we stopped the child in persistent mode, but there was a race
        condition and afl-fuzz already issued SIGKILL, write off the old
        process. */
@@ -258,17 +183,7 @@ static void __afl_start_forkserver(void) {
 
     if (!child_stopped) {
 
-      /* Once woken up, create a clone of our process. */
-      // if (access(ADDRESS_LOG_FILE,F_OK) == 0){
-      //   remove(ADDRESS_LOG_FILE);
-      // }
 
-      // if (access(LOAD_LOG_FILE,F_OK) == 0){
-      //   remove(LOAD_LOG_FILE);
-      // }
-      // if (access(FLIP_RESULT_FILE,F_OK) == 0){
-      //   remove(FLIP_RESULT_FILE);
-      // }
       cond_icall_id = icall_id;
       cond_target_id = target_id;
       cond_flipped_target_address = flipped_target_address;
@@ -403,46 +318,7 @@ __attribute__((constructor(CONST_PRIO))) void __afl_auto_init(void) {
   chmod(ADDRESS_LOG_FILE, 0777);
   close(fd);
 
-  if (!access(FPTR_LOG_FILE,F_OK)) remove(FPTR_LOG_FILE);
-  fd = open(FPTR_LOG_FILE, O_WRONLY | O_CREAT | O_EXCL, 0777);
-  chmod(FPTR_LOG_FILE, 0777);
-  close(fd);
-
-  // if (!access(LOAD_LOG_FILE,F_OK)) remove(LOAD_LOG_FILE);
-  fd = open(LOAD_LOG_FILE, O_WRONLY | O_CREAT | O_EXCL, 0777);
-  chmod(LOAD_LOG_FILE, 0777);
-  close(fd);
-
-  if (!access(FLIP_RESULT_FILE,F_OK)) remove(FLIP_RESULT_FILE);
-  fd = open(FLIP_RESULT_FILE, O_WRONLY | O_CREAT | O_EXCL, 0777);
-  chmod(FLIP_RESULT_FILE, 0777);
-  close(fd);
-
-  if (!access(ICALL_TIME_LOG_FILE,F_OK)) remove(ICALL_TIME_LOG_FILE);
-  fd = open(ICALL_TIME_LOG_FILE, O_WRONLY | O_CREAT | O_EXCL, 0777);
-  chmod(ICALL_TIME_LOG_FILE, 0777);
-  close(fd);
-
-  if (!access("./log/record_sequence",F_OK)) remove("./log/record_sequence");
-  fd = open("./log/record_sequence", O_WRONLY | O_CREAT | O_EXCL, 0777);
-  chmod("./log/record_sequence", 0777);
-  close(fd);
-
-  //if (!access("./log/load_flip_result",F_OK)) remove("./log/load_flip_result");
-  fd = open("./log/load_flip_result", O_WRONLY | O_CREAT | O_EXCL, 0777);
-  chmod("./log/load_flip_result", 0777);
-  close(fd);
-
-  fd = open("./log/null_flip_result", O_WRONLY | O_CREAT | O_EXCL, 0777);
-  chmod("./log/null_flip_result", 0777);
-  close(fd);
-
-  load_flip_result_log = fopen(LOAD_FLIP_RESULT_LOG_FILE,"a");
-  load_log = fopen(LOAD_LOG_FILE,"ab");
-  record_sequence_log = fopen(RECORD_SEQUENCE_LOG_FILE,"a");
   address_log = fopen(ADDRESS_LOG_FILE,"ab");
-  fptr_log = fopen(FPTR_LOG_FILE,"ab");
-  null_flip_result_log = fopen(NULL_FLIP_RESULT_LOG_FILE,"a");
 
   // system("chmod -R 777 log");
   
@@ -479,65 +355,6 @@ __attribute__((constructor(CONST_PRIO))) void __afl_auto_init(void) {
   }
 
 
-  /* Initialize two maps here, 
-    1. objdump: function name - function address map
-    2. icall: icall, icall targets map
-  */
-  // FILE *file = fopen(ICALL_TARGET_FILE, "r");
-
-  // char line[MAX_NAME_LEN+10];
-
-  // while (fgets(line, sizeof(line), file) != NULL) {
-
-  //     int icall_id;
-  //     int total_target_sum;
-  //     int curr_target_id;
-  //     char tmp_name[MAX_NAME_LEN];   
-      
-  //     sscanf(line, "%d,%d,%d,%49s", &icall_id, &total_target_sum, &curr_target_id, tmp_name);
-  //     // fill into icall_target_maps
-
-  //     icall_target_maps[icall_id].total_targets = total_target_sum;
-  //     strcpy (icall_target_maps[icall_id].target_func_names[curr_target_id], tmp_name);
-
-  // }
-  // fclose(file);
-
-  // // verify the storage  (success)
-
-  // for (int i = 0; i < MAX_ICALL_NUM ; i++) {
-  //     if (icall_target_maps[i].total_targets == 0) continue;
-
-  //     for (int j = 1; j <= icall_target_maps[i].total_targets ; j++) {
-  //       fprintf(stderr, "[-] icall id: %d, %d, %d, %s\n", i, icall_target_maps[i].total_targets, j, icall_target_maps[i].target_func_names[j]);
-  //     }
-  // }
-
-  // // store function - address map
-
-  // FILE *fp = fopen(FUNC_ENTRY_FILE,"r");
-
-  // while ( fgets(line, sizeof(line), fp) != NULL ) {
-  //     unsigned int address;
-  //     char function_name[MAX_NAME_LEN];
-  //     if (sscanf(line, "%x <%49[^>]", &address, function_name ) == 2) {
-  //         function_entry_maps[function_count].address = (int)address;
-          
-  //         strncpy(function_entry_maps[function_count].function_name, function_name, MAX_NAME_LEN);
-  //         function_entry_maps[function_count].function_name[MAX_NAME_LEN - 1] = '\0'; 
-          
-  //         function_count++;
-  //     }
-  // }
-
-  // fclose(fp);
-
-  //   for (int i = 0; i < function_count; i++) {
-  //       fprintf(stderr, "Function Name: %s, Address: %d (0x%x)\n",
-  //              function_entry_maps[i].function_name, function_entry_maps[i].address, function_entry_maps[i].address);
-  //   }
-
-  
 
   is_persistent = !!getenv(PERSIST_ENV_VAR);
 
@@ -553,19 +370,7 @@ void __attribute__((destructor(CONST_PRIO))) destructor() {
     fclose(address_log);
     address_log = NULL;
     //fprintf(stderr, "fclose\n");
-    
-    fclose(load_flip_result_log);
-    fflush(load_log);
-    fclose(load_log);
 
-    fclose(record_sequence_log);
-    fclose(null_flip_result_log);
-  }
-
-  if (fptr_log != NULL) {
-    fflush(fptr_log);
-    fclose(fptr_log);
-    fptr_log = NULL;
   }
 
 }
@@ -627,110 +432,37 @@ int __record_icall(uint64_t call_address, uint64_t id) {
   
   int arraysize = sizeof(id_address_pair) / sizeof (id_address_pair[0]);
   if (indirect_call_map[id] != call_address){
-      //if (address_log == NULL)
-      //  address_log = fopen(ADDRESS_LOG_FILE,"ab");
+
       size_t written = fwrite(id_address_pair, sizeof(uint64_t), arraysize, address_log);
       fflush(address_log);
       
-      /*Debug*/
-      //FILE *fdx = fopen("./log/record_sequence", "a");
-      fprintf(record_sequence_log, "[icall],id %lld, address %ld (0x%x) \n", id, call_address,call_address);
-      //fclose(fdx);
 
       if (written != arraysize){
         perror("failed to write to address_log");
 	      fprintf(stderr, "fail to write\n");
        }
-     //fclose(address_log);
-     //address_log = NULL;
+
      indirect_call_map[id] = call_address;
   }
-
-  // if (dry_run_flag == 2){  // record the icall execution situation
-  //     icall_time_log = fopen(ICALL_TIME_LOG_FILE,"ab");
-  //     //fprintf(icall_time_log, "Enter & ready to record\n" );
-  //     size_t written = fwrite(&id, sizeof(uint64_t), 1, icall_time_log);
-  //     //fflush(icall_time_log);
-  //     if (written != 1){
-  //       perror("failed to write to address_log");
-	//       fprintf(stderr, "fail to write\n");
-  //      }
-  //     fclose(icall_time_log);
-  // }
-
   
-
-
-  
-  return 1;
-}
-
-int __record_cmp(uint64_t call_address, uint64_t id) {
-  
-  uint64_t id_address_pair[2];
-  id_address_pair[0] = id;
-  id_address_pair[1] = call_address;
-  
-  int arraysize = sizeof(id_address_pair) / sizeof (id_address_pair[0]);
-  if (fptr_cmp_map[id] != call_address){
-
-      size_t written = fwrite(id_address_pair, sizeof(uint64_t), arraysize, fptr_log);
-      fflush(fptr_log);
-      
-
-      if (written != arraysize){
-        perror("failed to write to fptr_log");
-	      fprintf(stderr, "fail to write\n");
-       }
-
-       fptr_cmp_map[id] = call_address;
-  }
-
   return 1;
 }
 
 
 uint64_t  __modify_mem_func(uint64_t mem_location, uint64_t id) {   // [TODO]: if id == -1 , then it means don't modify it
     
-    /*debug*/
-    //cond_flipped_target_address = 0xdeadbeef;
-
-    /* don't flip when dry_run*/
-
-    // FILE *fdd = fopen("./log/load_flip_result", "a");
-    // fprintf(fdd, "dry_run flag: %d\n", dry_run_flag);
-    // fclose(fdd);
     if (null_ptr_mode_flag){
-      return cmp_has_flipped;  // 0->no flip
+      return 0;  // 0->no flip
     }
 
     if (dry_run_flag) { 
         
-        // FILE *fd = fopen("/methodology/proftpd-collection/proftpd/bin/log/load_flip_result", "a");
-        
-        // char cwdzzc[1024];  // Buffer to store the path
-        // if (fd == NULL){
-        //   perror("");
-          
-
-        //   if (getcwd(cwdzzc, sizeof(cwdzzc)) != NULL) {
-        //     printf("Current working directory: %s\n", cwdzzc);
-        //   } else {
-        //     perror("getcwd() error");  // Print error if getcwd fails
-        //   }   
-        // }
-
-        //fprintf(load_flip_result_log, "(1/5)[dry_run], hit load id %lld, exit because dry_run, no flip \n", id);
-        //fclose(fd);
-
       return 0;  // 0-> no flip
     }
 
     if (has_flipped == 1) {
         
-        //FILE *fd = fopen("./log/load_flip_result", "a");
-        //fprintf(load_flip_result_log, "(2/5)[has flipped], already flipped, don't flip\n");
-        //fclose(fd);
+
         return has_flipped;   // 1-> has flipped
     }
 
@@ -740,10 +472,6 @@ uint64_t  __modify_mem_func(uint64_t mem_location, uint64_t id) {   // [TODO]: i
 
     if (id != cond_icall_id) {
 
-        //FILE *fd = fopen("./log/load_flip_result", "a");
-        //fprintf(load_flip_result_log, "(3/5)[wrong load_id], hit real/need_to_flip load_id %lld/%lld\n",
-        //id, cond_icall_id);
-        //fclose(fd);
 
         return 0;  // 0-> no flip
     }
@@ -755,12 +483,7 @@ uint64_t  __modify_mem_func(uint64_t mem_location, uint64_t id) {   // [TODO]: i
      // has_flipped == 0   , not flipped yet 
 
     if (counter != cond_target_id) {
-      
-      //FILE *fd = fopen("./log/load_flip_result", "a");
-      //fprintf(load_flip_result_log, 
-      //"(4/5)[wrong enter time], hit load id %lld, enter real/need_to_flip time: %d/%d\n",
-      //id, counter, cond_target_id);
-      //fclose(fd);
+
       
       counter++;
 
@@ -770,68 +493,15 @@ uint64_t  __modify_mem_func(uint64_t mem_location, uint64_t id) {   // [TODO]: i
 
     * (unsigned long *)mem_location = cond_flipped_target_address;
 
-    //FILE *fd = fopen("./log/load_flip_result", "a");
-    //fprintf(load_flip_result_log, "(5/5)[flip], flip load_id %lld to target address: %ld (0x%lx) at %d time we hit\n",
-    //id, cond_flipped_target_address, cond_flipped_target_address, counter);
-    //fclose(fd);
-
     has_flipped = 1;
     counter++;
     
     return 1;
 
-
-
-
-
-    // FILE *fdd = fopen("./log/flip_result", "a");
-
-
-    // // char target_func_name[MAX_NAME_LEN];
-    // // strcpy (target_func_name, icall_target_maps[cond_icall_id].target_func_names[cond_target_id]);
-    // fprintf(fdd, 
-    //     "(4/4)[FLIPPED], hit real/need_to_flip icall_id: %lld/%lld, "
-    //     "real/need_to_flip target: %ld (0x%lx) / %ld (0x%lx), "
-    //     "enter time/need_to_flip time: %d/%d, "
-    //     "return %ld (0x%lx)\n",
-    //     id, cond_icall_id,
-    //     call_address, call_address, 
-    //     cond_flipped_target_address, cond_flipped_target_address,
-    //     (indirect_call_enter_time[id] + 1), cond_target_id,
-    //     cond_flipped_target_address, cond_flipped_target_address);
-    // //fprintf (fdd,"Target function Address: %ld (0x%x)\n", cond_flipped_target_address, cond_flipped_target_address);
-    // /*2. search the function_entry_maps based on function names*/
-    
-    // indirect_call_enter_time[id]++;  
-
-    // uint64_t flip_address = 0;
-    // flip_address = cond_flipped_target_address;
-    // // for (int i = 0; i < function_count; i++) {
-        
-    // //     //fprintf (fdd,"Current function: %s\n", function_entry_maps[i].function_name);
-    // //     if ( strcmp(target_func_name, function_entry_maps[i].function_name) == 0) {
-            
-    // //         fprintf(fdd, "Found, ready to flip, Function Name: %s, Address: %d (0x%x)\n", 
-    // //           function_entry_maps[i].function_name, function_entry_maps[i].address, function_entry_maps[i].address);
-            
-    // //         flip_address = function_entry_maps[i].address;
-            
-    // //         break;
-    // //     }
-
-    // // }
-    // fclose(fdd);
-
-
-    // // FILE *fdd = fopen("./log/flip_result", "a");
-    // // fprintf(fdd, "Flip icall id %lld to target %lld\n", id, cond_target_id);
-    // // fclose(fdd);
-
-    // return flip_address;
 }
 
 int __write_nginx_log(uint32_t fd) {
-    //const char *message = "zzczzc";
+
     /*currently, we just need cond_icall_id and cond_flipped_target_address */
     
     /* u32 + u64 */
@@ -855,85 +525,4 @@ int __write_nginx_log(uint32_t fd) {
 
   
   return 1;
-}
-
-uint64_t  __record_fptr_cmp(uint64_t mem_location, uint64_t id) {   // [TODO]: if id == -1 , then it means don't modify it
-    
-    /*debug*/
-    //cond_flipped_target_address = 0xdeadbeef;
-
-    /* don't flip when dry_run*/
-
-    // FILE *fdd = fopen("./log/load_flip_result", "a");
-    // fprintf(fdd, "dry_run flag: %d\n", dry_run_flag);
-    // fclose(fdd);
-    if (null_ptr_mode_flag == 0) {
-      
-      return has_flipped; // 0 -> not this mode, no flip but you need to consider normal flip may change this value
-    }
-
-
-    if (dry_run_flag) { 
-        
-        //FILE *fd = fopen("./log/null_flip_result", "a");
-        //fprintf(null_flip_result_log, "(1/5)[dry_run], hit load id %lld, exit because dry_run, no flip \n", id);
-        //fclose(fd);
-
-      return 0;  // 0-> no flip
-    }
-
-    if (cmp_has_flipped == 1) {
-        
-        //FILE *fd = fopen("./log/null_flip_result", "a");
-        //fprintf(null_flip_result_log, "(2/5)[has flipped], already flipped, don't flip\n");
-        //fclose(fd);
-        return cmp_has_flipped;   // 1-> has flipped
-    }
-
-    // after this line. has_flipped is 0
-
-    /* don't flip when id is wrong*/
-
-    if (id != cond_icall_id) {
-
-        //FILE *fd = fopen("./log/null_flip_result", "a");
-        //fprintf(null_flip_result_log, "(3/5)[wrong load_id], hit real/need_to_flip load_id %lld/%lld\n",
-        //id, cond_icall_id);
-        //fclose(fd);
-
-        return 0;  // 0-> no flip
-    }
-
-    /*ready to flip [TODO]: add counter strategy*/ 
-    
-    // flipped, no flip anymore
-
-     // has_flipped == 0   , not flipped yet 
-
-    if (cmp_counter != cond_target_id) {
-      
-      //FILE *fd = fopen("./log/null_flip_result", "a");
-      //fprintf(null_flip_result_log, 
-      //"(4/5)[wrong enter time], hit load id %lld, enter real/need_to_flip time: %d/%d\n",
-      //id, counter, cond_target_id);
-      //fclose(fd);
-      
-      cmp_counter++;
-
-      return cmp_has_flipped;
-    
-    }
-
-    * (unsigned long *)mem_location = cond_flipped_target_address;
-
-    //FILE *fd = fopen("./log/null_flip_result", "a");
-    //fprintf(null_flip_result_log, "(5/5)[flip], NULL flip load_id %lld to target address: %ld (0x%lx) at %d time we hit\n",
-    //id, cond_flipped_target_address, cond_flipped_target_address, cmp_counter);
-    //fclose(fd);
-
-    cmp_has_flipped = 1;
-    cmp_counter++;
-    
-    return 1;
-
 }
