@@ -192,7 +192,7 @@ bool AFLCoverage::runOnModule(Module &M) {
       0, GlobalVariable::GeneralDynamicTLSModel, 0, false);
 
   /* Instrument all the things! */
-
+  int inst_blocks = 0;
   /* Prepare for the function insertion*/
 
   uint64_t icall_id = 0;
