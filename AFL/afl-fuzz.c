@@ -5076,6 +5076,10 @@ static u8 fuzz_one(char** argv) {
       int target_id = 0;
       bool flip_happened = false;
 
+      /*use for oracles that require oracle file (redirect output from stdin to file)*/
+      char command[256];
+      FILE *oracle_file;
+
       while (true) {
           // if (target_id == 14 || target_id == 8 || target_id == 6 || target_id == 7) {
           //   target_id ++;
@@ -5111,8 +5115,8 @@ static u8 fuzz_one(char** argv) {
         OKF("add-on measurement for Proftpd-P2");
       
 
-        if (common_fuzz_stuff(argv, out_buf, len, branch_id, 0, br_counter_id, load_counter_id, cond_set_to_True, flip_mode)) goto abandon_entry;
-        if (common_fuzz_stuff(argv, out_buf, len, branch_id, 0, br_counter_id, load_counter_id, cond_set_to_True, flip_mode)) goto abandon_entry;
+        if (common_fuzz_stuff(argv, out_buf, len, icall_id, target_id, 0, flipped_target_address, 0)) goto abandon_entry;
+        if (common_fuzz_stuff(argv, out_buf, len, icall_id, target_id, 0, flipped_target_address, 0)) goto abandon_entry;
 
         FILE *ban_log = fopen("./ban.log", "r");
         if (!ban_log) {
@@ -5159,25 +5163,13 @@ static u8 fuzz_one(char** argv) {
           fclose(oracle_file);
         
           // Only rename if file is NOT empty, flip happened and branch reached
-          if (file_size > 0 && flip_happened && branch_reached) {
+          if (file_size > 0 && flip_happened) {
             
             int origin_br_value = 255;
 
-            if (flip_mode) {
-              // branch-flipping mode
-              if (cond_set_to_True) origin_br_value = 0;
-              else origin_br_value = 1;
-
-              snprintf(command, sizeof(command), "mv ./oracle/my_log.txt ./oracle/%d_%d_%d_%d", branch_id,br_counter_id,origin_br_value,origin_br_value^1);
-            }
-            else {
-              // mem-modification mode 
-              if (cond_set_to_True) origin_br_value = 2;
-              else origin_br_value = 3;
-
-              snprintf(command, sizeof(command), "mv ./oracle/my_log.txt ./oracle/%d_%d_%d_%d", branch_id,br_counter_id,origin_br_value,origin_br_value^1);
-            }
-              system(command);
+            snprintf(command, sizeof(command), "mv ./oracle/my_log.txt ./oracle/sack_%d_%d_%d", icall_id,target_id,flipped_target_address);
+           
+            system(command);
           }
         }
 
@@ -5216,7 +5208,11 @@ static u8 fuzz_one(char** argv) {
       
       /* Represent we require flip at the 0 time we enter the icall*/
       int target_id = 0;
-      bool flip_happened;
+      bool flip_happened = false;
+
+      /*use for oracles that require oracle file (redirect output from stdin to file)*/
+      char command[256];
+      FILE *oracle_file;
 
       overall_null_numof_target[fpt_cmp_id]++;
       total_numof_triggered_nullptr++;
