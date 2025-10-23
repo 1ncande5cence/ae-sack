@@ -43,6 +43,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <iostream>
 
 #include <string.h>
 #include "sys/stat.h"
@@ -81,69 +82,12 @@ namespace {
 
 FILE *line_log;
 FILE *address_log;
-FILE *fptr_cmp_log;
 
 #define LINE_LOG_FILE       "./log/line_log"
-#define FPTR_CMP_LOG_FILE   "./log/fptr_cmp_log"
 #define ADDRESS_LOG_FILE    "./log/address_log"
-#define BB_LOG_FILE         "./log/bb_log"
 
 char AFLCoverage::ID = 0;
 int counter, counter_null, counter_FUNC;
-
-
-#include <iostream>
-static inline bool is_llvm_dbg_intrinsic(Instruction& instr)
-{
-  const bool is_call = instr.getOpcode() == Instruction::Invoke ||
-    instr.getOpcode() == Instruction::Call;
-  if(!is_call) { return false; }
-
-  // CallSite cs(&instr);
-  auto call = dyn_cast<CallInst>(&instr);
-  // Function* calledFunc = cs.getCalledFunction();
-  Function* calledFunc = call->getCalledFunction();
-
-  if (calledFunc != NULL) {
-    const bool ret = calledFunc->isIntrinsic() &&
-      calledFunc->getName().startswith("llvm.");
-    return ret;
-  } else {
-    /*if (!isa<Constant>(cs.getCalledValue())){
-      llvm::outs() << ">>> inst : \n";
-      instr.dump();
-      cs.getCalledValue()->getType()->dump();
-      }
-      Constant* calledValue = cast<Constant>(cs.getCalledValue());
-      GlobalValue* globalValue = cast<GlobalValue>(calledValue);
-      Function *f = cast<Function>(globalValue);
-
-      const bool ret = f->isIntrinsic() &&
-      starts_with(globalValue->getName().str(), "llvm.");
-      return ret;*/
-    return false;
-  }
-}
-
-
-bool isFuncPtrTy(Type *type) {
-  if (type->isPointerTy()) {
-    Type *pointeeType = type->getPointerElementType();
-    return pointeeType->isFunctionTy();
-  }
-  return false;
-}
-
-bool isCastedFromFuncPtr(Value * val) {
-
-  if (BitCastInst * BCI = dyn_cast<BitCastInst>(val)) {
-    Type * srcTy = BCI->getSrcTy();
-    if (isFuncPtrTy(srcTy))
-      return true;
-  }
-
-  return false;
-}
 
 
 bool AFLCoverage::runOnModule(Module &M) {
@@ -155,7 +99,6 @@ bool AFLCoverage::runOnModule(Module &M) {
   IntegerType *Int32Ty = IntegerType::getInt32Ty(C);
   IntegerType *Int64Ty = IntegerType::getInt64Ty(C);
   PointerType *Int8PtrTy = Type::getInt8PtrTy(C);
-  Type *VoidTy = Type::getVoidTy(C);
 
   /* Show a banner */
 
@@ -197,31 +140,24 @@ bool AFLCoverage::runOnModule(Module &M) {
 
   uint64_t icall_id = 0;
   uint64_t jump_collect = 0;
-  uint64_t asm_inside = 0;
   std::vector<Type *> args = {Int64Ty, Int64Ty};
   std::vector<Type *> args_mem = {Int64Ty, Int64Ty};
   std::vector<Type *> log_args = {Int32Ty};
   std::vector<Type *> modify_args = {Int8PtrTy};
 
   auto *icall_helpTy = FunctionType::get(Int32Ty, args, false);
-  auto *helpTy = FunctionType::get(Int64Ty, args, false);
   auto *mem_helpTy = FunctionType::get(Int64Ty, args_mem, false);
   auto *log_helpTy = FunctionType::get(Int32Ty, log_args, false);
-  auto *modify_helpTy = FunctionType::get(VoidTy, modify_args, false);
 
-  Function *record_cmp = dyn_cast<Function>(M.getOrInsertFunction("__record_cmp", icall_helpTy).getCallee());
   Function *record_icall = dyn_cast<Function>(M.getOrInsertFunction("__record_icall", icall_helpTy).getCallee());
-  Function *record_fptr_cmp = dyn_cast<Function>(M.getOrInsertFunction("__record_fptr_cmp", mem_helpTy).getCallee());
   Function *record_load = dyn_cast<Function>(M.getOrInsertFunction("__record_load", icall_helpTy).getCallee());
   Function *write_nginx_log = dyn_cast<Function>(M.getOrInsertFunction("__write_nginx_log", log_helpTy).getCallee());
- 
   Function *modifyMemFunc = dyn_cast<Function>(M.getOrInsertFunction("__modify_mem_func",mem_helpTy).getCallee());
 
   if (mkdir("log", 0) == 0)
     chmod("log", 0777);
 
   line_log = fopen(LINE_LOG_FILE,"w+");
-  fptr_cmp_log = fopen(FPTR_CMP_LOG_FILE,"w+");
   
     
   for (auto &F : M) {
@@ -230,8 +166,6 @@ bool AFLCoverage::runOnModule(Module &M) {
 
     if (F.getName().startswith("getAccessLogFd") || F.getName().startswith("apache_write_fd_afl") || F.getName().startswith("ngx_write_fd_afl") ) {
       errs() <<"Found:" << F.getName() << "\n";
-      Module *write_module = F.getParent();
-      LLVMContext &write_context = write_module->getContext();
      
       for (auto &BB : F) {
         if (&BB == &F.getEntryBlock()) {  
@@ -270,142 +204,6 @@ bool AFLCoverage::runOnModule(Module &M) {
         Instruction &I = *instIter;
         ++instIter;
         //I.print(errs());
-        //errs()<< "\n";
-        //errs() <<"4" << "\n";
-        if (isa<ICmpInst>(&I)) {
-
-            ICmpInst * ICMP = cast<ICmpInst>(&I);
-            Value *firstValue = ICMP->getOperand(0);
-            Value *secondValue = ICMP->getOperand(1);
-            Type * firstType = firstValue->getType();
-
-            // errs() << "First Operand: " << *firstValue << "\n";
-            // errs() << "Second Operand: " << *secondValue << "\n";
-            // errs() << "First Operand Type: " << *firstType << "\n";
-
-            if (isFuncPtrTy(firstType) ||
-                isCastedFromFuncPtr(firstValue) ||
-                isCastedFromFuncPtr(secondValue)) {
-
-
-                Value *fptr_cmp_address = NULL;
-
-                // if (isa<ConstantPointerNull>(firstValue) && isa<Function>(secondValue)) {
-                //   fptr_cmp_address = secondValue;
-                // }
-
-                // if (isa<Function>(firstValue) && isa<ConstantPointerNull>(secondValue)) {
-                //   fptr_cmp_address = firstValue;
-                // }
-
-                if (isa<ConstantPointerNull>(firstValue) ||
-                      isa<ConstantPointerNull>(secondValue)){ 
-                    counter_null++;
-                    errs() << "counter_null:\n";
-
-                    if (isa<ConstantPointerNull>(firstValue)){
-                      fptr_cmp_address = secondValue;
-                    }
-                    else{
-                      fptr_cmp_address = firstValue;
-                    }
-
-                }
-
-                if (isa<Function>(firstValue) ||
-                      isa<Function>(secondValue)){
-                  counter_FUNC++;
-                  errs() << "counter_FUNC:\n";
-
-                  if (isa<Function>(firstValue)){
-                    fptr_cmp_address = secondValue;
-                  }
-                  else{
-                    fptr_cmp_address = firstValue;
-                  }    
-
-                }
-
-                if (fptr_cmp_address != NULL) {
-                      IRBuilder<> builder(ICMP);
-
-                    //printDebugInfo(*ICMP);
-                    errs() <<"ready to log into fptr_cmp_log"<<"\n";
-                    const DILocation *DIB = ICMP->getDebugLoc();
-                    std::string debug_info;
-                    if (DIB != nullptr) {
-                        debug_info = DIB->getFilename().str() + ":" + std::to_string(DIB->getLine())+"\n";
-                    } else {
-                      debug_info = "no debug info\n";
-                    }
-
-                    std::string id_debug_pair = std::to_string(counter) + " " + debug_info;
-                    errs() << "fptr_cmp_log write:" << id_debug_pair;
-                    size_t str_length = strlen(id_debug_pair.c_str());
-
-                    size_t written = fwrite(id_debug_pair.c_str(), 1, str_length, fptr_cmp_log);
-                    if (written != str_length)
-                      perror("failed to write to fptr_cmp_log");
-                    
-                    Value *fptr_address = fptr_cmp_address;
-                    auto *fptr_cmp_id_ = builder.getInt64(counter);
-                    std::vector<Value *> record_fptr_args = {fptr_address, fptr_cmp_id_};
-                    builder.CreateCall(record_cmp,record_fptr_args);
-                    
-                    // when recording, need to locate which value you need to modify
-                    // some of the null pointer check are initialization, not real
-            
-                    if (auto *loadInst = dyn_cast<LoadInst>(fptr_cmp_address)) {
-                    // errs() << "Found fptr loadInst:" << *loadInst <<"\n";
-                            if (loadInst->getDebugLoc()) {
-                            DebugLoc debugLoc = loadInst->getDebugLoc();
-                            unsigned line = debugLoc.getLine();
-                            unsigned col = debugLoc.getCol();
-                            StringRef filename = debugLoc->getScope()->getFilename();
-
-                            errs() << "Location: " << filename << ":" << line << ":" << col << "\n\n\n\n";
-                        } else {
-                            errs() << "No debug information available\n";
-                        }
-                    IRBuilder<> builder(loadInst); // Insert before the load instruction
-                
-                    Value *load_address = loadInst->getPointerOperand();
-                    
-                    /* pass store id (currently it is the same with icall id)*/
-                    auto *fptr_cmp_id = builder.getInt64(counter++);
-
-                    std::vector<Value *> record_fptr_cmp_args = {load_address,fptr_cmp_id};
-
-                    /* Insert a call to modify_memory (ptrToModify) [before load operation] */
-                    Value *flipped = builder.CreateCall(record_fptr_cmp, record_fptr_cmp_args);
-
-                    /* Update bitmap to represent we already perform the flipping*/
-
-                    
-                    LoadInst *MapPtr_ = builder.CreateLoad(AFLMapPtr);
-                    MapPtr_->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-
-                    Value *FlipPtrIdx = 
-                        builder.CreateGEP(MapPtr_, ConstantInt::get(Int32Ty, MAP_SIZE)); // increase share memory by 1
-                    
-                    // LoadInst *Flip_value = builder.CreateLoad(FlipPtrIdx);
-                    // Flip_value->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-                    builder.CreateStore(flipped, FlipPtrIdx)
-                        ->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-                      
-                    }
-                    else
-                      errs() << "LoadInst Not Found\n";
-
-
-              // std::vector<Value *> record_fptr_cmp_args = {fptr_cmp_address, fptr_cmp_id};
-              // builder.CreateCall(record_fptr_cmp, record_fptr_cmp_args); 
-
-                }
-    
-            
-            }
-        }
 
         //if (jump_collect) break;
         if (CallInst *CI = dyn_cast<CallInst>(&I)) { // instruction is a call instruction
@@ -454,28 +252,6 @@ bool AFLCoverage::runOnModule(Module &M) {
             std::vector<Value *> record_icall_args = {call_address, icall_id_}; 
             builder.CreateCall(record_icall,record_icall_args);
 
-            /*temporary disable flip_icall_target*/
-
-            // // related flip code
-            // std::vector<Value *> flip_icall_args = {call_address, icall_id_};
-            // Value *target_function_value = builder.CreateCall(flip_icall,flip_icall_args); // flip target address
-            // // do some address cast and pointer cast
-            // Value *genericPtr = builder.CreateIntToPtr(target_function_value, Type::getInt8PtrTy(C));
-
-            // Type *targetFuncPtrType = CI->getCalledOperand()->getType();
-
-            // Value *castedFunctionPtr = builder.CreateBitCast(genericPtr, targetFuncPtrType);
-
-            // // if (target_function_value->getType()->getPointerAddressSpace() == 64) {
-                
-            // //     FunctionType *funcType = CI->getFunctionType();
-                
-            // //     // cast target_function_value from addrspace(64) to addrspace(0)
-            // //     target_function_value = builder.CreateAddrSpaceCast(target_function_value, funcType->getPointerTo(0));
-            // // }
-            // CI->setCalledOperand(castedFunctionPtr);
-
-            // //errs() << " 3\n";
             
           }
         
@@ -611,7 +387,6 @@ bool AFLCoverage::runOnModule(Module &M) {
 
 
   fclose(line_log);
-  fclose(fptr_cmp_log);
   /* Say something nice. */
   
   if (!be_quiet) {
