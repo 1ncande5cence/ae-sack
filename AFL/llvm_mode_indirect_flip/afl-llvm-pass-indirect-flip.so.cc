@@ -193,11 +193,6 @@ bool AFLCoverage::runOnModule(Module &M) {
 
   /* Instrument all the things! */
 
-  int inst_blocks = 0;
-  unsigned int unique_block_id = 0;
-  unsigned int block_offset = 0;
-  unsigned int block_value = 0;
-  unsigned int block_bit_value = 0;  
   /* Prepare for the function insertion*/
 
   uint64_t icall_id = 0;
@@ -391,7 +386,7 @@ bool AFLCoverage::runOnModule(Module &M) {
                     MapPtr_->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
 
                     Value *FlipPtrIdx = 
-                        builder.CreateGEP(MapPtr_, ConstantInt::get(Int32Ty, MAP_SIZE + BLOCK_SIZE)); // increase share memory by 1
+                        builder.CreateGEP(MapPtr_, ConstantInt::get(Int32Ty, MAP_SIZE)); // increase share memory by 1
                     
                     // LoadInst *Flip_value = builder.CreateLoad(FlipPtrIdx);
                     // Flip_value->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
@@ -528,7 +523,7 @@ bool AFLCoverage::runOnModule(Module &M) {
                   MapPtr_->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
 
                   Value *FlipPtrIdx = 
-                      builder.CreateGEP(MapPtr_, ConstantInt::get(Int32Ty, MAP_SIZE + BLOCK_SIZE)); // increase share memory by 1
+                      builder.CreateGEP(MapPtr_, ConstantInt::get(Int32Ty, MAP_SIZE)); // increase share memory by 1
                   
                   // LoadInst *Flip_value = builder.CreateLoad(FlipPtrIdx);
                   // Flip_value->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
@@ -561,14 +556,9 @@ bool AFLCoverage::runOnModule(Module &M) {
       /* Make up cur_loc */
 
       unsigned int cur_loc = AFL_R(MAP_SIZE);
-      if (unique_block_id>= BLOCK_SIZE * 8)
-          unique_block_id = 0;
+
       ConstantInt *CurLoc = ConstantInt::get(Int32Ty, cur_loc);
-      ConstantInt *CurBlockId = ConstantInt::get(Int32Ty, unique_block_id);
       
-      block_offset = unique_block_id / 8;  //zhengchu
-      block_value = unique_block_id % 8;   //yushu
-      block_bit_value = pow(2, block_value - 1); 
       
       /* Load prev_loc */
 
@@ -583,10 +573,6 @@ bool AFLCoverage::runOnModule(Module &M) {
       Value *MapPtrIdx =
           IRB.CreateGEP(MapPtr, IRB.CreateXor(PrevLocCasted, CurLoc));
 
-      
-      Value *BlockPtrIdx = 
-          IRB.CreateGEP(MapPtr, ConstantInt::get(Int32Ty, block_offset + MAP_SIZE));
-
       /* Update bitmap */
 
       LoadInst *Counter = IRB.CreateLoad(MapPtrIdx);
@@ -594,14 +580,6 @@ bool AFLCoverage::runOnModule(Module &M) {
       Value *Incr = IRB.CreateAdd(Counter, ConstantInt::get(Int8Ty, 1));
       IRB.CreateStore(Incr, MapPtrIdx)
           ->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-
-      /* Update bitmap (blockid) */
-      LoadInst *Counter_Basic = IRB.CreateLoad(BlockPtrIdx);
-      Counter_Basic->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-      IRB.CreateStore(ConstantInt::get(Int8Ty, block_bit_value), BlockPtrIdx)
-          ->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-
-
  
       /* Set prev_loc to cur_loc >> 1 */
 
@@ -609,18 +587,8 @@ bool AFLCoverage::runOnModule(Module &M) {
           IRB.CreateStore(ConstantInt::get(Int32Ty, cur_loc >> 1), AFLPrevLoc);
       Store->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
 
-      /* set bb_cur_loc in debuging info for further analysis */
-      auto meta_loc = MDNode::get(C, ConstantAsMetadata::get(CurBlockId));
-      for (Instruction& instr : BB.getInstList()) {
-        if (!is_llvm_dbg_intrinsic(instr)) {
-          // this only insert the meta for the first non-llvm dbg
-          instr.setMetadata("bb_cur_loc", meta_loc);
-          break;
-        }
-      }      
 
       inst_blocks++;
-      unique_block_id++;
     }
 }
 
@@ -645,15 +613,6 @@ bool AFLCoverage::runOnModule(Module &M) {
   fclose(line_log);
   fclose(fptr_cmp_log);
   /* Say something nice. */
-
-  FILE *bb_file = fopen(BB_LOG_FILE, "w");
-  if (bb_file == NULL) {
-      WARNF("bb_file not found.");
-  }
-  else {
-    fprintf(bb_file, "%u", unique_block_id);
-    fclose(bb_file);
-  }
   
   if (!be_quiet) {
 

@@ -170,8 +170,6 @@ EXP_ST u8  virgin_bits[MAP_SIZE],     /* Regions yet untouched by fuzzing */
 
 static u8  update_virgin = 1;         /* only update virgin during dry_run */
 
-EXP_ST u8  reach_blocks[BLOCK_SIZE]; /* Block tracking  */
-
 static u8  var_bytes[MAP_SIZE];       /* Bytes that appear to be variable */
 
 static s32 shm_id;                    /* ID of the SHM region             */
@@ -1336,28 +1334,6 @@ static u32 count_non_255_bytes(u8* mem) {
 
 }
 
-static u32 count_trigger_blocks(u8* mem) {
-
-  u32* ptr = (u32*)mem;
-  u32  i   = (BLOCK_SIZE >> 2);
-  u32  ret = 0;
-
-  while (i--) {
-
-    u32 v = *(ptr++);
-
-    /* This is called on the virgin bitmap, so optimize for the most likely
-       case. */
-    while (v) {
-      ret += v & 1;
-      v >>= 1;
-    }
-
-  }
-
-  return ret;
-
-}
 
 
 /* Destructively classify execution counts in a trace. This is used as a
@@ -1601,7 +1577,7 @@ EXP_ST void setup_shm(void) {
   memset(virgin_tmout, 255, MAP_SIZE);
   memset(virgin_crash, 255, MAP_SIZE);
 
-  shm_id = shmget(IPC_PRIVATE, (MAP_SIZE+BLOCK_SIZE+1), IPC_CREAT | IPC_EXCL | 0600);
+  shm_id = shmget(IPC_PRIVATE, (MAP_SIZE+1), IPC_CREAT | IPC_EXCL | 0600);
 
   if (shm_id < 0) PFATAL("shmget() failed");
 
@@ -2527,7 +2503,7 @@ static u8 run_target(char** argv, u32 timeout, u32 dry_run_flag, u32 icall_id, u
      must prevent any earlier operations from venturing into that
      territory. */
 
-  memset(trace_bits, 0, (MAP_SIZE+BLOCK_SIZE+1));
+  memset(trace_bits, 0, (MAP_SIZE+1));
   MEM_BARRIER();
 
   /* If we're running in "dumb" mode, we can't rely on the fork server
@@ -4059,8 +4035,6 @@ static void show_stats(void) {
   else
     stab_ratio = 100;
 
-  bb_count = count_trigger_blocks(reach_blocks);
-  bb_ratio = ((double)bb_count * 100) / total_bb_num;
   /* Roughly every minute, update fuzzer stats and save auto tokens. */
 
   if (cur_ms - last_stats_ms > STATS_UPDATE_SEC * 1000) {
@@ -4985,7 +4959,7 @@ static u8 fuzz_one(char** argv) {
           overall_icall_enter_times[icall_id]++;
 
           /* update flip_happened value */   // use trace_bits  // decide continue or exit
-          flip_happened = trace_bits[MAP_SIZE+BLOCK_SIZE];
+          flip_happened = trace_bits[MAP_SIZE];
           ACTF("flip happened:%d",flip_happened);
 
       /* add-on measurement for proftpd p2 auth limit, we may need to execute more than 1 times */
