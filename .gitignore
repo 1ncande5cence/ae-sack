@@ -64,6 +64,7 @@ afl-gcc
 afl-gotcpu
 afl-showmap
 afl-tmin
+afl-verify
 as
 AFL/afl-clang-fast-indirect
 AFL/afl-clang-fast-indirect++
