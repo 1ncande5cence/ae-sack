@@ -85,7 +85,6 @@ static u32 cond_icall_id = (u32)(-2);
 static u32 cond_target_id = (u32)(-2);
 static u64 cond_flipped_target_address = (u64)(-2);
 
-static int has_mutated = 0;
 static u32 dry_run_flag = 1;
 static u32 null_ptr_mode_flag = 0;
 static u32 icall_id = NOT_TRIGGERED;
@@ -685,44 +684,6 @@ int __record_cmp(uint64_t call_address, uint64_t id) {
        }
 
        fptr_cmp_map[id] = call_address;
-  }
-
-  return 1;
-}
-
-
-int __record_load(uint64_t call_address, uint64_t id) {
-  
-  /*only record load when dry_run*/
-
-  if (dry_run_flag == 1){
-
-      uint64_t id_address_pair[2];
-      id_address_pair[0] = id;
-      id_address_pair[1] = call_address;
-      
-      int arraysize = sizeof(id_address_pair) / sizeof (id_address_pair[0]);
-      
-
-      
-      if (store_map[id] != call_address){
-          //if (load_log == NULL)
-          //  load_log = fopen(LOAD_LOG_FILE,"ab");
-          size_t written = fwrite(id_address_pair, sizeof(uint64_t), arraysize, load_log);
-          fflush(load_log);
-          
-          /*Debug*/
-          //FILE *fdx = fopen("./log/record_sequence", "a");
-          fprintf(record_sequence_log, "[load],id %lld, address %ld (0x%x)\n", id, call_address,call_address);
-          //fclose(fdx);
-          
-          if (written != arraysize){
-            perror("failed to write to load_log");
-            fprintf(stderr, "fail to write\n");
-          }
-
-        store_map[id] = call_address;
-      }
   }
 
   return 1;

@@ -326,7 +326,10 @@
    after changing this - otherwise, SEGVs may ensue. */
 
 #define MAP_SIZE_POW2       16
-#define MAP_SIZE            (1 << MAP_SIZE_POW2)
+/* 64KB to record basic block and 4KB to record syscall*/
+#ifndef MAP_SIZE
+#define MAP_SIZE            65536
+#endif
 
 
 /* Maximum allocator request size (keep well under INT_MAX): */

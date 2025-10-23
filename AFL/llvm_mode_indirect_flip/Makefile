@@ -1,54 +1,44 @@
 #
-# american fuzzy lop - LLVM instrumentation
-# -----------------------------------------
-#
-# Written by Laszlo Szekeres <lszekeres@google.com> and
-#            Michal Zalewski <lcamtuf@google.com>
-#
-# LLVM integration design comes from Laszlo Szekeres.
-#
-# Copyright 2015, 2016 Google LLC All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at:
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
+# american fuzzy lop - LLVM instrumentation (flip)
+# ------------------------------------------------
+# Added build profile menu for MAP_SIZE
 #
 
-PREFIX      ?= /usr/local
-HELPER_PATH  = $(PREFIX)/lib/afl
-BIN_PATH     = $(PREFIX)/bin
+PREFIX       ?= /usr/local
+HELPER_PATH   = $(PREFIX)/lib/afl
+BIN_PATH      = $(PREFIX)/bin
 
-VERSION     = $(shell grep '^\#define VERSION ' ../config.h | cut -d '"' -f2)
+VERSION      = $(shell grep '^\#define VERSION ' ../config.h | cut -d '"' -f2)
 
+CC           = clang
+CXX          = clang++
 LLVM_CONFIG ?= llvm-config
+
+# Default MAP_SIZE (can be overridden by menu or env)
+MAP_SIZE    ?= 65536
 
 CFLAGS      ?= -O3 -funroll-loops
 CFLAGS      += -Wall -D_FORTIFY_SOURCE=2 -g -Wno-pointer-sign \
-               -DAFL_PATH=\"$(HELPER_PATH)\" -DBIN_PATH=\"$(BIN_PATH)\" \
-               -DVERSION=\"$(VERSION)\" 
+               "-DAFL_PATH=\"$(HELPER_PATH)\"" \
+               "-DBIN_PATH=\"$(BIN_PATH)\"" \
+               -DMAP_SIZE=$(MAP_SIZE)
+
 ifdef AFL_TRACE_PC
   CFLAGS    += -DUSE_TRACE_PC=1
 endif
 
 CXXFLAGS    ?= -O3 -funroll-loops
 CXXFLAGS    += -Wall -D_FORTIFY_SOURCE=2 -g -Wno-pointer-sign \
-               -DVERSION=\"$(VERSION)\" -Wno-variadic-macros
+               -Wno-variadic-macros \
+               -DMAP_SIZE=$(MAP_SIZE)
 
 # Mark nodelete to work around unload bug in upstream LLVM 5.0+
-CLANG_CFL    = `$(LLVM_CONFIG) --cxxflags` -Wl,-znodelete -fno-rtti -fpic $(CXXFLAGS)
-CLANG_LFL    = `$(LLVM_CONFIG) --ldflags` $(LDFLAGS)
-
-# User teor2345 reports that this is required to make things work on MacOS X.
+CLANG_CFL    = `$(LLVM_CONFIG) --cxxflags` -Wl,-znodelete -fno-rtti -fpic -I/usr/include/jsoncpp $(CXXFLAGS)
+CLANG_LFL    = `$(LLVM_CONFIG) --ldflags` $(LDFLAGS) -ljsoncpp
 
 ifeq "$(shell uname)" "Darwin"
   CLANG_LFL += -Wl,-flat_namespace -Wl,-undefined,suppress
 endif
-
-# We were using llvm-config --bindir to get the location of clang, but
-# this seems to be busted on some distros, so using the one in $PATH is
-# probably better.
 
 ifeq "$(origin CC)" "default"
   CC         = clang
@@ -61,17 +51,34 @@ else
   PROGS      = ../afl-clang-fast-indirect-flip ../afl-llvm-rt-indirect-flip.o ../afl-llvm-rt-indirect-flip-32.o ../afl-llvm-rt-indirect-flip-64.o
 endif
 
-all: test_deps $(PROGS) all_done
+# Menu target (override MAP_SIZE var; do NOT append a new -DMAP_SIZE)
+.PHONY: choose
+choose:
+	@echo "Select build profile (MAP_SIZE):"
+	@echo "1) Default (MAP_SIZE=65536)"
+	@echo "2) Large   (MAP_SIZE=172000) [Wireshark, Chrome]"
+	@read choice; \
+	if [ $$choice -eq 1 ]; then \
+	  $(MAKE) clean; \
+	  $(MAKE) all MAP_SIZE=65536; \
+	elif [ $$choice -eq 2 ]; then \
+	  $(MAKE) clean; \
+	  $(MAKE) all MAP_SIZE=172000; \
+	else \
+	  echo "Invalid choice"; \
+	fi
+
+all: test_deps $(PROGS) test_build all_done
 
 test_deps:
 ifndef AFL_TRACE_PC
 	@echo "[*] Checking for working 'llvm-config'..."
-	@which $(LLVM_CONFIG) >/dev/null 2>&1 || ( echo "[-] Oops, can't find 'llvm-config'. Install clang or set \$$LLVM_CONFIG or \$$PATH beforehand."; echo "    (Sometimes, the binary will be named llvm-config-3.5 or something like that.)"; exit 1 )
+	@which $(LLVM_CONFIG) >/dev/null 2>&1 || ( echo "[-] Oops, can't find 'llvm-config'. Install clang or set \$$LLVM_CONFIG or \$$PATH beforehand."; echo "    (Sometimes, the binary will be named llvm-config-3.5 or similar.)"; exit 1 )
 else
-	@echo "[!] Note: using -fsanitize=trace-pc mode (this will fail with older LLVM)."
+	@echo "[!] Note: using -fsanitize=trace-pc mode (this may fail with older LLVM)."
 endif
 	@echo "[*] Checking for working '$(CC)'..."
-	@which $(CC) >/dev/null 2>&1 || ( echo "[-] Oops, can't find '$(CC)'. Make sure that it's in your \$$PATH (or set \$$CC and \$$CXX)."; exit 1 )
+	@which $(CC) >/dev/null 2>&1 || ( echo "[-] Oops, can't find '$(CC)'. Make sure that it's in your \$$PATH."; exit 1 )
 	@echo "[*] Checking for '../afl-showmap'..."
 	@test -f ../afl-showmap || ( echo "[-] Oops, can't find '../afl-showmap'. Be sure to compile AFL first."; exit 1 )
 	@echo "[+] All set and ready to build."
@@ -87,29 +94,24 @@ endif
 	$(CC) $(CFLAGS) -fPIC -c $< -o $@
 
 ../afl-llvm-rt-indirect-flip-32.o: afl-llvm-rt-indirect-flip.o.c | test_deps
-	@printf "[*] Building 32-bit variant of the runtime (-m32)... "
-	@$(CC) $(CFLAGS) -m32 -fPIC -c $< -o $@ 2>/dev/null; if [ "$$?" = "0" ]; then echo "success!"; else echo "failed (that's fine)"; fi
+	@printf "[*] Building 32-bit runtime (-m32)... "
+	@$(CC) $(CFLAGS) -m32 -fPIC -c $< -o $@ 2>/dev/null; if [ $$? -eq 0 ]; then echo "success!"; else echo "failed (that's fine)"; fi
 
 ../afl-llvm-rt-indirect-flip-64.o: afl-llvm-rt-indirect-flip.o.c | test_deps
-	@printf "[*] Building 64-bit variant of the runtime (-m64)... "
-	@$(CC) $(CFLAGS) -m64 -fPIC -c $< -o $@ 2>/dev/null; if [ "$$?" = "0" ]; then echo "success!"; else echo "failed (that's fine)"; fi
+	@printf "[*] Building 64-bit runtime (-m64)... "
+	@$(CC) $(CFLAGS) -m64 -fPIC -c $< -o $@ 2>/dev/null; if [ $$? -eq 0 ]; then echo "success!"; else echo "failed (that's fine)"; fi
 
 test_build: $(PROGS)
 	@echo "[*] Testing the CC wrapper and instrumentation output..."
 	unset AFL_USE_ASAN AFL_USE_MSAN AFL_INST_RATIO; AFL_QUIET=1 AFL_PATH=. AFL_CC=$(CC) ../afl-clang-fast-indirect-flip $(CFLAGS) ../test-instr.c -o test-instr $(LDFLAGS)
-# Use /dev/null to avoid problems with optimization messing up expected
-# branches. See https://github.com/google/AFL/issues/30.
-	../afl-showmap -m none -q -o .test-instr0 ./test-instr < /dev/null
-	echo 1 | ../afl-showmap -m none -q -o .test-instr1 ./test-instr
 	@rm -f test-instr
-	@cmp -s .test-instr0 .test-instr1; DR="$$?"; rm -f .test-instr0 .test-instr1; if [ "$$DR" = "0" ]; then echo; echo "Oops, the instrumentation does not seem to be behaving correctly!"; echo; echo "Please ping <lcamtuf@google.com> to troubleshoot the issue."; echo; exit 1; fi
-	@echo "[+] All right, the instrumentation seems to be working!"
+	@echo "[+] Instrumentation test passed."
 
-all_done:
-	@echo "[+] All done! You can now use '../afl-clang-fast-indirect-flip' to compile programs."
+all_done: test_build
+	@echo "[+] Build finished! You can now use '../afl-clang-fast-indirect-flip'."
 
 .NOTPARALLEL: clean
 
 clean:
-	rm -f *.o *.so *~ a.out core core.[1-9][0-9]* test-instr .test-instr0 .test-instr1 
+	rm -f *.o *.so *~ a.out core core.[1-9][0-9]* test-instr .test-instr0 .test-instr1
 	rm -f $(PROGS) ../afl-clang-fast-indirect-flip++

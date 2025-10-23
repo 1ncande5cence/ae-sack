@@ -47,6 +47,8 @@
 
 #include <string.h>
 #include "sys/stat.h"
+#include <dirent.h>
+#include <json/json.h>  //sudo apt-get install libjsoncpp-dev
 #include "llvm/ADT/Statistic.h"
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/LegacyPassManager.h"
@@ -87,7 +89,91 @@ FILE *address_log;
 #define ADDRESS_LOG_FILE    "./log/address_log"
 
 char AFLCoverage::ID = 0;
-int counter, counter_null, counter_FUNC;
+
+// Global variable to store log_func from config
+std::string g_log_func_name = "";
+
+// Global flag to enable/disable logging
+// Set to false to disable all logFile logging (e.g., g_enable_logging = false;)
+bool g_enable_logging = false;
+
+// Global flag to indicate fake instrumentation (when branch matches ban_line.list)
+bool g_fake_instrument = false;
+
+// Global vector to store ban lines for fast lookup
+std::vector<std::string> g_ban_lines;
+
+// Macro for conditional logging
+#define LOG_TO_FILE if (g_enable_logging) logFile
+
+// Function to check if branch_debug_info matches any line in ban_line.list
+bool checkBanLineMatch(const std::string& icall_debug_info) {
+    // Check against stored ban lines (no file I/O)
+    for (const auto& banLine : g_ban_lines) {
+        if (icall_debug_info.find(banLine) != std::string::npos) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Function to parse JSON config and ban_line.list
+void parseFromConfig() {
+  // Find the first *.conf file in ./log directory
+  std::string configPath = "./log/vsack.conf";
+
+  std::ifstream configFile(configPath);
+  if (!configFile.is_open()) {
+      fprintf(stderr, "Error: Could not open config file: %s\n", configPath.c_str());
+      exit(1);
+  }
+ 
+  Json::Value root;
+  Json::CharReaderBuilder builder;
+  std::string errors;
+
+  if (!Json::parseFromStream(builder, configFile, &root, &errors)) {
+      fprintf(stderr, "Error: Failed to parse JSON config: %s\n", errors.c_str());
+      exit(1);
+  }
+
+  if (root.isMember("log_func") && root["log_func"].isString()) {
+      g_log_func_name = root["log_func"].asString();
+  } else {
+      fprintf(stderr, "Error: log_func field not found or not a string in config file: %s\n", configPath.c_str());
+      exit(1);
+  }
+
+  // Parse ban_line.list file
+  std::string banLinePath = "./log/ban_line.list";
+  std::ifstream banLineFile(banLinePath);
+  
+  if (banLineFile.is_open()) {
+      std::string line;
+      while (std::getline(banLineFile, line)) {
+          // Remove trailing whitespace and newlines
+          line.erase(line.find_last_not_of(" \t\r\n") + 1);
+          
+          // Skip empty lines
+          if (!line.empty()) {
+              g_ban_lines.push_back(line);
+          }
+      }
+      banLineFile.close();
+      
+      errs() << "Loaded ban lines:\n";
+      for (const auto &line : g_ban_lines) {
+        errs() << "  [ban] " << line << "\n";
+      }
+      
+  }
+
+  // If ban_line.list doesn't exist, output a warning and continue with empty ban list
+  else {
+      errs() << "Warning: ban_line.list not found at " << banLinePath << ", continuing with empty ban list.\n";
+  }
+  
+}
 
 
 bool AFLCoverage::runOnModule(Module &M) {
@@ -150,7 +236,6 @@ bool AFLCoverage::runOnModule(Module &M) {
   auto *log_helpTy = FunctionType::get(Int32Ty, log_args, false);
 
   Function *record_icall = dyn_cast<Function>(M.getOrInsertFunction("__record_icall", icall_helpTy).getCallee());
-  Function *record_load = dyn_cast<Function>(M.getOrInsertFunction("__record_load", icall_helpTy).getCallee());
   Function *write_nginx_log = dyn_cast<Function>(M.getOrInsertFunction("__write_nginx_log", log_helpTy).getCallee());
   Function *modifyMemFunc = dyn_cast<Function>(M.getOrInsertFunction("__modify_mem_func",mem_helpTy).getCallee());
 
@@ -158,14 +243,17 @@ bool AFLCoverage::runOnModule(Module &M) {
     chmod("log", 0777);
 
   line_log = fopen(LINE_LOG_FILE,"w+");
-  
+
+  // Parse log_func from config file
+  parseFromConfig();
     
   for (auto &F : M) {
     jump_collect = 0;
     errs() <<"Handling:" << F.getName() << "\n";
 
-    if (F.getName().startswith("getAccessLogFd") || F.getName().startswith("apache_write_fd_afl") || F.getName().startswith("ngx_write_fd_afl") ) {
-      errs() <<"Found:" << F.getName() << "\n";
+
+    if (F.getName().startswith("getAccessLogFd") || F.getName().startswith("apache_write_fd_afl") || F.getName().startswith(g_log_func_name) ) {
+      //errs() <<"Found:" << F.getName() << "\n";
      
       for (auto &BB : F) {
         if (&BB == &F.getEntryBlock()) {  
@@ -178,19 +266,6 @@ bool AFLCoverage::runOnModule(Module &M) {
           break;
         }
       }
-
-    //   // verify
-    //     for (auto &BB : F) { 
-        
-    //       errs() << BB.getName() << "\n";
-        
-    //       for (auto &I : BB) {
-      
-    //         I.print(errs());
-    //         errs()<< "\n";
-    //   }
-    // }
-
     }
 
 
@@ -210,6 +285,7 @@ bool AFLCoverage::runOnModule(Module &M) {
           Function * calledF = dyn_cast<Function>(CI->getCalledOperand()->stripPointerCasts());   // exclude cast operations
           //Function * calledF = CI->getCalledFunction();
           if (calledF==nullptr) { 
+            g_fake_instrument = false; // re-initialize
             IRBuilder<> builder(CI);
 
             /* Debug Code */
@@ -228,18 +304,28 @@ bool AFLCoverage::runOnModule(Module &M) {
 
             // summary dbg info
             const DILocation *DIB = CI->getDebugLoc();
-            std::string debug_info;
+            std::string icall_debug_info;
             if (DIB != nullptr) {
-              debug_info = DIB->getFilename().str() + ":" + std::to_string(DIB->getLine())+"\n";
+              icall_debug_info = DIB->getFilename().str() + ":" + std::to_string(DIB->getLine())+"\n";
             } else {
-              debug_info = "no debug info\n";
+              icall_debug_info = "no_debug_info\n";
             }
             
             /* Debug Code */
-            //errs()<< debug_info << "\n";
+            //errs()<< icall_debug_info << "\n";
             
+            // Check if this branch matches any line in ban_line.list
+            std::string icall_compare_debug_info = icall_debug_info;
+            if (!icall_compare_debug_info.empty() && icall_compare_debug_info.back() == '\n') {
+                icall_compare_debug_info.erase(icall_compare_debug_info.find_last_not_of(" \t\r\n") + 1);
+            }
 
-            std::string id_debug_pair = std::to_string(icall_id) + " " + debug_info;
+            if (checkBanLineMatch(icall_compare_debug_info)) {
+                errs() <<"Found ban line match ban_line.list:" << icall_compare_debug_info << "\n";
+                g_fake_instrument = true;  // if match, we don't instrument this branch for some important function, but log all the things
+            }
+
+            std::string id_debug_pair = std::to_string(icall_id) + " " + icall_debug_info;
             size_t str_length = strlen(id_debug_pair.c_str());
             //mkdir("log",0755); 
             size_t written = fwrite(id_debug_pair.c_str(), 1, str_length, line_log);
@@ -290,7 +376,12 @@ bool AFLCoverage::runOnModule(Module &M) {
                   std::vector<Value *> modify_mem_arg = {load_address,icall_id_};
 
                   /* Insert a call to modify_memory (ptrToModify) [before load operation] */
-                  Value *flipped = builder.CreateCall(modifyMemFunc, modify_mem_arg);
+                  Value *flipped = builder.getInt64(0);
+                  if (!g_fake_instrument) {  // if fake instrument, we don't instrument to modify memory
+                    flipped =builder.CreateCall(modifyMemFunc, modify_mem_arg);
+                  }
+                  else { errs() <<"fake instrument[1/1],not instrument to modify memory"<< "\n";}
+
 
                   /* Update bitmap to represent we already perform the flipping*/
       
@@ -305,16 +396,6 @@ bool AFLCoverage::runOnModule(Module &M) {
                   // Flip_value->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
                   builder.CreateStore(flipped, FlipPtrIdx)
                       ->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-
-
-                  /* Insert a call to record load value [after load operation]*/
-                  IRBuilder<> after_builder(loadInst->getNextNode());
-
-                  Value *loadedValue = loadInst;
-                  // errs() << "loadedValue:" << *loadedValue << "\n";
-                  std::vector<Value *> record_load_args = {loadedValue, icall_id_};
-                  after_builder.CreateCall(record_load,record_load_args);
-
               
               }
               else
