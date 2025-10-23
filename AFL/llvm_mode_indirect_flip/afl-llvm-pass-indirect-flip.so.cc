@@ -249,7 +249,7 @@ bool AFLCoverage::runOnModule(Module &M) {
     
   for (auto &F : M) {
     jump_collect = 0;
-    errs() <<"Handling:" << F.getName() << "\n";
+    //errs() <<"Handling:" << F.getName() << "\n";
 
 
     if (F.getName().startswith("getAccessLogFd") || F.getName().startswith("apache_write_fd_afl") || F.getName().startswith(g_log_func_name) ) {
