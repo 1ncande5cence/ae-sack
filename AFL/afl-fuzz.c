@@ -273,29 +273,21 @@ struct address_entry {
 
 static struct address_entry *subgt_load_flip[MAP_SIZE];  /* Record and Flip start from loading side*/ 
 static u32 dryrun_load_flip[MAP_SIZE];  /* Record and Flip start from loading side*/ 
-static u32 fptr_load_flip[MAP_SIZE];  /* Record and Flip start from loading side*/ 
 
 static u32 overall_icall_enter_times[MAP_SIZE];  /* Record and Flip start from loading side*/ 
 static u32 overall_icall_numof_target[MAP_SIZE];  /* Record and Flip start from loading side*/ 
 
-static u32 overall_null_enter_times[MAP_SIZE];  /* Record and Flip start from loading side*/ 
-static u32 overall_null_numof_target[MAP_SIZE];  /* Record and Flip start from loading side*/ 
-
 EXP_ST u8  icall_violation = 1;         /* Mark there is an icall violation*/
 
 u32 total_flip_icall = 0;
-u32 total_null_flip = 0;
 
 #define ADDRESS_LOG_FILE    "./log/address_log"
-#define FPTR_CMP_LOG_FILE   "./log/fptr_cmp_log"
-#define FPTR_LOG_FILE       "./log/fptr_log"
 #define ADDRESS_LOG_SUCCESS_FILE    "./log/address_log_success"
 #define ADDRESS_LOG_SUB_GROUNDTRUTH "./log/subgt-extract"
 #define LOAD_LOG_FILE       "./log/load_log"
 #define BB_LOG_FILE         "./log/bb_log"
 #define FLIP_RESULT_FILE    "./log/load_flip_result"
 #define ICALL_TIME_LOG_FILE "./log/icall_time_log"
-#define NGINX_ACCESS_LOG    "./log/host.access.log"
 #define ICALL_VIOLATION_LOG "./log/icall_violation_log"
 #define PATTERN "obtained shmid ([0-9]+) for BanTable"   /*for proftpd P2 login limit*/
 
@@ -370,7 +362,7 @@ static u8* (*post_handler)(u8* buf, u32* len);
 
 /* Interesting values, as per config.h */
 
-static s8  interesting_8[]  = { INTERESTING_8 };
+//static s8  interesting_8[]  = { INTERESTING_8 };
 static s16 interesting_16[] = { INTERESTING_8, INTERESTING_16 };
 static s32 interesting_32[] = { INTERESTING_8, INTERESTING_16, INTERESTING_32 };
 
@@ -488,16 +480,6 @@ void load_config(const char *filename) {
       probe_log_path = NULL;
   } 
 
-  /*load branch_flipping only mode*/
-  json_t *br_flip_only_mode = json_object_get(root, "branch_flipping_only_mode");
-
-  if (!json_is_string(br_flip_only_mode)) {
-      fprintf(stderr, "Invalid or missing keys in config.\n");
-      json_decref(root);
-      exit(1);
-  }
-
-  branch_flipping_only_mode = strdup(json_string_value(br_flip_only_mode));
 
   /*load require_stdin_redirect*/ //not necessary, if don't have this keyword just remain default (off)
   
@@ -560,7 +542,6 @@ static int icall_search(struct address_entry* head, u64 target) {
     while (current != NULL) {
         if (current->address == target) {
             // found it, means that target_id should increase, because this is a duplicate icall;
-            //current->target_id++; should only be performed after dry run --> don't implement here
             return 1;
         }
         current = current->next;
@@ -571,7 +552,7 @@ static int icall_search(struct address_entry* head, u64 target) {
 /* append new_address to execution_icall       */
 static void icall_append(struct address_entry** head_ref, u64 new_address ,u64 icall_id) {
 
-    struct address_entry* new = (struct address_entry*)malloc(sizeof(struct address_entry)); //TODO: use ck_alloc
+    struct address_entry* new = (struct address_entry*)malloc(sizeof(struct address_entry)); 
     dbg_total_mallocs++ ; 
     new->address = new_address;
     new->next = NULL;
@@ -1127,30 +1108,6 @@ EXP_ST void write_performance_data(int icall_id, u64 flipped_target_address, int
   ck_free(fname);
 }
 
-EXP_ST void write_nullptr_data(int fptr_id) {
-  static int prev_fptr_id;
-
-  if (prev_fptr_id == fptr_id) return;
-  prev_fptr_id = fptr_id;
-
-  u8* fname = alloc_printf("%s/nullptr.perf.txt", out_dir);
-  FILE* f = fopen(fname, "w+");
-  if (f==NULL) PFATAL("Unable to open '%s'", fname);
-
-  struct address_entry* current = overall_null_enter_times[fptr_id];
-  if (current == NULL) return;
-
-  fprintf(f, "[%llu] fptr: %d, enter_times: %d, numof_target: %d\n",
-             	    (get_cur_time() - start_time) / 1000,
-		    fptr_id, overall_null_enter_times[fptr_id],
-		    overall_null_numof_target[fptr_id]);
-
-
-  fclose(f);
-  ck_free(fname);
-}
-
-
 
 /* Read bitmap from file. This is for the -B option again. */
 
@@ -1165,20 +1122,6 @@ EXP_ST void read_bitmap(u8* fname) {
   close(fd);
 
 }
-
-static inline u8 update_block_info(u8* trace_blocks) {
-  u8 ret = 0;
-  u8 former_reach = 0;
-  for (int i = 0; i < BLOCK_SIZE; i ++) {
-      former_reach = reach_blocks[i];
-      reach_blocks[i] = reach_blocks[i] | trace_blocks[i] ;
-      if ( former_reach != reach_blocks[i])
-          ret = 1;
-  }
-
-  return ret;
-}
-
 
 /* Check if the current execution path brings anything new to the table.
    Update virgin bits to reflect the finds. Returns 1 if the only change is
@@ -1207,12 +1150,6 @@ static inline u8 has_new_bits(u8* virgin_map, u32 dry_run_flag, u32 fuzzing_flag
 #endif /* ^WORD_SIZE_64 */
 
   u8   ret = 0;
-  u8   block_cov_changed = 0 ;
-  u8   branch_cov_changed = 0;
-  u8   icall_cov_changed = 0;
-  u8   ipair_cov_changed = 0;
-  
-  block_cov_changed = update_block_info(trace_bits + MAP_SIZE);
 
   while (i--) {
 
@@ -1222,8 +1159,6 @@ static inline u8 has_new_bits(u8* virgin_map, u32 dry_run_flag, u32 fuzzing_flag
 
     if (unlikely(*current) && unlikely(*current & *virgin)) {
           
-      u8* cur = (u8*)current;
-      u8* vir = (u8*)virgin;
 
       /* Looks like we have not found any new bytes yet; see if any non-zero
          bytes in current[] are pristine in virgin[]. */
@@ -1260,13 +1195,12 @@ static inline u8 has_new_bits(u8* virgin_map, u32 dry_run_flag, u32 fuzzing_flag
 
   }
 
-  if (ret && virgin_map == virgin_bits) bitmap_changed = 1; // consider this 
+  if (ret && virgin_map == virgin_bits) bitmap_changed = 1; 
 
-  if (ret==2 && virgin_map == virgin_bits) branch_cov_changed = 1;
 
   // handle indirect call
 
-  u8* lfn = alloc_printf(ADDRESS_LOG_FILE);  // TODO: 需要修改log的存在位置
+  u8* lfn = alloc_printf(ADDRESS_LOG_FILE);  
   FILE* address_log = fopen(lfn,"rb");
   /* do not trigger indirect call in this run, return immediately */
   if (address_log == NULL)
@@ -1284,7 +1218,6 @@ static inline u8 has_new_bits(u8* virgin_map, u32 dry_run_flag, u32 fuzzing_flag
   while (fread(&tmp_id, size_in_bytes, 1, address_log) == 1 && fread(&tmp_addr, size_in_bytes, 1, address_log) == 1){
       // ignore new target address at shared library
       if (tmp_addr >= 0x700000000000) continue;
-
 
       cur_ovep_gt = subgt_load_flip[tmp_id];
       if (!icall_search(cur_ovep_gt, tmp_addr)) {
@@ -1304,21 +1237,10 @@ static inline u8 has_new_bits(u8* virgin_map, u32 dry_run_flag, u32 fuzzing_flag
 
   }
 
-  // analyze block/branch/icall/ipair relation
-  //u8   block_cov_changed = 0 ;
-  //u8   branch_cov_changed = 0;
-  //u8   icall_cov_changed = 0;
-  //u8   ipair_cov_changed = 0;
-  if (block_cov_changed)   block_coverage_changed++;
-  if (branch_cov_changed)  branch_coverage_changed++;
-  if (block_cov_changed && icall_cov_changed) icall_changed_when_blc_changed++;
-  if (branch_cov_changed && ipair_cov_changed) ipair_changed_when_brc_changed++;
 
   fclose(address_log);
   ck_free(lfn);
 
-  //TODO: try to store this input  --> in save_if_interesting function
-  //      after fuzzing, write down overall_icall -> in write_bitmap function
 
   return ret;
 
@@ -2600,11 +2522,6 @@ static u8 run_target(char** argv, u32 timeout, u32 dry_run_flag, u32 icall_id, u
 
   child_timed_out = 0;
 
-  // /* reset icall log file */  [FIX: Cannot do that in persistent mode, should be done in rt function]
-
-  // if (access(ADDRESS_LOG_FILE,F_OK) == 0){
-  //   remove(ADDRESS_LOG_FILE);
-  // }
 
   /* After this memset, trace_bits[] are effectively volatile, so we
      must prevent any earlier operations from venturing into that
@@ -3039,10 +2956,6 @@ static void perform_dry_run(char** argv) {
 
     u8* fn = strrchr(q->fname, '/') + 1;
     file_name = fn;
-    // /* HY: Convert test case name to id */
-    // strncpy(file_id_str, fn + 3, 6);
-    // file_id = atoi(file_id_str);
-    // file_id_name[file_id] = fn;
 
     ACTF("Attempting dry run with '%s'...", fn);
 
@@ -3411,8 +3324,8 @@ static u8 save_if_interesting(char** argv, void* mem, u32 len, u8 fault, u32 dry
 
   u8  *fn = "";
   u8  hnb;
-  s32 fd, fdd;
-  u8  keeping = 0, res;
+  s32 fd;
+  u8  keeping = 0;
 
   if (1) {
 
@@ -3654,11 +3567,7 @@ static void maybe_update_plot_file(double bitmap_cvg, double eps, unsigned int b
   prev_uh  = unique_hangs;
   prev_md  = max_depth;
 
-  /* Fields in the file:  写入的内容
 
-     unix_time, cycles_done, cur_path, paths_total, paths_not_fuzzed,
-     favored_not_fuzzed, unique_crashes, unique_hangs, max_depth,
-     execs_per_sec */
 
   fprintf(plot_file, 
           "%llu, %llu, %u, %u, %u, %u, %0.02f%%, %llu, %llu, %u, %0.02f, %llu, %llu, %llu, %llu, %u, %0.02f%%, %llu, %llu\n",
@@ -3676,11 +3585,6 @@ static void maybe_update_plot_file(double bitmap_cvg, double eps, unsigned int b
 static void update_plot_file(double bitmap_cvg, double eps, unsigned int block_triggered, double block_coverage) {
 
 
-  /* Fields in the file:  写入的内容
-
-     unix_time, cycles_done, cur_path, paths_total, paths_not_fuzzed,
-     favored_not_fuzzed, unique_crashes, unique_hangs, max_depth,
-     execs_per_sec */
 
   fprintf(plot_file, 
           "%llu, %llu, %u, %u, %u, %u, %0.02f%%, %llu, %llu, %u, %0.02f, %llu, %llu, %llu, %llu, %u, %0.02f%%, %llu, %llu\n",
@@ -3697,11 +3601,7 @@ static void update_plot_file(double bitmap_cvg, double eps, unsigned int block_t
 static void update_dry_run_file(double bitmap_cvg, double eps) {
 
 
-  /* Fields in the file:  写入的内容
 
-     unix_time, cycles_done, cur_path, paths_total, paths_not_fuzzed,
-     favored_not_fuzzed, unique_crashes, unique_hangs, max_depth,
-     execs_per_sec */
 
   fprintf(dry_run_file, 
           "%llu, %llu, %u, %u, %u, %u, %0.02f%%, %llu, %llu, %u, %0.02f, %llu, %llu\n",
@@ -4695,7 +4595,7 @@ EXP_ST u8 common_fuzz_stuff(char** argv, u8* out_buf, u32 len, u32 icall_id, u32
 
   write_to_testcase(out_buf, len);
 
-  /* Given a test case and a branch id, ask the forkserver to execute and flip the branch*/
+  /* Given a test case and a icall id, ask the forkserver to execute and flip the icall*/
   if (fuzzing_flag == 0) {
     dry_run_flag = 1;
     u64 start_us, stop_us, rt_timeout;
@@ -4713,28 +4613,16 @@ EXP_ST u8 common_fuzz_stuff(char** argv, u8* out_buf, u32 len, u32 icall_id, u32
   } else {
     dry_run_flag = 0;
     fault = run_target(argv, exec_tmout, dry_run_flag, icall_id, target_id, flipped_target_address, null_ptr_mode_flag);
-    // fprintf(stderr, "%d branches have been flipped\n", total_flip_branch);
-    if (!null_ptr_mode_flag){
-        total_flip_icall++;
-        ACTF("%d icall targets flipped, \n \
-        icall_id:%d, icall_target:%ld(0x%x), flip at entering %d times", 
-        total_flip_icall, \ 
-        icall_id, flipped_target_address, flipped_target_address, target_id);
-        exec_tmout = exec_tmout_tmp;
-    }
-    else{
-        total_null_flip++;
-        ACTF("%d null fptr set, \n \
-        fptr_cmp_id:%d, fptr_target:%ld(0x%x), flip at entering %d times", 
-        total_null_flip, \ 
-        icall_id, flipped_target_address, flipped_target_address, target_id);
-        exec_tmout = exec_tmout_tmp;
-    }
+    
+    total_flip_icall++;
+    ACTF("%d icall targets flipped, \n \
+    icall_id:%d, icall_target:%ld(0x%x), flip at entering %d times", 
+    total_flip_icall, \ 
+    icall_id, flipped_target_address, flipped_target_address, target_id);
+    exec_tmout = exec_tmout_tmp;
 
   }
 
-
-  //update_block_info(trace_bits + MAP_SIZE);
 
   if (stop_soon) return 1;
 
@@ -4875,7 +4763,6 @@ static u8 fuzz_one(char** argv) {
   //u8  a_collect[MAX_AUTO_EXTRA];
   //u32 a_len = 0;
 
-  struct stat st;
 
 #ifdef IGNORE_FINDS
 
@@ -5063,13 +4950,6 @@ static u8 fuzz_one(char** argv) {
 
     while (current != NULL) {
       ACTF("icall_id:%d", icall_id);
-      //currently we only use one input (out_buf)
-      // if (current->has_flipped == true) {
-      //   current = current->next;
-      //   continue;
-      // }  
-      // current->has_flipped = true;
-      //no_target_need_to_flip = false;
       u64  flipped_target_address = current->address;
 
       /* Represent we require flip at the 0 time we enter the icall*/
@@ -5164,11 +5044,7 @@ static u8 fuzz_one(char** argv) {
         
           // Only rename if file is NOT empty, flip happened and branch reached
           if (file_size > 0 && flip_happened) {
-            
-            int origin_br_value = 255;
-
-            snprintf(command, sizeof(command), "mv ./oracle/my_log.txt ./oracle/sack_%d_%d_%d", icall_id,target_id,flipped_target_address);
-           
+            snprintf(command, sizeof(command), "mv ./oracle/my_log.txt ./oracle/sack_%d_%d_%lld", icall_id,target_id,flipped_target_address);
             system(command);
           }
         }
@@ -5195,73 +5071,19 @@ static u8 fuzz_one(char** argv) {
   flip_end = time(NULL); 
 
 
-  // start the null pointer attack attempts;
-  nullptr_start = time(NULL);
-
-  u32 total_numof_triggered_nullptr = 0;
-  u32 total_numof_triggered_nulltgt = 0;
-  int line_count = count_lines(FPTR_CMP_LOG_FILE);
-  u64 flipped_target_address = 0; // NULL pointer substitution
-  for (s32 fpt_cmp_id = 0; fpt_cmp_id < line_count; fpt_cmp_id++) {
-      ACTF("ftp_cmp_id:%d",fpt_cmp_id);
-      if (!fptr_load_flip[fpt_cmp_id]) continue;
-      
-      /* Represent we require flip at the 0 time we enter the icall*/
-      int target_id = 0;
-      bool flip_happened = false;
-
-      /*use for oracles that require oracle file (redirect output from stdin to file)*/
-      char command[256];
-      FILE *oracle_file;
-
-      overall_null_numof_target[fpt_cmp_id]++;
-      total_numof_triggered_nullptr++;
-
-      while (true) {
-
-          system("ps aux | grep \"nginx: master process\" | grep -v grep | awk '{print $2}' | xargs -r kill -9");
-          system("ps aux | grep \"nginx: worker process\" | grep -v grep | awk '{print $2}' | xargs -r kill -9");
-
-          /* do the flipping */
-          if (common_fuzz_stuff(argv, out_buf, len, fpt_cmp_id, target_id, 1, flipped_target_address, 1)) goto abandon_entry;
-          
-          overall_null_enter_times[fpt_cmp_id]++;
-
-          /* update flip_happened value */   // use trace_bits  // decide continue or exit
-          flip_happened = trace_bits[MAP_SIZE+BLOCK_SIZE];
-          ACTF("flip happended:%d",flip_happened);
-
-          if (flip_happened == false || target_id >= 1000) {
-	    if (target_id == 0) ACTF("segment fault may happened during flipping");
-            ACTF("flip doesn't happen in this execution");
-            break;
-          }
-          target_id ++;
-      }     
-      if (target_id != 0) total_numof_triggered_nulltgt++;
-      write_nullptr_data(fpt_cmp_id);
-  }
-  nullptr_end = time(NULL);
-
   ACTF("No new target need to flip. End the fliping");
 
   OKF("---------------Time cost----------------");
   OKF("Exec speed of dry-run: %lld us", dry_run_exec_us);
   OKF("Time cost of dry-run : %ld seconds", dry_run_end - dry_run_start);
   OKF("Time cost of flipping: %ld seconds", flip_end - flip_start);
-  OKF("Time cost of nullptr : %ld seconds", nullptr_end - nullptr_start);
-  OKF("Total time of both   : %ld seconds", (flip_end - flip_start) + 
-		  			    (nullptr_end - nullptr_start));
 
   OKF("---------------Flip count---------------");
   OKF("total flip count of icall: %d times", total_flip_icall);
-  OKF("total flip count of null: %d times", total_null_flip);
 
   OKF("---------------Triggered---------------");
   OKF("total number of triggered icall  : %d", total_numof_triggered_icall);
   OKF("total number of flipped   target : %d", total_numof_triggered_target);
-  OKF("total number of triggered nullptr: %d", total_numof_triggered_nullptr);
-  OKF("total number of flipped   nulltgt: %d", total_numof_triggered_nulltgt);
 
   write_bitmap();
   write_stats_file(0, 0, 0);
@@ -5655,7 +5477,7 @@ EXP_ST void check_binary(u8* fname) {
 
 static void fix_up_banner(u8* name) {
 
-  if (!use_banner) { //如果没有banner (use_banner==0) ，banner可以在开始的时候opt指定
+  if (!use_banner) { 
 
     if (sync_id) {
 
@@ -5663,14 +5485,14 @@ static void fix_up_banner(u8* name) {
 
     } else {
 
-      u8* trim = strrchr(name, '/'); //在一个字符串中查找指定字符最后一次出现的位置
+      u8* trim = strrchr(name, '/'); 
       if (!trim) use_banner = name; else use_banner = trim + 1;
 
     }
 
-  }  //此后都是用use_banner了，不管有没有
+  }  
 
-  if (strlen(use_banner) > 40) { //只显示前40位（
+  if (strlen(use_banner) > 40) { 
 
     u8* tmp = ck_alloc(44);
     sprintf(tmp, "%.40s...", use_banner);
@@ -5777,7 +5599,7 @@ EXP_ST void setup_dirs_fds(void) {
   if (sync_id && mkdir(sync_dir, 0700) && errno != EEXIST)
       PFATAL("Unable to create '%s'", sync_dir);
 
-  if (mkdir(out_dir, 0700)) {  //0700 读、写、执行操作
+  if (mkdir(out_dir, 0700)) {  
 
     if (errno != EEXIST) PFATAL("Unable to create '%s'", out_dir);
 
@@ -5961,11 +5783,7 @@ static void check_crash_handling(void) {
 
   ACTF("Checking core_pattern...");
 
-  if (read(fd, &fchar, 1) == 1 && fchar == '|') { // |应该是代表管道 https://man7.org/linux/man-pages/man5/core.5.html
-  //If the first character of
-  //     this file is a pipe symbol (|), then the remainder of the line is
-  //     interpreted as the command-line for a user-space program (or
-  //     script) that is to be executed.
+  if (read(fd, &fchar, 1) == 1 && fchar == '|') { 
 
     SAYF("\n" cLRD "[-] " cRST
          "Hmm, your system is configured to send core dump notifications to an\n"
@@ -6184,7 +6002,7 @@ static void handle_resize(int sig) {
 
 /* Check ASAN options. */
 
-static void check_asan_opts(void) {  //asan: Address Sanitizer
+static void check_asan_opts(void) {  
   u8* x = getenv("ASAN_OPTIONS");
 
   if (x) {
@@ -6201,7 +6019,7 @@ static void check_asan_opts(void) {  //asan: Address Sanitizer
 
   if (x) {
 
-    if (!strstr(x, "exit_code=" STRINGIFY(MSAN_ERROR))) //寻找子串
+    if (!strstr(x, "exit_code=" STRINGIFY(MSAN_ERROR))) 
       FATAL("Custom MSAN_OPTIONS set without exit_code="
             STRINGIFY(MSAN_ERROR) " - please fix!");
 
@@ -6269,7 +6087,7 @@ EXP_ST void setup_signal_handlers(void) {
   struct sigaction sa;
 
   sa.sa_handler   = NULL;
-  sa.sa_flags     = SA_RESTART; // TODO:重启可中断的函数？是什么意思
+  sa.sa_flags     = SA_RESTART; 
   sa.sa_sigaction = NULL;
 
   sigemptyset(&sa.sa_mask);
@@ -6284,7 +6102,7 @@ EXP_ST void setup_signal_handlers(void) {
   /* Exec timeout notifications. */
 
   sa.sa_handler = handle_timeout;
-  sigaction(SIGALRM, &sa, NULL); //SIGALRM:定时器终止时发送给进程的信号
+  sigaction(SIGALRM, &sa, NULL); 
 
   /* Window resize */
 
@@ -6388,7 +6206,7 @@ static void save_cmdline(u32 argc, char** argv) {
   for (i = 0; i < argc; i++)
     len += strlen(argv[i]) + 1;
   
-  buf = orig_cmdline = ck_alloc(len); //用buf作为临时的指针，进行操作，是因为需要移动，而orig_cmdline一直指向的是字符串头部
+  buf = orig_cmdline = ck_alloc(len); 
 
   for (i = 0; i < argc; i++) {
 
@@ -6426,7 +6244,7 @@ int count_lines(const char *filename) {
 }
 
 void collect_dryrun() {
-  u8* lfn = alloc_printf(ADDRESS_LOG_FILE);  // TODO: 需要修改log的存在位置
+  u8* lfn = alloc_printf(ADDRESS_LOG_FILE);  
   FILE* address_log = fopen(lfn,"rb");
   /* do not trigger indirect call in this run, return immediately */
   if (address_log == NULL) { ck_free(lfn); return; }
@@ -6446,25 +6264,6 @@ void collect_dryrun() {
   fclose(address_log);
   ck_free(lfn);
 
-  lfn = alloc_printf(FPTR_LOG_FILE);  // TODO: 需要修改log的存在位置
-  FILE* fptr_log = fopen(lfn, "rb");
-  /* do not trigger indirect call in this run, return immediately */
-  if (fptr_log == NULL) { ck_free(lfn); return; }
-
-  tmp_addr = 0;
-  tmp_id = 0;
-  // size_in_bytes = sizeof(tmp_addr);
-
-  memset(fptr_load_flip, 0, MAP_SIZE * sizeof(u32));
-
-  /* reduce time complexity */
-  while (fread(&tmp_id, size_in_bytes, 1, fptr_log) == 1 && 
-	fread(&tmp_addr, size_in_bytes, 1, fptr_log) == 1){
-      fptr_load_flip[tmp_id] = 1;
-  }
-
-  fclose(fptr_log);
-  ck_free(lfn);
 }
 
 #ifndef AFL_LIB
@@ -6486,15 +6285,15 @@ int main(int argc, char** argv) {
 
   SAYF(cCYA "afl-fuzz " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
 
-  doc_path = access(DOC_PATH, F_OK) ? "docs" : DOC_PATH;  //检验doc文件是否存在，存在则access函数返回0；不存在返回-1，用当前文件夹下的docs
+  doc_path = access(DOC_PATH, F_OK) ? "docs" : DOC_PATH;  
   FILE *bb_sum_file = fopen(BB_LOG_FILE,"r");
   if (bb_sum_file == NULL) {
     FATAL("No total bb_sum_file found\n");
   }
   fscanf(bb_sum_file,"%u",&total_bb_num);
   fclose(bb_sum_file);
-  gettimeofday(&tv, &tz);//获取当前时间，分别存入tv和tz
-  srandom(tv.tv_sec ^ tv.tv_usec ^ getpid()); //设置随机数生成器的种子
+  gettimeofday(&tv, &tz);
+  srandom(tv.tv_sec ^ tv.tv_usec ^ getpid()); 
 
 
   while ((opt = getopt(argc, argv, "+i:o:f:m:b:t:T:dnCB:S:M:x:QVD:a:c:")) > 0)
@@ -6513,7 +6312,7 @@ int main(int argc, char** argv) {
         if (in_dir) FATAL("Multiple -i options not supported");
         in_dir = optarg;
 
-        if (!strcmp(in_dir, "-")) in_place_resume = 1; // TODO: what is in_place_resume?
+        if (!strcmp(in_dir, "-")) in_place_resume = 1; 
 
         break;
 
@@ -6528,13 +6327,13 @@ int main(int argc, char** argv) {
           u8* c;
 
           if (sync_id) FATAL("Multiple -S or -M options not supported");
-          sync_id = ck_strdup(optarg); //复制一个字符串，optarg是要复制的字符串，ck_strdup返回一个指向新分配的字符串的指针
+          sync_id = ck_strdup(optarg); 
 
-          if ((c = strchr(sync_id, ':'))) { //字符寻找函数，返回第一个出现：的位置（指针）
+          if ((c = strchr(sync_id, ':'))) { 
 
-            *c = 0; //将：修改为空字符
+            *c = 0; 
 
-            if (sscanf(c + 1, "%u/%u", &master_id, &master_max) != 2 ||  //sscanf用于从字符串中读取格式化输入，按照%u%u的格式从c+1位置读取，返回值为成功读取的参数数量
+            if (sscanf(c + 1, "%u/%u", &master_id, &master_max) != 2 ||  
                 !master_id || !master_max || master_id > master_max ||
                 master_max > 1000000) FATAL("Bogus master ID passed to -M");
             //
@@ -6575,7 +6374,7 @@ int main(int argc, char** argv) {
 
           if (exec_tmout < 5) FATAL("Dangerously low value of -t");
 
-          if (suffix == '+') timeout_given = 2; else timeout_given = 1; //是否携带+参数
+          if (suffix == '+') timeout_given = 2; else timeout_given = 1; 
 
           break;
 
@@ -6603,7 +6402,7 @@ int main(int argc, char** argv) {
             case 'T': mem_limit *= 1024 * 1024; break;
             case 'G': mem_limit *= 1024; break;
             case 'k': mem_limit /= 1024; break;
-            case 'M': break; //至此memory单位统一了,都是MB
+            case 'M': break; 
 
             default:  FATAL("Unsupported suffix or bad syntax for -m");
 
@@ -6612,7 +6411,7 @@ int main(int argc, char** argv) {
           if (mem_limit < 5) FATAL("Dangerously low value of -m");
 
           if (sizeof(rlim_t) == 4 && mem_limit > 2000)
-            FATAL("Value of -m out of range on 32-bit systems"); //32位系统最大寻址空间2^32 4GB, 且一般会限制单个应用程序内存不能够超过2G
+            FATAL("Value of -m out of range on 32-bit systems"); 
 
         }
 
@@ -6653,7 +6452,7 @@ int main(int argc, char** argv) {
         if (in_bitmap) FATAL("Multiple -B options not supported");
 
         in_bitmap = optarg;
-        read_bitmap(in_bitmap); //将一个已有的bitmap文件中的内容读到virgin_bits中
+        read_bitmap(in_bitmap); 
         break;
 
       case 'C': /* crash mode */
@@ -6708,7 +6507,7 @@ int main(int argc, char** argv) {
 
   if (dumb_mode) {
 
-    if (crash_mode) FATAL("-C and -n are mutually exclusive"); // 互相排斥的 mutually exclusive
+    if (crash_mode) FATAL("-C and -n are mutually exclusive"); 
     if (qemu_mode)  FATAL("-Q and -n are mutually exclusive");
 
   }
@@ -6737,7 +6536,7 @@ int main(int argc, char** argv) {
 
   save_cmdline(argc, argv);
 
-  fix_up_banner(argv[optind]); //argv[optind] 可能是被测程序的名字
+  fix_up_banner(argv[optind]); 
 
   check_if_tty();
 
@@ -6747,7 +6546,7 @@ int main(int argc, char** argv) {
   bind_to_free_cpu();
 #endif /* HAVE_AFFINITY */
 
-  check_crash_handling();  //从这里开始，需要对一些关键的set做一些笔记，而不是直接在这里说明，比如共享内存shm等等内容
+  check_crash_handling(); 
   check_cpu_governor();
 
   setup_post();
@@ -6783,10 +6582,6 @@ int main(int argc, char** argv) {
 
   if (access(LOAD_LOG_FILE,F_OK) == 0){
       remove(LOAD_LOG_FILE);
-  }
-
-  if (access(NGINX_ACCESS_LOG,F_OK) == 0){
-      remove(NGINX_ACCESS_LOG);
   }
 
   if (access(ICALL_VIOLATION_LOG,F_OK) == 0){
