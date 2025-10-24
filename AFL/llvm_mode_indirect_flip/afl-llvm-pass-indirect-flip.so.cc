@@ -120,7 +120,7 @@ bool checkBanLineMatch(const std::string& icall_debug_info) {
 // Function to parse JSON config and ban_line.list
 void parseFromConfig() {
   // Find the first *.conf file in ./log directory
-  std::string configPath = "./log/vsack.conf";
+  std::string configPath = "./log/sack.conf";
 
   std::ifstream configFile(configPath);
   if (!configFile.is_open()) {

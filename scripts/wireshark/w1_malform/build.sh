@@ -24,7 +24,7 @@ cd build/run/
 extract-bc tshark
 
 mkdir -p ./log
-cp $SACK/scripts/wireshark/w1_malform/vsack.conf ./log/
+cp $SACK/scripts/wireshark/w1_malform/sack.conf ./log/
 cp $SACK/scripts/wireshark/w1_malform/ban_line.list ./log/
 $SACK/AFL/afl-clang-fast-indirect-flip tshark.bc -o tshark.fuzz -lpcap -lgmodule-2.0 -lpcre2-8 -lglib-2.0 -lcares -lgcrypt -lxml2 -lm -lnghttp2 -lz -ldl -lpthread -lpcre -lgpg-error -licuuc -llzma -licudata -Wl,--export-dynamic
 
@@ -44,7 +44,7 @@ cp $SACK/scripts/wireshark/w1_malform/malformed.pcap input/
 
 # -------------------- do branch flipping --------------------------------------
 # export AFL_NO_AFFINITY=1
-# $SACK/AFL/afl-fuzz -c ./log/vsack.conf -m none -i ./input/ -o ./output/ -t 5000+ -- ./tshark.fuzz -r @@
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m none -i ./input/ -o ./output/ -t 5000+ -- ./tshark.fuzz -r @@
 
 
 # -------------------- result analysis --------------------------------------

@@ -22,7 +22,7 @@ extract-bc d8
 mkdir -p ./log
 rm -rf oracle
 mkdir oracle
-cp $SACK/scripts/v8/v1_unsafe/vsack.conf ./log/
+cp $SACK/scripts/v8/v1_unsafe/sack.conf ./log/
 cp $SACK/scripts/v8/v1_unsafe/ban_line.list ./log/
 mkdir input
 cp $SACK/scripts/v8/v1_unsafe/os.system.js ./input/
@@ -41,7 +41,7 @@ objdump -d ./d8.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- do branch flipping --------------------------------------
 # export AFL_NO_AFFINITY=1
-# $SACK/AFL/afl-fuzz -c ./log/vsack.conf -d -m none -i ./input -o ./output/ -t 5000+ -- ./d8.fuzz @@
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -d -m none -i ./input -o ./output/ -t 5000+ -- ./d8.fuzz @@
 
 
 # # -------------------- corruptibility assessment (auto) ------------------------

@@ -18,7 +18,7 @@ cd bin/sbin/
 extract-bc nginx
 export EXTRA_LDFLAGS="-lz -lc -ldl -lpthread -lpcre2-8 -lcrypt"
 mkdir -p ./log
-cp $SACK/scripts/nginx/n1_auth/vsack.conf ./log/
+cp $SACK/scripts/nginx/n1_auth/sack.conf ./log/
 cp $SACK/scripts/nginx/n1_auth/ban_line.list ./log/
 $SACK/AFL/afl-clang-fast-indirect-flip nginx.bc -o nginx.fuzz $EXTRA_LDFLAGS
 
@@ -41,7 +41,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 # terminal 2
 # export AFL_NO_AFFINITY=1
 # export SACK=/methodology_artifact/ae-sack
-# $SACK/AFL/afl-fuzz -c ./log/vsack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
 
 # -------------------- result analysis --------------------------------------

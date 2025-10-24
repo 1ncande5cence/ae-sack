@@ -17,7 +17,7 @@ make -j$(nproc) && make install
 cd bin/sbin/ 
 extract-bc nginx
 export EXTRA_LDFLAGS="-lz -lc -ldl -lpthread -lpcre2-8 -lcrypt"
-cp $SACK/scripts/nginx/n4_restrict/vsack.conf ./log/
+cp $SACK/scripts/nginx/n4_restrict/sack.conf ./log/
 cp $SACK/scripts/nginx/n4_restrict/ban_line.list ./log/
 $SACK/AFL/afl-clang-fast-indirect-flip nginx.bc -o nginx.fuzz $EXTRA_LDFLAGS
 
@@ -34,7 +34,7 @@ objdump -d ./nginx.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- do branch flipping --------------------------------------
 # export AFL_NO_AFFINITY=1
-# $SACK/AFL/afl-fuzz -c ./log/vsack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
 
 # # -------------------- corruptibility assessment (auto) ------------------------

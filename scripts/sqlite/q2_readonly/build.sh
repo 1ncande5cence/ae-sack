@@ -22,7 +22,7 @@ export EXTRA_LDFLAGS="-lpthread -lz -lm -ldl -lreadline"
 mkdir -p ./log
 rm -rf oracle
 mkdir oracle
-cp $SACK/scripts/sqlite/q1_unsafe/vsack.conf ./log/
+cp $SACK/scripts/sqlite/q1_unsafe/sack.conf ./log/
 cp $SACK/scripts/sqlite/q1_unsafe/ban_line.list ./log/
 $SACK/AFL/afl-clang-fast-indirect-flip sqlite3.bc -o sqlite3.fuzz $EXTRA_LDFLAGS
 
@@ -39,7 +39,7 @@ objdump -d ./sqlite3.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- do branch flipping --------------------------------------
 # export AFL_NO_AFFINITY=1
-# $SACK/AFL/afl-fuzz -c ./log/vsack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sqlite3.fuzz -readonly my_database_noage.db
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sqlite3.fuzz -readonly my_database_noage.db
 
 
 # # -------------------- corruptibility assessment (auto) ------------------------

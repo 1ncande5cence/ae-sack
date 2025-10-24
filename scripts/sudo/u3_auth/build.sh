@@ -23,7 +23,7 @@ export EXTRA_LDFLAGS="-lutil -lsudo_util -lcrypt -lpthread -lc -ldl -lz -lssl -l
 export LD_LIBRARY_PATH=/usr/local/libexec/sudo:$LD_LIBRARY_PATH
 
 mkdir -p ./log
-cp $SACK/scripts/sudo/u1_log/vsack.conf ./log/
+cp $SACK/scripts/sudo/u1_log/sack.conf ./log/
 cp $SACK/scripts/sudo/u1_log/ban_line.list ./log/
 
 $SACK/AFL/afl-clang-fast-indirect-flip sudo.bc -o sudo.fuzz -L/usr/local/libexec/sudo/ -Wl,-rpath, /usr/local/libexec/sudo/ $EXTRA_LDFLAGS
@@ -44,7 +44,7 @@ objdump -d ./sudo.fuzz | grep ">:" > ./log/func_map
 # -------------------- do branch flipping --------------------------------------
 # cd src/bin
 # export AFL_NO_AFFINITY=1
-# $SACK/AFL/afl-fuzz -c ./log/vsack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sudo.fuzz -S ls /root
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sudo.fuzz -S ls /root
 
 # # -------------------- corruptibility assessment (auto) ------------------------
 
