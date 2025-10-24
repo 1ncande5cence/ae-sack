@@ -68,6 +68,13 @@ afl-verify
 as
 AFL/afl-clang-fast-indirect-flip
 AFL/afl-llvm-pass-indirect-flip++
+AFL/afl-clang
+AFL/afl-clang++
+AFL/afl-cmin
+AFL/afl-g++
+AFL/afl-plot
+AFL/afl-wahtsup
+AFl/as
 
 # Binaries produced by "make -C llvm_mode"
 afl-clang-fast
