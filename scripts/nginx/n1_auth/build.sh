@@ -40,7 +40,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 
 # terminal 2
 # export AFL_NO_AFFINITY=1
-# export SACK=/methodology_artifact/ae-sack
+# export SACK=/ae-sack
 # $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
 

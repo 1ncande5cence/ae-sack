@@ -13,4 +13,4 @@ cp -r $1/scripts/nginx/n1_auth/input $2
 cp $1/scripts/nginx/n1_auth/send_request.py $2
 
 # result analysis 
-cp $1/scripts/nginx/n1_auth/report.py $2
+cp $1/scripts/nginx/report.py $2

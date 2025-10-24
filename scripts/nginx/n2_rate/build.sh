@@ -25,23 +25,28 @@ $SACK/AFL/afl-clang-fast-indirect-flip nginx.bc -o nginx.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/tools/copy_tools.sh $SACK .
+bash $SACK/scripts/nginx/n2_rate/copy_tools.sh $SACK .
 objdump -d ./nginx.fuzz | grep ">:" > ./log/func_map
+python3 subgt_addresslog_gen.py ./subgt.json
 
-# -------------------- put your corpus here ------------------------------------
+# -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
-# NOTE: put your corpus for next step!
-# mkdir corpus; 
-# cp <your testcases> corpus/
 
-# -------------------- do branch flipping --------------------------------------
+
+# -------------------- do substitution --------------------------------------
+# in bin/sbin/ folder
+
+# terminal 1 
+# python3 send_request_rate_limit.py
+
+# terminal 2
 # export AFL_NO_AFFINITY=1
+# export SACK=/ae-sack
 # $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
 
-# # -------------------- corruptibility assessment (auto) ------------------------
+# -------------------- result analysis --------------------------------------
 
-# # assess syscall-guard variables
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot br -- ./sqlite3_rate
-# # assess arguments of triggered syscalls
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot arg -- ./sqlite3_rate
+# use analyze.sh at the bin/sbin/ folder
+
+# the result is in the result.*/ folder report_unique.txt
