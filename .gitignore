@@ -66,11 +66,8 @@ afl-showmap
 afl-tmin
 afl-verify
 as
-AFL/afl-clang-fast-indirect
-AFL/afl-clang-fast-indirect++
-AFL/afl-clang-fast-rate
-AFL/afl-clang-fast-rate++
-
+AFL/afl-clang-fast-indirect-flip
+AFL/afl-llvm-pass-indirect-flip++
 
 # Binaries produced by "make -C llvm_mode"
 afl-clang-fast

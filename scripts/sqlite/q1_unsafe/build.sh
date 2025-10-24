@@ -7,7 +7,7 @@ export SACK=/ae-sack
 
 # -------------------- build project with wllvm --------------------------------
 
-export CC=wllvm CXX=wllvm++ LLVM_COMPILER=clang CFLAGS="-g -O1" CXXFLAGS="-g -O1"
+export CC=wllvm CXX=wllvm++ LLVM_COMPILER=clang CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 apt install -y tcl-dev
 ./configure 
 make -j$(nproc) 
@@ -24,7 +24,7 @@ rm -rf oracle
 mkdir oracle
 cp $SACK/scripts/sqlite/q1_unsafe/vsack.conf ./log/
 cp $SACK/scripts/sqlite/q1_unsafe/ban_line.list ./log/
-$SACK/viper/BranchForcer/afl-clang-fast-flip sqlite3.bc -o sqlite3.fuzz $EXTRA_LDFLAGS
+$SACK/AFL/afl-clang-fast-indirect-flip sqlite3.bc -o sqlite3.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
@@ -39,7 +39,7 @@ objdump -d ./sqlite3.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- do branch flipping --------------------------------------
 # export AFL_NO_AFFINITY=1
-# $SACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sqlite3.fuzz -safe
+# $SACK/AFL/afl-fuzz -c ./log/vsack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sqlite3.fuzz -safe
 
 
 # # -------------------- corruptibility assessment (auto) ------------------------

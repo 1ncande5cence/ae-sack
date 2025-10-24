@@ -7,7 +7,7 @@ export SACK=/ae-sack
 
 # -------------------- build project with wllvm --------------------------------
 
-export CC=wllvm CXX=wllvm++ LLVM_COMPILER=clang CFLAGS="-g -O1" CXXFLAGS="-g -O1"
+export CC=wllvm CXX=wllvm++ LLVM_COMPILER=clang CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 apt install -y build-essential libtool libpcre3 libpcre3-dev zlib1g-dev openssl
 ./configure --enable-static-sudoers --enable-python --disable-shared-libutil --enable-openssl=no LDFLAGS="-static"
 
@@ -26,7 +26,7 @@ mkdir -p ./log
 cp $SACK/scripts/sudo/u1_log/vsack.conf ./log/
 cp $SACK/scripts/sudo/u1_log/ban_line.list ./log/
 
-$SACK/viper/BranchForcer/afl-clang-fast-flip sudo.bc -o sudo.fuzz -L/usr/local/libexec/sudo/ -Wl,-rpath, /usr/local/libexec/sudo/ $EXTRA_LDFLAGS
+$SACK/AFL/afl-clang-fast-indirect-flip sudo.bc -o sudo.fuzz -L/usr/local/libexec/sudo/ -Wl,-rpath, /usr/local/libexec/sudo/ $EXTRA_LDFLAGS
 
 chmod 4755 ./sudo.fuzz
 
@@ -44,7 +44,7 @@ objdump -d ./sudo.fuzz | grep ">:" > ./log/func_map
 # -------------------- do branch flipping --------------------------------------
 # cd src/bin
 # export AFL_NO_AFFINITY=1
-# $SACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sudo.fuzz ls /root
+# $SACK/AFL/afl-fuzz -c ./log/vsack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sudo.fuzz ls /root
 
 # # -------------------- corruptibility assessment (auto) ------------------------
 

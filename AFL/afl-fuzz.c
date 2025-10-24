@@ -283,7 +283,6 @@ u32 total_flip_icall = 0;
 #define ADDRESS_LOG_SUCCESS_FILE    "./log/address_log_success"
 #define ADDRESS_LOG_SUB_GROUNDTRUTH "./log/subgt-extract"
 #define LOAD_LOG_FILE       "./log/load_log"
-#define BB_LOG_FILE         "./log/bb_log"
 #define FLIP_RESULT_FILE    "./log/load_flip_result"
 #define ICALL_TIME_LOG_FILE "./log/icall_time_log"
 #define ICALL_VIOLATION_LOG "./log/icall_violation_log"
@@ -304,7 +303,6 @@ char *require_stdin_redirect = "off"; // like sqlite, it require save stdin to f
 
 
 
-unsigned int total_bb_num = 0;
 u8 * file_name;                         /*Value: pointer to file name*/
 
 struct queue_entry {
@@ -5026,7 +5024,7 @@ static u8 fuzz_one(char** argv) {
       }
 
 
-      if (flip_happened == false || target_id >= 1000) {
+      if (flip_happened == false || target_id >= MAX_ENTER_TIME) {
 	        if (target_id == 0) ACTF("segment fault may happened during flipping");
           
           ACTF("flip doesn't happen in this execution or reach the entering limit\n");
@@ -6260,12 +6258,6 @@ int main(int argc, char** argv) {
   SAYF(cCYA "afl-fuzz " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
 
   doc_path = access(DOC_PATH, F_OK) ? "docs" : DOC_PATH;  
-  FILE *bb_sum_file = fopen(BB_LOG_FILE,"r");
-  if (bb_sum_file == NULL) {
-    FATAL("No total bb_sum_file found\n");
-  }
-  fscanf(bb_sum_file,"%u",&total_bb_num);
-  fclose(bb_sum_file);
   gettimeofday(&tv, &tz);
   srandom(tv.tv_sec ^ tv.tv_usec ^ getpid()); 
 

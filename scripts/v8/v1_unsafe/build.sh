@@ -26,7 +26,7 @@ cp $SACK/scripts/v8/v1_unsafe/vsack.conf ./log/
 cp $SACK/scripts/v8/v1_unsafe/ban_line.list ./log/
 mkdir input
 cp $SACK/scripts/v8/v1_unsafe/os.system.js ./input/
-$SACK/viper/BranchForcer/afl-clang-fast-flip d8.bc -o d8.fuzz -lpthread -lm -latomic -lstdc++ -lc -lgcc_s libv8_monolith.a
+$SACK/AFL/afl-clang-fast-indirect-flip d8.bc -o d8.fuzz -lpthread -lm -latomic -lstdc++ -lc -lgcc_s libv8_monolith.a
 
 # -------------------- prepare tools and environments --------------------------
 
@@ -41,7 +41,7 @@ objdump -d ./d8.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- do branch flipping --------------------------------------
 # export AFL_NO_AFFINITY=1
-# $SACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -d -m none -i ./input -o ./output/ -t 5000+ -- ./d8.fuzz @@
+# $SACK/AFL/afl-fuzz -c ./log/vsack.conf -d -m none -i ./input -o ./output/ -t 5000+ -- ./d8.fuzz @@
 
 
 # # -------------------- corruptibility assessment (auto) ------------------------

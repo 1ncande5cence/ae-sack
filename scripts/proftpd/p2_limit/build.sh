@@ -7,7 +7,7 @@ export SACK=/ae-sack
 
 # -------------------- build project with wllvm --------------------------------
 
-export CC=wllvm CXX=wllvm++ LLVM_COMPILER=clang CFLAGS="-g -O1" CXXFLAGS="-g -O1"
+export CC=wllvm CXX=wllvm++ LLVM_COMPILER=clang CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 
 ./configure --enable-ctrls --with-modules=mod_ban
 make -j$(nproc)
@@ -24,7 +24,7 @@ cp $SACK/scripts/proftpd/p2_limit/vsack.conf ./log/
 cp $SACK/scripts/proftpd/p2_limit/ban_line.list ./log/
 cp $SACK/scripts/proftpd/p2_limit/sack_analyze.py ./
 cp $SACK/scripts/proftpd/p2_limit/proftpd.conf /tmp/
-$SACK/viper/BranchForcer/afl-clang-fast-flip proftpd.bc -o proftpd.fuzz $EXTRA_LDFLAGS
+$SACK/AFL/afl-clang-fast-indirect-flip proftpd.bc -o proftpd.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
@@ -44,7 +44,7 @@ objdump -d ./proftpd.fuzz | grep ">:" > ./log/func_map
 # export AFL_NO_AFFINITY=1
 # cd bin
 # !!! before running, modify /tmp/proftpd.conf ban location  (-c require absolute path)
-# $SACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /tmp/proftpd.conf -d 5 -X
+# $SACK/AFL/afl-fuzz -c ./log/vsack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /tmp/proftpd.conf -d 5 -X
 
 
 # # -------------------- corruptibility assessment (auto) ------------------------
