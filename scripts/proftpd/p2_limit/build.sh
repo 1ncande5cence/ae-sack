@@ -3,7 +3,7 @@
 # Script for Proftpd limit P2
 
 # Some settings
-export VSACK=/vsack.new/vsack
+export SACK=/ae-sack
 
 # -------------------- build project with wllvm --------------------------------
 
@@ -20,15 +20,15 @@ cd bin
 extract-bc proftpd
 export EXTRA_LDFLAGS="-lcrypt -lc -ldl"
 mkdir -p ./log
-cp $VSACK/scripts/proftpd/p2_limit/vsack.conf ./log/
-cp $VSACK/scripts/proftpd/p2_limit/ban_line.list ./log/
-cp $VSACK/scripts/proftpd/p2_limit/sack_analyze.py ./
-cp $VSACK/scripts/proftpd/p2_limit/proftpd.conf /tmp/
-$VSACK/viper/BranchForcer/afl-clang-fast-flip proftpd.bc -o proftpd.fuzz $EXTRA_LDFLAGS
+cp $SACK/scripts/proftpd/p2_limit/vsack.conf ./log/
+cp $SACK/scripts/proftpd/p2_limit/ban_line.list ./log/
+cp $SACK/scripts/proftpd/p2_limit/sack_analyze.py ./
+cp $SACK/scripts/proftpd/p2_limit/proftpd.conf /tmp/
+$SACK/viper/BranchForcer/afl-clang-fast-flip proftpd.bc -o proftpd.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $VSACK/viper/tools/copy_tools.sh $VSACK .
+bash $SACK/viper/tools/copy_tools.sh $SACK .
 objdump -d ./proftpd.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------
@@ -44,7 +44,7 @@ objdump -d ./proftpd.fuzz | grep ">:" > ./log/func_map
 # export AFL_NO_AFFINITY=1
 # cd bin
 # !!! before running, modify /tmp/proftpd.conf ban location  (-c require absolute path)
-# $VSACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /tmp/proftpd.conf -d 5 -X
+# $SACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /tmp/proftpd.conf -d 5 -X
 
 
 # # -------------------- corruptibility assessment (auto) ------------------------

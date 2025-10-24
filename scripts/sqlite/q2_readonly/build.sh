@@ -3,7 +3,7 @@
 # Script for SQLite3 readonly Q2
 
 # Some settings
-export VSACK=/vsack.new/vsack
+export SACK=/ae-sack
 
 # -------------------- build project with wllvm --------------------------------
 
@@ -22,13 +22,13 @@ export EXTRA_LDFLAGS="-lpthread -lz -lm -ldl -lreadline"
 mkdir -p ./log
 rm -rf oracle
 mkdir oracle
-cp $VSACK/scripts/sqlite/q1_unsafe/vsack.conf ./log/
-cp $VSACK/scripts/sqlite/q1_unsafe/ban_line.list ./log/
-$VSACK/viper/BranchForcer/afl-clang-fast-flip sqlite3.bc -o sqlite3.fuzz $EXTRA_LDFLAGS
+cp $SACK/scripts/sqlite/q1_unsafe/vsack.conf ./log/
+cp $SACK/scripts/sqlite/q1_unsafe/ban_line.list ./log/
+$SACK/viper/BranchForcer/afl-clang-fast-flip sqlite3.bc -o sqlite3.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $VSACK/viper/tools/copy_tools.sh $VSACK .
+bash $SACK/viper/tools/copy_tools.sh $SACK .
 objdump -d ./sqlite3.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------
@@ -39,7 +39,7 @@ objdump -d ./sqlite3.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- do branch flipping --------------------------------------
 # export AFL_NO_AFFINITY=1
-# $VSACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sqlite3.fuzz -readonly my_database_noage.db
+# $SACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sqlite3.fuzz -readonly my_database_noage.db
 
 
 # # -------------------- corruptibility assessment (auto) ------------------------

@@ -3,7 +3,7 @@
 # Script for Sudo extra approval  U2
 
 # Some settings
-export VSACK=/vsack.new/vsack
+export SACK=/ae-sack
 
 # -------------------- build project with wllvm --------------------------------
 
@@ -23,16 +23,16 @@ export EXTRA_LDFLAGS="-lutil -lsudo_util -lcrypt -lpthread -lc -ldl -lz"
 export LD_LIBRARY_PATH=/usr/local/libexec/sudo:$LD_LIBRARY_PATH
 
 mkdir -p ./log
-cp $VSACK/scripts/sudo/u1_log/vsack.conf ./log/
-cp $VSACK/scripts/sudo/u1_log/ban_line.list ./log/
+cp $SACK/scripts/sudo/u1_log/vsack.conf ./log/
+cp $SACK/scripts/sudo/u1_log/ban_line.list ./log/
 
-$VSACK/viper/BranchForcer/afl-clang-fast-flip sudo.bc -o sudo.fuzz -L/usr/local/libexec/sudo/ -Wl,-rpath, /usr/local/libexec/sudo/ $EXTRA_LDFLAGS
+$SACK/viper/BranchForcer/afl-clang-fast-flip sudo.bc -o sudo.fuzz -L/usr/local/libexec/sudo/ -Wl,-rpath, /usr/local/libexec/sudo/ $EXTRA_LDFLAGS
 
 chmod 4755 ./sudo.fuzz
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $VSACK/viper/tools/copy_tools.sh $VSACK .
+bash $SACK/viper/tools/copy_tools.sh $SACK .
 objdump -d ./sudo.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------
@@ -44,7 +44,7 @@ objdump -d ./sudo.fuzz | grep ">:" > ./log/func_map
 # -------------------- do branch flipping --------------------------------------
 # cd src/bin
 # export AFL_NO_AFFINITY=1
-# $VSACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sudo.fuzz ls /root
+# $SACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sudo.fuzz ls /root
 
 # # -------------------- corruptibility assessment (auto) ------------------------
 

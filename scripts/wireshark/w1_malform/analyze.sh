@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 # Script for Wireshark malform W1
-export VSACK=/vsack.new/vsack
+export SACK=/ae-sack
 
 # Step 0: Ask the user for mode
 echo "What mode is this? [1] branchonly [2] mem-modification"
@@ -24,7 +24,7 @@ mkdir -p "$result_dir"
 # Step 2: Copy the entire log and output directory into result.(time)
 cp -r log "$result_dir/"
 cp -r output "$result_dir/"
-cp $VSACK/scripts/wireshark/w1_malform/group_malformed.py "$result_dir/"
+cp $SACK/scripts/wireshark/w1_malform/group_malformed.py "$result_dir/"
 
 # Step 3: Change to result.(time) and do further analysis
 

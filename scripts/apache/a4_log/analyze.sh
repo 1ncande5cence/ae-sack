@@ -2,7 +2,7 @@
 
 # Script for Apache Logging A4
 
-export VSACK=/vsack.new/vsack
+export SACK=/ae-sack
 
 # Step 0: Ask the user for mode
 echo "What mode is this? [1] branchonly [2] mem-modification"
@@ -26,7 +26,7 @@ mkdir -p "$result_dir"
 cp -r log "$result_dir/"
 cp -r output "$result_dir/"
 cp /usr/local/apache2/logs/access_log "$result_dir/"
-cp $VSACK/scripts/apache/a4_log/find_missing_log.py "$result_dir/"
+cp $SACK/scripts/apache/a4_log/find_missing_log.py "$result_dir/"
 
 # Step 3: Change to result.(time) and do further analysis
 

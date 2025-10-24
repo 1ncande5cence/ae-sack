@@ -3,14 +3,14 @@
 # Script for SQLite3 unsafe command Q1
 
 # Some settings
-export VSACK=/vsack.new/vsack
+export SACK=/ae-sack
 
 # -------------------- build project with wllvm --------------------------------
 
 export CC="wllvm" CXX="wllvm++" BUILD_CC="wllvm" BUILD_CXX="wllvm++" LLVM_COMPILER=clang AR=llvm-ar NM=llvm-nm BUILD_AR=llvm-ar BUILD_NM=llvm-nm 
 apt install -y bison cdbs curl flex g++ git python vim pkg-config ninja-build
 # gn gen x64.debug
-cp $VSACK/scripts/v8/v1_unsafe/args.gn x64.debug
+cp $SACK/scripts/v8/v1_unsafe/args.gn x64.debug
 ninja -C x64.debug "v8_monolith" "d8"
 
 # -------------------- build flip binaries -----------------------------------
@@ -22,15 +22,15 @@ extract-bc d8
 mkdir -p ./log
 rm -rf oracle
 mkdir oracle
-cp $VSACK/scripts/v8/v1_unsafe/vsack.conf ./log/
-cp $VSACK/scripts/v8/v1_unsafe/ban_line.list ./log/
+cp $SACK/scripts/v8/v1_unsafe/vsack.conf ./log/
+cp $SACK/scripts/v8/v1_unsafe/ban_line.list ./log/
 mkdir input
-cp $VSACK/scripts/v8/v1_unsafe/os.system.js ./input/
-$VSACK/viper/BranchForcer/afl-clang-fast-flip d8.bc -o d8.fuzz -lpthread -lm -latomic -lstdc++ -lc -lgcc_s libv8_monolith.a
+cp $SACK/scripts/v8/v1_unsafe/os.system.js ./input/
+$SACK/viper/BranchForcer/afl-clang-fast-flip d8.bc -o d8.fuzz -lpthread -lm -latomic -lstdc++ -lc -lgcc_s libv8_monolith.a
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $VSACK/viper/tools/copy_tools.sh $VSACK .
+bash $SACK/viper/tools/copy_tools.sh $SACK .
 objdump -d ./d8.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------
@@ -41,7 +41,7 @@ objdump -d ./d8.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- do branch flipping --------------------------------------
 # export AFL_NO_AFFINITY=1
-# $VSACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -d -m none -i ./input -o ./output/ -t 5000+ -- ./d8.fuzz @@
+# $SACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -d -m none -i ./input -o ./output/ -t 5000+ -- ./d8.fuzz @@
 
 
 # # -------------------- corruptibility assessment (auto) ------------------------

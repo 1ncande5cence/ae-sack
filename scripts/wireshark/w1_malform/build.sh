@@ -3,7 +3,7 @@
 # Script for Wireshark Malform W1
 
 # Some settings
-export VSACK=/vsack.new/vsack
+export SACK=/ae-sack
 
 # -------------------- build project with wllvm --------------------------------
 
@@ -24,17 +24,17 @@ cd build/run/
 extract-bc tshark
 
 mkdir -p ./log
-cp $VSACK/scripts/wireshark/w1_malform/vsack.conf ./log/
-cp $VSACK/scripts/wireshark/w1_malform/ban_line.list ./log/
-$VSACK/viper/BranchForcer/afl-clang-fast-flip tshark.bc -o tshark.fuzz -lpcap -lgmodule-2.0 -lpcre2-8 -lglib-2.0 -lcares -lgcrypt -lxml2 -lm -lnghttp2 -lz -ldl -lpthread -lpcre -lgpg-error -licuuc -llzma -licudata -Wl,--export-dynamic
+cp $SACK/scripts/wireshark/w1_malform/vsack.conf ./log/
+cp $SACK/scripts/wireshark/w1_malform/ban_line.list ./log/
+$SACK/viper/BranchForcer/afl-clang-fast-flip tshark.bc -o tshark.fuzz -lpcap -lgmodule-2.0 -lpcre2-8 -lglib-2.0 -lcares -lgcrypt -lxml2 -lm -lnghttp2 -lz -ldl -lpthread -lpcre -lgpg-error -licuuc -llzma -licudata -Wl,--export-dynamic
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $VSACK/viper/tools/copy_tools.sh $VSACK .
+bash $SACK/viper/tools/copy_tools.sh $SACK .
 objdump -d ./tshark.fuzz | grep ">:" > ./log/func_map
 mkdir input
 mkdir log/subgt-extract
-cp $VSACK/scripts/wireshark/w1_malform/malformed.pcap input/
+cp $SACK/scripts/wireshark/w1_malform/malformed.pcap input/
 
 # -------------------- put your corpus here ------------------------------------
 
@@ -44,7 +44,7 @@ cp $VSACK/scripts/wireshark/w1_malform/malformed.pcap input/
 
 # -------------------- do branch flipping --------------------------------------
 # export AFL_NO_AFFINITY=1
-# $VSACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -m none -i ./input/ -o ./output/ -t 5000+ -- ./tshark.fuzz -r @@
+# $SACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -m none -i ./input/ -o ./output/ -t 5000+ -- ./tshark.fuzz -r @@
 
 
 # -------------------- result analysis --------------------------------------

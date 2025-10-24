@@ -3,7 +3,7 @@
 # Script for Nginx logging N5
 
 # Some settings
-export VSACK=/vsack.new/vsack
+export SACK=/ae-sack
 
 # -------------------- build project with wllvm --------------------------------
 
@@ -17,14 +17,14 @@ make -j$(nproc) && make install
 cd bin/sbin/ 
 extract-bc nginx
 export EXTRA_LDFLAGS="-lz -lc -ldl -lpthread -lcrypt -lpcre2-8 -lxml2 -llua5.1 -lpcre -lstdc++ -lgcc_s -licuuc -llzma -licudata -L/usr/local/modsecurity/lib/ -lmodsecurity"
-cp $VSACK/scripts/nginx/n5_log/vsack.conf ./log/
-cp $VSACK/scripts/nginx/n5_log/ban_line.list ./log/
+cp $SACK/scripts/nginx/n5_log/vsack.conf ./log/
+cp $SACK/scripts/nginx/n5_log/ban_line.list ./log/
 
-$VSACK/viper/BranchForcer/afl-clang-fast-flip nginx.bc -o nginx.fuzz -Wl,--export-dynamic -Wl,-rpath=/usr/local/modsecurity/lib/ $EXTRA_LDFLAGS
+$SACK/viper/BranchForcer/afl-clang-fast-flip nginx.bc -o nginx.fuzz -Wl,--export-dynamic -Wl,-rpath=/usr/local/modsecurity/lib/ $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $VSACK/viper/tools/copy_tools.sh $VSACK .
+bash $SACK/viper/tools/copy_tools.sh $SACK .
 objdump -d ./nginx.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------
@@ -35,7 +35,7 @@ objdump -d ./nginx.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- do branch flipping --------------------------------------
 # export AFL_NO_AFFINITY=1
-# $VSACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
+# $SACK/viper/BranchForcer/afl-fuzz -c ./log/vsack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
 
 # # -------------------- corruptibility assessment (auto) ------------------------

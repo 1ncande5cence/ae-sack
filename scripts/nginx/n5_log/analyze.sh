@@ -5,7 +5,7 @@ set -e
 # use it in bin/sbin/
 
 # file preparation
-export VSACK=/vsack.new/vsack
+export SACK=/ae-sack
 
 
 # Step 0: Ask the user for mode
@@ -41,7 +41,7 @@ echo "Environment ready in $result_dir"
 
 
 # use python script to summarize attack
-cp $VSACK/scripts/nginx/n5_log/analyze.py .
+cp $SACK/scripts/nginx/n5_log/analyze.py .
 
 python3 analyze.py
 
