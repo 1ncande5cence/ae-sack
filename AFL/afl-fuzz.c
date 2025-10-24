@@ -294,7 +294,6 @@ char *system_commands[MAX_SYSTEM_COMMANDS];
 
 int num_system_commands = 0;
 
-char *branch_flipping_only_mode = "off" ;    //always branch_flipping mode, default is off
 char *require_stdin_redirect = "off"; // like sqlite, it require save stdin to file
 
 
