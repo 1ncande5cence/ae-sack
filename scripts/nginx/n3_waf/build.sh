@@ -25,7 +25,7 @@ $SACK/AFL/afl-clang-fast-indirect-flip nginx.bc -o nginx.fuzz -Wl,--export-dynam
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/viper/tools/copy_tools.sh $SACK .
+bash $SACK/tools/copy_tools.sh $SACK .
 objdump -d ./nginx.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------

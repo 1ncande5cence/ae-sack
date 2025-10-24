@@ -32,7 +32,7 @@ chmod 4755 ./sudo.fuzz
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/viper/tools/copy_tools.sh $SACK .
+bash $SACK/tools/copy_tools.sh $SACK .
 objdump -d ./sudo.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------

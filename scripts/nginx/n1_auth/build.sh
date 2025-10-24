@@ -3,7 +3,7 @@
 # Script for Nginx authentication N1
 
 # Some settings
-export SACK=/methodology_artifact/ae-sack
+export SACK=/ae-sack
 
 # -------------------- build project with wllvm --------------------------------
 
@@ -24,27 +24,28 @@ $SACK/AFL/afl-clang-fast-indirect-flip nginx.bc -o nginx.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/viper/tools/copy_tools.sh $SACK .
+bash $SACK/scripts/nginx/n1_auth/copy_tools.sh $SACK .
 objdump -d ./nginx.fuzz | grep ">:" > ./log/func_map
+python3 subgt_addresslog_gen.py ./subgt.json
 
-# -------------------- put your corpus here ------------------------------------
+# -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
-# NOTE: put your corpus for next step!
-# mkdir corpus; 
-# cp <your testcases> corpus/
 
-# -------------------- do branch flipping --------------------------------------
+
+# -------------------- do substitution--------------------------------------
+# in bin/sbin/ folder
+
+# terminal 1 
+# python3 send_request.py
+
+# terminal 2
 # export AFL_NO_AFFINITY=1
+# export SACK=/methodology_artifact/ae-sack
 # $SACK/AFL/afl-fuzz -c ./log/vsack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
 
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the ./bin/sbin/ folder
+# use analyze.sh at the bin/sbin/ folder
 
-# # -------------------- corruptibility assessment (auto) ------------------------
-
-# # assess syscall-guard variables
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot br -- ./sqlite3_rate
-# # assess arguments of triggered syscalls
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot arg -- ./sqlite3_rate
+# the result is in the result.*/ folder report_unique.txt

@@ -280,11 +280,7 @@ EXP_ST u8  icall_violation = 1;         /* Mark there is an icall violation*/
 u32 total_flip_icall = 0;
 
 #define ADDRESS_LOG_FILE    "./log/address_log"
-#define ADDRESS_LOG_SUCCESS_FILE    "./log/address_log_success"
 #define ADDRESS_LOG_SUB_GROUNDTRUTH "./log/subgt-extract"
-#define LOAD_LOG_FILE       "./log/load_log"
-#define FLIP_RESULT_FILE    "./log/load_flip_result"
-#define ICALL_TIME_LOG_FILE "./log/icall_time_log"
 #define ICALL_VIOLATION_LOG "./log/icall_violation_log"
 #define PATTERN "obtained shmid ([0-9]+) for BanTable"   /*for proftpd P2 login limit*/
 
@@ -1222,7 +1218,7 @@ static inline u8 has_new_bits(u8* virgin_map, u32 dry_run_flag, u32 fuzzing_flag
         u8* vfn = alloc_printf(ICALL_VIOLATION_LOG);
         FILE* icall_vio_log = fopen(vfn,"a");
         if (icall_vio_log) {
-        fprintf(icall_vio_log, "icall violation:%lld-%lld(0x%llx)\n",tmp_id, tmp_addr, tmp_addr);
+        fprintf(icall_vio_log, "icall violation:%lld_%lld(0x%llx)\n",tmp_id, tmp_addr, tmp_addr);
         fclose(icall_vio_log);
         ck_free(vfn);
         } else {
@@ -4629,7 +4625,7 @@ EXP_ST u8 common_fuzz_stuff(char** argv, u8* out_buf, u32 len, u32 icall_id, u32
       FILE* icall_vio_log = fopen(vfn,"a");
       if (icall_vio_log) {  // icall_id - flipped_to_target_address - entered_time
       fprintf(icall_vio_log,
-              "flip operation:%d-%lld(0x%llx)-%d\n", 
+              "flip operation:%d_%lld(0x%llx)_%d\n", 
                            icall_id, flipped_target_address, flipped_target_address, target_id);
       fprintf(icall_vio_log, "------ icall violation happens during the flip ------\n\n\n");
       fclose(icall_vio_log);
@@ -6542,13 +6538,6 @@ int main(int argc, char** argv) {
   else
     use_argv = argv + optind;
 
-  if (access(FLIP_RESULT_FILE,F_OK) == 0){
-      remove(FLIP_RESULT_FILE);
-  }
-
-  if (access(LOAD_LOG_FILE,F_OK) == 0){
-      remove(LOAD_LOG_FILE);
-  }
 
   if (access(ICALL_VIOLATION_LOG,F_OK) == 0){
       remove(ICALL_VIOLATION_LOG);

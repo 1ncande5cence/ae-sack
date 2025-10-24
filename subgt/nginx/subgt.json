@@ -1,0 +1,1123 @@
+[
+    {
+        "line": "src/core/ngx_palloc.c:57",
+        "id": "2",
+        "targets": [
+            "ngx_http_modsecurity_cleanup",
+            "ngx_http_lua_request_cleanup_handler",
+            "ngx_pool_cleanup_file"
+        ]
+    },
+    {
+        "line": "src/core/ngx_queue.c:96",
+        "id": "5",
+        "targets": [
+            "ngx_http_cmp_locations"
+        ]
+    },
+    {
+        "line": "src/core/ngx_output_chain.c:70",
+        "id": "7",
+        "targets": [
+            "ngx_chain_writer",
+            "ngx_http_lua_capture_body_filter",
+            "ngx_http_trailers_filter"
+        ]
+    },
+    {
+        "line": "src/core/ngx_output_chain.c:236",
+        "id": "8",
+        "targets": [
+            "ngx_http_trailers_filter"
+        ]
+    },
+    {
+        "line": "src/core/ngx_rbtree.c:44",
+        "id": "16",
+        "targets": [
+            "ngx_str_rbtree_insert_value"
+        ]
+    },
+    {
+        "line": "src/core/ngx_cycle.c:239",
+        "id": "25",
+        "targets": [
+            "ngx_regex_create_conf",
+            "ngx_core_module_create_conf"
+        ]
+    },
+    {
+        "line": "src/core/ngx_cycle.c:303",
+        "id": "26",
+        "targets": [
+            "ngx_core_module_init_conf",
+            "ngx_event_init_conf",
+            "ngx_regex_init_conf"
+        ]
+    },
+    {
+        "line": "src/core/ngx_conf_file.c:304",
+        "id": "32",
+        "targets": [
+            "ngx_http_core_type"
+        ]
+    },
+    {
+        "line": "src/core/ngx_conf_file.c:463",
+        "id": "33",
+        "targets": [
+            "ngx_http_auth_request",
+            "ngx_set_worker_processes",
+            "ngx_error_log.89",
+            "ngx_http_lua_package_path",
+            "ngx_http_core_server_name",
+            "ngx_http_core_root",
+            "ngx_http_core_limit_except",
+            "ngx_http_auth_basic_user_file",
+            "ngx_http_core_types",
+            "ngx_http_limit_req",
+            "ngx_events_block",
+            "ngx_conf_set_str_slot",
+            "ngx_http_core_keepalive",
+            "ngx_http_core_location",
+            "ngx_conf_set_rules_file",
+            "ngx_http_proxy_pass",
+            "ngx_http_index_set_index",
+            "ngx_conf_set_off_slot",
+            "ngx_http_lua_access_by_lua_block",
+            "ngx_http_log_set_log",
+            "ngx_conf_include",
+            "ngx_http_core_listen",
+            "ngx_http_auth_request_set",
+            "ngx_conf_set_keyval_slot",
+            "ngx_http_core_internal",
+            "ngx_event_connections",
+            "ngx_http_block",
+            "ngx_conf_set_flag_slot",
+            "ngx_http_lua_package_cpath",
+            "ngx_event_use",
+            "ngx_http_fastcgi_pass",
+            "ngx_http_rewrite_return",
+            "ngx_http_limit_req_zone",
+            "ngx_http_core_server",
+            "ngx_http_set_complex_value_slot",
+            "ngx_http_log_set_format",
+            "ngx_http_core_error_page",
+            "ngx_http_upstream_param_set_slot",
+            "ngx_conf_set_enum_slot",
+            "ngx_http_access_rule"
+        ]
+    },
+    {
+        "line": "src/core/ngx_module.c:72",
+        "id": "43",
+        "targets": [
+            "ngx_event_module_init",
+            "ngx_regex_module_init"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event.c:1024",
+        "id": "75",
+        "targets": [
+            "ngx_event_core_create_conf",
+            "ngx_epoll_create_conf"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event.c:1052",
+        "id": "76",
+        "targets": [
+            "ngx_select_init_conf",
+            "ngx_epoll_init_conf",
+            "ngx_event_core_init_conf"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event.c:690",
+        "id": "77",
+        "targets": [
+            "ngx_select_init",
+            "ngx_epoll_init"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event.c:939",
+        "id": "81",
+        "targets": [
+            "ngx_epoll_add_event",
+            "ngx_select_add_event"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event.c:248",
+        "id": "82",
+        "targets": [
+            "ngx_epoll_process_events",
+            "ngx_select_process_events"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event.c:287",
+        "id": "83",
+        "targets": [
+            "ngx_epoll_add_event"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event_accept.c:313",
+        "id": "96",
+        "targets": [
+            "ngx_http_init_connection"
+        ]
+    },
+    {
+        "line": "src/os/unix/ngx_process_cycle.c:290",
+        "id": "124",
+        "targets": [
+            "ngx_http_lua_init_worker",
+            "ngx_http_userid_init_worker",
+            "ngx_event_process_init"
+        ]
+    },
+    {
+        "line": "src/event/modules/ngx_epoll_module.c:901",
+        "id": "126",
+        "targets": [
+            "ngx_event_accept",
+            "ngx_http_wait_request_handler"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http.c:197",
+        "id": "129",
+        "targets": [
+            "ngx_http_lua_create_main_conf",
+            "ngx_http_map_create_conf",
+            "ngx_http_charset_create_main_conf",
+            "ngx_http_ssi_create_main_conf",
+            "ngx_http_fastcgi_create_main_conf",
+            "ngx_http_log_create_main_conf",
+            "ngx_http_scgi_create_main_conf",
+            "ngx_http_modsecurity_create_main_conf",
+            "ngx_http_uwsgi_create_main_conf",
+            "ngx_http_proxy_create_main_conf",
+            "ngx_http_core_create_main_conf",
+            "ngx_http_upstream_create_main_conf"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http.c:204",
+        "id": "130",
+        "targets": [
+            "ngx_http_lua_create_srv_conf",
+            "ngx_http_upstream_random_create_conf",
+            "ngx_http_upstream_hash_create_conf",
+            "ngx_http_core_create_srv_conf",
+            "ngx_http_upstream_keepalive_create_conf"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http.c:211",
+        "id": "131",
+        "targets": [
+            "ngx_http_access_create_loc_conf",
+            "ngx_http_autoindex_create_loc_conf",
+            "ngx_http_browser_create_conf",
+            "ngx_http_scgi_create_loc_conf",
+            "ngx_http_log_create_loc_conf",
+            "ngx_http_gzip_create_conf",
+            "ngx_http_fastcgi_create_loc_conf",
+            "ngx_http_limit_req_create_conf",
+            "ngx_http_mirror_create_loc_conf",
+            "ngx_http_userid_create_conf",
+            "ngx_http_lua_create_loc_conf",
+            "ngx_http_modsecurity_create_conf",
+            "ngx_http_auth_basic_create_loc_conf",
+            "ngx_http_memcached_create_loc_conf",
+            "ngx_http_auth_request_create_conf",
+            "ngx_http_referer_create_conf",
+            "ngx_http_rewrite_create_loc_conf",
+            "ngx_http_core_create_loc_conf",
+            "ngx_http_index_create_loc_conf",
+            "ngx_http_headers_create_conf",
+            "ngx_http_uwsgi_create_loc_conf",
+            "ngx_http_charset_create_loc_conf",
+            "ngx_http_proxy_create_loc_conf",
+            "ngx_http_copy_filter_create_conf",
+            "ngx_http_try_files_create_loc_conf",
+            "ngx_http_ssi_create_loc_conf",
+            "ngx_http_limit_conn_create_conf"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http.c:229",
+        "id": "132",
+        "targets": [
+            "ngx_http_limit_conn_add_variables",
+            "ngx_http_core_preconfiguration",
+            "ngx_http_proxy_add_variables",
+            "ngx_http_ssi_preconfiguration",
+            "ngx_http_fastcgi_add_variables",
+            "ngx_http_gzip_add_variables",
+            "ngx_http_upstream_add_variables",
+            "ngx_http_limit_req_add_variables",
+            "ngx_http_userid_add_variables",
+            "ngx_http_browser_add_variables",
+            "ngx_http_referer_add_variables"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http.c:264",
+        "id": "133",
+        "targets": [
+            "ngx_http_ssi_init_main_conf",
+            "ngx_http_upstream_init_main_conf",
+            "ngx_http_lua_init_main_conf",
+            "ngx_http_core_init_main_conf",
+            "ngx_http_modsecurity_init_main_conf"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http.c:310",
+        "id": "134",
+        "targets": [
+            "ngx_http_log_init",
+            "ngx_http_rewrite_init",
+            "ngx_http_userid_init",
+            "ngx_http_autoindex_init",
+            "ngx_http_mirror_init",
+            "ngx_http_index_init",
+            "ngx_http_access_init",
+            "ngx_http_headers_filter_init",
+            "ngx_http_header_filter_init",
+            "ngx_http_try_files_init",
+            "ngx_http_postpone_filter_init",
+            "ngx_http_chunked_filter_init",
+            "ngx_http_limit_req_init",
+            "ngx_http_ssi_filter_init",
+            "ngx_http_copy_filter_init",
+            "ngx_http_static_init",
+            "ngx_http_limit_conn_init",
+            "ngx_http_modsecurity_init",
+            "ngx_http_not_modified_filter_init",
+            "ngx_http_gzip_filter_init",
+            "ngx_http_range_body_filter_init",
+            "ngx_http_auth_request_init",
+            "ngx_http_core_postconfiguration",
+            "ngx_http_auth_basic_init",
+            "ngx_http_range_header_filter_init",
+            "ngx_http_write_filter_init",
+            "ngx_http_lua_init",
+            "ngx_http_charset_postconfiguration"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http.c:584",
+        "id": "135",
+        "targets": [
+            "ngx_http_lua_merge_srv_conf",
+            "ngx_http_core_merge_srv_conf"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http.c:597",
+        "id": "136",
+        "targets": [
+            "ngx_http_modsecurity_merge_conf",
+            "ngx_http_proxy_merge_loc_conf",
+            "ngx_http_ssi_merge_loc_conf",
+            "ngx_http_limit_conn_merge_conf",
+            "ngx_http_uwsgi_merge_loc_conf",
+            "ngx_http_gzip_merge_conf",
+            "ngx_http_mirror_merge_loc_conf",
+            "ngx_http_browser_merge_conf",
+            "ngx_http_autoindex_merge_loc_conf",
+            "ngx_http_auth_request_merge_conf",
+            "ngx_http_scgi_merge_loc_conf",
+            "ngx_http_userid_merge_conf",
+            "ngx_http_fastcgi_merge_loc_conf",
+            "ngx_http_headers_merge_conf",
+            "ngx_http_limit_req_merge_conf",
+            "ngx_http_copy_filter_merge_conf",
+            "ngx_http_auth_basic_merge_loc_conf",
+            "ngx_http_rewrite_merge_loc_conf",
+            "ngx_http_index_merge_loc_conf",
+            "ngx_http_memcached_merge_loc_conf",
+            "ngx_http_access_merge_loc_conf",
+            "ngx_http_charset_merge_loc_conf",
+            "ngx_http_lua_merge_loc_conf",
+            "ngx_http_referer_merge_conf",
+            "ngx_http_core_merge_loc_conf",
+            "ngx_http_log_merge_loc_conf"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http.c:650",
+        "id": "137",
+        "targets": [
+            "ngx_http_modsecurity_merge_conf",
+            "ngx_http_proxy_merge_loc_conf",
+            "ngx_http_ssi_merge_loc_conf",
+            "ngx_http_limit_conn_merge_conf",
+            "ngx_http_uwsgi_merge_loc_conf",
+            "ngx_http_gzip_merge_conf",
+            "ngx_http_mirror_merge_loc_conf",
+            "ngx_http_browser_merge_conf",
+            "ngx_http_autoindex_merge_loc_conf",
+            "ngx_http_auth_request_merge_conf",
+            "ngx_http_scgi_merge_loc_conf",
+            "ngx_http_userid_merge_conf",
+            "ngx_http_fastcgi_merge_loc_conf",
+            "ngx_http_headers_merge_conf",
+            "ngx_http_limit_req_merge_conf",
+            "ngx_http_copy_filter_merge_conf",
+            "ngx_http_auth_basic_merge_loc_conf",
+            "ngx_http_rewrite_merge_loc_conf",
+            "ngx_http_index_merge_loc_conf",
+            "ngx_http_memcached_merge_loc_conf",
+            "ngx_http_access_merge_loc_conf",
+            "ngx_http_charset_merge_loc_conf",
+            "ngx_http_lua_merge_loc_conf",
+            "ngx_http_referer_merge_conf",
+            "ngx_http_core_merge_loc_conf",
+            "ngx_http_log_merge_loc_conf"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:2940",
+        "id": "138",
+        "targets": [
+            "ngx_http_lua_create_srv_conf",
+            "ngx_http_upstream_random_create_conf",
+            "ngx_http_upstream_hash_create_conf",
+            "ngx_http_core_create_srv_conf",
+            "ngx_http_upstream_keepalive_create_conf"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:2949",
+        "id": "139",
+        "targets": [
+            "ngx_http_access_create_loc_conf",
+            "ngx_http_autoindex_create_loc_conf",
+            "ngx_http_browser_create_conf",
+            "ngx_http_scgi_create_loc_conf",
+            "ngx_http_log_create_loc_conf",
+            "ngx_http_gzip_create_conf",
+            "ngx_http_fastcgi_create_loc_conf",
+            "ngx_http_limit_req_create_conf",
+            "ngx_http_mirror_create_loc_conf",
+            "ngx_http_userid_create_conf",
+            "ngx_http_lua_create_loc_conf",
+            "ngx_http_modsecurity_create_conf",
+            "ngx_http_auth_basic_create_loc_conf",
+            "ngx_http_memcached_create_loc_conf",
+            "ngx_http_auth_request_create_conf",
+            "ngx_http_referer_create_conf",
+            "ngx_http_rewrite_create_loc_conf",
+            "ngx_http_core_create_loc_conf",
+            "ngx_http_index_create_loc_conf",
+            "ngx_http_headers_create_conf",
+            "ngx_http_uwsgi_create_loc_conf",
+            "ngx_http_charset_create_loc_conf",
+            "ngx_http_proxy_create_loc_conf",
+            "ngx_http_copy_filter_create_conf",
+            "ngx_http_try_files_create_loc_conf",
+            "ngx_http_ssi_create_loc_conf",
+            "ngx_http_limit_conn_create_conf"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:3075",
+        "id": "140",
+        "targets": [
+            "ngx_http_access_create_loc_conf",
+            "ngx_http_autoindex_create_loc_conf",
+            "ngx_http_browser_create_conf",
+            "ngx_http_scgi_create_loc_conf",
+            "ngx_http_log_create_loc_conf",
+            "ngx_http_gzip_create_conf",
+            "ngx_http_fastcgi_create_loc_conf",
+            "ngx_http_limit_req_create_conf",
+            "ngx_http_mirror_create_loc_conf",
+            "ngx_http_userid_create_conf",
+            "ngx_http_lua_create_loc_conf",
+            "ngx_http_modsecurity_create_conf",
+            "ngx_http_auth_basic_create_loc_conf",
+            "ngx_http_memcached_create_loc_conf",
+            "ngx_http_auth_request_create_conf",
+            "ngx_http_referer_create_conf",
+            "ngx_http_rewrite_create_loc_conf",
+            "ngx_http_core_create_loc_conf",
+            "ngx_http_index_create_loc_conf",
+            "ngx_http_headers_create_conf",
+            "ngx_http_uwsgi_create_loc_conf",
+            "ngx_http_charset_create_loc_conf",
+            "ngx_http_proxy_create_loc_conf",
+            "ngx_http_copy_filter_create_conf",
+            "ngx_http_try_files_create_loc_conf",
+            "ngx_http_ssi_create_loc_conf",
+            "ngx_http_limit_conn_create_conf"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:875",
+        "id": "142",
+        "targets": [
+            "ngx_http_core_find_config_phase",
+            "ngx_http_core_content_phase",
+            "ngx_http_core_post_access_phase",
+            "ngx_http_core_rewrite_phase",
+            "ngx_http_core_post_rewrite_phase",
+            "ngx_http_core_access_phase",
+            "ngx_http_core_generic_phase"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:897",
+        "id": "143",
+        "targets": [
+            "ngx_http_limit_req_handler",
+            "ngx_http_limit_conn_handler",
+            "ngx_http_mirror_handler",
+            "ngx_http_modsecurity_pre_access_handler",
+            "ngx_http_try_files_handler"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:929",
+        "id": "144",
+        "targets": [
+            "ngx_http_modsecurity_rewrite_handler",
+            "ngx_http_rewrite_handler"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:1102",
+        "id": "145",
+        "targets": [
+            "ngx_http_access_handler",
+            "ngx_http_auth_basic_handler",
+            "ngx_http_auth_request_handler",
+            "ngx_http_lua_access_handler"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:1268",
+        "id": "147",
+        "targets": [
+            "ngx_http_static_handler",
+            "ngx_http_index_handler",
+            "ngx_http_autoindex_handler"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:1849",
+        "id": "148",
+        "targets": [
+            "ngx_http_not_modified_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:1864",
+        "id": "149",
+        "targets": [
+            "ngx_http_range_body_filter"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_request.c:3806",
+        "id": "154",
+        "targets": [
+            "ngx_http_modsecurity_log_handler",
+            "ngx_http_log_handler"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_request.c:1501",
+        "id": "165",
+        "targets": [
+            "ngx_http_process_host",
+            "ngx_http_process_user_agent",
+            "ngx_http_process_unique_header_line",
+            "ngx_http_process_connection",
+            "ngx_http_process_header_line"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_request.c:425",
+        "id": "167",
+        "targets": [
+            "ngx_unix_recv"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_log_module.c:305",
+        "id": "168",
+        "targets": [
+            "ngx_http_log_variable_getlen"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_log_module.c:374",
+        "id": "170",
+        "targets": [
+            "ngx_http_log_copy_short",
+            "ngx_http_log_variable",
+            "ngx_http_log_body_bytes_sent",
+            "ngx_http_log_time",
+            "ngx_http_log_status"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_variables.c:637",
+        "id": "181",
+        "targets": [
+            "ngx_http_proxy_internal_chunked_variable",
+            "ngx_http_upstream_status_variable",
+            "ngx_http_variable_request",
+            "ngx_http_variable_binary_remote_addr",
+            "ngx_http_proxy_host_variable",
+            "ngx_http_variable_remote_addr",
+            "ngx_http_variable_remote_user",
+            "ngx_http_variable_header",
+            "ngx_http_variable_request_line"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_write_filter_module.c:299",
+        "id": "226",
+        "targets": [
+            "ngx_linux_sendfile_chain"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_chunked_filter_module.c:100",
+        "id": "228",
+        "targets": [
+            "ngx_http_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_chunked_filter_module.c:115",
+        "id": "229",
+        "targets": [
+            "ngx_http_write_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_range_filter_module.c:161",
+        "id": "231",
+        "targets": [
+            "ngx_http_chunked_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_range_filter_module.c:265",
+        "id": "233",
+        "targets": [
+            "ngx_http_chunked_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_range_filter_module.c:651",
+        "id": "238",
+        "targets": [
+            "ngx_http_copy_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_gzip_filter_module.c:240",
+        "id": "242",
+        "targets": [
+            "ngx_http_range_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_gzip_filter_module.c:310",
+        "id": "246",
+        "targets": [
+            "ngx_http_chunked_body_filter"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_postpone_filter_module.c:91",
+        "id": "249",
+        "targets": [
+            "ngx_http_gzip_body_filter",
+            "ngx_http_modsecurity_body_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_ssi_filter_module.c:341",
+        "id": "251",
+        "targets": [
+            "ngx_http_modsecurity_header_filter",
+            "ngx_http_gzip_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_ssi_filter_module.c:440",
+        "id": "253",
+        "targets": [
+            "ngx_http_postpone_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_charset_filter_module.c:236",
+        "id": "257",
+        "targets": [
+            "ngx_http_ssi_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_charset_filter_module.c:557",
+        "id": "263",
+        "targets": [
+            "ngx_http_ssi_body_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_userid_filter_module.c:239",
+        "id": "268",
+        "targets": [
+            "ngx_http_charset_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_headers_filter_module.c:183",
+        "id": "271",
+        "targets": [
+            "ngx_http_userid_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_headers_filter_module.c:264",
+        "id": "274",
+        "targets": [
+            "ngx_http_charset_body_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_not_modified_filter_module.c:61",
+        "id": "277",
+        "targets": [
+            "ngx_http_headers_filter",
+            "ngx_http_lua_capture_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_not_modified_filter_module.c:108",
+        "id": "281",
+        "targets": [
+            "ngx_http_headers_filter",
+            "ngx_http_lua_capture_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_variables.c:735",
+        "id": "183",
+        "targets": [
+            "ngx_http_variable_unknown_header_in"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_chunked_filter_module.c:219",
+        "id": "230",
+        "targets": [
+            "ngx_http_write_filter"
+        ]
+    },
+    {
+        "line": "./lua-nginx-module/src/ngx_http_lua_directive.c:1671",
+        "id": "351",
+        "targets": [
+            "ngx_http_lua_access_by_lua"
+        ]
+    },
+    {
+        "line": "./lua-nginx-module/src/ngx_http_lua_accessby.c:158",
+        "id": "374",
+        "targets": [
+            "ngx_http_lua_access_handler_inline"
+        ]
+    },
+    {
+        "line": "./lua-nginx-module/src/ngx_http_lua_capturefilter.c:109",
+        "id": "377",
+        "targets": [
+            "ngx_http_headers_filter"
+        ]
+    },
+    {
+        "line": "./lua-nginx-module/src/ngx_http_lua_capturefilter.c:133",
+        "id": "379",
+        "targets": [
+            "ngx_http_trailers_filter"
+        ]
+    },
+    {
+        "line": "src/core/ngx_log.c:149",
+        "id": "0",
+        "targets": [
+            "ngx_http_log_error"
+        ]
+    },
+    {
+        "line": "src/core/ngx_cycle.c:493",
+        "id": "28",
+        "targets": [
+            "ngx_http_limit_req_init_zone"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event.c:301",
+        "id": "84",
+        "targets": [
+            "ngx_select_add_event"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event_posted.c:34",
+        "id": "94",
+        "targets": [
+            "ngx_http_upstream_handler",
+            "ngx_http_keepalive_handler",
+            "ngx_http_wait_request_handler",
+            "ngx_event_accept"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_request.c:3871",
+        "id": "163",
+        "targets": [
+            "ngx_http_log_error_handler"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_request_body.c:84",
+        "id": "172",
+        "targets": [
+            "ngx_http_modsecurity_request_read"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_script.c:83",
+        "id": "184",
+        "targets": [
+            "ngx_http_script_copy_var_len_code"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_script.c:98",
+        "id": "185",
+        "targets": [
+            "ngx_http_script_copy_var_code"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_upstream.c:6793",
+        "id": "193",
+        "targets": [
+            "ngx_http_upstream_init_round_robin"
+        ]
+    },
+    {
+        "line": "./ModSecurity-nginx/src/ngx_http_modsecurity_header_filter.c:478",
+        "id": "342",
+        "targets": [
+            "ngx_http_modsecurity_resolv_header_content_type",
+            "ngx_http_modsecurity_resolv_header_last_modified",
+            "ngx_http_modsecurity_resolv_header_server",
+            "ngx_http_modsecurity_resolv_header_content_length",
+            "ngx_http_modsecurity_resolv_header_connection",
+            "ngx_http_modsecurity_resolv_header_transfer_encoding",
+            "ngx_http_modsecurity_resolv_header_date",
+            "ngx_http_modsecurity_resolv_header_vary"
+        ]
+    },
+    {
+        "line": "./ModSecurity-nginx/src/ngx_http_modsecurity_header_filter.c:533",
+        "id": "343",
+        "targets": [
+            "ngx_http_gzip_header_filter"
+        ]
+    },
+    {
+        "line": "./ModSecurity-nginx/src/ngx_http_modsecurity_body_filter.c:221",
+        "id": "349",
+        "targets": [
+            "ngx_http_gzip_header_filter"
+        ]
+    },
+    {
+        "line": "./ModSecurity-nginx/src/ngx_http_modsecurity_body_filter.c:222",
+        "id": "350",
+        "targets": [
+            "ngx_http_gzip_body_filter"
+        ]
+    },
+    {
+        "line": "src/core/ngx_connection.c:1279",
+        "id": "22",
+        "targets": [
+            "ngx_select_del_event"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_request.c:3381",
+        "id": "162",
+        "targets": [
+            "ngx_unix_recv"
+        ]
+    },
+    {
+        "line": "src/core/ngx_output_chain.c:780",
+        "id": "9",
+        "targets": [
+            "ngx_linux_sendfile_chain"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event.c:396",
+        "id": "90",
+        "targets": [
+            "ngx_select_del_event"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event_connect.c:34",
+        "id": "103",
+        "targets": [
+            "ngx_http_upstream_get_round_robin_peer"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event_connect.c:304",
+        "id": "105",
+        "targets": [
+            "ngx_select_add_event"
+        ]
+    },
+    {
+        "line": "src/event/ngx_event_connect.c:312",
+        "id": "106",
+        "targets": [
+            "ngx_select_add_event"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:1261",
+        "id": "146",
+        "targets": [
+            "ngx_http_proxy_handler"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_request.c:2528",
+        "id": "150",
+        "targets": [
+            "ngx_http_auth_request_done"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_request.c:2470",
+        "id": "158",
+        "targets": [
+            "ngx_http_handler",
+            "ngx_http_core_run_phases"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_request_body.c:47",
+        "id": "171",
+        "targets": [
+            "ngx_http_upstream_init"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_upstream.c:4537",
+        "id": "197",
+        "targets": [
+            "ngx_http_proxy_finalize_request"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_upstream.c:4540",
+        "id": "198",
+        "targets": [
+            "ngx_http_upstream_free_round_robin_peer"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_upstream.c:634",
+        "id": "200",
+        "targets": [
+            "ngx_http_proxy_create_request"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_upstream.c:805",
+        "id": "201",
+        "targets": [
+            "ngx_http_upstream_init_round_robin_peer"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_upstream.c:1296",
+        "id": "206",
+        "targets": [
+            "ngx_http_upstream_send_request_handler"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_upstream.c:1299",
+        "id": "207",
+        "targets": [
+            "ngx_http_upstream_process_header"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_upstream.c:2438",
+        "id": "208",
+        "targets": [
+            "ngx_unix_recv"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_upstream.c:2474",
+        "id": "209",
+        "targets": [
+            "ngx_http_proxy_process_status_line"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_upstream.c:2920",
+        "id": "214",
+        "targets": [
+            "ngx_http_upstream_ignore_header_line",
+            "ngx_http_upstream_copy_content_type"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_chunked_filter_module.c:71",
+        "id": "227",
+        "targets": [
+            "ngx_http_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_userid_filter_module.c:233",
+        "id": "267",
+        "targets": [
+            "ngx_http_charset_header_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_headers_filter_module.c:174",
+        "id": "270",
+        "targets": [
+            "ngx_http_userid_filter"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_rewrite_module.c:180",
+        "id": "288",
+        "targets": [
+            "ngx_http_script_return_code"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_proxy_module.c:1355",
+        "id": "290",
+        "targets": [
+            "ngx_http_script_copy_len_code"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_proxy_module.c:1357",
+        "id": "291",
+        "targets": [
+            "ngx_http_script_copy_var_len_code",
+            "ngx_http_script_copy_len_code"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_proxy_module.c:1468",
+        "id": "292",
+        "targets": [
+            "ngx_http_script_copy_len_code"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_proxy_module.c:1470",
+        "id": "293",
+        "targets": [
+            "ngx_http_script_copy_var_len_code",
+            "ngx_http_script_copy_len_code"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_proxy_module.c:1480",
+        "id": "294",
+        "targets": [
+            "ngx_http_script_copy_code",
+            "ngx_http_script_copy_var_code"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_proxy_module.c:1490",
+        "id": "295",
+        "targets": [
+            "ngx_http_script_copy_code"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_proxy_module.c:1496",
+        "id": "296",
+        "targets": [
+            "ngx_http_script_copy_code",
+            "ngx_http_script_copy_var_code"
+        ]
+    },
+    {
+        "line": "src/http/modules/ngx_http_proxy_module.c:1936",
+        "id": "300",
+        "targets": [
+            "ngx_http_upstream_process_connection",
+            "ngx_http_upstream_process_header_line",
+            "ngx_http_upstream_process_content_length"
+        ]
+    },
+    {
+        "line": "src/http/ngx_http_core_module.c:4673",
+        "id": "141",
+        "targets": [
+            "ngx_http_access_create_loc_conf",
+            "ngx_http_autoindex_create_loc_conf",
+            "ngx_http_browser_create_conf",
+            "ngx_http_scgi_create_loc_conf",
+            "ngx_http_log_create_loc_conf",
+            "ngx_http_gzip_create_conf",
+            "ngx_http_fastcgi_create_loc_conf",
+            "ngx_http_limit_req_create_conf",
+            "ngx_http_mirror_create_loc_conf",
+            "ngx_http_userid_create_conf",
+            "ngx_http_auth_basic_create_loc_conf",
+            "ngx_http_memcached_create_loc_conf",
+            "ngx_http_referer_create_conf",
+            "ngx_http_rewrite_create_loc_conf",
+            "ngx_http_core_create_loc_conf",
+            "ngx_http_index_create_loc_conf",
+            "ngx_http_headers_create_conf",
+            "ngx_http_uwsgi_create_loc_conf",
+            "ngx_http_charset_create_loc_conf",
+            "ngx_http_proxy_create_loc_conf",
+            "ngx_http_copy_filter_create_conf",
+            "ngx_http_try_files_create_loc_conf",
+            "ngx_http_ssi_create_loc_conf",
+            "ngx_http_limit_conn_create_conf"
+        ]
+    }
+]

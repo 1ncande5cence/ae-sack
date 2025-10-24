@@ -26,7 +26,7 @@ $SACK/AFL/afl-clang-fast-indirect-flip proftpd.bc -o proftpd.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/viper/tools/copy_tools.sh $SACK .
+bash $SACK/tools/copy_tools.sh $SACK .
 objdump -d ./proftpd.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------

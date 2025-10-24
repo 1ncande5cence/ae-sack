@@ -30,7 +30,7 @@ $SACK/AFL/afl-clang-fast-indirect-flip d8.bc -o d8.fuzz -lpthread -lm -latomic -
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/viper/tools/copy_tools.sh $SACK .
+bash $SACK/tools/copy_tools.sh $SACK .
 objdump -d ./d8.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------

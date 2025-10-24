@@ -30,7 +30,7 @@ $SACK/AFL/afl-clang-fast-indirect-flip tshark.bc -o tshark.fuzz -lpcap -lgmodule
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/viper/tools/copy_tools.sh $SACK .
+bash $SACK/tools/copy_tools.sh $SACK .
 objdump -d ./tshark.fuzz | grep ">:" > ./log/func_map
 mkdir input
 mkdir log/subgt-extract

@@ -28,7 +28,7 @@ $SACK/AFL/afl-clang-fast-indirect-flip sqlite3.bc -o sqlite3.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/viper/tools/copy_tools.sh $SACK .
+bash $SACK/tools/copy_tools.sh $SACK .
 objdump -d ./sqlite3.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------

@@ -23,7 +23,7 @@ $SACK/AFL/afl-clang-fast-indirect-flip httpd.bc -o httpd.fuzz -L/song/apache-htt
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/viper/tools/copy_tools.sh $SACK .
+bash $SACK/tools/copy_tools.sh $SACK .
 objdump -d ./httpd.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- put your corpus here ------------------------------------
