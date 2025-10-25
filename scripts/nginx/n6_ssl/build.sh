@@ -1,9 +1,7 @@
 #!/bin/bash
 set -euo pipefail 
 
-# ATTENTION:
-# use O1
-# SACK dir changes
+# Script for Nginx SSL encryption N6
 
 # Some settings
 export SACK=/ae-sack
@@ -20,27 +18,35 @@ make -j$(nproc) && make install
 cd bin/sbin/ 
 extract-bc nginx
 export EXTRA_LDFLAGS="-lz -lc -ldl -lpthread -lpcre2-8 -lcrypto -lcrypt -lssl"
+mkdir -p ./log
+cp $SACK/scripts/nginx/n6_ssl/sack.conf ./log/
+cp $SACK/scripts/nginx/n6_ssl/ban_line.list ./log/
 $SACK/AFL/afl-clang-fast-indirect-flip nginx.bc -o nginx.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/tools/copy_tools.sh $SACK .
+bash $SACK/scripts/nginx/n6_ssl/copy_tools.sh $SACK .
 objdump -d ./nginx.fuzz | grep ">:" > ./log/func_map
+python3 subgt_addresslog_gen.py ./subgt.json
 
-# -------------------- put your corpus here ------------------------------------
+# -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
-# NOTE: put your corpus for next step!
-# mkdir corpus; 
-# cp <your testcases> corpus/
 
-# -------------------- do branch flipping --------------------------------------
+
+# -------------------- do substitution --------------------------------------
+# in bin/sbin/ folder
+
+# terminal 1 
+# python3 send_request_https.py
+
+# terminal 2
 # export AFL_NO_AFFINITY=1
-# $SACK/AFL/afl-fuzz -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
+# export SACK=/ae-sack
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
+# terminal 3
+# ngrep -W byline -d lo -t '' 'port 80 or port 443' >log/sniff_log
 
-# # -------------------- corruptibility assessment (auto) ------------------------
+# -------------------- result analysis --------------------------------------
 
-# # assess syscall-guard variables
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot br -- ./sqlite3_rate
-# # assess arguments of triggered syscalls
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot arg -- ./sqlite3_rate
+# analyze sniff_log to see any plaintext traffic with 200 status code
