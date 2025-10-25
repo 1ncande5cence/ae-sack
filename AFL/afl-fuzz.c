@@ -5011,16 +5011,15 @@ static u8 fuzz_one(char** argv) {
         
           // Only rename if file is NOT empty, flip happened and branch reached
           if (file_size > 0 && flip_happened) {
-            snprintf(command, sizeof(command), "mv ./oracle/my_log.txt ./oracle/sack_%d_%d_%lld", icall_id,target_id,flipped_target_address);
+            snprintf(command, sizeof(command), "mv ./oracle/my_log.txt ./oracle/%d_%lld@0x%llx@_%d", icall_id,flipped_target_address,flipped_target_address,target_id);
             system(command);
           }
         }
-
       }
 
 
       if (flip_happened == false || target_id >= MAX_ENTER_TIME) {
-	        if (target_id == 0) ACTF("segment fault may happened during flipping");
+	        //if (target_id == 0) ACTF("segment fault may happened during flipping");
           
           ACTF("flip doesn't happen in this execution or reach the entering limit\n");
           break;

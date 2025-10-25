@@ -57,7 +57,7 @@ cat full_success_attack.log | wc -l
 
 # violation check (all the sub that violates the icall)
 
-grep '^flip operation:' log/icall_violation_log | sed 's/^flip operation://' | sort -u > icall_violate_sub.log
+grep '^flip operation:' log/icall_violation_log | sed 's/^flip operation://' | sort -u > icall_violate_sub.log || true
 
 # satisfied attack ( break oracles and doesn't violate the icall)
 
