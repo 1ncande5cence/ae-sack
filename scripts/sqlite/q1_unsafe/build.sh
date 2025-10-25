@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+set -euo pipefail 
 
 # Script for SQLite3 unsafe command Q1
 

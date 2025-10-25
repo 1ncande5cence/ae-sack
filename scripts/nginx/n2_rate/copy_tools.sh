@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # program preparation
 cp $1/scripts/nginx/n2_rate/nginx.conf $2/../conf/nginx.conf

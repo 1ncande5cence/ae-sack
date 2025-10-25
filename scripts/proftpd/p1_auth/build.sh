@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+set -euo pipefail 
 
 # Script for Proftpd auth P1
 

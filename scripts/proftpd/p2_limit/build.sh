@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+set -euo pipefail 
 
 # Script for Proftpd limit P2
 

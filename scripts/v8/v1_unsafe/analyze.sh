@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+set -euo pipefail 
 
 # Temp Script for V8 unsafe method V1
 # use it in bin_viper_safemode folder

@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+set -euo pipefail 
 
 # Script for Nginx rate limit N2
 # use it in bin/sbin folder

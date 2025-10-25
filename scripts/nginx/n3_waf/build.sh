@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+set -euo pipefail 
 
 # Script for Nginx waf N3
 
@@ -17,6 +18,7 @@ make -j$(nproc) && make install
 cd bin/sbin/ 
 extract-bc nginx
 export EXTRA_LDFLAGS="-lz -lc -ldl -lpthread -lcrypt -lpcre2-8 -lxml2 -llua5.1 -lpcre -lstdc++ -lgcc_s -licuuc -llzma -licudata -L/usr/local/modsecurity/lib/ -lmodsecurity"
+mkdir -p ./log
 cp $SACK/scripts/nginx/n3_waf/sack.conf ./log/
 cp $SACK/scripts/nginx/n3_waf/ban_line.list ./log/
 
@@ -25,23 +27,27 @@ $SACK/AFL/afl-clang-fast-indirect-flip nginx.bc -o nginx.fuzz -Wl,--export-dynam
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/tools/copy_tools.sh $SACK .
+bash $SACK/scripts/nginx/n3_waf/copy_tools.sh $SACK .
 objdump -d ./nginx.fuzz | grep ">:" > ./log/func_map
+python3 subgt_addresslog_gen.py ./subgt.json
 
-# -------------------- put your corpus here ------------------------------------
+# -------------------- corpus is copied through copy_tools.sh------------------------------------
 
-# NOTE: put your corpus for next step!
-# mkdir corpus; 
-# cp <your testcases> corpus/
 
-# -------------------- do branch flipping --------------------------------------
+# -------------------- do substitution --------------------------------------
+# in bin/sbin/ folder
+
+# terminal 1 
+# python3 send_request_waf.py
+
+# terminal 2
 # export AFL_NO_AFFINITY=1
+# export SACK=/ae-sack
 # $SACK/AFL/afl-fuzz  -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
 
-# # -------------------- corruptibility assessment (auto) ------------------------
+# -------------------- result analysis --------------------------------------
 
-# # assess syscall-guard variables
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot br -- ./sqlite3_rate
-# # assess arguments of triggered syscalls
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot arg -- ./sqlite3_rate
+# use analyze.sh at the bin/sbin/ folder
+
+# the result is in the result.*/ folder report_unique.txt

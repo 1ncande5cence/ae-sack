@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+set -euo pipefail 
 
 # Script for SQLite readonly Q2
 # use it in bin_viper_readonly folder

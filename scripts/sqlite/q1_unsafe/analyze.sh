@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+set -euo pipefail 
 
 # Script for SQLite unsafe Q1
 # use it in bin_viper_safemode folder

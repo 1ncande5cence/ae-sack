@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Script for Nginx restrict method N4
 # use it in bin/sbin/
