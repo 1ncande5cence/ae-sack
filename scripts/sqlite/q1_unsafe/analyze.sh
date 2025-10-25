@@ -2,7 +2,7 @@
 set -euo pipefail 
 
 # Script for SQLite unsafe Q1
-# use it in bin_viper_safemode folder
+# use it in bin_safemode folder
 
 # Step 0: Ask the user for mode
 echo "What mode is this? [1] runtime-collect target [2] MLTA (static approximate) [3] TFA (static approximate)"

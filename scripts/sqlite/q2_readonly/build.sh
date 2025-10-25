@@ -15,9 +15,9 @@ make -j$(nproc)
 
 # -------------------- build flip binaries -----------------------------------
 
-mkdir bin_viper_readonly
-cp sqlite3 ./bin_viper_readonly
-cd ./bin_viper_readonly
+mkdir bin_readonly
+cp sqlite3 ./bin_readonly
+cd ./bin_readonly
 extract-bc sqlite3
 export EXTRA_LDFLAGS="-lpthread -lz -lm -ldl -lreadline"
 mkdir -p ./log
@@ -29,23 +29,27 @@ $SACK/AFL/afl-clang-fast-indirect-flip sqlite3.bc -o sqlite3.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/tools/copy_tools.sh $SACK .
+bash $SACK/scripts/sqlite/q2_readonly/copy_tools.sh $SACK .
+cp my_database_template.db my_database_noage.db
 objdump -d ./sqlite3.fuzz | grep ">:" > ./log/func_map
+python3 subgt_addresslog_gen.py ./subgt.json
 
-# -------------------- put your corpus here ------------------------------------
+# -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
-# NOTE: put your corpus for next step!
-# mkdir corpus; 
-# cp <your testcases> corpus/
 
-# -------------------- do branch flipping --------------------------------------
+
+# -------------------- do substitution --------------------------------------
+
+# in bin_readonly folder
+
 # export AFL_NO_AFFINITY=1
+# export SACK=/ae-sack
 # $SACK/AFL/afl-fuzz -c ./log/sack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sqlite3.fuzz -readonly my_database_noage.db
 
 
-# # -------------------- corruptibility assessment (auto) ------------------------
+# -------------------- result analysis --------------------------------------
 
-# # assess syscall-guard variables
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot br -- ./sqlite3_rate
-# # assess arguments of triggered syscalls
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot arg -- ./sqlite3_rate
+# use analyze.sh at the bin_safemode folder
+
+# the result is in the result.*/ folder report_unique.txt
+
