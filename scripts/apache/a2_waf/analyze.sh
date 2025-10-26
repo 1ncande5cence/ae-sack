@@ -42,6 +42,7 @@ echo "Environment ready in $result_dir"
 
 grep 'HTTP/1.1" 200' access_log | awk '{print $1}' | sort -u > full_success_attack.log
 
+echo "full successful attack:"
 
 cat full_success_attack.log | wc -l
 
