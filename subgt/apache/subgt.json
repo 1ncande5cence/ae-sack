@@ -1,0 +1,2026 @@
+[
+    {
+        "line": "main.c:750",
+        "id": "0",
+        "targets": [
+            "ap_signal_server"
+        ]
+    },
+    {
+        "line": "util.c:937",
+        "id": "5",
+        "targets": [
+            "arr_elts_close",
+            "cfg_close"
+        ]
+    },
+    {
+        "line": "util.c:1091",
+        "id": "7",
+        "targets": [
+            "cfg_getstr",
+            "arr_elts_getstr"
+        ]
+    },
+    {
+        "line": "util.c:3678",
+        "id": "12",
+        "targets": [
+            "process_resource_config_cb"
+        ]
+    },
+    {
+        "line": "mpm_common.c:92",
+        "id": "14",
+        "targets": [
+            "unixd_drop_privileges"
+        ]
+    },
+    {
+        "line": "mpm_common.c:95",
+        "id": "15",
+        "targets": [
+            "event_run"
+        ]
+    },
+    {
+        "line": "mpm_common.c:98",
+        "id": "16",
+        "targets": [
+            "event_query"
+        ]
+    },
+    {
+        "line": "mpm_common.c:107",
+        "id": "19",
+        "targets": [
+            "ap_core_child_status"
+        ]
+    },
+    {
+        "line": "mpm_common.c:116",
+        "id": "22",
+        "targets": [
+            "h2_c1_child_stopping"
+        ]
+    },
+    {
+        "line": "mpm_common.c:134",
+        "id": "23",
+        "targets": [
+            "event_get_name"
+        ]
+    },
+    {
+        "line": "util_filter.c:553",
+        "id": "24",
+        "targets": [
+            "logio_in_filter",
+            "ap_core_input_filter",
+            "ap_http_filter",
+            "reqtimeout_filter"
+        ]
+    },
+    {
+        "line": "util_filter.c:591",
+        "id": "25",
+        "targets": [
+            "reqtimeout_eor",
+            "ap_http_outerror_filter",
+            "ap_http_header_filter",
+            "session_output_filter",
+            "ap_byterange_filter",
+            "ap_core_output_filter",
+            "ap_content_length_filter",
+            "ap_old_write_filter"
+        ]
+    },
+    {
+        "line": "util_filter.c:650",
+        "id": "26",
+        "targets": [
+            "apr_bucket_setaside_noop",
+            "mmap_bucket_setaside"
+        ]
+    },
+    {
+        "line": "scoreboard.c:100",
+        "id": "29",
+        "targets": [
+            "ap_create_scoreboard",
+            "x_pre_mpm"
+        ]
+    },
+    {
+        "line": "scoreboard.c:389",
+        "id": "30",
+        "targets": [
+            "ap_logio_get_last_bytes"
+        ]
+    },
+    {
+        "line": "protocol.c:273",
+        "id": "33",
+        "targets": [
+            "heap_bucket_read"
+        ]
+    },
+    {
+        "line": "protocol.c:2588",
+        "id": "35",
+        "targets": [
+            "ssl_hook_http_scheme",
+            "x_http_scheme",
+            "http_scheme"
+        ]
+    },
+    {
+        "line": "protocol.c:2581",
+        "id": "36",
+        "targets": [
+            "x_pre_read_request",
+            "reqtimeout_before_header",
+            "event_pre_read_request"
+        ]
+    },
+    {
+        "line": "protocol.c:2586",
+        "id": "37",
+        "targets": [
+            "log_after",
+            "ExportLogTransaction",
+            "log_debug_log_transaction",
+            "logio_transaction",
+            "multi_log_transaction",
+            "lua_log_transaction_harness",
+            "x_log_transaction",
+            "ImportLogTransaction"
+        ]
+    },
+    {
+        "line": "protocol.c:2584",
+        "id": "38",
+        "targets": [
+            "log_before",
+            "proxy_detect",
+            "remoteip_modify_request",
+            "ssl_hook_ReadReq",
+            "ws_post_read",
+            "reqtimeout_before_body",
+            "event_post_read_request",
+            "set_unique_id",
+            "h2_c2_hook_post_read_request",
+            "match_headers",
+            "x_post_read_request",
+            "parse_hdr_and_update_nc",
+            "ap_headers_early"
+        ]
+    },
+    {
+        "line": "protocol.c:2604",
+        "id": "41",
+        "targets": [
+            "h2_protocol_get"
+        ]
+    },
+    {
+        "line": "protocol.c:2590",
+        "id": "44",
+        "targets": [
+            "ssl_hook_default_port",
+            "http_port",
+            "x_default_port"
+        ]
+    },
+    {
+        "line": "core.c:2872",
+        "id": "45",
+        "targets": [
+            "test_ifmod_section"
+        ]
+    },
+    {
+        "line": "core.c:2836",
+        "id": "46",
+        "targets": [
+            "ap_find_loaded_module_symbol"
+        ]
+    },
+    {
+        "line": "core.c:105",
+        "id": "48",
+        "targets": [
+            "core_insert_network_bucket"
+        ]
+    },
+    {
+        "line": "core.c:796",
+        "id": "50",
+        "targets": [
+            "authn_ap_auth_type.2601"
+        ]
+    },
+    {
+        "line": "core.c:810",
+        "id": "51",
+        "targets": [
+            "authn_ap_auth_name.2603"
+        ]
+    },
+    {
+        "line": "core.c:824",
+        "id": "52",
+        "targets": [
+            "access_compat_ap_satisfies.2972"
+        ]
+    },
+    {
+        "line": "core.c:1128",
+        "id": "53",
+        "targets": [
+            "ap_ident_lookup"
+        ]
+    },
+    {
+        "line": "request.c:78",
+        "id": "54",
+        "targets": [
+            "log_debug_pre_translate_name",
+            "lua_pre_trans_name_harness",
+            "x_pre_translate_name",
+            "proxy_pre_translate_name"
+        ]
+    },
+    {
+        "line": "request.c:80",
+        "id": "55",
+        "targets": [
+            "log_debug_translate_name",
+            "hook_uri2file",
+            "ap_core_translate",
+            "lua_translate_name_harness",
+            "xlate_name",
+            "translate_alias_redir",
+            "lua_translate_name_harness_last",
+            "translate_userdir",
+            "x_translate_name",
+            "file_cache_xlat",
+            "proxy_translate_name",
+            "lua_translate_name_harness_first",
+            "mva_translate"
+        ]
+    },
+    {
+        "line": "request.c:82",
+        "id": "56",
+        "targets": [
+            "x_map_to_storage",
+            "core_upgrade_storage",
+            "log_debug_map_to_storage",
+            "core_map_to_storage",
+            "proxy_map_location",
+            "ap_send_http_trace",
+            "http_send_options",
+            "lua_map_to_storage_harness"
+        ]
+    },
+    {
+        "line": "request.c:84",
+        "id": "57",
+        "targets": [
+            "fcgi_check_authn",
+            "authenticate_basic_user",
+            "ssl_hook_UserCheck",
+            "log_debug_check_authn"
+        ]
+    },
+    {
+        "line": "request.c:86",
+        "id": "58",
+        "targets": [
+            "lua_map_handler_fixups",
+            "hook_mimetype",
+            "h2_h2_fixups",
+            "authenticate_basic_fake",
+            "check_speling",
+            "spot_cookie",
+            "c2_hook_fixups",
+            "fixup_redir",
+            "core_override_type",
+            "add_cern_meta_data",
+            "include_fixup",
+            "session_fixups",
+            "lua_fixup_harness",
+            "find_code_page",
+            "ap_headers_fixup",
+            "add_auth_info",
+            "x_fixups",
+            "dir_fixups",
+            "fixup_env_module",
+            "hook_fixup",
+            "ssl_hook_Fixup",
+            "proxy_fixup",
+            "log_debug_fixups",
+            "fix_encoding",
+            "dav_fixups"
+        ]
+    },
+    {
+        "line": "request.c:88",
+        "id": "59",
+        "targets": [
+            "log_debug_type_checker",
+            "find_ct",
+            "handle_multi",
+            "x_type_checker"
+        ]
+    },
+    {
+        "line": "request.c:90",
+        "id": "60",
+        "targets": [
+            "log_debug_check_access",
+            "check_dir_access",
+            "x_check_access",
+            "lua_access_checker_harness_last",
+            "ssl_hook_Access",
+            "am_check_access",
+            "lua_access_checker_harness",
+            "lua_access_checker_harness_first"
+        ]
+    },
+    {
+        "line": "request.c:92",
+        "id": "61",
+        "targets": [
+            "log_debug_check_access_ex",
+            "authorize_userless"
+        ]
+    },
+    {
+        "line": "request.c:94",
+        "id": "62",
+        "targets": [
+            "lua_auth_checker_harness",
+            "ssl_hook_Auth",
+            "log_debug_check_authz",
+            "authorize_user",
+            "x_check_authz",
+            "lua_auth_checker_harness_first"
+        ]
+    },
+    {
+        "line": "request.c:96",
+        "id": "63",
+        "targets": [
+            "core_insert_filter",
+            "ap_request_insert_filter",
+            "xlate_insert_filter",
+            "ap_headers_insert_output_filter",
+            "session_insert_output_filter",
+            "proxy_html_insert",
+            "log_debug_insert_filter",
+            "filter_insert",
+            "expires_insert_filter",
+            "CaseFilterInsertFilter",
+            "logio_insert_filter",
+            "lua_insert_filter_harness",
+            "CaseFilterInInsertFilter",
+            "x_insert_filter"
+        ]
+    },
+    {
+        "line": "request.c:97",
+        "id": "64",
+        "targets": [
+            "http_create_request",
+            "x_create_request",
+            "core_create_req",
+            "create_request_config"
+        ]
+    },
+    {
+        "line": "request.c:101",
+        "id": "66",
+        "targets": [
+            "core_dirwalk_stat"
+        ]
+    },
+    {
+        "line": "ssl.c:261",
+        "id": "72",
+        "targets": [
+            "ssl_conn_is_ssl"
+        ]
+    },
+    {
+        "line": "core_filters.c:129",
+        "id": "N/A",
+        "targets": [
+            "apr_bucket_free",
+            "apr_bucket_destroy_noop"
+        ]
+    },
+    {
+        "line": "core_filters.c:232",
+        "id": "93",
+        "targets": [
+            "heap_bucket_read",
+            "socket_bucket_read"
+        ]
+    },
+    {
+        "line": "core_filters.c:251",
+        "id": "N/A",
+        "targets": [
+            "apr_bucket_free",
+            "apr_bucket_destroy_noop"
+        ]
+    },
+    {
+        "line": "core_filters.c:281",
+        "id": "96",
+        "targets": [
+            "socket_bucket_read"
+        ]
+    },
+    {
+        "line": "core_filters.c:689",
+        "id": "98",
+        "targets": [
+            "file_bucket_read",
+            "heap_bucket_read",
+            "mmap_bucket_read"
+        ]
+    },
+    {
+        "line": "core_filters.c:720",
+        "id": "N/A",
+        "targets": [
+            "eor_bucket_destroy",
+            "apr_bucket_free",
+            "apr_bucket_destroy_noop"
+        ]
+    },
+    {
+        "line": "core_filters.c:569",
+        "id": "N/A",
+        "targets": [
+            "eor_bucket_destroy",
+            "apr_bucket_free"
+        ]
+    },
+    {
+        "line": "core_filters.c:807",
+        "id": "N/A",
+        "targets": [
+            "mmap_bucket_destroy",
+            "heap_bucket_destroy",
+            "apr_bucket_free"
+        ]
+    },
+    {
+        "line": "core_filters.c:824",
+        "id": "111",
+        "targets": [
+            "ap_logio_add_bytes_out"
+        ]
+    },
+    {
+        "line": "config.c:85",
+        "id": "127",
+        "targets": [
+            "x_header_parser",
+            "match_headers"
+        ]
+    },
+    {
+        "line": "config.c:88",
+        "id": "128",
+        "targets": [
+            "event_pre_config",
+            "proxy_pre_config",
+            "ssl_hook_pre_config",
+            "unixd_pre_config",
+            "logio_pre_config",
+            "mod_proxy_html",
+            "authz_host_pre_config",
+            "pre_config.9073",
+            "pre_config.14210",
+            "lua_pre_config",
+            "core_pre_config",
+            "log_pre_config",
+            "authz_core_pre_config",
+            "socache_precfg",
+            "balancer_pre_config",
+            "exipc_pre_config",
+            "dbd_pre_config",
+            "conf_vector_length_pre_config",
+            "isapi_pre_config",
+            "pre_config",
+            "header_pre_config",
+            "cgid_pre_config",
+            "x_pre_config",
+            "fcgi_pre_config",
+            "status_pre_config",
+            "hc_pre_config",
+            "pre_init",
+            "authn_cache_precfg",
+            "wd_pre_config_hook"
+        ]
+    },
+    {
+        "line": "config.c:93",
+        "id": "129",
+        "targets": [
+            "vhost_check_config",
+            "x_check_config",
+            "event_check_config",
+            "log_check_config",
+            "authz_core_check_config",
+            "check_config",
+            "core_check_config"
+        ]
+    },
+    {
+        "line": "config.c:102",
+        "id": "131",
+        "targets": [
+            "lbmethod_bytraffic_post_config",
+            "balancer_post_config",
+            "lua_post_config",
+            "exipc_post_config",
+            "h2_post_config",
+            "unique_id_global_init",
+            "proxy_wstunnel_post_config",
+            "header_post_config",
+            "mime_post_config",
+            "authn_cache_post_config",
+            "include_post_config",
+            "suexec_post_config",
+            "initialize_module",
+            "proxy_post_config",
+            "authz_host_post_config",
+            "remoteip_hook_post_config",
+            "http_post_config",
+            "proxy_http_post_config",
+            "post_config",
+            "authenticate_form_post_config",
+            "hc_post_config",
+            "dav_init_handler",
+            "post_config.14211",
+            "cgi_post_config",
+            "lb_hb_init",
+            "cache_post_config",
+            "h2_proxy_post_config",
+            "socache_post_config",
+            "dbd_post_config",
+            "status_init",
+            "post_config.9038",
+            "core_post_config",
+            "ap_expr_post_config",
+            "hm_post_config",
+            "magic_init",
+            "x_post_config",
+            "file_cache_post_config",
+            "event_post_config",
+            "ef_init",
+            "cgid_init",
+            "wd_post_config_hook",
+            "ssl_init_Module",
+            "mod_deflate_post_config",
+            "lbmethod_bybusyness_post_config",
+            "lbmethod_byrequests_post_config"
+        ]
+    },
+    {
+        "line": "config.c:160",
+        "id": "132",
+        "targets": [
+            "event_open_logs",
+            "x_open_logs",
+            "ap_open_logs",
+            "init_config_log",
+            "log_init"
+        ]
+    },
+    {
+        "line": "config.c:165",
+        "id": "133",
+        "targets": [
+            "dbd_child_init",
+            "wd_child_init_hook",
+            "x_child_init",
+            "ap_lua_init_mutex",
+            "status_child_init",
+            "init_child",
+            "ap_logs_child_init",
+            "h2_child_init",
+            "init_child.14212",
+            "balancer_child_init",
+            "child_init",
+            "ssl_init_Child",
+            "socache_child_init",
+            "authn_cache_child_init",
+            "initialize_child",
+            "exipc_child_init",
+            "unique_id_child_init",
+            "core_child_init"
+        ]
+    },
+    {
+        "line": "config.c:169",
+        "id": "134",
+        "targets": [
+            "x_handler",
+            "proxy_handler",
+            "handle_map_file",
+            "file_cache_handler",
+            "action_handler",
+            "lua_handler",
+            "asis_handler",
+            "hm_handler",
+            "balancer_handler",
+            "isapi_handler",
+            "display_info",
+            "authenticate_form_logout_handler",
+            "dav_handler",
+            "status_handler",
+            "default_handler",
+            "authenticate_form_login_handler",
+            "lua_map_handler",
+            "handler_redirect",
+            "exipc_handler",
+            "imap_handler",
+            "reflector_handler",
+            "core_upgrade_handler",
+            "cache_handler",
+            "authenticate_form_redirect_handler",
+            "cgid_handler",
+            "dialup_handler",
+            "cgi_handler",
+            "log_debug_handler",
+            "handle_autoindex"
+        ]
+    },
+    {
+        "line": "config.c:172",
+        "id": "135",
+        "targets": [
+            "cache_quick_handler",
+            "lua_quick_harness",
+            "log_debug_quick_handler",
+            "x_quick_handler"
+        ]
+    },
+    {
+        "line": "config.c:195",
+        "id": "137",
+        "targets": [
+            "authz_groupfile_getfns",
+            "core_optional_fn_retrieve",
+            "cgi_optfns_retrieve",
+            "opt_retr.2531",
+            "ImportFnRetrieve",
+            "opt_retr",
+            "authz_dbm_getfns",
+            "opt_retr.2497",
+            "cgi_optfns_retrieve.13588"
+        ]
+    },
+    {
+        "line": "config.c:301",
+        "id": "138",
+        "targets": [
+            "merge_core_dir_configs",
+            "merge_auth_basic_dir_config",
+            "merge_authn_core_dir_config",
+            "merge_authz_core_dir_config"
+        ]
+    },
+    {
+        "line": "config.c:498",
+        "id": "140",
+        "targets": [
+            "h2_hooks",
+            "register_hooks.2510",
+            "register_hooks.3143",
+            "register_hooks.4487",
+            "unixd_hooks",
+            "register_hooks.13586",
+            "lua_register_hooks",
+            "dumpio_register_hooks",
+            "hc_register_hooks",
+            "register_hooks.7975",
+            "register_hooks.4321",
+            "ap_proxy_ftp_register_hook",
+            "hb_register_hooks",
+            "ExportRegisterHooks",
+            "register_hook.12190",
+            "register_hooks.5294",
+            "fcgi_register_hooks",
+            "register_hooks.4476",
+            "register_hooks.6997",
+            "register_hooks.8987",
+            "register_hooks.6903",
+            "register_hooks.14071",
+            "reflector_hooks",
+            "proxy_html_hooks",
+            "xml2enc_hooks",
+            "register_hooks.14135",
+            "register_hooks.13833",
+            "ap_slotmem_plain_register_hook",
+            "register_hooks.8926",
+            "filter_hooks",
+            "ImportRegisterHooks",
+            "register_hooks.6853",
+            "register_hooks.4101",
+            "register_hooks.2781",
+            "register_hooks.4046",
+            "dbd_hooks",
+            "authn_dbd_hooks",
+            "exipc_register_hooks",
+            "disk_cache_register_hook",
+            "register_hooks.4288",
+            "register_hooks.8970",
+            "register_hooks.4469",
+            "ws_proxy_hooks",
+            "register_hooks.13081",
+            "register_hooks.6636",
+            "charset_register_hooks",
+            "register_hooks.12224",
+            "register_hooks.13856",
+            "register_hooks.14154",
+            "event_hooks",
+            "hm_register_hooks",
+            "register_hooks.5717",
+            "register_hooks.13881",
+            "register_hooks.8058",
+            "register_hooks.5943",
+            "register_hooks.6693",
+            "register_hooks.2600",
+            "register_hook",
+            "dialup_register_hooks",
+            "register_hooks.3962",
+            "x_register_hooks",
+            "register_hooks.13284",
+            "register_hooks.5892",
+            "cache_socache_register_hook",
+            "ap_proxy_balancer_register_hook",
+            "register_hooks.2556",
+            "register_hook.12199",
+            "register_hooks.6517",
+            "ap_proxy_http_register_hook",
+            "register_hooks.4000",
+            "register_hooks.6847",
+            "register_hooks.4846",
+            "register_hooks.13296",
+            "am_register_hooks",
+            "register_hook.12211",
+            "register_hooks.14208",
+            "register_hooks.6756",
+            "register_hooks.2657",
+            "register_hooks.12388",
+            "authz_dbd_hooks",
+            "register_hooks.3877",
+            "register_hooks.2691",
+            "register_hooks.8132",
+            "ap_proxy_connect_register_hook",
+            "register_hooks.6776",
+            "register_hooks.3002",
+            "register_hooks.13691",
+            "register_hooks.2680",
+            "register_hooks.3366",
+            "CaseFilterRegisterHooks",
+            "register_hooks.5040",
+            "ap_proxy_http_register_hook.8206",
+            "register_hooks.14093",
+            "CaseFilterInRegisterHooks",
+            "ImportRegisterHooks.10468",
+            "register_hooks.2630",
+            "register_hooks.2493",
+            "isapi_hooks",
+            "register_hook.13467",
+            "register_hooks.4607",
+            "ExportRegisterHooks.10473",
+            "register_hooks.8788",
+            "register_hooks.5784",
+            "register_hooks",
+            "suexec_hooks",
+            "register_hooks.13984",
+            "register_hooks.12952",
+            "register_hooks.2716",
+            "reqtimeout_hooks",
+            "register_hooks.5923",
+            "register_hooks.8098",
+            "register_hooks.3384",
+            "ssl_register_hooks",
+            "register_hooks.2971",
+            "register_hooks.6655",
+            "register_hooks.3047",
+            "register_hooks.6531",
+            "register_hooks.4522",
+            "register_hooks.14015",
+            "wd_register_hooks",
+            "ap_slotmem_shm_register_hook",
+            "register_hooks.4874",
+            "register_hooks.2479",
+            "register_hooks.4589"
+        ]
+    },
+    {
+        "line": "config.c:1092",
+        "id": "141",
+        "targets": [
+            "create_auth_basic_dir_config",
+            "create_authz_core_dir_config",
+            "create_authn_file_dir_config",
+            "create_digest_dir_config",
+            "create_access_compat_dir_config",
+            "create_authn_core_dir_config",
+            "create_core_dir_config"
+        ]
+    },
+    {
+        "line": "config.c:894",
+        "id": "143",
+        "targets": [
+            "set_override",
+            "dirsection",
+            "add_index",
+            "add_authz_provider",
+            "cmd_rewritecond",
+            "cmd_rewriterule",
+            "filesection",
+            "set_options",
+            "ap_limit_section",
+            "header_cmd",
+            "start_cond_section"
+        ]
+    },
+    {
+        "line": "config.c:910",
+        "id": "144",
+        "targets": [
+            "ap_set_listener"
+        ]
+    },
+    {
+        "line": "config.c:927",
+        "id": "146",
+        "targets": [
+            "set_server_root",
+            "unixd_set_group",
+            "set_document_root",
+            "ap_set_file_slot",
+            "set_limit_req_body",
+            "set_authtype",
+            "set_realm",
+            "set_types_config",
+            "set_authname",
+            "server_hostname_port",
+            "set_server_string_slot",
+            "include_config",
+            "unixd_set_user"
+        ]
+    },
+    {
+        "line": "config.c:937",
+        "id": "147",
+        "targets": [
+            "load_module"
+        ]
+    },
+    {
+        "line": "config.c:947",
+        "id": "148",
+        "targets": [
+            "add_alias",
+            "log_format"
+        ]
+    },
+    {
+        "line": "config.c:970",
+        "id": "150",
+        "targets": [
+            "ssl_cmd_SSLRandomSeed",
+            "add_custom_log"
+        ]
+    },
+    {
+        "line": "config.c:1005",
+        "id": "153",
+        "targets": [
+            "add_authn_provider",
+            "set_events",
+            "set_loglevel"
+        ]
+    },
+    {
+        "line": "config.c:1025",
+        "id": "154",
+        "targets": [
+            "add_extension_info",
+            "set_links",
+            "allow_cmd"
+        ]
+    },
+    {
+        "line": "config.c:1044",
+        "id": "155",
+        "targets": [
+            "cmd_rewriteengine"
+        ]
+    },
+    {
+        "line": "config.c:318",
+        "id": "158",
+        "targets": [
+            "CaseFilterCreateServerConfig",
+            "lb_hb_create_config",
+            "create_remoteip_server_config",
+            "config_server_create",
+            "h2_config_create_svr",
+            "dumpio_create_sconfig",
+            "create_authz_core_svr_config",
+            "hb_create_config",
+            "make_forensic_log_scfg",
+            "reqtimeout_create_srv_config",
+            "ssl_config_server_create",
+            "create_server_config.5963",
+            "create_mconfig_for_server.14092",
+            "create_echo_server_config",
+            "dav_create_server_config",
+            "create_includes_server_config",
+            "create_server_config.4045",
+            "create_ef_server_conf",
+            "hm_create_config",
+            "create_proxy_config",
+            "make_config_log_state",
+            "so_sconf_create",
+            "create_config.3766",
+            "create_info_config",
+            "create_authn_alias_svr_config",
+            "create_setenvif_config_svr",
+            "create_bucketeer_server_config",
+            "server_create",
+            "x_create_server_config",
+            "create_cgi_config",
+            "create_config.7664",
+            "CaseFilterInCreateServerConfig",
+            "create_magic_server_config",
+            "create_server_config.3999",
+            "create_cgid_config",
+            "create_dbd_config",
+            "dav_fs_create_server_config",
+            "make_cookie_log_state",
+            "create_deflate_server_config",
+            "create_config",
+            "create_server_config.3365",
+            "mva_create_server_config",
+            "create_userdir_config",
+            "create_cache_config",
+            "create_core_server_config",
+            "create_mconfig_for_server",
+            "hc_create_config",
+            "create_alias_config"
+        ]
+    },
+    {
+        "line": "config.c:279",
+        "id": "159",
+        "targets": [
+            "am_create_conf",
+            "create_authn_dbm_dir_config",
+            "create_action_dir_config",
+            "dav_lock_create_dir_config",
+            "log_debug_create_dconf",
+            "create_substitute_dcfg",
+            "proxy_html_config",
+            "create_includes_dir_config",
+            "config_perdir_create",
+            "create_scgi_config",
+            "filter_config",
+            "create_core_dir_config",
+            "x_create_dir_config",
+            "create_sed_dir_config",
+            "fcgi_create_dconf",
+            "create_proxy_dir_config",
+            "create_headers_dir_config",
+            "create_buffer_config",
+            "xml2enc_config",
+            "authz_dbd_cr_cfg",
+            "create_session_dir_config",
+            "create_mconfig_for_directory.14091",
+            "create_authz_groupfile_dir_config",
+            "authn_cache_dircfg_create",
+            "create_proxy_ftp_dir_config",
+            "create_imap_dir_config",
+            "create_dir_config.5961",
+            "authn_dbd_cr_conf",
+            "create_isapi_dir_config",
+            "create_dir_config.13983",
+            "create_mconfig_for_directory",
+            "create_cgi_dirconf",
+            "create_ef_dir_conf",
+            "create_deflate_dirconf",
+            "create_auth_form_dir_config",
+            "dav_create_dir_config",
+            "create_session_cookie_dir_config",
+            "create_mime_dir_config",
+            "create_dir_config.3764",
+            "create_neg_dir_config",
+            "create_charset_dir_conf",
+            "create_dir_config",
+            "create_digest_dir_config",
+            "create_cern_meta_dir_config",
+            "create_session_dbd_dir_config",
+            "create_dir_conf",
+            "create_autoindex_config",
+            "h2_config_create_dir",
+            "create_dir_config.3683",
+            "create_authn_anon_dir_config",
+            "dialup_dcfg_create",
+            "create_request_dir_config",
+            "create_env_dir_config",
+            "create_authz_core_dir_config",
+            "create_authn_file_dir_config",
+            "create_ident_dir_config",
+            "create_logio_dirconf",
+            "create_dir_expires_config",
+            "ssl_config_perdir_create",
+            "create_authz_user_dir_config",
+            "create_cgid_dirconf",
+            "create_access_compat_dir_config",
+            "create_reflector_dir_config",
+            "create_setenvif_config_dir",
+            "create_authn_core_dir_config",
+            "make_cookie_dir",
+            "create_authz_dbm_dir_config",
+            "create_alias_dir_config",
+            "create_auth_basic_dir_config",
+            "create_proxyws_dir_config"
+        ]
+    },
+    {
+        "line": "config.c:2385",
+        "id": "162",
+        "targets": [
+            "ap_mpm_rewrite_args"
+        ]
+    },
+    {
+        "line": "log.c:2006",
+        "id": "165",
+        "targets": [
+            "generate_log_id",
+            "core_generate_log_id"
+        ]
+    },
+    {
+        "line": "connection.c:39",
+        "id": "172",
+        "targets": [
+            "x_create_connection",
+            "core_create_conn"
+        ]
+    },
+    {
+        "line": "connection.c:42",
+        "id": "173",
+        "targets": [
+            "h2_c1_hook_process_connection",
+            "ap_process_http_connection",
+            "x_process_connection",
+            "ssl_hook_process_connection",
+            "reqtimeout_init",
+            "h2_c2_hook_process",
+            "process_echo_connection"
+        ]
+    },
+    {
+        "line": "connection.c:43",
+        "id": "174",
+        "targets": [
+            "x_pre_connection",
+            "core_pre_connection",
+            "remoteip_hook_pre_connection",
+            "event_pre_connection",
+            "ssl_hook_pre_connection",
+            "dumpio_pre_conn",
+            "logio_pre_conn"
+        ]
+    },
+    {
+        "line": "connection.c:44",
+        "id": "175",
+        "targets": [
+            "h2_c1_hook_pre_close"
+        ]
+    },
+    {
+        "line": "mod_authn_file.c:103",
+        "id": "181",
+        "targets": [
+            "ap_authn_cache_store"
+        ]
+    },
+    {
+        "line": "mod_authz_core.c:747",
+        "id": "205",
+        "targets": [
+            "local_check_authorization",
+            "all_check_authorization",
+            "validuser_check_authorization"
+        ]
+    },
+    {
+        "line": "mod_authz_core.c:437",
+        "id": "207",
+        "targets": [
+            "all_parse_config"
+        ]
+    },
+    {
+        "line": "mod_auth_basic.c:375",
+        "id": "211",
+        "targets": [
+            "check_password"
+        ]
+    },
+    {
+        "line": "mod_watchdog.c:175",
+        "id": "276",
+        "targets": [
+            "hc_watchdog_callback"
+        ]
+    },
+    {
+        "line": "mod_watchdog.c:209",
+        "id": "277",
+        "targets": [
+            "hc_watchdog_callback"
+        ]
+    },
+    {
+        "line": "mod_watchdog.c:88",
+        "id": "279",
+        "targets": [
+            "hc_watchdog_callback"
+        ]
+    },
+    {
+        "line": "mod_watchdog.c:699",
+        "id": "283",
+        "targets": [
+            "hb_watchdog_need"
+        ]
+    },
+    {
+        "line": "mod_reqtimeout.c:122",
+        "id": "304",
+        "targets": [
+            "heap_bucket_read"
+        ]
+    },
+    {
+        "line": "mod_include.c:4166",
+        "id": "316",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4167",
+        "id": "317",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4168",
+        "id": "318",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4169",
+        "id": "319",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4170",
+        "id": "320",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4171",
+        "id": "321",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4172",
+        "id": "322",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4173",
+        "id": "323",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4174",
+        "id": "324",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4175",
+        "id": "325",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4176",
+        "id": "326",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_include.c:4177",
+        "id": "327",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "http_protocol.c:188",
+        "id": "437",
+        "targets": [
+            "cache_insert_error_filter",
+            "session_insert_output_filter",
+            "x_insert_error_filter",
+            "expires_insert_filter",
+            "ap_headers_insert_error_filter"
+        ]
+    },
+    {
+        "line": "http_filters.c:1669",
+        "id": "N/A",
+        "targets": [
+            "apr_bucket_free",
+            "heap_bucket_destroy"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1735",
+        "id": "457",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1736",
+        "id": "458",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1737",
+        "id": "459",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1738",
+        "id": "460",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1739",
+        "id": "461",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1740",
+        "id": "462",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1741",
+        "id": "463",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1742",
+        "id": "464",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1743",
+        "id": "465",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1744",
+        "id": "466",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1745",
+        "id": "467",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1746",
+        "id": "468",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1747",
+        "id": "469",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1748",
+        "id": "470",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1749",
+        "id": "471",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1750",
+        "id": "472",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1751",
+        "id": "473",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1752",
+        "id": "474",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1753",
+        "id": "475",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1754",
+        "id": "476",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1755",
+        "id": "477",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1756",
+        "id": "478",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1757",
+        "id": "479",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1758",
+        "id": "480",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1759",
+        "id": "481",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1760",
+        "id": "482",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1761",
+        "id": "483",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1762",
+        "id": "484",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1763",
+        "id": "485",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1764",
+        "id": "486",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1766",
+        "id": "487",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1767",
+        "id": "488",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1177",
+        "id": "489",
+        "targets": [
+            "ap_default_log_writer"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1095",
+        "id": "490",
+        "targets": [
+            "constant_item",
+            "clf_log_bytes_sent",
+            "log_remote_logname",
+            "log_request_line",
+            "log_remote_host",
+            "log_status",
+            "log_remote_user",
+            "log_request_time"
+        ]
+    },
+    {
+        "line": "mod_log_config.c:1416",
+        "id": "491",
+        "targets": [
+            "ap_default_log_writer_init"
+        ]
+    },
+    {
+        "line": "mod_logio.c:197",
+        "id": "492",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_logio.c:198",
+        "id": "493",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_logio.c:199",
+        "id": "494",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_logio.c:200",
+        "id": "495",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "proxy_util.c:2291",
+        "id": "534",
+        "targets": [
+            "http2_get_num_workers"
+        ]
+    },
+    {
+        "line": "mod_proxy_hcheck.c:1144",
+        "id": "580",
+        "targets": [
+            "ap_watchdog_get_instance"
+        ]
+    },
+    {
+        "line": "mod_proxy_hcheck.c:1164",
+        "id": "581",
+        "targets": [
+            "ap_watchdog_register_callback"
+        ]
+    },
+    {
+        "line": "ssl_engine_vars.c:1181",
+        "id": "617",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "ssl_engine_vars.c:1182",
+        "id": "618",
+        "targets": [
+            "ap_register_log_handler"
+        ]
+    },
+    {
+        "line": "mod_optional_hook_export.c:22",
+        "id": "636",
+        "targets": [
+            "ImportOptionalHookTestHook"
+        ]
+    },
+    {
+        "line": "mod_optional_fn_import.c:31",
+        "id": "637",
+        "targets": [
+            "TestOptionalFn"
+        ]
+    },
+    {
+        "line": "mod_lbmethod_heartbeat.c:385",
+        "id": "743",
+        "targets": [
+            "slotmem_attach"
+        ]
+    },
+    {
+        "line": "mod_heartmonitor.c:704",
+        "id": "746",
+        "targets": [
+            "slotmem_create"
+        ]
+    },
+    {
+        "line": "./cgi_common.h:220",
+        "id": "N/A",
+        "targets": [
+            "ap_register_include_handler"
+        ]
+    },
+    {
+        "line": "mod_rewrite.c:4769",
+        "id": "933",
+        "targets": [
+            "ap_register_rewrite_mapfunc"
+        ]
+    },
+    {
+        "line": "mod_rewrite.c:4770",
+        "id": "934",
+        "targets": [
+            "ap_register_rewrite_mapfunc"
+        ]
+    },
+    {
+        "line": "mod_rewrite.c:4771",
+        "id": "935",
+        "targets": [
+            "ap_register_rewrite_mapfunc"
+        ]
+    },
+    {
+        "line": "mod_rewrite.c:4772",
+        "id": "936",
+        "targets": [
+            "ap_register_rewrite_mapfunc"
+        ]
+    },
+    {
+        "line": "mod_rewrite.c:3479",
+        "id": "940",
+        "targets": [
+            "cmd_rewriterule_setflag",
+            "cmd_rewritecond_setflag"
+        ]
+    },
+    {
+        "line": "event.c:2006",
+        "id": "942",
+        "targets": [
+            "ap_unixd_accept"
+        ]
+    },
+    {
+        "line": "event.c:1203",
+        "id": "944",
+        "targets": [
+            "ap_core_output_filter"
+        ]
+    },
+    {
+        "line": "buckets/apr_brigade.c:43",
+        "id": "N/A",
+        "targets": [
+            "error_bucket_destroy",
+            "apr_bucket_free",
+            "heap_bucket_destroy",
+            "apr_bucket_destroy_noop"
+        ]
+    },
+    {
+        "line": "buckets/apr_brigade.c:186",
+        "id": "949",
+        "targets": [
+            "apr_bucket_shared_split"
+        ]
+    },
+    {
+        "line": "buckets/apr_brigade.c:266",
+        "id": "953",
+        "targets": [
+            "mmap_bucket_read",
+            "heap_bucket_read"
+        ]
+    },
+    {
+        "line": "buckets/apr_brigade.c:352",
+        "id": "954",
+        "targets": [
+            "heap_bucket_read",
+            "socket_bucket_read"
+        ]
+    },
+    {
+        "line": "buckets/apr_brigade.c:364",
+        "id": "955",
+        "targets": [
+            "apr_bucket_shared_split"
+        ]
+    },
+    {
+        "line": "buckets/apr_buckets_file.c:91",
+        "id": "976",
+        "targets": [
+            "mmap_bucket_read"
+        ]
+    },
+    {
+        "line": "buckets/apr_buckets_heap.c:36",
+        "id": "978",
+        "targets": [
+            "apr_bucket_free"
+        ]
+    },
+    {
+        "line": "strings/apr_snprintf.c:731",
+        "id": "1036",
+        "targets": [
+            "psprintf_flush"
+        ]
+    },
+    {
+        "line": "strings/apr_snprintf.c:1330",
+        "id": "1039",
+        "targets": [
+            "psprintf_flush"
+        ]
+    },
+    {
+        "line": "tables/apr_tables.c:994",
+        "id": "1050",
+        "targets": [
+            "table_do_fn_check_lengths"
+        ]
+    },
+    {
+        "line": "locks/unix/proc_mutex.c:1604",
+        "id": "1058",
+        "targets": [
+            "proc_mutex_pthread_cleanup"
+        ]
+    },
+    {
+        "line": "locks/unix/proc_mutex.c:1588",
+        "id": "1059",
+        "targets": [
+            "proc_mutex_pthread_tryacquire"
+        ]
+    },
+    {
+        "line": "locks/unix/proc_mutex.c:1549",
+        "id": "1060",
+        "targets": [
+            "proc_mutex_pthread_create"
+        ]
+    },
+    {
+        "line": "locks/unix/proc_mutex.c:1578",
+        "id": "1061",
+        "targets": [
+            "proc_mutex_pthread_child_init"
+        ]
+    },
+    {
+        "line": "locks/unix/proc_mutex.c:1583",
+        "id": "1062",
+        "targets": [
+            "proc_mutex_pthread_acquire"
+        ]
+    },
+    {
+        "line": "locks/unix/proc_mutex.c:1599",
+        "id": "1064",
+        "targets": [
+            "proc_mutex_pthread_release"
+        ]
+    },
+    {
+        "line": "memory/unix/apr_pools.c:2689",
+        "id": "1067",
+        "targets": [
+            "reset_banner",
+            "main_thread_cleanup",
+            "retained_data_cleanup",
+            "x_child_exit",
+            "dso_cleanup",
+            "thread_cond_cleanup",
+            "ssl_init_ModuleKill",
+            "cleanup_global_providers",
+            "queue_info_cleanup",
+            "ap_queue_destroy",
+            "pollset_cleanup",
+            "modssl_ctx_config_cleanup",
+            "socket_cleanup.16913",
+            "shm_cleanup_owner",
+            "thread_mutex_cleanup",
+            "global_mutex_cleanup",
+            "thread_pool_cleanup",
+            "unload_module",
+            "apr_dbd_term",
+            "other_child_cleanup",
+            "deregister_all_hooks",
+            "reslist_cleanup",
+            "event_request_cleanup",
+            "proc_pthread_mutex_unref",
+            "regex_cleanup",
+            "conn_pool_cleanup",
+            "random_cleanup",
+            "decrement_connection_count",
+            "shm_cleanup_wrapper",
+            "eor_bucket_cleanup",
+            "rxplus_cleanup",
+            "wd_worker_cleanup",
+            "brigade_cleanup",
+            "shm_cleanup_wrapper.6002",
+            "ap_mpm_end_gen_helper",
+            "apreg_tls_cleanup",
+            "ssl_cleanup_pre_config",
+            "apr_proc_mutex_cleanup",
+            "filter_cleanup",
+            "ptrans_pre_cleanup",
+            "alloc_cleanup",
+            "dav_cleanup_liveprops",
+            "reset_config_defines",
+            "threadattr_cleanup",
+            "apr_pool_cleanup_null",
+            "unset_signals",
+            "reset_conf_vector_length",
+            "apr_unix_file_cleanup",
+            "ap_pool_cleanup_set_null",
+            "ap_method_registry_destroy",
+            "ap_cleanup_scoreboard",
+            "cleanup_slotmem",
+            "apu_dso_term",
+            "workers_pool_cleanup"
+        ]
+    },
+    {
+        "line": "memory/unix/apr_pools.c:2680",
+        "id": "1074",
+        "targets": [
+            "varbuf_cleanup",
+            "apr_unix_file_cleanup",
+            "dir_cleanup",
+            "thread_cond_cleanup",
+            "mmap_cleanup",
+            "brigade_cleanup",
+            "pollset_cleanup",
+            "socket_cleanup.16913",
+            "shm_cleanup_owner",
+            "thread_mutex_cleanup"
+        ]
+    },
+    {
+        "line": "misc/unix/otherchild.c:46",
+        "id": "1080",
+        "targets": [
+            "cgid_maint"
+        ]
+    },
+    {
+        "line": "poll/unix/pollset.c:150",
+        "id": "1092",
+        "targets": [
+            "impl_pollset_create.17252"
+        ]
+    },
+    {
+        "line": "poll/unix/pollset.c:251",
+        "id": "1094",
+        "targets": [
+            "impl_pollset_add.17253"
+        ]
+    },
+    {
+        "line": "poll/unix/pollset.c:38",
+        "id": "1095",
+        "targets": [
+            "impl_pollset_cleanup"
+        ]
+    },
+    {
+        "line": "poll/unix/pollset.c:257",
+        "id": "1096",
+        "targets": [
+            "impl_pollset_remove.17254"
+        ]
+    },
+    {
+        "line": "poll/unix/pollset.c:265",
+        "id": "1097",
+        "targets": [
+            "impl_pollset_poll.17255"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:153",
+        "id": "1098",
+        "targets": [
+            "sha256_init"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:154",
+        "id": "1099",
+        "targets": [
+            "sha256_add"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:155",
+        "id": "1100",
+        "targets": [
+            "sha256_add"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:156",
+        "id": "1101",
+        "targets": [
+            "sha256_finish"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:251",
+        "id": "N/A",
+        "targets": [
+            "sha256_add",
+            "sha256_finish",
+            "sha256_init"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:202",
+        "id": "1105",
+        "targets": [
+            "sha256_init"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:203",
+        "id": "1106",
+        "targets": [
+            "sha256_add"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:206",
+        "id": "1107",
+        "targets": [
+            "sha256_add"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:209",
+        "id": "1108",
+        "targets": [
+            "sha256_finish"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:265",
+        "id": "N/A",
+        "targets": [
+            "sha256_add",
+            "sha256_finish",
+            "sha256_init"
+        ]
+    },
+    {
+        "line": "random/unix/apr_random.c:266",
+        "id": "N/A",
+        "targets": [
+            "sha256_add",
+            "sha256_finish",
+            "sha256_init"
+        ]
+    },
+    {
+        "line": "threadproc/unix/signals.c:382",
+        "id": "1121",
+        "targets": [
+            "check_signal"
+        ]
+    },
+    {
+        "line": "threadproc/unix/thread.c:165",
+        "id": "1122",
+        "targets": [
+            "thread_pool_func",
+            "slot_run",
+            "start_threads",
+            "worker_thread",
+            "listener_thread",
+            "wd_worker"
+        ]
+    }
+]

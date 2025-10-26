@@ -24,27 +24,28 @@ $SACK/AFL/afl-clang-fast-indirect-flip httpd.bc -o httpd.fuzz -L/song/apache-htt
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/tools/copy_tools.sh $SACK .
+bash $SACK/scripts/apache/a1_auth/copy_tools.sh $SACK .
 objdump -d ./httpd.fuzz | grep ">:" > ./log/func_map
+python3 subgt_addresslog_gen.py ./subgt.json
 
-# -------------------- put your corpus here ------------------------------------
+# -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
-# NOTE: put your corpus for next step!
-# mkdir corpus; 
-# cp <your testcases> corpus/
 
-# -------------------- do branch flipping --------------------------------------
+
+
+# -------------------- do substitution --------------------------------------
+# in current folder
+
+# terminal 1
 # python3 send_request.auth.py
+
+# terminal 2
 # export AFL_NO_AFFINITY=1
+# export SACK=/ae-sack
 # $SACK/AFL/afl-fuzz -d -c ./log/sack.conf -m none -i ./input/ -o ./output/ -t 1000+ -- ./httpd.fuzz -X -d /usr/local/apache2
 
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the ./bin/sbin/ folder
+# use analyze.sh at the bin/sbin/ folder
 
-# # -------------------- corruptibility assessment (auto) ------------------------
-
-# # assess syscall-guard variables
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot br -- ./sqlite3_rate
-# # assess arguments of triggered syscalls
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot arg -- ./sqlite3_rate
+# the result is in the result.*/ folder report_unique.txt
