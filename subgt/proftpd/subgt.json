@@ -213,6 +213,13 @@
         ]
     },
     {
+        "line": "netio.c:1416",
+        "id": "101",
+        "targets": [
+            "core_netio_read_cb"
+        ]
+    },
+    {
         "line": "modules.c:59",
         "id": "112",
         "targets": [
@@ -300,7 +307,10 @@
             "ban_pre_pass",
             "core_pasv",
             "pw_uid2name",
-            "ls_log_nlst"
+            "ls_log_nlst",
+            "xfer_stor",
+            "xfer_post_stor",
+            "xfer_log_stor"
         ]
     },
     {
@@ -368,6 +378,13 @@
         ]
     },
     {
+        "line": "fsio.c:5334",
+        "id": "131",
+        "targets": [
+            "sys_write"
+        ]
+    },
+    {
         "line": "fsio.c:1599",
         "id": "135",
         "targets": [
@@ -416,6 +433,13 @@
         "id": "144",
         "targets": [
             "sys_readdir"
+        ]
+    },
+    {
+        "line": "fsio.c:5387",
+        "id": "152",
+        "targets": [
+            "sys_lseek"
         ]
     },
     {
