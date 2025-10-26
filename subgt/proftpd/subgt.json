@@ -56,7 +56,8 @@
         "id": "19",
         "targets": [
             "key_hash",
-            "uid_hash_cb"
+            "uid_hash_cb",
+            "gid_hash_cb"
         ]
     },
     {
@@ -261,6 +262,7 @@
             "set_systemlog",
             "delay_pre_user",
             "ls_post_pass",
+            "ls_list",
             "pw_getpwent",
             "set_trace",
             "set_maxloginattempts",
@@ -275,6 +277,7 @@
             "set_maxclients",
             "delay_log_pass",
             "xfer_post_pass",
+            "xfer_type",
             "core_pre_any",
             "auth_user",
             "auth_pass",
@@ -294,7 +297,10 @@
             "end_ifmodule",
             "set_tracelog",
             "pw_getgrent",
-            "ban_pre_pass"
+            "ban_pre_pass",
+            "core_pasv",
+            "pw_uid2name",
+            "ls_log_nlst"
         ]
     },
     {
@@ -438,7 +444,10 @@
             "log_exit_ev",
             "core_postparse_ev",
             "core_startup_ev",
-            "rlimit_chroot_ev"
+            "rlimit_chroot_ev",
+            "ctrls_shutdown_ev",
+            "ban_shutdown_ev",
+            "delay_shutdown_ev"
         ]
     },
     {

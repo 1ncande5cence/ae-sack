@@ -39,8 +39,8 @@ echo "Environment ready in $result_dir"
 
 
 # full successful attack
-# (this grep value need to be changed to the start of the running directory)
-grep -rl "/methodology-ae" ./oracle/ | xargs grep -l "dir_check_full" | cut -d"/" -f3 | sort -u > full_success_attack_pre.log
+# (this grep value need to be changed to match your user)
+grep -rl "/home/test" ./oracle/ | xargs grep -l "dir_check_full" | cut -d"/" -f3 | sort -u > full_success_attack_pre.log
 
 # change oracle file format to general format (319_6334080@0x60a680@_2 -> 319_6334080(0x60a680)_2)
 
