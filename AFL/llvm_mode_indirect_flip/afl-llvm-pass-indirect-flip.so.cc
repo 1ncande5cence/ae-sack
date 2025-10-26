@@ -385,7 +385,7 @@ bool AFLCoverage::runOnModule(Module &M) {
 
                   /* Update bitmap to represent we already perform the flipping*/
       
-                  
+                  if (!g_fake_instrument) {
                   LoadInst *MapPtr_ = builder.CreateLoad(AFLMapPtr);
                   MapPtr_->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
 
@@ -394,12 +394,15 @@ bool AFLCoverage::runOnModule(Module &M) {
                   
                   // LoadInst *Flip_value = builder.CreateLoad(FlipPtrIdx);
                   // Flip_value->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
+                  
                   builder.CreateStore(flipped, FlipPtrIdx)
                       ->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-              
+                  }
               }
-              else
+              else {
+                errs() <<"Handling:" << F.getName() << "\n";
                 errs() << "LoadInst Not Found\n";
+              }
           }
         
         }
