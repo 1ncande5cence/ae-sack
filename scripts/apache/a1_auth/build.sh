@@ -31,10 +31,16 @@ python3 subgt_addresslog_gen.py ./subgt.json
 # -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
 
+# -------------------- first dry-run to collect target ------------------------------------
+
+# ./httpd.fuzz -X -d /usr/local/apache2
+# curl -u song:secret http://localhost/private/
+# mv log/address_log log/subgt-extract/success_log
 
 
 # -------------------- do substitution --------------------------------------
 # in current folder
+
 
 # terminal 1
 # python3 send_request.auth.py
