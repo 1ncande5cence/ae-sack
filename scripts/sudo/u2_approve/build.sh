@@ -44,7 +44,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 ./sudo.fuzz ls /root || true
 mv log/address_log log/subgt-extract/success_log
 
-# -------------------- do branch flipping --------------------------------------
+# -------------------- do substitute--------------------------------------
 # cd src/bin
 # export AFL_NO_AFFINITY=1
 # export SACK=/ae-sack

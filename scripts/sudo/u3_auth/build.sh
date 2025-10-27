@@ -21,11 +21,10 @@ cp src/sudo src/bin/
 cd src/bin
 extract-bc sudo
 export EXTRA_LDFLAGS="-lutil -lsudo_util -lcrypt -lpthread -lc -ldl -lz -lssl -lcrypto"
-export LD_LIBRARY_PATH=/usr/local/libexec/sudo:$LD_LIBRARY_PATH
 
 mkdir -p ./log
-cp $SACK/scripts/sudo/u1_log/sack.conf ./log/
-cp $SACK/scripts/sudo/u1_log/ban_line.list ./log/
+cp $SACK/scripts/sudo/u3_auth/sack.conf ./log/
+cp $SACK/scripts/sudo/u3_auth/ban_line.list ./log/
 
 $SACK/AFL/afl-clang-fast-indirect-flip sudo.bc -o sudo.fuzz -L/usr/local/libexec/sudo/ -Wl,-rpath, /usr/local/libexec/sudo/ $EXTRA_LDFLAGS
 
@@ -33,23 +32,26 @@ chmod 4755 ./sudo.fuzz
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/tools/copy_tools.sh $SACK .
+bash $SACK/scripts/sudo/u3_auth/copy_tools.sh $SACK .
 objdump -d ./sudo.fuzz | grep ">:" > ./log/func_map
+python3 subgt_addresslog_gen.py ./subgt.json
 
-# -------------------- put your corpus here ------------------------------------
+# -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
-# NOTE: put your corpus for next step!
-# mkdir corpus; 
-# cp <your testcases> corpus/
 
-# -------------------- do branch flipping --------------------------------------
+# -------------------- first dry-run to collect target ------------------------------------
+
+# ./sudo.fuzz -S ls /root
+# mv log/address_log log/subgt-extract/success_log
+
+# -------------------- do subsititute --------------------------------------
 # cd src/bin
 # export AFL_NO_AFFINITY=1
+# export SACK=/ae-sack
 # $SACK/AFL/afl-fuzz -c ./log/sack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sudo.fuzz -S ls /root
 
-# # -------------------- corruptibility assessment (auto) ------------------------
+# -------------------- result analysis --------------------------------------
 
-# # assess syscall-guard variables
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot br -- ./sqlite3_rate
-# # assess arguments of triggered syscalls
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot arg -- ./sqlite3_rate
+# use analyze.sh at the bin/sbin/ folder
+
+# the result is in the result.*/ folder report_unique.txt
