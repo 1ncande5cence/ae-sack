@@ -1,0 +1,517 @@
+[
+    {
+        "line": "./exec_iolog.c:355",
+        "id": "5",
+        "targets": [
+            "sudoers_io_log_stdin"
+        ]
+    },
+    {
+        "line": "./exec_iolog.c:395",
+        "id": "6",
+        "targets": [
+            "sudoers_io_log_ttyout"
+        ]
+    },
+    {
+        "line": "./exec_iolog.c:446",
+        "id": "7",
+        "targets": [
+            "sudoers_io_log_stdout"
+        ]
+    },
+    {
+        "line": "./exec_nopty.c:376",
+        "id": "11",
+        "targets": [
+            "log_stdout",
+            "log_stdin"
+        ]
+    },
+    {
+        "line": "./exec_pty.c:430",
+        "id": "18",
+        "targets": [
+            "log_ttyout"
+        ]
+    },
+    {
+        "line": "./hooks.c:100",
+        "id": "21",
+        "targets": [
+            "sudoers_hook_getenv"
+        ]
+    },
+    {
+        "line": "./load_plugins.c:330",
+        "id": "23",
+        "targets": [
+            "sudoers_policy_register_hooks"
+        ]
+    },
+    {
+        "line": "./sudo.c:1203",
+        "id": "28",
+        "targets": [
+            "sudoers_policy_open"
+        ]
+    },
+    {
+        "line": "./sudo.c:1281",
+        "id": "41",
+        "targets": [
+            "sudoers_policy_check"
+        ]
+    },
+    {
+        "line": "./sudo.c:1794",
+        "id": "44",
+        "targets": [
+            "sudoers_audit_accept"
+        ]
+    },
+    {
+        "line": "./sudo.c:1238",
+        "id": "45",
+        "targets": [
+            "sudoers_policy_close"
+        ]
+    },
+    {
+        "line": "./sudo.c:1564",
+        "id": "47",
+        "targets": [
+            "sudoers_io_close"
+        ]
+    },
+    {
+        "line": "./sudo.c:1500",
+        "id": "51",
+        "targets": [
+            "sudoers_io_open"
+        ]
+    },
+    {
+        "line": "./sudo.c:1832",
+        "id": "54",
+        "targets": [
+            "sudoers_audit_reject"
+        ]
+    },
+    {
+        "line": "./sudo.c:1654",
+        "id": "55",
+        "targets": [
+            "sudoers_audit_open"
+        ]
+    },
+    {
+        "line": "./sudo.c:1454",
+        "id": "57",
+        "targets": [
+            "sudoers_policy_init_session"
+        ]
+    },
+    {
+        "line": "./event.c:721",
+        "id": "63",
+        "targets": [
+            "read_callback",
+            "write_callback.317",
+            "backchannel_cb",
+            "signal_cb_nopty",
+            "mon_errsock_cb",
+            "mon_signal_cb",
+            "read_callback.316",
+            "write_callback",
+            "errpipe_cb"
+        ]
+    },
+    {
+        "line": "./sudo_conf.c:758",
+        "id": "78",
+        "targets": [
+            "parse_plugin",
+            "parse_debug"
+        ]
+    },
+    {
+        "line": "./secure_path.c:194",
+        "id": "84",
+        "targets": [
+            "open_file"
+        ]
+    },
+    {
+        "line": "./iolog.c:834",
+        "id": "116",
+        "targets": [
+            "sudoers_io_open_local"
+        ]
+    },
+    {
+        "line": "./iolog.c:920",
+        "id": "117",
+        "targets": [
+            "sudoers_io_close_local"
+        ]
+    },
+    {
+        "line": "./iolog.c:1078",
+        "id": "121",
+        "targets": [
+            "sudoers_io_log_local"
+        ]
+    },
+    {
+        "line": "./policy.c:1378",
+        "id": "170",
+        "targets": [
+            "register_hook"
+        ]
+    },
+    {
+        "line": "./sudoers.c:241",
+        "id": "N/A",
+        "targets": [
+            "sudo_file_parse",
+            "sudo_file_open"
+        ]
+    },
+    {
+        "line": "./sudoers.c:248",
+        "id": "174",
+        "targets": [
+            "sudo_file_getdefs"
+        ]
+    },
+    {
+        "line": "./sudoers.c:1514",
+        "id": "175",
+        "targets": [
+            "sudo_file_close"
+        ]
+    },
+    {
+        "line": "./defaults.c:353",
+        "id": "198",
+        "targets": [
+            "cb_log_input",
+            "cb_logfile",
+            "cb_intercept_type",
+            "cb_log_output",
+            "cb_intercept_allow_setid"
+        ]
+    },
+    {
+        "line": "./pwutil.c:236",
+        "id": "209",
+        "targets": [
+            "sudo_make_pwitem"
+        ]
+    },
+    {
+        "line": "./pwutil.c:307",
+        "id": "210",
+        "targets": [
+            "sudo_make_pwitem"
+        ]
+    },
+    {
+        "line": "./pwutil.c:556",
+        "id": "211",
+        "targets": [
+            "sudo_make_gritem"
+        ]
+    },
+    {
+        "line": "./pwutil.c:891",
+        "id": "213",
+        "targets": [
+            "sudo_make_grlist_item"
+        ]
+    },
+    {
+        "line": "./pwutil.c:1033",
+        "id": "215",
+        "targets": [
+            "sudo_make_gidlist_item"
+        ]
+    },
+    {
+        "line": "./pwutil.c:1094",
+        "id": "216",
+        "targets": [
+            "sudo_make_gidlist_item"
+        ]
+    },
+    {
+        "line": "./pwutil.c:1192",
+        "id": "217",
+        "targets": [
+            "strcasecmp"
+        ]
+    },
+    {
+        "line": "./redblack.c:187",
+        "id": "219",
+        "targets": [
+            "cmp_gidlist",
+            "cmp_pwnam",
+            "cmp_grgid"
+        ]
+    },
+    {
+        "line": "./redblack.c:204",
+        "id": "220",
+        "targets": [
+            "cmp_gidlist",
+            "cmp_pwnam",
+            "cmp_grgid"
+        ]
+    },
+    {
+        "line": "./redblack.c:285",
+        "id": "221",
+        "targets": [
+            "cmp_gidlist",
+            "cmp_pwnam",
+            "cmp_grgid"
+        ]
+    },
+    {
+        "line": "./redblack.c:355",
+        "id": "225",
+        "targets": [
+            "sudo_grlist_delref_item",
+            "sudo_gr_delref_item",
+            "canon_path_free_item",
+            "sudo_pw_delref_item",
+            "sudo_gidlist_delref_item"
+        ]
+    },
+    {
+        "line": "toke.l:129",
+        "id": "227",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:143",
+        "id": "229",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:158",
+        "id": "232",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:165",
+        "id": "233",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:180",
+        "id": "234",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:214",
+        "id": "240",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:225",
+        "id": "242",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:408",
+        "id": "259",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:448",
+        "id": "265",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:583",
+        "id": "289",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:626",
+        "id": "296",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:781",
+        "id": "320",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:791",
+        "id": "321",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:804",
+        "id": "323",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:809",
+        "id": "324",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:819",
+        "id": "326",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:824",
+        "id": "327",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:850",
+        "id": "330",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "toke.l:875",
+        "id": "332",
+        "targets": [
+            "sudoers_trace_print"
+        ]
+    },
+    {
+        "line": "./iolog_path.c:76",
+        "id": "334",
+        "targets": [
+            "fill_seq"
+        ]
+    },
+    {
+        "line": "./eventlog.c:1161",
+        "id": "335",
+        "targets": [
+            "sudoers_log_open"
+        ]
+    },
+    {
+        "line": "./eventlog.c:1205",
+        "id": "336",
+        "targets": [
+            "sudoers_log_close"
+        ]
+    },
+    {
+        "line": "./eventlog.c:1002",
+        "id": "340",
+        "targets": [
+            "sudoers_log_open"
+        ]
+    },
+    {
+        "line": "./eventlog.c:1047",
+        "id": "341",
+        "targets": [
+            "sudoers_log_close"
+        ]
+    },
+    {
+        "line": "./auth/sudo_auth.c:117",
+        "id": "344",
+        "targets": [
+            "sudo_passwd_init"
+        ]
+    },
+    {
+        "line": "./auth/sudo_auth.c:216",
+        "id": "346",
+        "targets": [
+            "sudo_passwd_cleanup"
+        ]
+    },
+    {
+        "line": "./env.c:1369",
+        "id": "361",
+        "targets": [
+            "env_file_open_local"
+        ]
+    },
+    {
+        "line": "./env.c:1375",
+        "id": "362",
+        "targets": [
+            "env_file_next_local"
+        ]
+    },
+    {
+        "line": "./env.c:1397",
+        "id": "363",
+        "targets": [
+            "env_file_close_local"
+        ]
+    },
+    {
+        "line": "./lookup.c:528",
+        "id": "369",
+        "targets": [
+            "sudo_file_query"
+        ]
+    },
+    {
+        "line": "./lookup.c:284",
+        "id": "376",
+        "targets": [
+            "cb_lookup"
+        ]
+    },
+    {
+        "line": "./strvec_join.c:60",
+        "id": "377",
+        "targets": [
+            "sudo_strlcpy"
+        ]
+    }
+]

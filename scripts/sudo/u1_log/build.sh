@@ -21,7 +21,6 @@ cp src/sudo src/bin/
 cd src/bin
 extract-bc sudo
 export EXTRA_LDFLAGS="-lutil -lsudo_util -lcrypt -lpthread -lc -ldl -lz -lssl -lcrypto"
-export LD_LIBRARY_PATH=/usr/local/libexec/sudo:$LD_LIBRARY_PATH
 
 mkdir -p ./log
 cp $SACK/scripts/sudo/u1_log/sack.conf ./log/
@@ -34,23 +33,26 @@ chmod 4755 ./sudo.fuzz
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/tools/copy_tools.sh $SACK .
+bash $SACK/scripts/sudo/u1_log/copy_tools.sh $SACK .
 objdump -d ./sudo.fuzz | grep ">:" > ./log/func_map
+python3 subgt_addresslog_gen.py ./subgt.json
 
-# -------------------- put your corpus here ------------------------------------
+# -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
-# NOTE: put your corpus for next step!
-# mkdir corpus; 
-# cp <your testcases> corpus/
+
+# -------------------- first dry-run to collect target ------------------------------------
+
+./sudo.fuzz ls /root
+mv log/address_log log/subgt-extract/success_log
 
 # -------------------- do branch flipping --------------------------------------
 # cd src/bin
 # export AFL_NO_AFFINITY=1
+# export SACK=/ae-sack
 # $SACK/AFL/afl-fuzz -c ./log/sack.conf -d -m 100M -i ./input/ -o ./output/ -t 1000+ -- ./sudo.fuzz ls /root
 
-# # -------------------- corruptibility assessment (auto) ------------------------
+# -------------------- result analysis --------------------------------------
 
-# # assess syscall-guard variables
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot br -- ./sqlite3_rate
-# # assess arguments of triggered syscalls
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot arg -- ./sqlite3_rate
+# use analyze.sh at the bin/sbin/ folder
+
+# the result is in the result.*/ folder report_unique.txt
