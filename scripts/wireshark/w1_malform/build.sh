@@ -31,30 +31,25 @@ $SACK/AFL/afl-clang-fast-indirect-flip tshark.bc -o tshark.fuzz -lpcap -lgmodule
 
 # -------------------- prepare tools and environments --------------------------
 
-bash $SACK/tools/copy_tools.sh $SACK .
+bash $SACK/scripts/wireshark/w1_malform/copy_tools.sh $SACK .
 objdump -d ./tshark.fuzz | grep ">:" > ./log/func_map
+python3 subgt_addresslog_gen.py ./subgt.json
 mkdir input
-mkdir log/subgt-extract
 cp $SACK/scripts/wireshark/w1_malform/malformed.pcap input/
 
-# -------------------- put your corpus here ------------------------------------
+# -------------------- corpus is copied  ------------------------------------
 
-# NOTE: put your corpus for next step!
-# mkdir corpus; 
-# cp <your testcases> corpus/
 
-# -------------------- do branch flipping --------------------------------------
+# -------------------- do substitution --------------------------------------
+# in ./build/run/ folder
+
 # export AFL_NO_AFFINITY=1
-# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m none -i ./input/ -o ./output/ -t 5000+ -- ./tshark.fuzz -r @@
+# export SACK=/ae-sack
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m none -i ./input/ -o ./output/ -t 1000+ -- ./tshark.fuzz -r @@
 
 
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the ./bin/sbin/ folder
+# use analyze.sh at the bin/sbin/ folder
 
-# # -------------------- corruptibility assessment (auto) ------------------------
-
-# # assess syscall-guard variables
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot br -- ./sqlite3_rate
-# # assess arguments of triggered syscalls
-# python3 auto_rator.py ./sqlite3.bc ./dot/temp.dot arg -- ./sqlite3_rate
+# the result is in the result.*/ folder report_unique.txt
