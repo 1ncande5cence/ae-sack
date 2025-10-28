@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail 
+set -euo pipefail
 
 # Script for Proftpd user-privilege P3
 
@@ -15,9 +15,9 @@ make -j$(nproc)
 
 # -------------------- build flip binaries -----------------------------------
 
-mkdir bin_oracle3_user_priv 
+mkdir bin_oracle3_user_priv
 cp proftpd bin_oracle3_user_priv/
-cd bin_oracle3_user_priv 
+cd bin_oracle3_user_priv
 extract-bc proftpd
 export EXTRA_LDFLAGS="-lcrypt -lc -ldl"
 mkdir -p ./log
@@ -43,6 +43,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 # export AFL_NO_AFFINITY=1
 # export SACK=/ae-sack
 # (this -c path and the path in the proftpd.conf need to be absolute path)
+# for your proftpd.passwd, you need to modify the sack.conf system_command to add "chmod 600 /path/to/file/proftpd.passwd"
 # $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /methodology.new/proftpd-collection/proftpd/bin/proftpd.conf -d 5 -X
 
 
