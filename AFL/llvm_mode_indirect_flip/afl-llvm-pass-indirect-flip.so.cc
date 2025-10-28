@@ -31,6 +31,7 @@
 
 #define AFL_LLVM_PASS
 
+#include <unordered_set>
 #include "../config.h"
 #include "../debug.h"
 
@@ -60,7 +61,11 @@
 #include "llvm/IR/Dominators.h"
 #include "llvm/Transforms/Utils/BasicBlockUtils.h"
 
+#include "llvm/Support/Regex.h"
+
 using namespace llvm;
+typedef std::unordered_set<Value*> ValueSet;
+typedef std::list<Value*> ValueList;
 
 namespace {
 
@@ -176,6 +181,107 @@ void parseFromConfig() {
 }
 
 
+void find_LoadInst(Value *data, ValueSet *ldset) {
+  ValueList worklist;
+  ValueSet visited;
+  worklist.push_back(data);
+  // First, find the load instructions that load the value.
+  while(worklist.size()) {
+    auto v = worklist.back();
+    worklist.pop_back();
+    if (visited.count(v))
+      continue;
+    visited.insert(v);
+
+    // if (isVal && isa<PointerType>(v->getType())) {
+    //   continue;
+    // }
+    // if (debug)
+    //   print_debug(v);
+
+    if (isa<Argument>(v)) {
+      errs() << "Argument, not supported \n";
+      // auto arg = cast<Argument>(v);
+      // auto argno = arg->getArgNo();
+      // auto func = arg->getParent();
+      // for (auto u : func->users()) {
+      //   if (!isa<CallInst>(u))
+      //     continue;
+      //   if (cast<CallInst>(u)->getCalledFunction() != func)
+      //     continue;
+      //   if (cast<CallInst>(u)->arg_size() <= argno)
+      //     continue;
+      //   worklist.push_back(cast<CallInst>(u)->getArgOperand(argno));
+      // }
+      continue;
+    }
+
+    if (!isa<Instruction>(v))
+      continue;
+
+    auto ii = cast<Instruction>(v);
+
+    switch(ii->getOpcode()) {
+      case Instruction::Load:
+        // we don't collect pointer type data
+        // if (isVal && isa<PointerType>(ii->getType()))
+        //   continue;
+        ldset->insert(ii);
+        break;
+      case Instruction::Call: {
+        errs() << "Call, not supported \n";
+        break;
+      //   FunctionSet funcs;
+      //   get_call_dest(ii, funcs);
+      //   for (auto callee : funcs) {
+      //     if (callee->isDeclaration())
+      //       continue;
+      //     // if (is_skip_func(callee))
+      //     //   continue;
+      //     if (!callee->back().getTerminator())
+      //       continue;
+      //     worklist.push_back(callee->back().getTerminator());
+      //   }
+      //   break;
+      }
+      case Instruction::Select:
+        worklist.push_back(ii->getOperand(1));
+        worklist.push_back(ii->getOperand(2));
+        break;
+      case Instruction::Trunc:
+      case Instruction::ICmp:
+      case Instruction::Add:
+      case Instruction::And:
+      case Instruction::Xor:
+      case Instruction::Or:
+      case Instruction::Sub:
+      case Instruction::Shl:
+      case Instruction::LShr:
+      case Instruction::AShr:
+        errs() << "Math Cal, not supported \n";
+        break;
+        // if (!isVal)
+        //   break;
+      case Instruction::PHI:
+      case Instruction::BitCast:
+      case Instruction::IntToPtr:
+      case Instruction::PtrToInt:
+      case Instruction::ZExt:
+      case Instruction::SExt:
+      case Instruction::Ret:
+      case Instruction::ExtractValue: //additional for v8
+        for (int i=0; i<ii->getNumOperands(); i++) {
+          worklist.push_back(ii->getOperand(i));
+        }
+        break;
+      default:
+        break;
+    }
+  }
+}
+
+
+
 bool AFLCoverage::runOnModule(Module &M) {
 
   LLVMContext &C = M.getContext();
@@ -281,6 +387,131 @@ bool AFLCoverage::runOnModule(Module &M) {
         //I.print(errs());
 
         //if (jump_collect) break;
+        // HY: add support for invoke, ugly version, need to merge this one with normal call later
+        if (InvokeInst *II = dyn_cast<InvokeInst>(&I)) { // instruction is a call instruction
+          Function * calledF = dyn_cast<Function>(II->getCalledOperand()->stripPointerCasts());   // exclude cast operations
+          //Function * calledF = CI->getCalledFunction();
+          if (calledF==nullptr) { 
+            // HY: mute print
+            errs() <<"Found invoke indirect call" << "\n";
+            IRBuilder<> builder(II);
+
+            /* Debug Code */
+            //I.print(errs());
+              std::string InstrStr;
+              llvm::raw_string_ostream OS(InstrStr);
+              I.print(OS);
+
+              if (StringRef(InstrStr).contains("} asm ") or StringRef(InstrStr).contains("i8 asm ") or StringRef(InstrStr).contains("* asm ") or StringRef(InstrStr).contains("void asm ") or StringRef(InstrStr).contains(" asm ")) {
+                    // Your code when "asm" is found in the instruction
+                    // Do something here
+                    errs() << "Found asm in the instruction\n";
+                    errs() << "Inst:" << InstrStr << "\n";
+                    continue;
+                }
+              
+
+            // summary dbg info
+            const DILocation *DIB = II->getDebugLoc();
+            std::string debug_info;
+            if (DIB != nullptr) {
+              debug_info = DIB->getFilename().str() + ":" + std::to_string(DIB->getLine())+ "        " + F.getName().str() + "\n";
+            } else {
+              debug_info = "no debug info\n";
+            }
+            
+
+            /* Debug Code */
+            //errs()<< debug_info << "\n";
+
+            // Check if this branch matches any line in ban_line.list
+            std::string icall_compare_debug_info = debug_info;
+            if (!icall_compare_debug_info.empty() && icall_compare_debug_info.back() == '\n') {
+                icall_compare_debug_info.erase(icall_compare_debug_info.find_last_not_of(" \t\r\n") + 1);
+            }
+
+            if (checkBanLineMatch(icall_compare_debug_info)) {
+                errs() <<"Found ban line match ban_line.list:" << icall_compare_debug_info << "\n";
+                g_fake_instrument = true;  // if match, we don't instrument this branch for some important function, but log all the things
+            }
+
+            std::string id_debug_pair = std::to_string(icall_id) + " " + debug_info;
+            size_t str_length = strlen(id_debug_pair.c_str());
+            //mkdir("log",0755); 
+            size_t written = fwrite(id_debug_pair.c_str(), 1, str_length, line_log);
+            if (written != str_length)
+              perror("failed to write to line_log");
+            
+            Value *call_address = II->getCalledOperand(); //Return the pointer to function that is being called
+            auto *icall_id_ = builder.getInt64(icall_id++);
+            
+            std::vector<Value *> record_icall_args = {call_address, icall_id_}; 
+            builder.CreateCall(record_icall,record_icall_args);
+
+            /*temporary disable flip_icall_target*/
+          }
+        
+        
+          /* Add load instruction tracing*/
+          if (calledF==nullptr) {
+              std::string InstrStr;
+              llvm::raw_string_ostream OS(InstrStr);
+              I.print(OS);
+
+              if (StringRef(InstrStr).contains("} asm ") or StringRef(InstrStr).contains("i8 asm ") or StringRef(InstrStr).contains("* asm ") or StringRef(InstrStr).contains("void asm ") or StringRef(InstrStr).contains(" asm ")) {
+                    // Your code when "asm" is found in the instruction
+                    // Do something here
+                    errs() << "Found asm in the instruction\n";
+                    errs() << "Inst:" << InstrStr << "\n";
+                    continue;
+              }
+              // errs() << "Found icall\n";
+              // Check if the called value is loaded from a pointer
+              Value *calledValue = II->getCalledOperand();
+              // errs() << "Called Operand Value: " << *calledValue << "\n";
+              if (auto *loadInst = dyn_cast<LoadInst>(calledValue)) {
+                  // errs() << "Found loadInst\n";
+                  IRBuilder<> builder(loadInst); // Insert before the load instruction
+              
+
+                  Value *load_address = loadInst->getPointerOperand();
+                  
+                  /* pass store id (currently it is the same with icall id)*/
+                  auto *icall_id_ = builder.getInt64(icall_id-1);
+
+                  std::vector<Value *> modify_mem_arg = {load_address,icall_id_};
+                  Value *flipped = builder.getInt64(0);
+                  /* Insert a call to modify_memory (ptrToModify) [before load operation] */
+                  if (!g_fake_instrument) {
+                    flipped = builder.CreateCall(modifyMemFunc, modify_mem_arg);
+                  }
+                  else { errs() <<"fake instrument[1/1],not instrument to modify memory"<< "\n";}
+
+
+                  /* Update bitmap to represent we already perform the flipping*/
+      
+                  if (!g_fake_instrument) {                  
+                  LoadInst *MapPtr_ = builder.CreateLoad(AFLMapPtr);
+                  MapPtr_->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
+
+                  Value *FlipPtrIdx = 
+                      builder.CreateGEP(MapPtr_, ConstantInt::get(Int32Ty, MAP_SIZE)); // increase share memory by 1
+                  
+                  // LoadInst *Flip_value = builder.CreateLoad(FlipPtrIdx);
+                  // Flip_value->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
+                  builder.CreateStore(flipped, FlipPtrIdx)
+                      ->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
+                  }
+              
+              }
+              // HY: mute print
+              // else
+              //   errs() << "LoadInst Not Found\n";
+          }
+        
+        }
+
+
         if (CallInst *CI = dyn_cast<CallInst>(&I)) { // instruction is a call instruction
           Function * calledF = dyn_cast<Function>(CI->getCalledOperand()->stripPointerCasts());   // exclude cast operations
           //Function * calledF = CI->getCalledFunction();
@@ -300,7 +531,15 @@ bool AFLCoverage::runOnModule(Module &M) {
                     errs() << "Found asm in the instruction\n";
                     continue;
                 }
-              
+
+              llvm::Regex pattern(".*@.*\\{.*");  // string contains '@' followed by '{'
+              if (pattern.match(StringRef(InstrStr))) {
+                    // Your code when "asm" is found in the instruction
+                    // Do something here
+                    errs() << "(icall recording) Unknown calltype in the instruction, continue\n";
+                    errs() << "Inst:" << InstrStr << "\n";
+                    continue;
+                }
 
             // summary dbg info
             const DILocation *DIB = CI->getDebugLoc();
@@ -354,54 +593,81 @@ bool AFLCoverage::runOnModule(Module &M) {
                     errs() << "Found asm in the instruction\n";
                     continue;
               }
+
+              llvm::Regex pattern(".*@.*\\{.*");  // string contains '@' followed by '{'
+              if (pattern.match(StringRef(InstrStr))) {
+                    // Your code when "asm" is found in the instruction
+                    // Do something here
+                    errs() << "(icall load instrument) Unknown calltype in the instruction, continue\n";
+                    errs() << "Inst:" << InstrStr << "\n";
+                    continue;
+                }
+
               // errs() << "Found icall\n";
+              std::string InstrStr2;
+              llvm::raw_string_ostream OS2(InstrStr2);
+              CI->print(OS2);  // or I.print(OS) – both are fine here
+              errs() << "Indirect call instruction: " << OS2.str() << "\n";
+              
               // Check if the called value is loaded from a pointer
               Value *calledValue = CI->getCalledOperand();
               // errs() << "Called Operand Value: " << *calledValue << "\n";
-              if (auto *loadInst = dyn_cast<LoadInst>(calledValue)) {
-                  // errs() << "Found loadInst\n";
-                  IRBuilder<> builder(loadInst); // Insert before the load instruction
+
+              ValueSet loadset;
+              find_LoadInst(calledValue, &loadset);
               
-                  // //Cast the pointer operand to i8** to match modify_memory(void**)
-                  // Value *ptrToModify = builder.CreateBitCast(
-                  //   loadInst->getPointerOperand(),
-                  //   PointerType::get(Type::getInt8PtrTy(C),0)
-                  // );
-
-                  Value *load_address = loadInst->getPointerOperand();
-                  
-                  /* pass store id (currently it is the same with icall id)*/
-                  auto *icall_id_ = builder.getInt64(icall_id-1);
-
-                  std::vector<Value *> modify_mem_arg = {load_address,icall_id_};
-
-                  /* Insert a call to modify_memory (ptrToModify) [before load operation] */
-                  Value *flipped = builder.getInt64(0);
-                  if (!g_fake_instrument) {  // if fake instrument, we don't instrument to modify memory
-                    flipped =builder.CreateCall(modifyMemFunc, modify_mem_arg);
-                  }
-                  else { errs() <<"fake instrument[1/1],not instrument to modify memory"<< "\n";}
-
-
-                  /* Update bitmap to represent we already perform the flipping*/
-      
-                  if (!g_fake_instrument) {
-                  LoadInst *MapPtr_ = builder.CreateLoad(AFLMapPtr);
-                  MapPtr_->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-
-                  Value *FlipPtrIdx = 
-                      builder.CreateGEP(MapPtr_, ConstantInt::get(Int32Ty, MAP_SIZE)); // increase share memory by 1
-                  
-                  // LoadInst *Flip_value = builder.CreateLoad(FlipPtrIdx);
-                  // Flip_value->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-                  
-                  builder.CreateStore(flipped, FlipPtrIdx)
-                      ->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
-                  }
+              if (!loadset.empty()) {
+                  errs() << "loadset size: " << loadset.size() << "\n";
               }
               else {
-                errs() <<"Handling:" << F.getName() << "\n";
-                errs() << "LoadInst Not Found\n";
+                  errs() << "loadset ICALL LoadInst Not Found\n";
+              }
+
+              for (auto ldInst : loadset) {
+
+                  if (auto *loadInst = dyn_cast<LoadInst>(ldInst)) {
+                      // errs() << "Found loadInst\n";
+                      IRBuilder<> builder(loadInst); // Insert before the load instruction
+                  
+                      // //Cast the pointer operand to i8** to match modify_memory(void**)
+                      // Value *ptrToModify = builder.CreateBitCast(
+                      //   loadInst->getPointerOperand(),
+                      //   PointerType::get(Type::getInt8PtrTy(C),0)
+                      // );
+
+                      Value *load_address = loadInst->getPointerOperand();
+                      
+                      /* pass store id (currently it is the same with icall id)*/
+                      auto *icall_id_ = builder.getInt64(icall_id-1);
+
+                      std::vector<Value *> modify_mem_arg = {load_address,icall_id_};
+
+                      /* Insert a call to modify_memory (ptrToModify) [before load operation] */
+                      Value *flipped = builder.getInt64(0);
+                      if (!g_fake_instrument) {  // if fake instrument, we don't instrument to modify memory
+                        flipped =builder.CreateCall(modifyMemFunc, modify_mem_arg);
+                      }
+                      else { errs() <<"fake instrument[1/1],not instrument to modify memory"<< "\n";}
+
+
+                      /* Update bitmap to represent we already perform the flipping*/
+          
+                      if (!g_fake_instrument) {
+                      LoadInst *MapPtr_ = builder.CreateLoad(AFLMapPtr);
+                      MapPtr_->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
+
+                      Value *FlipPtrIdx = 
+                          builder.CreateGEP(MapPtr_, ConstantInt::get(Int32Ty, MAP_SIZE)); // increase share memory by 1
+                      
+                      // LoadInst *Flip_value = builder.CreateLoad(FlipPtrIdx);
+                      // Flip_value->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
+                      
+                      builder.CreateStore(flipped, FlipPtrIdx)
+                          ->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
+                      }
+                  }
+                  else
+                    errs() << "ICALL LoadInst Not Found\n";
               }
           }
         
