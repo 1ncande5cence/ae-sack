@@ -1,6 +1,6 @@
 # Set build arguments here. See `gn help buildargs`.
-cflags_c = "-O1 -g"
-cflags_cc = "-O1 -g"
+cflags_c = "-O0 -g"
+cflags_cc = "-O0 -g"
 is_clang = false
 clang_base_path = "/usr"
 is_asan = false
