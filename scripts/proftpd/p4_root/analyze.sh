@@ -41,7 +41,7 @@ echo "Environment ready in $result_dir"
 
 # full successful attack
 
-grep -rl "dir_check_full" ./oracle/ | xargs grep -L "/home/test" | cut -d"/" -f3 | sort -u > full_success_attack_pre.log
+grep -rl "dir_check_full" ./oracle/ | xargs grep -L "/home/test" | xargs grep -L "fatal" | xargs grep -L "-----BEGIN STACK TRACE-----" | cut -d"/" -f3 | sort -u > full_success_attack_pre.log
 
 # change oracle file format to general format (319_6334080@0x60a680@_2 -> 319_6334080(0x60a680)_2)
 
