@@ -44,6 +44,8 @@ python3 subgt_addresslog_gen.py ./subgt.json
 # export SACK=/ae-sack
 # (this -c path and the path in the proftpd.conf need to be absolute path)
 # for your proftpd.passwd, you need to modify the sack.conf system_command to add "chmod 600 /path/to/file/proftpd.passwd"
+# for your user, you need to modify the sack.conf system_command to add "chown root:root /home/test"
+# also add "chmod 755 /home/test"
 # $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /methodology.new/proftpd-collection/proftpd/bin/proftpd.conf -d 5 -X
 
 
