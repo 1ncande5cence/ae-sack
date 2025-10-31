@@ -11,10 +11,10 @@ export SACK=/ae-sack
 export CC=wllvm CXX=wllvm++ LLVM_COMPILER=clang CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 apt install -y tcl-dev
 ./configure 
+rm sqlite3 
 make -j$(nproc) 
-
 # -------------------- build flip binaries -----------------------------------
-
+rm -rf bin_safemode
 mkdir bin_safemode
 cp sqlite3 ./bin_safemode
 cd ./bin_safemode
