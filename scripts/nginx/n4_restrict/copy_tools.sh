@@ -12,6 +12,7 @@ cp $1/subgt/nginx/subgt.json $2
 # oracle input
 cp -r $1/scripts/nginx/n4_restrict/input $2
 cp $1/scripts/nginx/n4_restrict/send_request_disable.py $2
+cp $1/scripts/nginx/n4_restrict/send_request_disable_pass.py $2
 
 # result analysis 
 cp $1/scripts/nginx/report.py $2
