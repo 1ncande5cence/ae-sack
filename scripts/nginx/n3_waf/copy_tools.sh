@@ -2,6 +2,7 @@
 set -euo pipefail
 # program preparation
 cp $1/scripts/nginx/n3_waf/nginx.conf $2/../conf/nginx.conf
+cp $1/scripts/nginx/n3_waf/my_modsecurity_rules.conf $2/../conf/
 
 
 # subgt generation
