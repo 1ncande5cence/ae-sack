@@ -36,6 +36,9 @@ bash $SACK/scripts/sudo/u3_auth/copy_tools.sh $SACK .
 objdump -d ./sudo.fuzz | grep ">:" > ./log/func_map
 python3 subgt_addresslog_gen.py ./subgt.json
 
+# modify through visudo, should be the same as visudo.backup
+cp $SACK/scripts/sudo/u3_auth/sudo.conf /etc/sudo.conf
+
 # -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
 
