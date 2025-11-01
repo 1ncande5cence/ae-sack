@@ -24,6 +24,7 @@ mkdir -p ./log
 cp $SACK/scripts/proftpd/p3_priv/sack.conf ./log/
 cp $SACK/scripts/proftpd/p3_priv/ban_line.list ./log/
 cp $SACK/scripts/proftpd/p3_priv/ftpreq_STOR.py .
+cp $SACK/scripts/proftpd/p3_priv/ftpreq_STOR_success.py .
 cp $SACK/scripts/proftpd/p3_priv/test_upload.txt .
 $SACK/AFL/afl-clang-fast-indirect-flip proftpd.bc -o proftpd.fuzz $EXTRA_LDFLAGS
 
