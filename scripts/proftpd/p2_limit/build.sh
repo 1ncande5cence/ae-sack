@@ -30,9 +30,22 @@ $SACK/AFL/afl-clang-fast-indirect-flip proftpd.bc -o proftpd.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
+# the following command have been done in this container to setup the environment:
+
+# generate username and password  (test test; ftp ftp)
+
+# adduser test  (passwd test)
+#./contrib/ftpasswd --passwd --name test --uid=1001 --gid=1001 --home=/home/test --shell=/bin/bash --file=/target/proftpd/proftpd.passwd test
+# (passwd test)
+
+# mkdir -p /usr/local/var/proftpd
+
+
 bash $SACK/scripts/proftpd/p2_limit/copy_tools.sh $SACK .
 objdump -d ./proftpd.fuzz | grep ">:" > ./log/func_map
 python3 subgt_addresslog_gen.py ./subgt.json
+rm -rf oracle
+mkdir oracle
 
 # -------------------- corpus is copied through copy_tools.sh ------------------------------------
 

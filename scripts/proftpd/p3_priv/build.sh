@@ -14,7 +14,7 @@ make clean
 make -j$(nproc)
 
 # -------------------- build flip binaries -----------------------------------
-
+rm -rf bin_oracle3_user_priv
 mkdir bin_oracle3_user_priv
 cp proftpd bin_oracle3_user_priv/
 cd bin_oracle3_user_priv
@@ -24,9 +24,25 @@ mkdir -p ./log
 cp $SACK/scripts/proftpd/p3_priv/sack.conf ./log/
 cp $SACK/scripts/proftpd/p3_priv/ban_line.list ./log/
 cp $SACK/scripts/proftpd/p3_priv/ftpreq_STOR.py .
+cp $SACK/scripts/proftpd/p3_priv/test_upload.txt .
 $SACK/AFL/afl-clang-fast-indirect-flip proftpd.bc -o proftpd.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
+
+# the following command have been done in this container to setup the environment:
+
+# generate username and password  (test test; ftp ftp)
+
+# adduser test  (passwd test)
+#./contrib/ftpasswd --passwd --name test --uid=1001 --gid=1001 --home=/home/test --shell=/bin/bash --file=/target/proftpd/proftpd.passwd test
+# (passwd test)
+
+# mkdir -p /usr/local/var/proftpd
+
+# adduser valid (passwd valid)
+# ./contrib/ftpasswd --passwd --name valid --uid=1002 --gid=1002 --home=/home/valid --shell=/bin/bash --file=/target/proftpd/proftpd.passwd valid
+# (passwd valid)
+
 
 bash $SACK/scripts/proftpd/p3_priv/copy_tools.sh $SACK .
 objdump -d ./proftpd.fuzz | grep ">:" > ./log/func_map
@@ -46,7 +62,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 # for your proftpd.passwd, you need to modify the sack.conf system_command to add "chmod 600 /path/to/file/proftpd.passwd"
 # for your user, you need to modify the sack.conf system_command to add "chown root:root /home/test"
 # also add "chmod 755 /home/test"
-# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /methodology.new/proftpd-collection/proftpd/bin/proftpd.conf -d 5 -X
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /target/proftpd/proftpd-priv/bin_oracle3_user_priv/proftpd.conf -d 5 -X
 
 
 # -------------------- result analysis --------------------------------------

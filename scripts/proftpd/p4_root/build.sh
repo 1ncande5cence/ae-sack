@@ -11,6 +11,7 @@ export SACK=/ae-sack
 export CC=wllvm CXX=wllvm++ LLVM_COMPILER=clang CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 
 ./configure --enable-ctrls --with-modules=mod_ban
+make clean
 make -j$(nproc)
 
 # -------------------- build flip binaries -----------------------------------
@@ -28,9 +29,22 @@ $SACK/AFL/afl-clang-fast-indirect-flip proftpd.bc -o proftpd.fuzz $EXTRA_LDFLAGS
 
 # -------------------- prepare tools and environments --------------------------
 
+# the following command have been done in this container to setup the environment:
+
+# generate username and password  (test test; ftp ftp)
+
+# adduser test  (passwd test)
+#./contrib/ftpasswd --passwd --name test --uid=1001 --gid=1001 --home=/home/test --shell=/bin/bash --file=/target/proftpd/proftpd.passwd test
+# (passwd test)
+
+# mkdir -p /usr/local/var/proftpd
+
+
 bash $SACK/scripts/proftpd/p4_root/copy_tools.sh $SACK .
 objdump -d ./proftpd.fuzz | grep ">:" > ./log/func_map
 python3 subgt_addresslog_gen.py ./subgt.json
+rm -rf oracle
+mkdir oracle
 # -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
 # -------------------- do substitution --------------------------------------
@@ -44,7 +58,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 
 # (this -c path and the path in the proftpd.conf need to be absolute path)
 # for your proftpd.passwd, you need to modify the sack.conf system_command to add "chmod 600 /path/to/file/proftpd.passwd"
-# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /methodology.new/proftpd-collection/proftpd/bin/proftpd.conf -d 5 -X
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /target/proftpd/proftpd-root/bin_auth_required/proftpd.conf -d 5 -X
 
 
 # -------------------- result analysis --------------------------------------
