@@ -9,6 +9,7 @@ export SACK=/ae-sack
 # -------------------- build project with wllvm --------------------------------
 
 export CC=wllvm CXX=wllvm++ LLVM_COMPILER=clang CFLAGS="-g -O0" CXXFLAGS="-g -O0"
+apt-get update
 apt-get install -y qttools5-dev qttools5-dev-tools libqt5svg5-dev qtmultimedia5-dev
 apt install -y software-properties-common
 add-apt-repository ppa:okirby/qt6-backports -y
@@ -36,6 +37,7 @@ objdump -d ./tshark.fuzz | grep ">:" > ./log/func_map
 python3 subgt_addresslog_gen.py ./subgt.json
 mkdir input
 cp $SACK/scripts/wireshark/w1_malform/malformed.pcap input/
+cp $SACK/scripts/wireshark/w1_malform/benign.pcap .
 
 # -------------------- corpus is copied  ------------------------------------
 
