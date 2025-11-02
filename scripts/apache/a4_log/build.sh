@@ -28,7 +28,7 @@ $SACK/AFL/afl-clang-fast-indirect-flip httpd.bc -o httpd.fuzz -L/target/httpd-lo
 
 bash $SACK/scripts/apache/a4_log/copy_tools.sh $SACK .
 objdump -d ./httpd.fuzz | grep ">:" > ./log/func_map
-python3 subgt_addresslog_gen.py ./subgt.json
+python3 subgt_addresslog_gen_apache.py ./subgt.json
 
 # -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
