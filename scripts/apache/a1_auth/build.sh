@@ -20,7 +20,9 @@ extract-bc httpd
 mkdir -p ./log
 cp $SACK/scripts/apache/a1_auth/sack.conf ./log/
 cp $SACK/scripts/apache/a1_auth/ban_line.list ./log/
-$SACK/AFL/afl-clang-fast-indirect-flip httpd.bc -o httpd.fuzz -L/song/apache-httpd/sack/httpd.o1/srclib/apr/.libs -L/usr/local/openssl/lib -Wl,-rpath,/song/apache-httpd/sack/httpd.o1/srclib/apr/.libs -Wl,-rpath,/usr/local/openssl/lib -lapr-2 -lpcre2-8 -luuid -lrt -lcrypt -lpthread -ldl -lexpat -lssl -lcrypto -lnghttp2 -lxml2 -llua5.1 -licuuc -llzma -licudata -lz -Wl,--export-dynamic
+cp $SACK/scripts/apache/a1_auth/httpd.conf /usr/local/apache2/conf/
+cp $SACK/scripts/apache/a1_auth/httpd.conf /usr/local/apache2/conf.bak/
+$SACK/AFL/afl-clang-fast-indirect-flip httpd.bc -o httpd.fuzz -L/target/httpd-auth/srclib/apr/.libs -L/usr/local/openssl/lib -Wl,-rpath,/target/httpd-auth/srclib/apr/.libshttpd/srclib/apr/.libs -Wl,-rpath,/usr/local/openssl/lib -lapr-2 -lpcre2-8 -luuid -lrt -lcrypt -lpthread -ldl -lexpat -lssl -lcrypto -lnghttp2 -lxml2 -llua5.1 -licuuc -llzma -licudata -lz -Wl,--export-dynamic
 
 # -------------------- prepare tools and environments --------------------------
 
