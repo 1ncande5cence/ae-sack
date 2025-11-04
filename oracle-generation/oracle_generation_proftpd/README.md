@@ -1,7 +1,7 @@
 # Oracle Constructor Instruction Guide
 
 This guide walks you through the steps for constructing an oracle using our pipeline. The process includes feature identification, document preparation, and oracle generation.
-Some steps require an `OPENAI_API_KEY` and API cost (As shown in **TABLE II**). However, to ease reproduction, we have included pre-collected results so you can skip or reuse certain stages without re-querying the API.
+Some steps require an `OPENAI_API_KEY` and API cost (As shown in **TABLE II**). However, to ease reproduction, we have included intermediate results so you can skip or reuse certain stages without re-querying the LLM.
 
 ---
 
@@ -40,6 +40,7 @@ We have provided precomputed results in `./feature_output/`, so you can proceed 
 ## Step 2: Document Preparation
 
 ### 2.1 info collect
+This step uses a crawler to fetch the documentation from the `START_URL`.
 
 #### Detailed Steps
 
@@ -63,6 +64,8 @@ We have provided precomputed results in `./feature_output/`, so you can proceed 
 
 ### 2.2 preprocess
 
+This step removes non-content elements such as navigation bars, layout structures, and scripts.
+
 ```bash
 python3 extract_text.py
 ```
@@ -73,6 +76,8 @@ python3 extract_text.py
 ---
 
 ### 2.3 filtering
+
+This step performs keyword-based filtering to retain only security-related documents.
 
 ```bash
 python3 security_filter.py
@@ -113,6 +118,23 @@ Use the identified features and filtered documentation to generate a task-specif
 ## Metadata
 
 The `./metadata` directory stores all original data produced during the evaluation process described above.
+
+After Step 1: `./metadata/feature_output`  
+After Step 2.1: `./metadata/downloaded_docs`  
+After Step 2.2: `./metadata/downloaded_txt`  
+After Step 2.3: `./metadata/security_txt`  
+After Step 3: `./metadata/oracle_generation_with_provided_feature`
+
+For the oracle we generated in `./metadata/oracle_generation_with_provided_feature`, we select a representative subset of these features for evaluation, as mentioned in VI.B.
+
+**Features for evaluation**  
+P1 comes from `2_User_and_Group_Based_Permissions_20250718_164756.md`  
+P2 comes from `18_Automatic_Banning_of_Abusive_Clients_(mod_ban,_mod_flood)_20250718_165410.md`  
+P3 comes from `6_Command_Execution_Control_(mod_exec,_mod_ban)_20250718_164940.md`  
+P4 comes from `6_Command_Execution_Control_(mod_exec,_mod_ban)_20250718_164940.md`  
+
+The generated oracles are then tested manually and the quality is evaluated 
+based on compilation flags, configuration directives, extra commands, legal/illegal input/out and final judgement.
 
 ## Optional: Error Handling and Refinement
 

@@ -137,12 +137,12 @@ After Step 3: `./metadata/oracle_generation_with_provided_feature`
 For the oracle we generated in `./metadata/oracle_generation_with_provided_feature`, we select a representative subset of these features for evaluation, as mentioned in VI.B.
 
 **Features for evaluation**  
-N1 comes from `./1_HTTP_Basic_Authentication_20250716_170302.md`  
-N2 comes from `./5_Request_Rate_Limiting_20250716_170431.md`  
-N3 comes from `./9_Web_Application_Firewall_(WAF)_Integration_20250716_170558.md'`  
-N4 comes from `./12_Request_Method_Restrictions_20250716_170636.md`  
-N5 comes from `./10_Logging_and_Auditing_20250716_170602.md`  
-N6 comes from `./3_TLS_SSL_Encryption_20250716_170347.md`
+N1 comes from `1_HTTP_Basic_Authentication_20250716_170302.md`  
+N2 comes from `5_Request_Rate_Limiting_20250716_170431.md`  
+N3 comes from `9_Web_Application_Firewall_(WAF)_Integration_20250716_170558.md`  
+N4 comes from `12_Request_Method_Restrictions_20250716_170636.md`  
+N5 comes from `10_Logging_and_Auditing_20250716_170602.md`  
+N6 comes from `3_TLS_SSL_Encryption_20250716_170347.md`
 
 The generated oracles are then tested manually and the quality is evaluated 
 based on compilation flags, configuration directives, extra commands, legal/illegal input/out and final judgement.

@@ -1,7 +1,7 @@
 # Oracle Constructor Instruction Guide
 
 This guide walks you through the steps for constructing an oracle using our pipeline. The process includes feature identification, document preparation, and oracle generation.
-Some steps require an `OPENAI_API_KEY` and API cost (As shown in **TABLE II**). However, to ease reproduction, we have included pre-collected results so you can skip or reuse certain stages without re-querying the API.
+Some steps require an `OPENAI_API_KEY` and API cost (As shown in **TABLE II**). However, to ease reproduction, we have included intermediate results so you can skip or reuse certain stages without re-querying the LLM.
 
 ---
 
@@ -12,7 +12,7 @@ This step extracts candidate security features from your target program using fe
 ### Detailed Steps
 
 1. Configure the target program:  
-   Set the `TARGET_PROG` field in `config.json`. *(Already preconfigured)*
+   Set the `TARGET_PROG` field in `config.json`.
 
 2. Export your OpenAI API key:
 
@@ -31,15 +31,12 @@ This step extracts candidate security features from your target program using fe
 - **Input**: `TARGET_PROG` field in `config.json`  
 - **Output**: `./feature_output/`
 
-### Note
-
-We have provided precomputed results in `./feature_output/`, so you can proceed to later steps without this step.
-
 ---
 
 ## Step 2: Document Preparation
 
 ### 2.1 info collect
+This step uses a crawler to fetch the documentation from the `START_URL`.
 
 #### Detailed Steps
 
@@ -59,6 +56,8 @@ We have provided precomputed results in `./feature_output/`, so you can proceed 
 
 ### 2.2 preprocess
 
+This step removes non-content elements such as navigation bars, layout structures, and scripts.
+
 ```bash
 python3 extract_text.py
 ```
@@ -69,6 +68,8 @@ python3 extract_text.py
 ---
 
 ### 2.3 filtering
+
+This step performs keyword-based filtering to retain only security-related documents.
 
 ```bash
 python3 security_filter.py
@@ -105,10 +106,6 @@ Use the identified features and filtered documentation to generate a task-specif
 - **Output**: `./oracle_generation_with_provided_feature/`
 
 ---
-
-## Metadata
-
-The `./metadata` directory stores all original data produced during the evaluation process described above.
 
 ## Optional: Error Handling and Refinement
 
