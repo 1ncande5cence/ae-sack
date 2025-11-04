@@ -7,7 +7,7 @@ Some steps require an `OPENAI_API_KEY` and API cost (As shown in **TABLE II**). 
 
 ## Step 1: Feature Identification *(Requires `OPENAI_API_KEY`)*
 
-This step extracts candidate security features from your target program using zero-shot LLM queries.
+This step extracts candidate security features from your target program using few-shot LLM queries.
 
 ### Detailed Steps
 
@@ -23,7 +23,7 @@ This step extracts candidate security features from your target program using ze
 3. Run the feature query script:
 
    ```bash
-   python3 zero_shot_feature_query.py
+   python3 feature_query.py
    ```
 
 ### Input and Output
