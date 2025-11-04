@@ -33,6 +33,7 @@ cp $SACK/scripts/v8/v1_unsafe/ban_line.list ./log/
 mkdir input
 cp $SACK/scripts/v8/v1_unsafe/os.system.js ./input/
 cp $SACK/scripts/v8/v1_unsafe/os.system.js .
+cp $SACK/scripts/v8/v1_unsafe/test.js .
 $SACK/AFL/afl-clang-fast-indirect-flip d8.bc -o d8.fuzz.pre -lpthread -lm -latomic -lstdc++ -lc -lgcc_s libv8_monolith.a
 
 # -------------------- prepare tools and environments --------------------------
@@ -40,6 +41,7 @@ $SACK/AFL/afl-clang-fast-indirect-flip d8.bc -o d8.fuzz.pre -lpthread -lm -latom
 bash $SACK/scripts/v8/v1_unsafe/copy_tools.sh $SACK .
 pip install lief
 python3 seg-change.py
+chmod +x d8.fuzz
 objdump -d ./d8.fuzz | grep ">:" > ./log/func_map
 #python3 subgt_addresslog_gen.py ./subgt.json
 

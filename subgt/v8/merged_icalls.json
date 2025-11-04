@@ -1,0 +1,5129 @@
+[
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "28",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatformD0Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/shared_ptr_base.h:155",
+        "id": "40",
+        "targets": [
+            "_ZNSt23_Sp_counted_ptr_inplaceIN2v88internal8CountersESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv",
+            "_ZNSt23_Sp_counted_ptr_inplaceIN2v88internal17ReadOnlyArtifactsESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv",
+            "_ZNSt23_Sp_counted_ptr_inplaceIN2v88internal4wasm10WasmEngineESaIS3_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv",
+            "_ZNSt23_Sp_counted_ptr_inplaceIN2v88platform27DefaultForegroundTaskRunnerESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv",
+            "_ZNSt23_Sp_counted_ptr_inplaceIN2v88platform30DefaultWorkerThreadsTaskRunnerESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/shared_ptr_base.h:171",
+        "id": "41",
+        "targets": [
+            "_ZNSt23_Sp_counted_ptr_inplaceIN2v88internal8CountersESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_destroyEv",
+            "_ZNSt23_Sp_counted_ptr_inplaceIN2v88internal17ReadOnlyArtifactsESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_destroyEv",
+            "_ZNSt23_Sp_counted_ptr_inplaceIN2v88internal4wasm10WasmEngineESaIS3_ELN9__gnu_cxx12_Lock_policyE2EE10_M_destroyEv",
+            "_ZNSt23_Sp_counted_ptr_inplaceIN2v88platform27DefaultForegroundTaskRunnerESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_destroyEv",
+            "_ZNSt23_Sp_counted_ptr_inplaceIN2v88platform30DefaultWorkerThreadsTaskRunnerESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_destroyEv"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/std_function.h:260",
+        "id": "84",
+        "targets": [
+            "_ZNSt14_Function_base13_Base_managerIPFvvEE10_M_managerERSt9_Any_dataRKS4_St18_Manager_operation",
+            "_ZNSt14_Function_base13_Base_managerIZN2v84base8CallOnceIvEEvPSt6atomicIhENS2_14OneArgFunctionIPT_E4typeES9_EUlvE_E10_M_managerERSt9_Any_dataRKSE_St18_Manager_operation",
+            "_ZNSt14_Function_base13_Base_managerIZN2v88internal11interpreter11Interpreter10InitializeEvE3$_0E10_M_managerERSt9_Any_dataRKS7_St18_Manager_operation",
+            "_ZNSt14_Function_base13_Base_managerIZN2v85Shell18EmptyMessageQueuesEPNS1_7IsolateEE3$_3E10_M_managerERSt9_Any_dataRKS7_St18_Manager_operation",
+            "_ZNSt14_Function_base13_Base_managerIZN2v85Shell19CompleteMessageLoopEPNS1_7IsolateEE3$_2E10_M_managerERSt9_Any_dataRKS7_St18_Manager_operation",
+            "_ZNSt14_Function_base13_Base_managerIZN2v88internal5Debug19ClearAllBreakPointsEvE3$_0E10_M_managerERSt9_Any_dataRKS6_St18_Manager_operation",
+            "_ZNSt14_Function_base13_Base_managerIZN2v88internal5Debug22RemoveAllCoverageInfosEvE3$_1E10_M_managerERSt9_Any_dataRKS6_St18_Manager_operation",
+            "_ZNSt14_Function_base13_Base_managerIZN2v88internal5Debug21ClearAllDebuggerHintsEvE3$_2E10_M_managerERSt9_Any_dataRKS6_St18_Manager_operation"
+        ]
+    },
+    {
+        "line": "../src/base/once.h:97",
+        "id": "85",
+        "targets": [
+            "_ZN2v84base16LazyInstanceImplINS0_5MutexENS0_32StaticallyAllocatedInstanceTraitIS2_EENS0_21DefaultConstructTraitIS2_EENS0_23ThreadSafeInitOnceTraitENS0_18LeakyInstanceTraitIS2_EEE12InitInstanceEPv",
+            "_ZN2v84base16LazyInstanceImplINS_8internal20CodeRangeAddressHintENS0_32StaticallyAllocatedInstanceTraitIS3_EENS0_21DefaultConstructTraitIS3_EENS0_23ThreadSafeInitOnceTraitENS0_18LeakyInstanceTraitIS3_EEE12InitInstanceEPv",
+            "_ZN2v84base16LazyInstanceImplINS_8internal12_GLOBAL__N_130GlobalBackingStoreRegistryImplENS0_32StaticallyAllocatedInstanceTraitIS4_EENS0_21DefaultConstructTraitIS4_EENS0_23ThreadSafeInitOnceTraitENS0_18LeakyInstanceTraitIS4_EEE12InitInstanceEPv"
+        ]
+    },
+    {
+        "line": "../src/base/lazy-instance.h:129",
+        "id": "86",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:2204",
+        "id": "87",
+        "targets": [
+            "_ZN2v820EscapableHandleScopeC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:600",
+        "id": "93",
+        "targets": [
+            "_ZN2v811HandleScopeC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:601",
+        "id": "94",
+        "targets": [
+            "_ZN2v88TryCatchC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:695",
+        "id": "103",
+        "targets": [
+            "_ZN2v88TryCatchD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:695",
+        "id": "104",
+        "targets": [
+            "_ZN2v811HandleScopeD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3331",
+        "id": "118",
+        "targets": [
+            "_ZN2v88internal20SaveAndSwitchContextC1EPNS0_7IsolateENS0_7ContextE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3332",
+        "id": "119",
+        "targets": [
+            "_ZN2v815SealHandleScopeC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3348",
+        "id": "120",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform16IdleTasksEnabledEPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3358",
+        "id": "121",
+        "targets": [
+            "_ZN2v815SealHandleScopeD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/std_function.h:688",
+        "id": "122",
+        "targets": [
+            "_ZNSt17_Function_handlerIFN2v88platform19MessageLoopBehaviorEvEZNS0_5Shell18EmptyMessageQueuesEPNS0_7IsolateEE3$_3E9_M_invokeERKSt9_Any_data",
+            "_ZNSt17_Function_handlerIFN2v88platform19MessageLoopBehaviorEvEZNS0_5Shell19CompleteMessageLoopEPNS0_7IsolateEE3$_2E9_M_invokeERKSt9_Any_data"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3311",
+        "id": "123",
+        "targets": [
+            "_ZN2v811HandleScopeC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3324",
+        "id": "126",
+        "targets": [
+            "_ZN2v811HandleScopeD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:2472",
+        "id": "134",
+        "targets": [
+            "_ZNK2v84base21PosixMemoryMappedFile4sizeEv"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:2473",
+        "id": "135",
+        "targets": [
+            "_ZNK2v84base21PosixMemoryMappedFile6memoryEv"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "136",
+        "targets": [
+            "_ZN2v84base21PosixMemoryMappedFileD0Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:1491",
+        "id": "188",
+        "targets": [
+            "_ZN2v811HandleScopeC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:1497",
+        "id": "189",
+        "targets": [
+            "_ZN2v88TryCatchC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:1510",
+        "id": "190",
+        "targets": [
+            "_ZN2v86String9Utf8ValueC1EPNS_7IsolateENS_5LocalINS_5ValueEEE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:1516",
+        "id": "191",
+        "targets": [
+            "_ZN2v86String9Utf8ValueD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:1516",
+        "id": "192",
+        "targets": [
+            "_ZN2v88TryCatchD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:1516",
+        "id": "193",
+        "targets": [
+            "_ZN2v811HandleScopeD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:452",
+        "id": "221",
+        "targets": [
+            "_ZN2v817CounterCollectionC1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.h:263",
+        "id": "222",
+        "targets": [
+            "_ZN2v811SourceGroupD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:2667",
+        "id": "224",
+        "targets": [
+            "_ZN2v84base9SemaphoreD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:2667",
+        "id": "225",
+        "targets": [
+            "_ZN2v84base9SemaphoreD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:2749",
+        "id": "244",
+        "targets": [
+            "_ZN2v811HandleScopeC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:2764",
+        "id": "245",
+        "targets": [
+            "_ZN2v811HandleScopeD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.h:68",
+        "id": "278",
+        "targets": [
+            "_ZN2v84base9SemaphoreC1Ei"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.h:69",
+        "id": "279",
+        "targets": [
+            "_ZN2v84base9SemaphoreC1Ei"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3231",
+        "id": "280",
+        "targets": [
+            "_ZN2v811HandleScopeC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3241",
+        "id": "281",
+        "targets": [
+            "_ZN2v814PerIsolateData10RealmScopeC1EPS0_"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3244",
+        "id": "282",
+        "targets": [
+            "_ZN2v814PerIsolateData10RealmScopeD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3261",
+        "id": "283",
+        "targets": [
+            "_ZN2v811HandleScopeD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3830",
+        "id": "284",
+        "targets": [
+            "_ZN2v89D8ConsoleC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3833",
+        "id": "285",
+        "targets": [
+            "_ZN2v814PerIsolateDataC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:3966",
+        "id": "290",
+        "targets": [
+            "_ZN2v814PerIsolateDataD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:242",
+        "id": "292",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8.cc:242",
+        "id": "293",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "294",
+        "targets": [
+            "_ZN2v812_GLOBAL__N_120ArrayBufferAllocatorD0Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "307",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingControllerD0Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8-posix.cc:414",
+        "id": "309",
+        "targets": [
+            "_ZN2v811HandleScopeC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8-posix.cc:491",
+        "id": "310",
+        "targets": [
+            "_ZN2v811HandleScopeD1Ev"
+        ]
+    },
+    {
+        "line": "../src/d8/d8-posix.cc:159",
+        "id": "311",
+        "targets": [
+            "_ZN2v86String9Utf8ValueC1EPNS_7IsolateENS_5LocalINS_5ValueEEE"
+        ]
+    },
+    {
+        "line": "../src/d8/d8-posix.cc:189",
+        "id": "314",
+        "targets": [
+            "_ZN2v86String9Utf8ValueD1Ev"
+        ]
+    },
+    {
+        "line": "../third_party/zlib/contrib/optimizations/inflate.c:225",
+        "id": "328",
+        "targets": [
+            "Cr_z_zcalloc"
+        ]
+    },
+    {
+        "line": "../third_party/zlib/contrib/optimizations/inflate.c:1307",
+        "id": "332",
+        "targets": [
+            "Cr_z_zcfree"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/std_function.h:688",
+        "id": "338",
+        "targets": [
+            "_ZNSt17_Function_handlerIFvvEPS0_E9_M_invokeERKSt9_Any_data",
+            "_ZNSt17_Function_handlerIFvvEZN2v84base8CallOnceIvEEvPSt6atomicIhENS2_14OneArgFunctionIPT_E4typeES9_EUlvE_E9_M_invokeERKSt9_Any_data"
+        ]
+    },
+    {
+        "line": "../src/base/platform/platform-posix.cc:549",
+        "id": "340",
+        "targets": [
+            "_ZN2v84base21PosixMemoryMappedFileD1Ev"
+        ]
+    },
+    {
+        "line": "../src/base/platform/platform-posix.cc:747",
+        "id": "341",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/base/lazy-instance.h:235",
+        "id": "342",
+        "targets": [
+            "_ZN2v84base21RandomNumberGeneratorC1Ev"
+        ]
+    },
+    {
+        "line": "../src/base/platform/platform-posix.cc:749",
+        "id": "343",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/base/platform/platform.h:399",
+        "id": "344",
+        "targets": [
+            "_ZN2v88platform30DefaultWorkerThreadsTaskRunner12WorkerThread3RunEv"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-platform.cc:95",
+        "id": "345",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatformD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/new_allocator.h:146",
+        "id": "359",
+        "targets": [
+            "_ZN2v88platform30DefaultWorkerThreadsTaskRunnerC1EjPFdvE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/new_allocator.h:152",
+        "id": "360",
+        "targets": [
+            "_ZN2v88platform30DefaultWorkerThreadsTaskRunnerD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/new_allocator.h:146",
+        "id": "361",
+        "targets": [
+            "_ZN2v88platform27DefaultForegroundTaskRunnerC1ENS0_15IdleTaskSupportEPFdvE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/new_allocator.h:152",
+        "id": "362",
+        "targets": [
+            "_ZN2v88platform27DefaultForegroundTaskRunnerD2Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-platform.cc:101",
+        "id": "363",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "364",
+        "targets": [
+            "_ZN2v84base13PageAllocatorD0Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:857",
+        "id": "365",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatformC1EiNS0_15IdleTaskSupportESt10unique_ptrINS_17TracingControllerESt14default_deleteIS4_EE"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-platform.cc:79",
+        "id": "367",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-platform.cc:87",
+        "id": "368",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingControllerC1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:857",
+        "id": "369",
+        "targets": [
+            "_ZN2v84base13PageAllocatorC1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-platform.cc:163",
+        "id": "374",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform27MonotonicallyIncreasingTimeEv"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-platform.cc:165",
+        "id": "375",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform27MonotonicallyIncreasingTimeEv"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-worker-threads-task-runner.cc:20",
+        "id": "380",
+        "targets": [
+            "_ZN2v88platform16DelayedTaskQueueD1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-worker-threads-task-runner.cc:20",
+        "id": "381",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "382",
+        "targets": [
+            "_ZN2v88platform30DefaultWorkerThreadsTaskRunner12WorkerThreadD0Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-worker-threads-task-runner.cc:69",
+        "id": "383",
+        "targets": [
+            "_ZN2v88platform30DefaultWorkerThreadsTaskRunner12WorkerThreadD1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-worker-threads-task-runner.cc:12",
+        "id": "385",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-worker-threads-task-runner.cc:14",
+        "id": "386",
+        "targets": [
+            "_ZN2v88platform16DelayedTaskQueueC1EPFdvE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:857",
+        "id": "387",
+        "targets": [
+            "_ZN2v88platform30DefaultWorkerThreadsTaskRunner12WorkerThreadC1EPS1_"
+        ]
+    },
+    {
+        "line": "../src/libplatform/delayed-task-queue.cc:14",
+        "id": "389",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/delayed-task-queue.cc:14",
+        "id": "390",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/delayed-task-queue.cc:21",
+        "id": "391",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/delayed-task-queue.cc:21",
+        "id": "392",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/delayed-task-queue.cc:24",
+        "id": "393",
+        "targets": [
+            "_ZN2v88platform12_GLOBAL__N_119DefaultTimeFunctionEv"
+        ]
+    },
+    {
+        "line": "../src/libplatform/tracing/tracing-controller.cc:75",
+        "id": "407",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingControllerD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "418",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/tracing/tracing-controller.cc:73",
+        "id": "420",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-foreground-task-runner.h:19",
+        "id": "422",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-foreground-task-runner.h:19",
+        "id": "423",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-foreground-task-runner.cc:25",
+        "id": "425",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/libplatform/default-foreground-task-runner.cc:25",
+        "id": "426",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:858",
+        "id": "449",
+        "targets": [
+            "_ZN2v819RegisteredExtensionC1ESt10unique_ptrINS_9ExtensionESt14default_deleteIS2_EE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "450",
+        "targets": [
+            "_ZN2v88internal27IgnitionStatisticsExtensionD0Ev",
+            "_ZN2v88internal23TriggerFailureExtensionD0Ev",
+            "_ZN2v88internal19StatisticsExtensionD0Ev",
+            "_ZN2v88internal26ExternalizeStringExtensionD0Ev",
+            "_ZN2v88internal11GCExtensionD0Ev"
+        ]
+    },
+    {
+        "line": "../include/v8.h:6950",
+        "id": "451",
+        "targets": [
+            "_ZN2v812_GLOBAL__N_117ExtensionResourceD0Ev"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:2079",
+        "id": "454",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:277",
+        "id": "455",
+        "targets": [
+            "_ZN2v88internal15InterruptsScopeC1EPNS0_7IsolateElNS1_4ModeE"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:277",
+        "id": "458",
+        "targets": [
+            "_ZN2v88internal15InterruptsScopeC1EPNS0_7IsolateElNS1_4ModeE"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:2370",
+        "id": "459",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:2385",
+        "id": "461",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:5920",
+        "id": "499",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:8261",
+        "id": "517",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform23GetForegroundTaskRunnerEPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:8262",
+        "id": "518",
+        "targets": [
+            "_ZNK2v88platform27DefaultForegroundTaskRunner23NonNestableTasksEnabledEv"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:9130",
+        "id": "546",
+        "targets": [
+            "_ZN2v88TryCatchC1EPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/api/api.cc:9136",
+        "id": "547",
+        "targets": [
+            "_ZN2v88TryCatchD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/vm-state-inl.h:62",
+        "id": "582",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/execution/vm-state-inl.h:68",
+        "id": "583",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/builtins/builtins.cc:279",
+        "id": "596",
+        "targets": [
+            "_ZN2v88internal6Logger27is_listening_to_code_eventsEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/compiler.cc:159",
+        "id": "609",
+        "targets": [
+            "_ZN2v88internal11interpreter25InterpreterCompilationJob14ExecuteJobImplEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/compiler.cc:166",
+        "id": "610",
+        "targets": [
+            "_ZN2v88internal21PerIsolateAssertScopeILNS0_20PerIsolateAssertTypeE0ELb0EEC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/codegen/compiler.cc:171",
+        "id": "611",
+        "targets": [
+            "_ZN2v88internal11interpreter25InterpreterCompilationJob15FinalizeJobImplENS0_6HandleINS0_18SharedFunctionInfoEEEPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/codegen/compiler.cc:172",
+        "id": "612",
+        "targets": [
+            "_ZN2v88internal21PerIsolateAssertScopeILNS0_20PerIsolateAssertTypeE0ELb0EED1Ev"
+        ]
+    },
+    {
+        "line": "../src/codegen/compiler.cc:100",
+        "id": "621",
+        "targets": [
+            "_ZN2v88internal6Logger27is_listening_to_code_eventsEv"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "628",
+        "targets": [
+            "_ZN2v88internal23BufferedCharacterStreamINS0_12OnHeapStreamEED0Ev"
+        ]
+    },
+    {
+        "line": "../src/parsing/scanner.h:156",
+        "id": "633",
+        "targets": [
+            "_ZN2v88internal23BufferedCharacterStreamINS0_12OnHeapStreamEE9ReadBlockEv"
+        ]
+    },
+    {
+        "line": "../src/parsing/parser.h:134",
+        "id": "635",
+        "targets": [
+            "_ZN2v88internal4ZoneD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "636",
+        "targets": [
+            "_ZN2v88internal11interpreter25InterpreterCompilationJobD0Ev"
+        ]
+    },
+    {
+        "line": "../src/codegen/compiler.cc:1081",
+        "id": "667",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/codegen/compiler.cc:1105",
+        "id": "668",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/codegen/compiler.cc:2216",
+        "id": "680",
+        "targets": [
+            "_ZN2v88internal23UnoptimizedCompileStateC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/codegen/compiler.cc:2217",
+        "id": "681",
+        "targets": [
+            "_ZN2v88internal9ParseInfoC1EPNS0_7IsolateENS0_23UnoptimizedCompileFlagsEPNS0_23UnoptimizedCompileStateE"
+        ]
+    },
+    {
+        "line": "../src/codegen/compiler.cc:2227",
+        "id": "682",
+        "targets": [
+            "_ZN2v88internal9ParseInfoD1Ev"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:374",
+        "id": "699",
+        "targets": [
+            "_ZN2v88internal15AbortDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal18AllocateDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21ApiCallbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal19ApiGetterDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26ArgumentsAdaptorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26ArrayConstructorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal36ArrayNArgumentsConstructorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal36ArrayNoArgumentConstructorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal40ArraySingleArgumentConstructorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37AsyncFunctionStackParameterDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25BigIntToI32PairDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21BigIntToI64Descriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal18BinaryOpDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal31BinaryOp_WithFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28CallForwardVarargsDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30CallFunctionTemplateDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24CallTrampolineDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37CallTrampoline_WithFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21CallVarargsDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27CallWithArrayLikeDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal40CallWithArrayLike_WithFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24CallWithSpreadDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37CallWithSpread_WithFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28CEntry1ArgvOnStackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal31CloneObjectWithVectorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal17CompareDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30Compare_WithFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal33ConstructForwardVarargsDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal23ConstructStubDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26ConstructVarargsDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32ConstructWithArrayLikeDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal45ConstructWithArrayLike_WithFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32Construct_WithFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29ConstructWithSpreadDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal42ConstructWithSpread_WithFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21ContextOnlyDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27CppBuiltinAdaptorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29EphemeronKeyBarrierDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32FastNewFunctionContextDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal23FastNewObjectDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32FrameDropperTrampolineDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35GetIteratorStackParameterDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21GetPropertyDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27GrowArrayElementsDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25I32PairToBigIntDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21I64ToBigIntDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28InterpreterCEntry1Descriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28InterpreterCEntry2Descriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29InterpreterDispatchDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37InterpreterPushArgsThenCallDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal42InterpreterPushArgsThenConstructDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal22JSTrampolineDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal14LoadDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal20LoadGlobalDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30LoadGlobalNoFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30LoadGlobalWithVectorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24LoadNoFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24LoadWithVectorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30NewArgumentsElementsDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal19NoContextDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21RecordWriteDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25ResumeGeneratorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal23RunMicrotasksDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28RunMicrotasksEntryDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal15StoreDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21StoreGlobalDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal31StoreGlobalWithVectorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25StoreTransitionDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25StoreWithVectorDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal18StringAtDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26StringAtAsStringDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25StringSubstringDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24TypeConversionDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal38TypeConversionStackParameterDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal16TypeofDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30UnaryOp_WithFeedbackDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal14VoidDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29WasmFloat32ToNumberDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29WasmFloat64ToNumberDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29WasmI32AtomicWait32Descriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29WasmI64AtomicWait32Descriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24FastNewClosureDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal34CreateEmptyLiteralObjectDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29CreateRegExpLiteralDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal33CreateEmptyArrayLiteralDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35CreateShallowArrayLiteralDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal36CreateShallowObjectLiteralDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal23StringIndexOfDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35OrderedHashTableHealIndexDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37CopyFastSmiOrObjectElementsDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26EnqueueMicrotaskDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21HasPropertyDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24DeletePropertyDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28CopyDataPropertiesDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27SetDataPropertiesDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal34ArrayIncludesSmiOrObjectDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal36ArrayIncludesPackedDoublesDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35ArrayIncludesHoleyDoublesDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal33ArrayIndexOfSmiOrObjectDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35ArrayIndexOfPackedDoublesDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal34ArrayIndexOfHoleyDoublesDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26CloneFastJSArrayDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal38CloneFastJSArrayFillingHolesDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28ExtractFastJSArrayDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26FlattenIntoArrayDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26FlatMapIntoArrayDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28AsyncFunctionEnterDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29AsyncFunctionRejectDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30AsyncFunctionResolveDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal34AsyncFunctionAwaitCaughtDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal36AsyncFunctionAwaitUncaughtDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32CreateIterResultObjectDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal31CreateGeneratorObjectDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24IterableToListDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30IterableToFixedArrayDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal40IterableToListWithSymbolLookupDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal50IterableToFixedArrayWithSymbolLookupSlowDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal40IterableToListMayPreserveHolesDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37IterableToFixedArrayForWasmDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32StringListFromIterableDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal33FindOrderedHashMapEntryDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27MapIteratorToListDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24ObjectToStringDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24ForInEnumerateDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21ForInFilterDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24RegExpExecAtomDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28RegExpExecInternalDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32SetOrSetIteratorToListDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27WasmAllocateArrayDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32WeakMapLookupHashIndexDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30WeakCollectionDeleteDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27WeakCollectionSetDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal31AsyncGeneratorResolveDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30AsyncGeneratorRejectDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29AsyncGeneratorYieldDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30AsyncGeneratorReturnDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal34AsyncGeneratorResumeNextDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35AsyncGeneratorAwaitCaughtDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37AsyncGeneratorAwaitUncaughtDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29StringAdd_CheckNoneDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal19SubStringDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal33GetPropertyWithReceiverDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21SetPropertyDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30SetPropertyInLiteralDescriptor26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi8ELb1EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi6ELb1EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi2ELb1EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi3ELb1EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi7ELb1EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi1ELb1EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi4ELb1EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi5ELb1EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi1ELb0EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi5ELb0EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi2ELb0EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi3ELb0EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi0ELb0EE26InitializePlatformSpecificEPNS0_27CallInterfaceDescriptorDataE"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:375",
+        "id": "700",
+        "targets": [
+            "_ZN2v88internal15AbortDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal18AllocateDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21ApiCallbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal19ApiGetterDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26ArgumentsAdaptorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26ArrayConstructorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal36ArrayNArgumentsConstructorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal36ArrayNoArgumentConstructorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal40ArraySingleArgumentConstructorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37AsyncFunctionStackParameterDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25BigIntToI32PairDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21BigIntToI64Descriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal23CallInterfaceDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal31BinaryOp_WithFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28CallForwardVarargsDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30CallFunctionTemplateDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24CallTrampolineDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37CallTrampoline_WithFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21CallVarargsDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27CallWithArrayLikeDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal40CallWithArrayLike_WithFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24CallWithSpreadDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37CallWithSpread_WithFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28CEntry1ArgvOnStackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal31CloneObjectWithVectorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30Compare_WithFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal33ConstructForwardVarargsDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal23ConstructStubDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26ConstructVarargsDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32ConstructWithArrayLikeDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal45ConstructWithArrayLike_WithFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32Construct_WithFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29ConstructWithSpreadDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal42ConstructWithSpread_WithFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21ContextOnlyDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27CppBuiltinAdaptorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29EphemeronKeyBarrierDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32FastNewFunctionContextDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal23FastNewObjectDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32FrameDropperTrampolineDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35GetIteratorStackParameterDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21GetPropertyDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27GrowArrayElementsDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25I32PairToBigIntDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21I64ToBigIntDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28InterpreterCEntry1Descriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28InterpreterCEntry2Descriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29InterpreterDispatchDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37InterpreterPushArgsThenCallDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal42InterpreterPushArgsThenConstructDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal22JSTrampolineDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal14LoadDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal20LoadGlobalDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30LoadGlobalNoFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30LoadGlobalWithVectorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24LoadNoFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24LoadWithVectorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30NewArgumentsElementsDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal19NoContextDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21RecordWriteDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25ResumeGeneratorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal23RunMicrotasksDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28RunMicrotasksEntryDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal15StoreDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21StoreGlobalDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal31StoreGlobalWithVectorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25StoreTransitionDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25StoreWithVectorDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal18StringAtDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26StringAtAsStringDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25StringSubstringDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24TypeConversionDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal38TypeConversionStackParameterDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal16TypeofDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30UnaryOp_WithFeedbackDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal14VoidDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29WasmFloat32ToNumberDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29WasmFloat64ToNumberDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29WasmI32AtomicWait32Descriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29WasmI64AtomicWait32Descriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24FastNewClosureDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal34CreateEmptyLiteralObjectDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29CreateRegExpLiteralDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal33CreateEmptyArrayLiteralDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35CreateShallowArrayLiteralDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal36CreateShallowObjectLiteralDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal23StringIndexOfDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35OrderedHashTableHealIndexDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37CopyFastSmiOrObjectElementsDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26EnqueueMicrotaskDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21HasPropertyDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24DeletePropertyDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28CopyDataPropertiesDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27SetDataPropertiesDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal34ArrayIncludesSmiOrObjectDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal36ArrayIncludesPackedDoublesDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35ArrayIncludesHoleyDoublesDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal33ArrayIndexOfSmiOrObjectDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35ArrayIndexOfPackedDoublesDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal34ArrayIndexOfHoleyDoublesDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26CloneFastJSArrayDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal38CloneFastJSArrayFillingHolesDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28ExtractFastJSArrayDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26FlattenIntoArrayDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal26FlatMapIntoArrayDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28AsyncFunctionEnterDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29AsyncFunctionRejectDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30AsyncFunctionResolveDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal34AsyncFunctionAwaitCaughtDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal36AsyncFunctionAwaitUncaughtDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32CreateIterResultObjectDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal31CreateGeneratorObjectDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24IterableToListDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30IterableToFixedArrayDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal40IterableToListWithSymbolLookupDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal50IterableToFixedArrayWithSymbolLookupSlowDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal40IterableToListMayPreserveHolesDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37IterableToFixedArrayForWasmDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32StringListFromIterableDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal33FindOrderedHashMapEntryDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27MapIteratorToListDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24ObjectToStringDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24ForInEnumerateDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21ForInFilterDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal24RegExpExecAtomDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal28RegExpExecInternalDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32SetOrSetIteratorToListDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27WasmAllocateArrayDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal32WeakMapLookupHashIndexDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30WeakCollectionDeleteDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal27WeakCollectionSetDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal31AsyncGeneratorResolveDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30AsyncGeneratorRejectDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29AsyncGeneratorYieldDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30AsyncGeneratorReturnDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal34AsyncGeneratorResumeNextDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal35AsyncGeneratorAwaitCaughtDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal37AsyncGeneratorAwaitUncaughtDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal29StringAdd_CheckNoneDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal19SubStringDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal33GetPropertyWithReceiverDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal21SetPropertyDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal30SetPropertyInLiteralDescriptor29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi8ELb1EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi6ELb1EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi2ELb1EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi3ELb1EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi7ELb1EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi1ELb1EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi4ELb1EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi5ELb1EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi1ELb0EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi5ELb0EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi2ELb0EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi3ELb0EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE",
+            "_ZN2v88internal25TorqueInterfaceDescriptorILi0ELb0EE29InitializePlatformIndependentEPNS0_27CallInterfaceDescriptorDataE"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "701",
+        "targets": [
+            "_ZN2v88internal31ConvertToLocaleStringDescriptor10ReturnTypeEv",
+            "_ZN2v88internal32FastCreateDataPropertyDescriptor10ReturnTypeEv",
+            "_ZN2v88internal28CheckNumberInRangeDescriptor10ReturnTypeEv",
+            "_ZN2v88internal23RejectPromiseDescriptor10ReturnTypeEv",
+            "_ZN2v88internal35PromiseFulfillReactionJobDescriptor10ReturnTypeEv",
+            "_ZN2v88internal34PromiseRejectReactionJobDescriptor10ReturnTypeEv",
+            "_ZN2v88internal35PromiseResolveThenableJobDescriptor10ReturnTypeEv",
+            "_ZN2v88internal29ProxyDeletePropertyDescriptor10ReturnTypeEv",
+            "_ZN2v88internal29ProxySetPrototypeOfDescriptor10ReturnTypeEv",
+            "_ZN2v88internal23RegExpReplaceDescriptor10ReturnTypeEv",
+            "_ZN2v88internal21RegExpSplitDescriptor10ReturnTypeEv",
+            "_ZN2v88internal33Store_FastSmiElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal36Store_FastObjectElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal36Store_FastDoubleElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal28SortCompareDefaultDescriptor10ReturnTypeEv",
+            "_ZN2v88internal27SortCompareUserFnDescriptor10ReturnTypeEv",
+            "_ZN2v88internal54CanUseSameAccessor_GenericElementsAccessor_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal49CanUseSameAccessor_FastDoubleElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal46CanUseSameAccessor_FastSmiElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal49CanUseSameAccessor_FastObjectElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal41Store_GenericElementsAccessor_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal50StoreTypedElementNumeric_Int32Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal48StoreTypedElementJSAny_Int32Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal52StoreTypedElementNumeric_Float32Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal50StoreTypedElementJSAny_Float32Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal52StoreTypedElementNumeric_Float64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal50StoreTypedElementJSAny_Float64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal57StoreTypedElementNumeric_Uint8ClampedElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal55StoreTypedElementJSAny_Uint8ClampedElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal54StoreTypedElementNumeric_BigUint64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal52StoreTypedElementJSAny_BigUint64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal53StoreTypedElementNumeric_BigInt64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal51StoreTypedElementJSAny_BigInt64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal50StoreTypedElementNumeric_Uint8Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal48StoreTypedElementJSAny_Uint8Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal49StoreTypedElementNumeric_Int8Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal47StoreTypedElementJSAny_Int8Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal51StoreTypedElementNumeric_Uint16Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal49StoreTypedElementJSAny_Uint16Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal50StoreTypedElementNumeric_Int16Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal48StoreTypedElementJSAny_Int16Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal51StoreTypedElementNumeric_Uint32Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal49StoreTypedElementJSAny_Uint32Elements_0Descriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "702",
+        "targets": [
+            "_ZN2v88internal31ConvertToLocaleStringDescriptor14ParameterTypesEv",
+            "_ZN2v88internal32FastCreateDataPropertyDescriptor14ParameterTypesEv",
+            "_ZN2v88internal28CheckNumberInRangeDescriptor14ParameterTypesEv",
+            "_ZN2v88internal23RejectPromiseDescriptor14ParameterTypesEv",
+            "_ZN2v88internal35PromiseFulfillReactionJobDescriptor14ParameterTypesEv",
+            "_ZN2v88internal34PromiseRejectReactionJobDescriptor14ParameterTypesEv",
+            "_ZN2v88internal35PromiseResolveThenableJobDescriptor14ParameterTypesEv",
+            "_ZN2v88internal29ProxyDeletePropertyDescriptor14ParameterTypesEv",
+            "_ZN2v88internal29ProxySetPrototypeOfDescriptor14ParameterTypesEv",
+            "_ZN2v88internal23RegExpReplaceDescriptor14ParameterTypesEv",
+            "_ZN2v88internal21RegExpSplitDescriptor14ParameterTypesEv",
+            "_ZN2v88internal33Store_FastSmiElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal36Store_FastObjectElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal36Store_FastDoubleElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal28SortCompareDefaultDescriptor14ParameterTypesEv",
+            "_ZN2v88internal27SortCompareUserFnDescriptor14ParameterTypesEv",
+            "_ZN2v88internal54CanUseSameAccessor_GenericElementsAccessor_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal49CanUseSameAccessor_FastDoubleElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal46CanUseSameAccessor_FastSmiElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal49CanUseSameAccessor_FastObjectElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal41Store_GenericElementsAccessor_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal50StoreTypedElementNumeric_Int32Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal48StoreTypedElementJSAny_Int32Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal52StoreTypedElementNumeric_Float32Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal50StoreTypedElementJSAny_Float32Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal52StoreTypedElementNumeric_Float64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal50StoreTypedElementJSAny_Float64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal57StoreTypedElementNumeric_Uint8ClampedElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal55StoreTypedElementJSAny_Uint8ClampedElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal54StoreTypedElementNumeric_BigUint64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal52StoreTypedElementJSAny_BigUint64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal53StoreTypedElementNumeric_BigInt64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal51StoreTypedElementJSAny_BigInt64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal50StoreTypedElementNumeric_Uint8Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal48StoreTypedElementJSAny_Uint8Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal49StoreTypedElementNumeric_Int8Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal47StoreTypedElementJSAny_Int8Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal51StoreTypedElementNumeric_Uint16Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal49StoreTypedElementJSAny_Uint16Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal50StoreTypedElementNumeric_Int16Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal48StoreTypedElementJSAny_Int16Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal51StoreTypedElementNumeric_Uint32Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal49StoreTypedElementJSAny_Uint32Elements_0Descriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "703",
+        "targets": [
+            "_ZN2v88internal22WasmTableGetDescriptor10ReturnTypeEv",
+            "_ZN2v88internal26WasmAtomicNotifyDescriptor10ReturnTypeEv",
+            "_ZN2v88internal42LoadTypedElement_Int32Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal44LoadTypedElement_Float32Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal44LoadTypedElement_Float64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal49LoadTypedElement_Uint8ClampedElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal46LoadTypedElement_BigUint64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal45LoadTypedElement_BigInt64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal42LoadTypedElement_Uint8Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal41LoadTypedElement_Int8Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal43LoadTypedElement_Uint16Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal42LoadTypedElement_Int16Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal43LoadTypedElement_Uint32Elements_0Descriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "704",
+        "targets": [
+            "_ZN2v88internal22WasmTableGetDescriptor14ParameterTypesEv",
+            "_ZN2v88internal26WasmAtomicNotifyDescriptor14ParameterTypesEv",
+            "_ZN2v88internal42LoadTypedElement_Int32Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal44LoadTypedElement_Float32Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal44LoadTypedElement_Float64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal49LoadTypedElement_Uint8ClampedElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal46LoadTypedElement_BigUint64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal45LoadTypedElement_BigInt64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal42LoadTypedElement_Uint8Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal41LoadTypedElement_Int8Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal43LoadTypedElement_Uint16Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal42LoadTypedElement_Int16Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal43LoadTypedElement_Uint32Elements_0Descriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "705",
+        "targets": [
+            "_ZN2v88internal46LoadJoinElement_DictionaryElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal51LoadJoinElement_FastSmiOrObjectElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal46LoadJoinElement_FastDoubleElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal23JoinStackPushDescriptor10ReturnTypeEv",
+            "_ZN2v88internal22JoinStackPopDescriptor10ReturnTypeEv",
+            "_ZN2v88internal25CheckSameObjectDescriptor10ReturnTypeEv",
+            "_ZN2v88internal26BigIntAddNoThrowDescriptor10ReturnTypeEv",
+            "_ZN2v88internal19BigIntAddDescriptor10ReturnTypeEv",
+            "_ZN2v88internal31BigIntSubtractNoThrowDescriptor10ReturnTypeEv",
+            "_ZN2v88internal24BigIntSubtractDescriptor10ReturnTypeEv",
+            "_ZN2v88internal30StringAddConvertLeftDescriptor10ReturnTypeEv",
+            "_ZN2v88internal31StringAddConvertRightDescriptor10ReturnTypeEv",
+            "_ZN2v88internal22StringCharAtDescriptor10ReturnTypeEv",
+            "_ZN2v88internal25IncBlockCounterDescriptor10ReturnTypeEv",
+            "_ZN2v88internal18ParseIntDescriptor10ReturnTypeEv",
+            "_ZN2v88internal13AddDescriptor10ReturnTypeEv",
+            "_ZN2v88internal18SubtractDescriptor10ReturnTypeEv",
+            "_ZN2v88internal18MultiplyDescriptor10ReturnTypeEv",
+            "_ZN2v88internal16DivideDescriptor10ReturnTypeEv",
+            "_ZN2v88internal17ModulusDescriptor10ReturnTypeEv",
+            "_ZN2v88internal22ExponentiateDescriptor10ReturnTypeEv",
+            "_ZN2v88internal19ShiftLeftDescriptor10ReturnTypeEv",
+            "_ZN2v88internal20ShiftRightDescriptor10ReturnTypeEv",
+            "_ZN2v88internal27ShiftRightLogicalDescriptor10ReturnTypeEv",
+            "_ZN2v88internal20BitwiseAndDescriptor10ReturnTypeEv",
+            "_ZN2v88internal19BitwiseOrDescriptor10ReturnTypeEv",
+            "_ZN2v88internal20BitwiseXorDescriptor10ReturnTypeEv",
+            "_ZN2v88internal18LessThanDescriptor10ReturnTypeEv",
+            "_ZN2v88internal25LessThanOrEqualDescriptor10ReturnTypeEv",
+            "_ZN2v88internal21GreaterThanDescriptor10ReturnTypeEv",
+            "_ZN2v88internal28GreaterThanOrEqualDescriptor10ReturnTypeEv",
+            "_ZN2v88internal15EqualDescriptor10ReturnTypeEv",
+            "_ZN2v88internal21StrictEqualDescriptor10ReturnTypeEv",
+            "_ZN2v88internal24FulfillPromiseDescriptor10ReturnTypeEv",
+            "_ZN2v88internal30NewPromiseCapabilityDescriptor10ReturnTypeEv",
+            "_ZN2v88internal24PromiseResolveDescriptor10ReturnTypeEv",
+            "_ZN2v88internal24ResolvePromiseDescriptor10ReturnTypeEv",
+            "_ZN2v88internal26ProxyHasPropertyDescriptor10ReturnTypeEv",
+            "_ZN2v88internal32ProxyPreventExtensionsDescriptor10ReturnTypeEv",
+            "_ZN2v88internal33RegExpPrototypeExecSlowDescriptor10ReturnTypeEv",
+            "_ZN2v88internal25RegExpMatchFastDescriptor10ReturnTypeEv",
+            "_ZN2v88internal26RegExpSearchFastDescriptor10ReturnTypeEv",
+            "_ZN2v88internal33RegExpPrototypeTestFastDescriptor10ReturnTypeEv",
+            "_ZN2v88internal22StringRepeatDescriptor10ReturnTypeEv",
+            "_ZN2v88internal28WasmGetOwnPropertyDescriptor10ReturnTypeEv",
+            "_ZN2v88internal32Load_FastSmiElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal35Load_FastObjectElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal35Load_FastDoubleElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal34Delete_FastSmiElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal37Delete_FastObjectElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal37Delete_FastDoubleElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal17MergeAtDescriptor10ReturnTypeEv",
+            "_ZN2v88internal51LoadJoinElement_GenericElementsAccessor_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal46LoadJoinTypedElement_Int32Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal48LoadJoinTypedElement_Float32Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal48LoadJoinTypedElement_Float64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal53LoadJoinTypedElement_Uint8ClampedElements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal50LoadJoinTypedElement_BigUint64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal49LoadJoinTypedElement_BigInt64Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal46LoadJoinTypedElement_Uint8Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal45LoadJoinTypedElement_Int8Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal47LoadJoinTypedElement_Uint16Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal46LoadJoinTypedElement_Int16Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal47LoadJoinTypedElement_Uint32Elements_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal40Load_GenericElementsAccessor_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal42Delete_GenericElementsAccessor_0Descriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "706",
+        "targets": [
+            "_ZN2v88internal46LoadJoinElement_DictionaryElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal51LoadJoinElement_FastSmiOrObjectElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal46LoadJoinElement_FastDoubleElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal23JoinStackPushDescriptor14ParameterTypesEv",
+            "_ZN2v88internal22JoinStackPopDescriptor14ParameterTypesEv",
+            "_ZN2v88internal25CheckSameObjectDescriptor14ParameterTypesEv",
+            "_ZN2v88internal26BigIntAddNoThrowDescriptor14ParameterTypesEv",
+            "_ZN2v88internal19BigIntAddDescriptor14ParameterTypesEv",
+            "_ZN2v88internal31BigIntSubtractNoThrowDescriptor14ParameterTypesEv",
+            "_ZN2v88internal24BigIntSubtractDescriptor14ParameterTypesEv",
+            "_ZN2v88internal30StringAddConvertLeftDescriptor14ParameterTypesEv",
+            "_ZN2v88internal31StringAddConvertRightDescriptor14ParameterTypesEv",
+            "_ZN2v88internal22StringCharAtDescriptor14ParameterTypesEv",
+            "_ZN2v88internal25IncBlockCounterDescriptor14ParameterTypesEv",
+            "_ZN2v88internal18ParseIntDescriptor14ParameterTypesEv",
+            "_ZN2v88internal13AddDescriptor14ParameterTypesEv",
+            "_ZN2v88internal18SubtractDescriptor14ParameterTypesEv",
+            "_ZN2v88internal18MultiplyDescriptor14ParameterTypesEv",
+            "_ZN2v88internal16DivideDescriptor14ParameterTypesEv",
+            "_ZN2v88internal17ModulusDescriptor14ParameterTypesEv",
+            "_ZN2v88internal22ExponentiateDescriptor14ParameterTypesEv",
+            "_ZN2v88internal19ShiftLeftDescriptor14ParameterTypesEv",
+            "_ZN2v88internal20ShiftRightDescriptor14ParameterTypesEv",
+            "_ZN2v88internal27ShiftRightLogicalDescriptor14ParameterTypesEv",
+            "_ZN2v88internal20BitwiseAndDescriptor14ParameterTypesEv",
+            "_ZN2v88internal19BitwiseOrDescriptor14ParameterTypesEv",
+            "_ZN2v88internal20BitwiseXorDescriptor14ParameterTypesEv",
+            "_ZN2v88internal18LessThanDescriptor14ParameterTypesEv",
+            "_ZN2v88internal25LessThanOrEqualDescriptor14ParameterTypesEv",
+            "_ZN2v88internal21GreaterThanDescriptor14ParameterTypesEv",
+            "_ZN2v88internal28GreaterThanOrEqualDescriptor14ParameterTypesEv",
+            "_ZN2v88internal15EqualDescriptor14ParameterTypesEv",
+            "_ZN2v88internal21StrictEqualDescriptor14ParameterTypesEv",
+            "_ZN2v88internal24FulfillPromiseDescriptor14ParameterTypesEv",
+            "_ZN2v88internal30NewPromiseCapabilityDescriptor14ParameterTypesEv",
+            "_ZN2v88internal24PromiseResolveDescriptor14ParameterTypesEv",
+            "_ZN2v88internal24ResolvePromiseDescriptor14ParameterTypesEv",
+            "_ZN2v88internal26ProxyHasPropertyDescriptor14ParameterTypesEv",
+            "_ZN2v88internal32ProxyPreventExtensionsDescriptor14ParameterTypesEv",
+            "_ZN2v88internal33RegExpPrototypeExecSlowDescriptor14ParameterTypesEv",
+            "_ZN2v88internal25RegExpMatchFastDescriptor14ParameterTypesEv",
+            "_ZN2v88internal26RegExpSearchFastDescriptor14ParameterTypesEv",
+            "_ZN2v88internal33RegExpPrototypeTestFastDescriptor14ParameterTypesEv",
+            "_ZN2v88internal22StringRepeatDescriptor14ParameterTypesEv",
+            "_ZN2v88internal28WasmGetOwnPropertyDescriptor14ParameterTypesEv",
+            "_ZN2v88internal32Load_FastSmiElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal35Load_FastObjectElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal35Load_FastDoubleElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal34Delete_FastSmiElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal37Delete_FastObjectElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal37Delete_FastDoubleElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal17MergeAtDescriptor14ParameterTypesEv",
+            "_ZN2v88internal51LoadJoinElement_GenericElementsAccessor_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal46LoadJoinTypedElement_Int32Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal48LoadJoinTypedElement_Float32Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal48LoadJoinTypedElement_Float64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal53LoadJoinTypedElement_Uint8ClampedElements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal50LoadJoinTypedElement_BigUint64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal49LoadJoinTypedElement_BigInt64Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal46LoadJoinTypedElement_Uint8Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal45LoadJoinTypedElement_Int8Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal47LoadJoinTypedElement_Uint16Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal46LoadJoinTypedElement_Int16Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal47LoadJoinTypedElement_Uint32Elements_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal40Load_GenericElementsAccessor_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal42Delete_GenericElementsAccessor_0Descriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "707",
+        "targets": [
+            "_ZN2v88internal31WasmInt32ToHeapNumberDescriptor10ReturnTypeEv",
+            "_ZN2v88internal24WasmMemoryGrowDescriptor10ReturnTypeEv",
+            "_ZN2v88internal21WasmRefFuncDescriptor10ReturnTypeEv",
+            "_ZN2v88internal19WasmThrowDescriptor10ReturnTypeEv",
+            "_ZN2v88internal21WasmRethrowDescriptor10ReturnTypeEv",
+            "_ZN2v88internal25WasmTraceMemoryDescriptor10ReturnTypeEv",
+            "_ZN2v88internal23WasmTraceExitDescriptor10ReturnTypeEv",
+            "_ZN2v88internal27WasmInt32ToNumberDescriptor10ReturnTypeEv",
+            "_ZN2v88internal28WasmUint32ToNumberDescriptor10ReturnTypeEv",
+            "_ZN2v88internal18WasmTrapDescriptor10ReturnTypeEv",
+            "_ZN2v88internal36GenericBuiltinTest_JSAny_0Descriptor10ReturnTypeEv",
+            "_ZN2v88internal25TestHelperPlus1Descriptor10ReturnTypeEv",
+            "_ZN2v88internal25TestHelperPlus2Descriptor10ReturnTypeEv",
+            "_ZN2v88internal34GenericBuiltinTest_Smi_0Descriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "708",
+        "targets": [
+            "_ZN2v88internal31WasmInt32ToHeapNumberDescriptor14ParameterTypesEv",
+            "_ZN2v88internal24WasmMemoryGrowDescriptor14ParameterTypesEv",
+            "_ZN2v88internal21WasmRefFuncDescriptor14ParameterTypesEv",
+            "_ZN2v88internal19WasmThrowDescriptor14ParameterTypesEv",
+            "_ZN2v88internal21WasmRethrowDescriptor14ParameterTypesEv",
+            "_ZN2v88internal25WasmTraceMemoryDescriptor14ParameterTypesEv",
+            "_ZN2v88internal23WasmTraceExitDescriptor14ParameterTypesEv",
+            "_ZN2v88internal27WasmInt32ToNumberDescriptor14ParameterTypesEv",
+            "_ZN2v88internal28WasmUint32ToNumberDescriptor14ParameterTypesEv",
+            "_ZN2v88internal18WasmTrapDescriptor14ParameterTypesEv",
+            "_ZN2v88internal36GenericBuiltinTest_JSAny_0Descriptor14ParameterTypesEv",
+            "_ZN2v88internal25TestHelperPlus1Descriptor14ParameterTypesEv",
+            "_ZN2v88internal25TestHelperPlus2Descriptor14ParameterTypesEv",
+            "_ZN2v88internal34GenericBuiltinTest_Smi_0Descriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "709",
+        "targets": [
+            "_ZN2v88internal19ToIntegerDescriptor10ReturnTypeEv",
+            "_ZN2v88internal26BigIntUnaryMinusDescriptor10ReturnTypeEv",
+            "_ZN2v88internal18ToStringDescriptor10ReturnTypeEv",
+            "_ZN2v88internal22StringToListDescriptor10ReturnTypeEv",
+            "_ZN2v88internal24StringToNumberDescriptor10ReturnTypeEv",
+            "_ZN2v88internal27NonNumberToNumberDescriptor10ReturnTypeEv",
+            "_ZN2v88internal28NonNumberToNumericDescriptor10ReturnTypeEv",
+            "_ZN2v88internal19ToNumericDescriptor10ReturnTypeEv",
+            "_ZN2v88internal24NumberToStringDescriptor10ReturnTypeEv",
+            "_ZN2v88internal19ToBooleanDescriptor10ReturnTypeEv",
+            "_ZN2v88internal18ToLengthDescriptor10ReturnTypeEv",
+            "_ZN2v88internal16ToNameDescriptor10ReturnTypeEv",
+            "_ZN2v88internal18ToObjectDescriptor10ReturnTypeEv",
+            "_ZN2v88internal41NonPrimitiveToPrimitive_DefaultDescriptor10ReturnTypeEv",
+            "_ZN2v88internal40NonPrimitiveToPrimitive_NumberDescriptor10ReturnTypeEv",
+            "_ZN2v88internal40NonPrimitiveToPrimitive_StringDescriptor10ReturnTypeEv",
+            "_ZN2v88internal36OrdinaryToPrimitive_NumberDescriptor10ReturnTypeEv",
+            "_ZN2v88internal36OrdinaryToPrimitive_StringDescriptor10ReturnTypeEv",
+            "_ZN2v88internal16NegateDescriptor10ReturnTypeEv",
+            "_ZN2v88internal20BitwiseNotDescriptor10ReturnTypeEv",
+            "_ZN2v88internal19DecrementDescriptor10ReturnTypeEv",
+            "_ZN2v88internal19IncrementDescriptor10ReturnTypeEv",
+            "_ZN2v88internal39CreateObjectWithoutPropertiesDescriptor10ReturnTypeEv",
+            "_ZN2v88internal29ProxyGetPrototypeOfDescriptor10ReturnTypeEv",
+            "_ZN2v88internal27ProxyIsExtensibleDescriptor10ReturnTypeEv",
+            "_ZN2v88internal33WasmTaggedNonSmiToInt32Descriptor10ReturnTypeEv",
+            "_ZN2v88internal29WasmTaggedToFloat64Descriptor10ReturnTypeEv",
+            "_ZN2v88internal29WasmAllocateJSArrayDescriptor10ReturnTypeEv",
+            "_ZN2v88internal28WasmAllocateStructDescriptor10ReturnTypeEv",
+            "_ZN2v88internal19NewSmiBoxDescriptor10ReturnTypeEv",
+            "_ZN2v88internal22ArrayTimSortDescriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "710",
+        "targets": [
+            "_ZN2v88internal19ToIntegerDescriptor14ParameterTypesEv",
+            "_ZN2v88internal26BigIntUnaryMinusDescriptor14ParameterTypesEv",
+            "_ZN2v88internal18ToStringDescriptor14ParameterTypesEv",
+            "_ZN2v88internal22StringToListDescriptor14ParameterTypesEv",
+            "_ZN2v88internal24StringToNumberDescriptor14ParameterTypesEv",
+            "_ZN2v88internal27NonNumberToNumberDescriptor14ParameterTypesEv",
+            "_ZN2v88internal28NonNumberToNumericDescriptor14ParameterTypesEv",
+            "_ZN2v88internal19ToNumericDescriptor14ParameterTypesEv",
+            "_ZN2v88internal24NumberToStringDescriptor14ParameterTypesEv",
+            "_ZN2v88internal19ToBooleanDescriptor14ParameterTypesEv",
+            "_ZN2v88internal18ToLengthDescriptor14ParameterTypesEv",
+            "_ZN2v88internal16ToNameDescriptor14ParameterTypesEv",
+            "_ZN2v88internal18ToObjectDescriptor14ParameterTypesEv",
+            "_ZN2v88internal41NonPrimitiveToPrimitive_DefaultDescriptor14ParameterTypesEv",
+            "_ZN2v88internal40NonPrimitiveToPrimitive_NumberDescriptor14ParameterTypesEv",
+            "_ZN2v88internal40NonPrimitiveToPrimitive_StringDescriptor14ParameterTypesEv",
+            "_ZN2v88internal36OrdinaryToPrimitive_NumberDescriptor14ParameterTypesEv",
+            "_ZN2v88internal36OrdinaryToPrimitive_StringDescriptor14ParameterTypesEv",
+            "_ZN2v88internal16NegateDescriptor14ParameterTypesEv",
+            "_ZN2v88internal20BitwiseNotDescriptor14ParameterTypesEv",
+            "_ZN2v88internal19DecrementDescriptor14ParameterTypesEv",
+            "_ZN2v88internal19IncrementDescriptor14ParameterTypesEv",
+            "_ZN2v88internal39CreateObjectWithoutPropertiesDescriptor14ParameterTypesEv",
+            "_ZN2v88internal29ProxyGetPrototypeOfDescriptor14ParameterTypesEv",
+            "_ZN2v88internal27ProxyIsExtensibleDescriptor14ParameterTypesEv",
+            "_ZN2v88internal33WasmTaggedNonSmiToInt32Descriptor14ParameterTypesEv",
+            "_ZN2v88internal29WasmTaggedToFloat64Descriptor14ParameterTypesEv",
+            "_ZN2v88internal29WasmAllocateJSArrayDescriptor14ParameterTypesEv",
+            "_ZN2v88internal28WasmAllocateStructDescriptor14ParameterTypesEv",
+            "_ZN2v88internal19NewSmiBoxDescriptor14ParameterTypesEv",
+            "_ZN2v88internal22ArrayTimSortDescriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "711",
+        "targets": [
+            "_ZN2v88internal35ArrayFindLoopContinuationDescriptor10ReturnTypeEv",
+            "_ZN2v88internal40ArrayFindIndexLoopContinuationDescriptor10ReturnTypeEv",
+            "_ZN2v88internal42ArrayReduceRightLoopContinuationDescriptor10ReturnTypeEv",
+            "_ZN2v88internal37ArrayReduceLoopContinuationDescriptor10ReturnTypeEv",
+            "_ZN2v88internal29TypedArrayMergeSortDescriptor10ReturnTypeEv",
+            "_ZN2v88internal20GallopLeftDescriptor10ReturnTypeEv",
+            "_ZN2v88internal21GallopRightDescriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "712",
+        "targets": [
+            "_ZN2v88internal35ArrayFindLoopContinuationDescriptor14ParameterTypesEv",
+            "_ZN2v88internal40ArrayFindIndexLoopContinuationDescriptor14ParameterTypesEv",
+            "_ZN2v88internal42ArrayReduceRightLoopContinuationDescriptor14ParameterTypesEv",
+            "_ZN2v88internal37ArrayReduceLoopContinuationDescriptor14ParameterTypesEv",
+            "_ZN2v88internal29TypedArrayMergeSortDescriptor14ParameterTypesEv",
+            "_ZN2v88internal20GallopLeftDescriptor14ParameterTypesEv",
+            "_ZN2v88internal21GallopRightDescriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "713",
+        "targets": [
+            "_ZN2v88internal20CreateHTMLDescriptor10ReturnTypeEv",
+            "_ZN2v88internal26CreateTypedArrayDescriptor10ReturnTypeEv",
+            "_ZN2v88internal14CopyDescriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "714",
+        "targets": [
+            "_ZN2v88internal20CreateHTMLDescriptor14ParameterTypesEv",
+            "_ZN2v88internal26CreateTypedArrayDescriptor14ParameterTypesEv",
+            "_ZN2v88internal14CopyDescriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "715",
+        "targets": [
+            "_ZN2v88internal24WasmStackGuardDescriptor10ReturnTypeEv",
+            "_ZN2v88internal27WasmStackOverflowDescriptor10ReturnTypeEv",
+            "_ZN2v88internal24WasmTraceEnterDescriptor10ReturnTypeEv",
+            "_ZN2v88internal34ThrowWasmTrapUnreachableDescriptor10ReturnTypeEv",
+            "_ZN2v88internal37ThrowWasmTrapMemOutOfBoundsDescriptor10ReturnTypeEv",
+            "_ZN2v88internal38ThrowWasmTrapUnalignedAccessDescriptor10ReturnTypeEv",
+            "_ZN2v88internal32ThrowWasmTrapDivByZeroDescriptor10ReturnTypeEv",
+            "_ZN2v88internal41ThrowWasmTrapDivUnrepresentableDescriptor10ReturnTypeEv",
+            "_ZN2v88internal32ThrowWasmTrapRemByZeroDescriptor10ReturnTypeEv",
+            "_ZN2v88internal43ThrowWasmTrapFloatUnrepresentableDescriptor10ReturnTypeEv",
+            "_ZN2v88internal34ThrowWasmTrapFuncInvalidDescriptor10ReturnTypeEv",
+            "_ZN2v88internal38ThrowWasmTrapFuncSigMismatchDescriptor10ReturnTypeEv",
+            "_ZN2v88internal41ThrowWasmTrapDataSegmentDroppedDescriptor10ReturnTypeEv",
+            "_ZN2v88internal41ThrowWasmTrapElemSegmentDroppedDescriptor10ReturnTypeEv",
+            "_ZN2v88internal39ThrowWasmTrapTableOutOfBoundsDescriptor10ReturnTypeEv",
+            "_ZN2v88internal34ThrowWasmTrapBrOnExnNullDescriptor10ReturnTypeEv",
+            "_ZN2v88internal34ThrowWasmTrapRethrowNullDescriptor10ReturnTypeEv",
+            "_ZN2v88internal38ThrowWasmTrapNullDereferenceDescriptor10ReturnTypeEv",
+            "_ZN2v88internal34ThrowWasmTrapIllegalCastDescriptor10ReturnTypeEv",
+            "_ZN2v88internal39ThrowWasmTrapArrayOutOfBoundsDescriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "716",
+        "targets": [
+            "_ZN2v88internal24WasmStackGuardDescriptor14ParameterTypesEv",
+            "_ZN2v88internal27WasmStackOverflowDescriptor14ParameterTypesEv",
+            "_ZN2v88internal24WasmTraceEnterDescriptor14ParameterTypesEv",
+            "_ZN2v88internal34ThrowWasmTrapUnreachableDescriptor14ParameterTypesEv",
+            "_ZN2v88internal37ThrowWasmTrapMemOutOfBoundsDescriptor14ParameterTypesEv",
+            "_ZN2v88internal38ThrowWasmTrapUnalignedAccessDescriptor14ParameterTypesEv",
+            "_ZN2v88internal32ThrowWasmTrapDivByZeroDescriptor14ParameterTypesEv",
+            "_ZN2v88internal41ThrowWasmTrapDivUnrepresentableDescriptor14ParameterTypesEv",
+            "_ZN2v88internal32ThrowWasmTrapRemByZeroDescriptor14ParameterTypesEv",
+            "_ZN2v88internal43ThrowWasmTrapFloatUnrepresentableDescriptor14ParameterTypesEv",
+            "_ZN2v88internal34ThrowWasmTrapFuncInvalidDescriptor14ParameterTypesEv",
+            "_ZN2v88internal38ThrowWasmTrapFuncSigMismatchDescriptor14ParameterTypesEv",
+            "_ZN2v88internal41ThrowWasmTrapDataSegmentDroppedDescriptor14ParameterTypesEv",
+            "_ZN2v88internal41ThrowWasmTrapElemSegmentDroppedDescriptor14ParameterTypesEv",
+            "_ZN2v88internal39ThrowWasmTrapTableOutOfBoundsDescriptor14ParameterTypesEv",
+            "_ZN2v88internal34ThrowWasmTrapBrOnExnNullDescriptor14ParameterTypesEv",
+            "_ZN2v88internal34ThrowWasmTrapRethrowNullDescriptor14ParameterTypesEv",
+            "_ZN2v88internal38ThrowWasmTrapNullDereferenceDescriptor14ParameterTypesEv",
+            "_ZN2v88internal34ThrowWasmTrapIllegalCastDescriptor14ParameterTypesEv",
+            "_ZN2v88internal39ThrowWasmTrapArrayOutOfBoundsDescriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "717",
+        "targets": [
+            "_ZN2v88internal22WasmTableSetDescriptor10ReturnTypeEv",
+            "_ZN2v88internal29WasmI32AtomicWait64Descriptor10ReturnTypeEv",
+            "_ZN2v88internal29WasmI64AtomicWait64Descriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "718",
+        "targets": [
+            "_ZN2v88internal22WasmTableSetDescriptor14ParameterTypesEv",
+            "_ZN2v88internal29WasmI32AtomicWait64Descriptor14ParameterTypesEv",
+            "_ZN2v88internal29WasmI64AtomicWait64Descriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "719",
+        "targets": [
+            "_ZN2v88internal23WasmTableInitDescriptor10ReturnTypeEv",
+            "_ZN2v88internal23WasmTableCopyDescriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "720",
+        "targets": [
+            "_ZN2v88internal23WasmTableInitDescriptor14ParameterTypesEv",
+            "_ZN2v88internal23WasmTableCopyDescriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "721",
+        "targets": [
+            "_ZN2v88internal27GetTemplateObjectDescriptor10ReturnTypeEv",
+            "_ZN2v88internal33GetIteratorWithFeedbackDescriptor10ReturnTypeEv",
+            "_ZN2v88internal34CallIteratorWithFeedbackDescriptor10ReturnTypeEv",
+            "_ZN2v88internal28PerformPromiseThenDescriptor10ReturnTypeEv",
+            "_ZN2v88internal26ProxyGetPropertyDescriptor10ReturnTypeEv",
+            "_ZN2v88internal26ProxySetPropertyDescriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "722",
+        "targets": [
+            "_ZN2v88internal27GetTemplateObjectDescriptor14ParameterTypesEv",
+            "_ZN2v88internal33GetIteratorWithFeedbackDescriptor14ParameterTypesEv",
+            "_ZN2v88internal34CallIteratorWithFeedbackDescriptor14ParameterTypesEv",
+            "_ZN2v88internal28PerformPromiseThenDescriptor14ParameterTypesEv",
+            "_ZN2v88internal26ProxyGetPropertyDescriptor14ParameterTypesEv",
+            "_ZN2v88internal26ProxySetPropertyDescriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "723",
+        "targets": [
+            "_ZN2v88internal36ArrayEveryLoopContinuationDescriptor10ReturnTypeEv",
+            "_ZN2v88internal37ArrayFilterLoopContinuationDescriptor10ReturnTypeEv",
+            "_ZN2v88internal38ArrayForEachLoopContinuationDescriptor10ReturnTypeEv",
+            "_ZN2v88internal35ArraySomeLoopContinuationDescriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "724",
+        "targets": [
+            "_ZN2v88internal36ArrayEveryLoopContinuationDescriptor14ParameterTypesEv",
+            "_ZN2v88internal37ArrayFilterLoopContinuationDescriptor14ParameterTypesEv",
+            "_ZN2v88internal38ArrayForEachLoopContinuationDescriptor14ParameterTypesEv",
+            "_ZN2v88internal35ArraySomeLoopContinuationDescriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:576",
+        "id": "725",
+        "targets": [
+            "_ZN2v88internal34ArrayMapLoopContinuationDescriptor10ReturnTypeEv"
+        ]
+    },
+    {
+        "line": "../src/codegen/interface-descriptors.h:577",
+        "id": "726",
+        "targets": [
+            "_ZN2v88internal34ArrayMapLoopContinuationDescriptor14ParameterTypesEv"
+        ]
+    },
+    {
+        "line": "../src/base/template-utils.h:84",
+        "id": "727",
+        "targets": [
+            "_ZN2v88internal6detail21CombineRegListsHelperEjj"
+        ]
+    },
+    {
+        "line": "../src/base/template-utils.h:84",
+        "id": "728",
+        "targets": [
+            "_ZN2v88internal6detail21CombineRegListsHelperEjj"
+        ]
+    },
+    {
+        "line": "../src/base/template-utils.h:84",
+        "id": "729",
+        "targets": [
+            "_ZN2v88internal6detail21CombineRegListsHelperEjj"
+        ]
+    },
+    {
+        "line": "../src/base/template-utils.h:84",
+        "id": "730",
+        "targets": [
+            "_ZN2v88internal6detail21CombineRegListsHelperEjj"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/compiler-dispatcher.cc:34",
+        "id": "740",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform23GetForegroundTaskRunnerEPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/compiler-dispatcher.cc:39",
+        "id": "741",
+        "targets": [
+            "_ZN2v88internal21CancelableTaskManagerC1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/compiler-dispatcher.cc:27",
+        "id": "742",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/compiler-dispatcher.cc:27",
+        "id": "743",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/compiler-dispatcher.cc:46",
+        "id": "744",
+        "targets": [
+            "_ZN2v84base9SemaphoreC1Ei"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/compiler-dispatcher.cc:55",
+        "id": "745",
+        "targets": [
+            "_ZN2v84base9SemaphoreD1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/compiler-dispatcher.cc:55",
+        "id": "746",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/compiler-dispatcher.cc:55",
+        "id": "747",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "748",
+        "targets": [
+            "_ZN2v88internal21CancelableTaskManagerD1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/optimizing-compile-dispatcher.cc:106",
+        "id": "767",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/optimizing-compile-dispatcher.cc:106",
+        "id": "768",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/optimizing-compile-dispatcher.cc:106",
+        "id": "769",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/optimizing-compile-dispatcher.cc:106",
+        "id": "770",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/date/date.h:43",
+        "id": "780",
+        "targets": [
+            "_ZN2v84base25PosixDefaultTimezoneCacheD0Ev"
+        ]
+    },
+    {
+        "line": "../src/date/date.cc:61",
+        "id": "787",
+        "targets": [
+            "_ZN2v84base18PosixTimezoneCache5ClearENS0_13TimezoneCache17TimeZoneDetectionE"
+        ]
+    },
+    {
+        "line": "../src/debug/debug.cc:385",
+        "id": "860",
+        "targets": [
+            "_ZN2v88internal11RootVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE"
+        ]
+    },
+    {
+        "line": "../src/debug/debug.cc:387",
+        "id": "861",
+        "targets": [
+            "_ZN2v88internal11RootVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE"
+        ]
+    },
+    {
+        "line": "../src/debug/debug.cc:389",
+        "id": "862",
+        "targets": [
+            "_ZN2v88internal11RootVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE"
+        ]
+    },
+    {
+        "line": "../src/execution/execution.cc:346",
+        "id": "1004",
+        "targets": [
+            "_ZN2v88internal11SaveContextC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/execution.cc:385",
+        "id": "1005",
+        "targets": [
+            "_ZN2v88internal11SaveContextD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/simulator.h:142",
+        "id": "1009",
+        "targets": [
+            "Builtins_JSEntry"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3162",
+        "id": "1144",
+        "targets": [
+            "_ZN2v88internal6LoggerC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/new_allocator.h:146",
+        "id": "1145",
+        "targets": [
+            "_ZN2v88internal8CountersC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.h:1287",
+        "id": "1146",
+        "targets": [
+            "_ZN2v88internal28WorkerThreadRuntimeCallStatsD1Ev"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.h:185",
+        "id": "1147",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2655",
+        "id": "1192",
+        "targets": [
+            "_ZN2v88internal7Isolate20PerIsolateThreadDataD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2778",
+        "id": "1193",
+        "targets": [
+            "_ZN2v88internal7IsolateC1ESt10unique_ptrINS0_16IsolateAllocatorESt14default_deleteIS3_EE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:857",
+        "id": "1194",
+        "targets": [
+            "_ZN2v88internal16IsolateAllocatorC1ENS0_21IsolateAllocationModeE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "1195",
+        "targets": [
+            "_ZN2v88internal16IsolateAllocatorD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2838",
+        "id": "1196",
+        "targets": [
+            "_ZN2v88internal4HeapC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2838",
+        "id": "1197",
+        "targets": [
+            "_ZN2v84base14RecursiveMutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2838",
+        "id": "1198",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2851",
+        "id": "1199",
+        "targets": [
+            "_ZN2v88internal21CancelableTaskManagerC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2838",
+        "id": "1200",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2838",
+        "id": "1201",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2857",
+        "id": "1202",
+        "targets": [
+            "_ZN2v88internal13ThreadManagerC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2872",
+        "id": "1203",
+        "targets": [
+            "_ZN2v88internal5DebugC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2662",
+        "id": "1204",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/logging/code-events.h:112",
+        "id": "1205",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/handles/persistent-handles.h:67",
+        "id": "1206",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/futex-emulation.h:53",
+        "id": "1207",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/logging/code-events.h:108",
+        "id": "1208",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2660",
+        "id": "1225",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2815",
+        "id": "1228",
+        "targets": [
+            "_ZN2v88internal7IsolateD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2943",
+        "id": "1229",
+        "targets": [
+            "_ZN2v88internal27OptimizingCompileDispatcherD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2971",
+        "id": "1230",
+        "targets": [
+            "_ZN2v88internal15DeoptimizerDataD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2981",
+        "id": "1231",
+        "targets": [
+            "_ZN2v88internal12HeapProfilerD0Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:2985",
+        "id": "1232",
+        "targets": [
+            "_ZN2v88internal18CompilerDispatcherD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3001",
+        "id": "1233",
+        "targets": [
+            "_ZN2v88internal11interpreter11InterpreterD0Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3041",
+        "id": "1235",
+        "targets": [
+            "_ZN2v88internal9DateCacheD0Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3044",
+        "id": "1236",
+        "targets": [
+            "_ZN2v88internal11RegExpStackD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3058",
+        "id": "1237",
+        "targets": [
+            "_ZN2v88internal6LoggerD0Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3074",
+        "id": "1238",
+        "targets": [
+            "_ZN2v88internal13ThreadManagerD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3077",
+        "id": "1239",
+        "targets": [
+            "_ZN2v88internal13GlobalHandlesD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3079",
+        "id": "1240",
+        "targets": [
+            "_ZN2v88internal14EternalHandlesD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3091",
+        "id": "1241",
+        "targets": [
+            "_ZN2v88internal5DebugD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3094",
+        "id": "1242",
+        "targets": [
+            "_ZN2v88internal21CancelableTaskManagerD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3097",
+        "id": "1243",
+        "targets": [
+            "_ZN2v88internal26TracingAccountingAllocatorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3103",
+        "id": "1244",
+        "targets": [
+            "_ZN2v88internal14MicrotaskQueueD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3105",
+        "id": "1245",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3105",
+        "id": "1246",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3105",
+        "id": "1247",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3105",
+        "id": "1248",
+        "targets": [
+            "_ZN2v84base14RecursiveMutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3105",
+        "id": "1249",
+        "targets": [
+            "_ZN2v88internal4HeapD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/futex-emulation.h:51",
+        "id": "1250",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "1251",
+        "targets": [
+            "_ZN2v88internal19CodeEventDispatcherD0Ev"
+        ]
+    },
+    {
+        "line": "../src/handles/persistent-handles.h:65",
+        "id": "1252",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "1253",
+        "targets": [
+            "_ZN2v88internal22TracingCpuProfilerImplD1Ev"
+        ]
+    },
+    {
+        "line": "../src/ast/ast-value-factory.h:257",
+        "id": "1254",
+        "targets": [
+            "_ZN2v88internal4ZoneD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3345",
+        "id": "1258",
+        "targets": [
+            "_ZN2v88internal16CompilationCacheC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3348",
+        "id": "1259",
+        "targets": [
+            "_ZN2v88internal13GlobalHandlesC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3350",
+        "id": "1260",
+        "targets": [
+            "_ZN2v88internal12BootstrapperC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3352",
+        "id": "1261",
+        "targets": [
+            "_ZN2v88internal9StubCacheC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3353",
+        "id": "1262",
+        "targets": [
+            "_ZN2v88internal9StubCacheC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3355",
+        "id": "1263",
+        "targets": [
+            "_ZN2v88internal11RegExpStackC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3357",
+        "id": "1264",
+        "targets": [
+            "_ZN2v88internal9DateCacheC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3358",
+        "id": "1265",
+        "targets": [
+            "_ZN2v88internal12HeapProfilerC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3359",
+        "id": "1266",
+        "targets": [
+            "_ZN2v88internal11interpreter11InterpreterC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3362",
+        "id": "1267",
+        "targets": [
+            "_ZN2v88internal18CompilerDispatcherC1EPNS0_7IsolateEPNS_8PlatformEm"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3389",
+        "id": "1268",
+        "targets": [
+            "_ZN2v88internal15DeoptimizerDataC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3397",
+        "id": "1269",
+        "targets": [
+            "_ZN2v88internal20SetupIsolateDelegate9SetupHeapEPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3411",
+        "id": "1270",
+        "targets": [
+            "_ZN2v88internal22TracingCpuProfilerImplC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3439",
+        "id": "1273",
+        "targets": [
+            "_ZN2v88internal20SetupIsolateDelegate13SetupBuiltinsEPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3458",
+        "id": "1274",
+        "targets": [
+            "_ZN2v88internal15RuntimeProfilerC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3483",
+        "id": "1275",
+        "targets": [
+            "_ZN2v88internal20SetupIsolateDelegateD0Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3528",
+        "id": "1276",
+        "targets": [
+            "_ZN2v88internal18AstStringConstantsC1EPNS0_7IsolateEm"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/optimizing-compile-dispatcher.h:27",
+        "id": "1277",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/optimizing-compile-dispatcher.h:27",
+        "id": "1278",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/optimizing-compile-dispatcher.h:27",
+        "id": "1279",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/compiler-dispatcher/optimizing-compile-dispatcher.h:27",
+        "id": "1280",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/isolate.cc:3821",
+        "id": "1291",
+        "targets": [
+            "_ZN2v84base21RandomNumberGeneratorC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/microtask-queue.cc:37",
+        "id": "1385",
+        "targets": [
+            "_ZN2v88internal14MicrotaskQueueC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/v8threads.cc:213",
+        "id": "1409",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/v8threads.cc:220",
+        "id": "1410",
+        "targets": [
+            "_ZN2v88internal11ThreadStateC1EPNS0_13ThreadManagerE"
+        ]
+    },
+    {
+        "line": "../src/execution/v8threads.cc:221",
+        "id": "1411",
+        "targets": [
+            "_ZN2v88internal11ThreadStateC1EPNS0_13ThreadManagerE"
+        ]
+    },
+    {
+        "line": "../src/execution/v8threads.cc:227",
+        "id": "1412",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/execution/v8threads.cc:236",
+        "id": "1414",
+        "targets": [
+            "_ZN2v88internal11ThreadStateD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces-inl.h:184",
+        "id": "1477",
+        "targets": [
+            "_ZN2v88internal10PagedSpace24SupportsInlineAllocationEv"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces-inl.h:197",
+        "id": "1478",
+        "targets": [
+            "_ZN2v88internal19SpaceWithLinearArea29StartNextInlineAllocationStepEv"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces-inl.h:96",
+        "id": "1480",
+        "targets": [
+            "_ZN2v88internal10PagedSpace30SlowRefillLinearAllocationAreaEiNS0_16AllocationOriginE"
+        ]
+    },
+    {
+        "line": "../src/heap/factory.cc:569",
+        "id": "1481",
+        "targets": [
+            "_ZN2v88internal11Utf8DecoderC1ERKNS0_6VectorIKhEE"
+        ]
+    },
+    {
+        "line": "../src/heap/factory.cc:642",
+        "id": "1482",
+        "targets": [
+            "_ZN2v88internal11Utf8DecoderC1ERKNS0_6VectorIKhEE"
+        ]
+    },
+    {
+        "line": "../src/heap/gc-tracer.cc:152",
+        "id": "1509",
+        "targets": [
+            "_ZN2v88internal8GCTracer5EventC1ENS2_4TypeENS0_23GarbageCollectionReasonEPKc"
+        ]
+    },
+    {
+        "line": "../src/heap/gc-tracer.cc:150",
+        "id": "1510",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/visitors.h:72",
+        "id": "1534",
+        "targets": [
+            "_ZN2v88internal12Deserializer17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:216",
+        "id": "1537",
+        "targets": [
+            "_ZN2v88internal15GlobalSafepointC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:212",
+        "id": "1538",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:212",
+        "id": "1539",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.h:1553",
+        "id": "1540",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.h:1553",
+        "id": "1541",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:231",
+        "id": "1542",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:231",
+        "id": "1543",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.h:1545",
+        "id": "1544",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.h:1545",
+        "id": "1545",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/gc-tracer.h:45",
+        "id": "1546",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "1547",
+        "targets": [
+            "_ZN2v88internal20MarkCompactCollectorD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/scavenger.h:36",
+        "id": "1548",
+        "targets": [
+            "_ZN2v84base9SemaphoreD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/array-buffer-collector.h:26",
+        "id": "1549",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/array-buffer-sweeper.h:56",
+        "id": "1550",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/array-buffer-sweeper.h:56",
+        "id": "1551",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.h:57",
+        "id": "1552",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.h:57",
+        "id": "1553",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.h:57",
+        "id": "1554",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.h:61",
+        "id": "1555",
+        "targets": [
+            "_ZN2v84base9SemaphoreD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.h:61",
+        "id": "1556",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "1557",
+        "targets": [
+            "_ZN2v84base20BoundedPageAllocatorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/incremental-marking.h:30",
+        "id": "1558",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/incremental-marking-job.h:19",
+        "id": "1559",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/concurrent-marking.h:42",
+        "id": "1560",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/concurrent-marking.h:42",
+        "id": "1561",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "1563",
+        "targets": [
+            "_ZN2v88internal20ScavengeTaskObserverD0Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/safepoint.h:23",
+        "id": "1564",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/safepoint.h:53",
+        "id": "1565",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/safepoint.h:53",
+        "id": "1566",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:348",
+        "id": "1567",
+        "targets": [
+            "_ZN2v88internal16LargeObjectSpace13SizeOfObjectsEv"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:348",
+        "id": "1568",
+        "targets": [
+            "_ZN2v88internal16LargeObjectSpace13SizeOfObjectsEv"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:358",
+        "id": "1569",
+        "targets": [
+            "_ZN2v88internal9BaseSpace15CommittedMemoryEv"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:360",
+        "id": "1570",
+        "targets": [
+            "_ZN2v88internal16LargeObjectSpace4SizeEv"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:360",
+        "id": "1571",
+        "targets": [
+            "_ZN2v88internal16LargeObjectSpace4SizeEv"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:372",
+        "id": "1572",
+        "targets": [
+            "_ZN2v88internal16LargeObjectSpace4SizeEv"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4902",
+        "id": "1580",
+        "targets": [
+            "_ZN2v88internal10PagedSpace13SizeOfObjectsEv"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4904",
+        "id": "1581",
+        "targets": [
+            "_ZN2v88internal16LargeObjectSpace13SizeOfObjectsEv"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:3792",
+        "id": "1667",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform27MonotonicallyIncreasingTimeEv"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4531",
+        "id": "1760",
+        "targets": [
+            "_ZN2v88internal12Deserializer17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4534",
+        "id": "1761",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4537",
+        "id": "1762",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4539",
+        "id": "1763",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4541",
+        "id": "1764",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4544",
+        "id": "1765",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4548",
+        "id": "1766",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4553",
+        "id": "1767",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4475",
+        "id": "1775",
+        "targets": [
+            "_ZN2v88internal12Deserializer17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4478",
+        "id": "1776",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4656",
+        "id": "1777",
+        "targets": [
+            "_ZN2v88internal11RootVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4459",
+        "id": "1778",
+        "targets": [
+            "_ZN2v88internal11RootVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4461",
+        "id": "1779",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:4469",
+        "id": "1780",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5289",
+        "id": "1836",
+        "targets": [
+            "_ZN2v88internal15MemoryAllocatorC1EPNS0_7IsolateEmm"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5291",
+        "id": "1837",
+        "targets": [
+            "_ZN2v88internal20MarkCompactCollectorC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5293",
+        "id": "1838",
+        "targets": [
+            "_ZN2v88internal18ScavengerCollectorC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5296",
+        "id": "1839",
+        "targets": [
+            "_ZN2v88internal18IncrementalMarkingC1EPNS0_4HeapEPNS0_11WeakObjectsE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5299",
+        "id": "1840",
+        "targets": [
+            "_ZN2v88internal17ConcurrentMarkingC1EPNS0_4HeapEPNS0_22MarkingWorklistsHolderEPNS0_11WeakObjectsE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5330",
+        "id": "1843",
+        "targets": [
+            "_ZN2v88internal8NewSpaceC1EPNS0_4HeapEPNS_13PageAllocatorEmm"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5335",
+        "id": "1844",
+        "targets": [
+            "_ZN2v88internal19OldLargeObjectSpaceC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5337",
+        "id": "1845",
+        "targets": [
+            "_ZN2v88internal19NewLargeObjectSpaceC1EPNS0_4HeapEm"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5338",
+        "id": "1846",
+        "targets": [
+            "_ZN2v88internal20CodeLargeObjectSpaceC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5345",
+        "id": "1847",
+        "targets": [
+            "_ZN2v88internal8GCTracerC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5347",
+        "id": "1848",
+        "targets": [
+            "_ZN2v88internal25MinorMarkCompactCollectorC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5354",
+        "id": "1849",
+        "targets": [
+            "_ZN2v88internal17MemoryMeasurementC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5355",
+        "id": "1850",
+        "targets": [
+            "_ZN2v88internal13MemoryReducerC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5375",
+        "id": "1851",
+        "targets": [
+            "_ZN2v88internal19SpaceWithLinearArea21AddAllocationObserverEPNS0_18AllocationObserverE"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces.h:520",
+        "id": "1855",
+        "targets": [
+            "_ZN2v88internal11FreeListMapC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/array-buffer-collector.h:24",
+        "id": "1856",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/array-buffer-sweeper.h:50",
+        "id": "1857",
+        "targets": [
+            "_ZN2v88internal18ArrayBufferSweeper11SweepingJobC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/array-buffer-sweeper.h:50",
+        "id": "1858",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/array-buffer-sweeper.h:50",
+        "id": "1859",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces.h:82",
+        "id": "1860",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces.h:82",
+        "id": "1861",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "1862",
+        "targets": [
+            "_ZN2v88internal10NoFreeListD0Ev",
+            "_ZN2v88internal24FreeListManyCachedOriginD0Ev",
+            "_ZN2v88internal11FreeListMapD0Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5565",
+        "id": "1865",
+        "targets": [
+            "_ZN2v88internal19SpaceWithLinearArea24RemoveAllocationObserverEPNS0_18AllocationObserverE"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5589",
+        "id": "1869",
+        "targets": [
+            "_ZN2v88internal25MinorMarkCompactCollectorD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/heap.cc:5626",
+        "id": "1870",
+        "targets": [
+            "_ZN2v88internal8NewSpaceD0Ev",
+            "_ZN2v88internal8OldSpaceD0Ev",
+            "_ZN2v88internal9CodeSpaceD0Ev",
+            "_ZN2v88internal8MapSpaceD0Ev",
+            "_ZN2v88internal19OldLargeObjectSpaceD0Ev",
+            "_ZN2v88internal20CodeLargeObjectSpaceD0Ev",
+            "_ZN2v88internal19NewLargeObjectSpaceD0Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/incremental-marking.cc:51",
+        "id": "1909",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/incremental-marking-job.h:23",
+        "id": "1910",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/mark-compact.cc:444",
+        "id": "2188",
+        "targets": [
+            "_ZN2v88internal22MarkingWorklistsHolderD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/mark-compact.cc:444",
+        "id": "2189",
+        "targets": [
+            "_ZN2v84base9SemaphoreD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/mark-compact.cc:444",
+        "id": "2190",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/sweeper.h:27",
+        "id": "2191",
+        "targets": [
+            "_ZN2v84base9SemaphoreD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/sweeper.h:27",
+        "id": "2192",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/sweeper.h:27",
+        "id": "2193",
+        "targets": [
+            "_ZN2v84base9SemaphoreD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2194",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2195",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2196",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2197",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2198",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2199",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2200",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2201",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2202",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/mark-compact.cc:4337",
+        "id": "2296",
+        "targets": [
+            "_ZN2v84base9SemaphoreD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2297",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/mark-compact.cc:429",
+        "id": "2298",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/mark-compact.cc:431",
+        "id": "2299",
+        "targets": [
+            "_ZN2v84base9SemaphoreC1Ei"
+        ]
+    },
+    {
+        "line": "../src/heap/mark-compact.cc:440",
+        "id": "2300",
+        "targets": [
+            "_ZN2v88internal7SweeperC1EPNS0_4HeapEPNS0_26MajorNonAtomicMarkingStateE"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2301",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2302",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2303",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2304",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2305",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2306",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2307",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2308",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2309",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2310",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:280",
+        "id": "2311",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/mark-compact.cc:4328",
+        "id": "2325",
+        "targets": [
+            "_ZN2v84base9SemaphoreC1Ei"
+        ]
+    },
+    {
+        "line": "../src/heap/worklist.h:278",
+        "id": "2326",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:385",
+        "id": "2327",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:492",
+        "id": "2328",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:496",
+        "id": "2329",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:346",
+        "id": "2330",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryC1EPNS_13PageAllocatorEmPvm"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:375",
+        "id": "2331",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:46",
+        "id": "2336",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:46",
+        "id": "2337",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:46",
+        "id": "2338",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.h:65",
+        "id": "2339",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.h:68",
+        "id": "2340",
+        "targets": [
+            "_ZN2v84base9SemaphoreC1Ei"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:88",
+        "id": "2342",
+        "targets": [
+            "_ZN2v84base20BoundedPageAllocator16AllocatePageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:91",
+        "id": "2343",
+        "targets": [
+            "_ZN2v84base20BoundedPageAllocator16AllocatePageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:89",
+        "id": "2344",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryC1EPNS_13PageAllocatorEmPvm"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.cc:130",
+        "id": "2345",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:857",
+        "id": "2346",
+        "targets": [
+            "_ZN2v84base20BoundedPageAllocatorC1EPNS_13PageAllocatorEmmm"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-allocator.h:35",
+        "id": "2347",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-chunk.cc:177",
+        "id": "2357",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-chunk.cc:179",
+        "id": "2358",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-chunk.cc:251",
+        "id": "2359",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-chunk.cc:255",
+        "id": "2360",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-chunk.cc:432",
+        "id": "2363",
+        "targets": [
+            "_ZN2v88internal23LocalArrayBufferTrackerD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/memory-reducer.cc:26",
+        "id": "2378",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform23GetForegroundTaskRunnerEPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/heap/new-spaces.h:241",
+        "id": "2379",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/new-spaces.h:241",
+        "id": "2380",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/new-spaces.cc:394",
+        "id": "2384",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/new-spaces.cc:394",
+        "id": "2385",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/new-spaces.cc:478",
+        "id": "2386",
+        "targets": [
+            "_ZN2v88internal19SpaceWithLinearArea29StartNextInlineAllocationStepEv"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces.cc:860",
+        "id": "2417",
+        "targets": [
+            "_ZN2v88internal10PagedSpace4SizeEv"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces.cc:861",
+        "id": "2418",
+        "targets": [
+            "_ZN2v88internal10PagedSpace4SizeEv"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces.cc:542",
+        "id": "2425",
+        "targets": [
+            "_ZN2v88internal24FreeListManyCachedOrigin8AllocateEmPmNS0_16AllocationOriginE",
+            "_ZN2v88internal11FreeListMap8AllocateEmPmNS0_16AllocationOriginE"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces.h:174",
+        "id": "2428",
+        "targets": [
+            "_ZN2v88internal18FreeListManyCached4FreeEmmNS0_8FreeModeE",
+            "_ZN2v88internal8FreeList4FreeEmmNS0_8FreeModeE"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces.cc:93",
+        "id": "2432",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/paged-spaces.cc:93",
+        "id": "2433",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/read-only-heap.cc:133",
+        "id": "2443",
+        "targets": [
+            "_ZN2v88internal13ReadOnlySpaceC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/new_allocator.h:152",
+        "id": "2444",
+        "targets": [
+            "_ZN2v88internal17ReadOnlyArtifactsD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/read-only-heap.cc:162",
+        "id": "2445",
+        "targets": [
+            "_ZN2v88internal13ReadOnlySpaceD0Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/read-only-spaces.cc:33",
+        "id": "2447",
+        "targets": [
+            "_ZN2v88internal13ReadOnlySpaceD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/safepoint.cc:15",
+        "id": "2455",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/safepoint.h:59",
+        "id": "2456",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/safepoint.h:59",
+        "id": "2457",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/scavenger.cc:224",
+        "id": "2462",
+        "targets": [
+            "_ZN2v84base9SemaphoreC1Ei"
+        ]
+    },
+    {
+        "line": "../src/heap/spaces.cc:267",
+        "id": "2532",
+        "targets": [
+            "_ZN2v88internal19SpaceWithLinearArea29StartNextInlineAllocationStepEv"
+        ]
+    },
+    {
+        "line": "../src/heap/spaces.cc:275",
+        "id": "2533",
+        "targets": [
+            "_ZN2v88internal19SpaceWithLinearArea29StartNextInlineAllocationStepEv"
+        ]
+    },
+    {
+        "line": "../src/heap/spaces.cc:408",
+        "id": "2537",
+        "targets": [
+            "_ZN2v88internal8NewSpace27UpdateInlineAllocationLimitEm"
+        ]
+    },
+    {
+        "line": "../src/heap/spaces.cc:329",
+        "id": "2544",
+        "targets": [
+            "_ZN2v88internal8NewSpace24SupportsInlineAllocationEv",
+            "_ZN2v88internal10PagedSpace24SupportsInlineAllocationEv"
+        ]
+    },
+    {
+        "line": "../src/heap/spaces.cc:334",
+        "id": "2545",
+        "targets": [
+            "_ZN2v88internal5Space30RoundSizeDownToObjectAlignmentEi"
+        ]
+    },
+    {
+        "line": "../src/heap/sweeper.cc:24",
+        "id": "2546",
+        "targets": [
+            "_ZN2v84base9SemaphoreC1Ei"
+        ]
+    },
+    {
+        "line": "../src/heap/sweeper.cc:20",
+        "id": "2547",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/sweeper.cc:29",
+        "id": "2548",
+        "targets": [
+            "_ZN2v84base9SemaphoreC1Ei"
+        ]
+    },
+    {
+        "line": "../src/init/bootstrapper.cc:72",
+        "id": "2570",
+        "targets": [
+            "_ZN2v88internal11RootVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE"
+        ]
+    },
+    {
+        "line": "../src/init/bootstrapper.cc:305",
+        "id": "2577",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/init/bootstrapper.cc:317",
+        "id": "2578",
+        "targets": [
+            "_ZN2v88internal7GenesisC1EPNS0_7IsolateENS0_11MaybeHandleINS0_13JSGlobalProxyEEENS_5LocalINS_14ObjectTemplateEEEmNS_33DeserializeInternalFieldsCallbackEPNS_14MicrotaskQueueE"
+        ]
+    },
+    {
+        "line": "../src/init/bootstrapper.cc:4769",
+        "id": "2579",
+        "targets": [
+            "_ZN2v88internal20SaveAndSwitchContextC1EPNS0_7IsolateENS0_7ContextE"
+        ]
+    },
+    {
+        "line": "../src/init/bootstrapper.cc:4821",
+        "id": "2580",
+        "targets": [
+            "_ZN2v88internal7Genesis15ExtensionStatesC1Ev"
+        ]
+    },
+    {
+        "line": "../src/init/bootstrapper.cc:5136",
+        "id": "2581",
+        "targets": [
+            "_ZN2v88internal11SaveContextC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/init/bootstrapper.cc:5259",
+        "id": "2582",
+        "targets": [
+            "_ZN2v88internal11SaveContextD1Ev"
+        ]
+    },
+    {
+        "line": "../src/init/isolate-allocator.cc:15",
+        "id": "2586",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryC1Ev"
+        ]
+    },
+    {
+        "line": "../src/init/isolate-allocator.cc:72",
+        "id": "2587",
+        "targets": [
+            "_ZN2v84base13PageAllocator17GetRandomMmapAddrEv"
+        ]
+    },
+    {
+        "line": "../src/init/isolate-allocator.cc:77",
+        "id": "2588",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryC1EPNS_13PageAllocatorEmPvm"
+        ]
+    },
+    {
+        "line": "../src/init/isolate-allocator.cc:114",
+        "id": "2589",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryC1EPNS_13PageAllocatorEmPvm"
+        ]
+    },
+    {
+        "line": "../src/init/isolate-allocator.cc:130",
+        "id": "2590",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryD1Ev"
+        ]
+    },
+    {
+        "line": "../src/init/isolate-allocator.cc:131",
+        "id": "2591",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryD1Ev"
+        ]
+    },
+    {
+        "line": "../src/init/isolate-allocator.cc:153",
+        "id": "2592",
+        "targets": [
+            "_ZN2v84base13PageAllocator16AllocatePageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/init/isolate-allocator.cc:176",
+        "id": "2593",
+        "targets": [
+            "_ZN2v84base13PageAllocator14CommitPageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/init/isolate-allocator.cc:52",
+        "id": "2594",
+        "targets": [
+            "_ZN2v84base13PageAllocator16AllocatePageSizeEv"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:857",
+        "id": "2595",
+        "targets": [
+            "_ZN2v84base20BoundedPageAllocatorC1EPNS_13PageAllocatorEmmm"
+        ]
+    },
+    {
+        "line": "../src/init/isolate-allocator.cc:39",
+        "id": "2596",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/std_function.h:659",
+        "id": "2597",
+        "targets": [
+            "_ZNSt14_Function_base13_Base_managerIPFvvEE10_M_managerERSt9_Any_dataRKS4_St18_Manager_operation"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/std_function.h:300",
+        "id": "2598",
+        "targets": [
+            "_ZN2v88internal2V828InitializeOncePerProcessImplEv"
+        ]
+    },
+    {
+        "line": "../src/init/v8.cc:132",
+        "id": "2599",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform20GetStackTracePrinterEv"
+        ]
+    },
+    {
+        "line": "../src/interpreter/interpreter.cc:33",
+        "id": "2617",
+        "targets": [
+            "_ZN2v88internal4ZoneD1Ev"
+        ]
+    },
+    {
+        "line": "../src/interpreter/interpreter.cc:164",
+        "id": "2618",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/interpreter/interpreter.cc:222",
+        "id": "2619",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/interpreter/interpreter.cc:153",
+        "id": "2624",
+        "targets": [
+            "_ZN2v88internal4ZoneC1EPNS0_19AccountingAllocatorEPKc"
+        ]
+    },
+    {
+        "line": "../src/interpreter/interpreter.cc:154",
+        "id": "2625",
+        "targets": [
+            "_ZN2v88internal26UnoptimizedCompilationInfoC1EPNS0_4ZoneEPNS0_9ParseInfoEPNS0_15FunctionLiteralE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/interpreter.cc:155",
+        "id": "2626",
+        "targets": [
+            "_ZN2v88internal11interpreter17BytecodeGeneratorC1EPNS0_4ZoneEPNS0_26UnoptimizedCompilationInfoEPKNS0_18AstStringConstantsEPSt6vectorIPNS0_15FunctionLiteralESaISC_EE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:857",
+        "id": "2627",
+        "targets": [
+            "_ZN2v88internal11interpreter25InterpreterCompilationJobC1EPNS0_9ParseInfoEPNS0_15FunctionLiteralEPNS0_19AccountingAllocatorEPSt6vectorIS6_SaIS6_EE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/std_function.h:688",
+        "id": "2629",
+        "targets": [
+            "_ZNSt17_Function_handlerIFvN2v88internal11interpreter8BytecodeENS2_12OperandScaleEEZNS2_11Interpreter10InitializeEvE3$_0E9_M_invokeERKSt9_Any_dataOS3_OS4_"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:33",
+        "id": "2649",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:117",
+        "id": "2652",
+        "targets": [
+            "_ZN2v88internal10StatsTableC1EPNS0_8CountersE"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:120",
+        "id": "2653",
+        "targets": [
+            "_ZN2v88internal22StatsCounterThreadSafeC1EPNS0_8CountersEPKc"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:120",
+        "id": "2654",
+        "targets": [
+            "_ZN2v88internal22StatsCounterThreadSafeC1EPNS0_8CountersEPKc"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:120",
+        "id": "2655",
+        "targets": [
+            "_ZN2v88internal22StatsCounterThreadSafeC1EPNS0_8CountersEPKc"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:120",
+        "id": "2656",
+        "targets": [
+            "_ZN2v88internal22StatsCounterThreadSafeC1EPNS0_8CountersEPKc"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:120",
+        "id": "2657",
+        "targets": [
+            "_ZN2v88internal22StatsCounterThreadSafeC1EPNS0_8CountersEPKc"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:123",
+        "id": "2658",
+        "targets": [
+            "_ZN2v88internal16RuntimeCallStatsC1ENS1_10ThreadTypeE"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:124",
+        "id": "2659",
+        "targets": [
+            "_ZN2v88internal28WorkerThreadRuntimeCallStatsC1Ev"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:585",
+        "id": "2660",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/logging/counters.cc:590",
+        "id": "2664",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/logging/log.cc:982",
+        "id": "2691",
+        "targets": [
+            "_ZN2v88internal6LoggerD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "2715",
+        "targets": [
+            "_ZN2v88internal6TickerD0Ev"
+        ]
+    },
+    {
+        "line": "../src/logging/log-utils.h:29",
+        "id": "2717",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:857",
+        "id": "2783",
+        "targets": [
+            "_ZN2v88internal3LogC1EPNS0_6LoggerEPKc"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "2788",
+        "targets": [
+            "_ZN2v88internal14SamplingThreadD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/backing-store.cc:649",
+        "id": "2806",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2881",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_129FastPackedSmiElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2882",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_128FastHoleySmiElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2883",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_132FastPackedObjectElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2884",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_131FastHoleyObjectElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2885",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_132FastPackedDoubleElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2886",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_131FastHoleyDoubleElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2887",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_145FastPackedNonextensibleObjectElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2888",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_144FastHoleyNonextensibleObjectElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2889",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_138FastPackedSealedObjectElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2890",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_137FastHoleySealedObjectElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2891",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_138FastPackedFrozenObjectElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2892",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_137FastHoleyFrozenObjectElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2893",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_126DictionaryElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2894",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_135FastSloppyArgumentsElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2895",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_135SlowSloppyArgumentsElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2896",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_133FastStringWrapperElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2897",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_133SlowStringWrapperElementsAccessorD0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2898",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE17EhED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2899",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE18EaED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2900",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE19EtED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2901",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE20EsED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2902",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE21EjED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2903",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE22EiED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2904",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE23EfED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2905",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE24EdED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2906",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE25EhED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2907",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE26EmED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/elements.cc:4791",
+        "id": "2908",
+        "targets": [
+            "_ZN2v88internal12_GLOBAL__N_121TypedElementsAccessorILNS0_12ElementsKindE27ElED0Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/js-objects.cc:3406",
+        "id": "2944",
+        "targets": [
+            "_ZN2v88internal10DescriptorC1Ev"
+        ]
+    },
+    {
+        "line": "../src/objects/objects.cc:6921",
+        "id": "2983",
+        "targets": [
+            "_ZN2v88internal19SequentialStringKeyIhE8AsHandleEPNS0_7IsolateE",
+            "_ZN2v88internal21InternalizedStringKey8AsHandleEPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/objects/string-table-inl.h:47",
+        "id": "2984",
+        "targets": [
+            "_ZN2v88internal19SequentialStringKeyIhE7IsMatchENS0_6StringE",
+            "_ZN2v88internal21InternalizedStringKey7IsMatchENS0_6StringE"
+        ]
+    },
+    {
+        "line": "../src/objects/objects.cc:2457",
+        "id": "3010",
+        "targets": [
+            "_ZN2v88internal21AssertNoContextChangeC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/objects/objects.cc:4491",
+        "id": "3014",
+        "targets": [
+            "_ZN2v88internal24IncrementalStringBuilderC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/objects/property.cc:73",
+        "id": "3024",
+        "targets": [
+            "_ZN2v88internal10DescriptorC1ENS0_6HandleINS0_4NameEEERKNS0_17MaybeObjectHandleENS0_15PropertyDetailsE"
+        ]
+    },
+    {
+        "line": "../src/objects/property.cc:95",
+        "id": "3026",
+        "targets": [
+            "_ZN2v88internal10DescriptorC1ENS0_6HandleINS0_4NameEEERKNS0_17MaybeObjectHandleENS0_12PropertyKindENS0_18PropertyAttributesENS0_16PropertyLocationENS0_17PropertyConstnessENS0_14RepresentationEi"
+        ]
+    },
+    {
+        "line": "../src/parsing/parse-info.cc:93",
+        "id": "3081",
+        "targets": [
+            "_ZN2v88internal23UnoptimizedCompileFlagsC1EPNS0_7IsolateEi"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:857",
+        "id": "3083",
+        "targets": [
+            "_ZN2v88internal4ZoneC1EPNS0_19AccountingAllocatorEPKc"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "3085",
+        "targets": [
+            "_ZN2v88internal4ZoneD1Ev"
+        ]
+    },
+    {
+        "line": "../src/ast/ast.h:2950",
+        "id": "3087",
+        "targets": [
+            "_ZN2v88internal13VariableProxyC1EPNS0_8VariableEi"
+        ]
+    },
+    {
+        "line": "../src/parsing/parser.cc:425",
+        "id": "3088",
+        "targets": [
+            "_ZN2v88internal7ScannerC1EPNS0_20Utf16CharacterStreamENS0_23UnoptimizedCompileFlagsE"
+        ]
+    },
+    {
+        "line": "../src/parsing/parser.cc:426",
+        "id": "3089",
+        "targets": [
+            "_ZN2v88internal4ZoneC1EPNS0_19AccountingAllocatorEPKc"
+        ]
+    },
+    {
+        "line": "../src/parsing/parser-base.h:250",
+        "id": "3090",
+        "targets": [
+            "_ZN2v88internal16FuncNameInferrerC1EPNS0_15AstValueFactoryE"
+        ]
+    },
+    {
+        "line": "../src/parsing/parser-base.h:762",
+        "id": "3091",
+        "targets": [
+            "_ZN2v88internal16DeclarationScopeC1EPNS0_4ZoneEPNS0_15AstValueFactoryENS0_8REPLModeE"
+        ]
+    },
+    {
+        "line": "../src/parsing/parser.cc:525",
+        "id": "3092",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController23GetCategoryGroupEnabledEPKc"
+        ]
+    },
+    {
+        "line": "../src/ast/ast.h:3074",
+        "id": "3096",
+        "targets": [
+            "_ZN2v88internal10AssignmentC1ENS0_7AstNode8NodeTypeENS0_5Token5ValueEPNS0_10ExpressionES7_i"
+        ]
+    },
+    {
+        "line": "../src/parsing/parsing.cc:55",
+        "id": "3117",
+        "targets": [
+            "_ZN2v88internal6ParserC1EPNS0_9ParseInfoE"
+        ]
+    },
+    {
+        "line": "../src/profiler/heap-profiler.cc:23",
+        "id": "3186",
+        "targets": [
+            "_ZN2v88internal12HeapProfilerD1Ev"
+        ]
+    },
+    {
+        "line": "../src/profiler/heap-profiler.cc:23",
+        "id": "3187",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81",
+        "id": "3188",
+        "targets": [
+            "_ZN2v88internal14StringsStorageD1Ev"
+        ]
+    },
+    {
+        "line": "../src/profiler/heap-profiler.cc:19",
+        "id": "3191",
+        "targets": [
+            "_ZN2v88internal14HeapObjectsMapC1EPNS0_4HeapE"
+        ]
+    },
+    {
+        "line": "../src/profiler/heap-profiler.cc:20",
+        "id": "3192",
+        "targets": [
+            "_ZN2v88internal14StringsStorageC1Ev"
+        ]
+    },
+    {
+        "line": "../src/profiler/heap-profiler.cc:18",
+        "id": "3193",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/base/hashmap.h:378",
+        "id": "3248",
+        "targets": [
+            "_ZN2v88internal12AstRawString7CompareEPvS2_"
+        ]
+    },
+    {
+        "line": "../src/profiler/tracing-cpu-profiler.cc:22",
+        "id": "3273",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform20GetTracingControllerEv"
+        ]
+    },
+    {
+        "line": "../src/profiler/tracing-cpu-profiler.cc:22",
+        "id": "3274",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController24RemoveTraceStateObserverEPNS_17TracingController18TraceStateObserverE"
+        ]
+    },
+    {
+        "line": "../src/profiler/tracing-cpu-profiler.cc:24",
+        "id": "3275",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/profiler/tracing-cpu-profiler.cc:15",
+        "id": "3276",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/profiler/tracing-cpu-profiler.cc:17",
+        "id": "3277",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform20GetTracingControllerEv"
+        ]
+    },
+    {
+        "line": "../src/profiler/tracing-cpu-profiler.cc:17",
+        "id": "3278",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController21AddTraceStateObserverEPNS_17TracingController18TraceStateObserverE"
+        ]
+    },
+    {
+        "line": "../src/roots/roots.cc:21",
+        "id": "3297",
+        "targets": [
+            "_ZN2v88internal12Deserializer17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_"
+        ]
+    },
+    {
+        "line": "../src/roots/roots.cc:24",
+        "id": "3298",
+        "targets": [
+            "_ZN2v88internal12Deserializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE"
+        ]
+    },
+    {
+        "line": "../src/runtime/runtime-object.cc:413",
+        "id": "3353",
+        "targets": [
+            "_ZN2v88internal14LookupIterator3KeyC1EPNS0_7IsolateENS0_6HandleINS0_6ObjectEEEPb"
+        ]
+    },
+    {
+        "line": "../src/snapshot/serializer-deserializer.cc:26",
+        "id": "3437",
+        "targets": [
+            "_ZN2v88internal11RootVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE"
+        ]
+    },
+    {
+        "line": "../src/snapshot/deserializer.h:52",
+        "id": "3451",
+        "targets": [
+            "_ZNK2v88internal12SnapshotData7PayloadEv"
+        ]
+    },
+    {
+        "line": "../src/tasks/cancelable-task.cc:23",
+        "id": "3484",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/tasks/cancelable-task.cc:23",
+        "id": "3485",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/tasks/cancelable-task.cc:32",
+        "id": "3486",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/tasks/cancelable-task.cc:32",
+        "id": "3487",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "../src/tracing/trace-event.cc:20",
+        "id": "3490",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform20GetTracingControllerEv"
+        ]
+    },
+    {
+        "line": "../src/tracing/tracing-category-observer.cc:19",
+        "id": "3501",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform20GetTracingControllerEv"
+        ]
+    },
+    {
+        "line": "../src/tracing/tracing-category-observer.cc:19",
+        "id": "3502",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController21AddTraceStateObserverEPNS_17TracingController18TraceStateObserverE"
+        ]
+    },
+    {
+        "line": "../src/tracing/tracing-category-observer.cc:24",
+        "id": "3503",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform20GetTracingControllerEv"
+        ]
+    },
+    {
+        "line": "../src/tracing/tracing-category-observer.cc:24",
+        "id": "3504",
+        "targets": [
+            "_ZN2v88platform7tracing17TracingController24RemoveTraceStateObserverEPNS_17TracingController18TraceStateObserverE"
+        ]
+    },
+    {
+        "line": "../src/tracing/tracing-category-observer.cc:26",
+        "id": "3505",
+        "targets": [
+            "_ZN2v87tracing23TracingCategoryObserverD0Ev"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:45",
+        "id": "3510",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform16GetPageAllocatorEv"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:155",
+        "id": "3515",
+        "targets": [
+            "_ZN2v84base13PageAllocator14CommitPageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:162",
+        "id": "3517",
+        "targets": [
+            "_ZN2v84base13PageAllocator17GetRandomMmapAddrEv"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:169",
+        "id": "3518",
+        "targets": [
+            "_ZN2v84base13PageAllocator16AllocatePageSizeEv",
+            "_ZN2v84base20BoundedPageAllocator16AllocatePageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:175",
+        "id": "3520",
+        "targets": [
+            "_ZN2v84base13PageAllocator13AllocatePagesEPvmmNS_13PageAllocator10PermissionE",
+            "_ZN2v84base20BoundedPageAllocator13AllocatePagesEPvmmNS_13PageAllocator10PermissionE"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:186",
+        "id": "3522",
+        "targets": [
+            "_ZN2v84base13PageAllocator16AllocatePageSizeEv",
+            "_ZN2v84base20BoundedPageAllocator16AllocatePageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:187",
+        "id": "3523",
+        "targets": [
+            "_ZN2v84base13PageAllocator9FreePagesEPvm",
+            "_ZN2v84base20BoundedPageAllocator9FreePagesEPvm"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:194",
+        "id": "3524",
+        "targets": [
+            "_ZN2v84base20BoundedPageAllocator14CommitPageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:195",
+        "id": "3525",
+        "targets": [
+            "_ZN2v84base20BoundedPageAllocator12ReleasePagesEPvmm"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:201",
+        "id": "3526",
+        "targets": [
+            "_ZN2v84base13PageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE",
+            "_ZN2v84base20BoundedPageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:219",
+        "id": "3527",
+        "targets": [
+            "_ZN2v84base13PageAllocator14CommitPageSizeEv",
+            "_ZN2v84base20BoundedPageAllocator14CommitPageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:220",
+        "id": "3528",
+        "targets": [
+            "_ZN2v84base13PageAllocator16AllocatePageSizeEv",
+            "_ZN2v84base20BoundedPageAllocator16AllocatePageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:275",
+        "id": "3529",
+        "targets": [
+            "_ZN2v84base13PageAllocator16AllocatePageSizeEv",
+            "_ZN2v84base20BoundedPageAllocator16AllocatePageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/utils/allocation.cc:253",
+        "id": "3530",
+        "targets": [
+            "_ZN2v84base20BoundedPageAllocator14CommitPageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/utils/ostreams.cc:86",
+        "id": "3544",
+        "targets": [
+            "_ZN2v88internal12OFStreamBaseC1EP8_IO_FILE"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-code-manager.cc:208",
+        "id": "3548",
+        "targets": [
+            "_ZN2v88internal6Logger27is_listening_to_code_eventsEv"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-code-manager.cc:1508",
+        "id": "3608",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.cc:390",
+        "id": "3642",
+        "targets": [
+            "_ZN2v88internal4wasm15WasmCodeManagerC1Em"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.cc:390",
+        "id": "3643",
+        "targets": [
+            "_ZN2v88internal21CancelableTaskManagerC1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.cc:390",
+        "id": "3644",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.h:60",
+        "id": "3645",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.h:60",
+        "id": "3646",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.cc:408",
+        "id": "3647",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.cc:408",
+        "id": "3648",
+        "targets": [
+            "_ZN2v88internal21CancelableTaskManagerD1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.cc:408",
+        "id": "3649",
+        "targets": [
+            "_ZN2v88internal19AccountingAllocatorD1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.h:60",
+        "id": "3650",
+        "targets": [
+            "_ZN2v84base17ConditionVariableD1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.h:60",
+        "id": "3651",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-code-manager.h:774",
+        "id": "3652",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/wasm/wasm-engine.cc:336",
+        "id": "3677",
+        "targets": [
+            "_ZN2v88platform15DefaultPlatform23GetForegroundTaskRunnerEPNS_7IsolateE"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/new_allocator.h:146",
+        "id": "3690",
+        "targets": [
+            "_ZN2v88internal4wasm10WasmEngineC1Ev"
+        ]
+    },
+    {
+        "line": "/usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/new_allocator.h:152",
+        "id": "3691",
+        "targets": [
+            "_ZN2v88internal4wasm10WasmEngineD1Ev"
+        ]
+    },
+    {
+        "line": "../src/codegen/x64/assembler-x64.cc:74",
+        "id": "3845",
+        "targets": [
+            "_ZN2v84base3CPUC1Ev"
+        ]
+    },
+    {
+        "line": "../src/api/api-natives.cc:24",
+        "id": "4102",
+        "targets": [
+            "_ZN2v88internal11SaveContextC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/api/api-natives.cc:32",
+        "id": "4103",
+        "targets": [
+            "_ZN2v88internal11SaveContextD1Ev"
+        ]
+    },
+    {
+        "line": "../src/ast/ast-value-factory.cc:267",
+        "id": "4128",
+        "targets": [
+            "_ZN2v88internal4ZoneC1EPNS0_19AccountingAllocatorEPKc"
+        ]
+    },
+    {
+        "line": "../src/ast/scopes.cc:95",
+        "id": "4132",
+        "targets": [
+            "_ZN2v88internal11VariableMapC1EPNS0_4ZoneE"
+        ]
+    },
+    {
+        "line": "../src/ast/scopes.cc:1237",
+        "id": "4147",
+        "targets": [
+            "_ZN2v88internal24PrivateNameScopeIteratorC1EPNS0_5ScopeE"
+        ]
+    },
+    {
+        "line": "../src/builtins/builtins-api.cc:108",
+        "id": "4160",
+        "targets": [
+            "_ZN2v88internal25FunctionCallbackArgumentsC1EPNS0_7IsolateENS0_6ObjectENS0_10HeapObjectES4_S5_Pmi"
+        ]
+    },
+    {
+        "line": "../src/api/api-arguments-inl.h:158",
+        "id": "4161",
+        "targets": [
+            "_ZN2v85Shell5PrintERKNS_20FunctionCallbackInfoINS_5ValueEEE",
+            "_ZN2v85Shell6SystemERKNS_20FunctionCallbackInfoINS_5ValueEEE"
+        ]
+    },
+    {
+        "line": "../src/codegen/compilation-cache.cc:27",
+        "id": "4439",
+        "targets": [
+            "_ZN2v88internal22CompilationCacheScriptC1EPNS0_7IsolateE"
+        ]
+    },
+    {
+        "line": "../src/codegen/compilation-cache.cc:72",
+        "id": "4441",
+        "targets": [
+            "_ZN2v88internal12Deserializer17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_"
+        ]
+    },
+    {
+        "line": "../src/diagnostics/basic-block-profiler.h:63",
+        "id": "4450",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/basic-memory-chunk.cc:28",
+        "id": "4518",
+        "targets": [
+            "_ZN2v88internal13VirtualMemoryC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/basic-memory-chunk.cc:50",
+        "id": "4519",
+        "targets": [
+            "_ZN2v88internal16BasicMemoryChunkC1Emmm"
+        ]
+    },
+    {
+        "line": "../src/heap/concurrent-marking.cc:375",
+        "id": "4531",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/concurrent-marking.cc:375",
+        "id": "4532",
+        "targets": [
+            "_ZN2v84base17ConditionVariableC1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/free-list.cc:161",
+        "id": "4550",
+        "targets": [
+            "_ZN2v88internal11FreeListMap26SelectFreeListCategoryTypeEm"
+        ]
+    },
+    {
+        "line": "../src/heap/free-list.cc:123",
+        "id": "4553",
+        "targets": [
+            "_ZN2v88internal18FreeListManyCached14RemoveCategoryEPNS0_16FreeListCategoryE",
+            "_ZN2v88internal8FreeList14RemoveCategoryEPNS0_16FreeListCategoryE"
+        ]
+    },
+    {
+        "line": "../src/heap/free-list.cc:84",
+        "id": "4555",
+        "targets": [
+            "_ZN2v88internal18FreeListManyCached11AddCategoryEPNS0_16FreeListCategoryE",
+            "_ZN2v88internal8FreeList11AddCategoryEPNS0_16FreeListCategoryE"
+        ]
+    },
+    {
+        "line": "../src/heap/free-list.cc:287",
+        "id": "4556",
+        "targets": [
+            "_ZN2v88internal12FreeListMany26SelectFreeListCategoryTypeEm"
+        ]
+    },
+    {
+        "line": "../src/heap/free-list.cc:441",
+        "id": "4558",
+        "targets": [
+            "_ZN2v88internal11FreeListMapD1Ev"
+        ]
+    },
+    {
+        "line": "../src/heap/free-list.cc:381",
+        "id": "4559",
+        "targets": [
+            "_ZN2v88internal12FreeListMany26SelectFreeListCategoryTypeEm"
+        ]
+    },
+    {
+        "line": "../src/heap/free-list.cc:105",
+        "id": "4560",
+        "targets": [
+            "_ZN2v88internal18FreeListManyCached11AddCategoryEPNS0_16FreeListCategoryE",
+            "_ZN2v88internal8FreeList11AddCategoryEPNS0_16FreeListCategoryE"
+        ]
+    },
+    {
+        "line": "../src/heap/free-list.cc:180",
+        "id": "4561",
+        "targets": [
+            "_ZN2v88internal8FreeList5ResetEv"
+        ]
+    },
+    {
+        "line": "../src/heap/free-list.cc:430",
+        "id": "4562",
+        "targets": [
+            "_ZN2v88internal8FreeList5ResetEv"
+        ]
+    },
+    {
+        "line": "../src/heap/free-list.cc:481",
+        "id": "4563",
+        "targets": [
+            "_ZN2v88internal18FreeListManyCached14RemoveCategoryEPNS0_16FreeListCategoryE",
+            "_ZN2v88internal8FreeList14RemoveCategoryEPNS0_16FreeListCategoryE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/bytecode-generator.cc:537",
+        "id": "4606",
+        "targets": [
+            "_ZN2v88internal11interpreter17BytecodeGenerator23ControlScopeForTopLevel7ExecuteENS2_12ControlScope7CommandEPNS0_9StatementEi"
+        ]
+    },
+    {
+        "line": "../src/interpreter/bytecode-generator.cc:1047",
+        "id": "4607",
+        "targets": [
+            "_ZN2v88internal11interpreter20BytecodeArrayBuilderC1EPNS0_4ZoneEiiPNS0_18FeedbackVectorSpecENS0_26SourcePositionTableBuilder13RecordingModeE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/bytecode-register-allocator.h:81",
+        "id": "4608",
+        "targets": [
+            "_ZN2v88internal11interpreter25BytecodeRegisterOptimizer21RegisterListFreeEventENS1_12RegisterListE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/bytecode-register-allocator.h:39",
+        "id": "4609",
+        "targets": [
+            "_ZN2v88internal11interpreter25BytecodeRegisterOptimizer21RegisterAllocateEventENS1_8RegisterE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/handler-table-builder.cc:23",
+        "id": "4633",
+        "targets": [
+            "_ZN2v88internal12HandlerTableC1ENS0_9ByteArrayE"
+        ]
+    },
+    {
+        "line": "../src/logging/log-utils.cc:35",
+        "id": "4635",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/snapshot/deserializer.cc:446",
+        "id": "5455",
+        "targets": [
+            "_ZN2v88internal13RelocIteratorC1ENS0_4CodeEi"
+        ]
+    },
+    {
+        "line": "../src/interpreter/bytecode-array-builder.cc:50",
+        "id": "6816",
+        "targets": [
+            "_ZN2v88internal11interpreter20ConstantArrayBuilderC1EPNS0_4ZoneE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/bytecode-array-builder.cc:51",
+        "id": "6817",
+        "targets": [
+            "_ZN2v88internal11interpreter19HandlerTableBuilderC1EPNS0_4ZoneE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/bytecode-array-builder.cc:55",
+        "id": "6818",
+        "targets": [
+            "_ZN2v88internal11interpreter19BytecodeArrayWriterC1EPNS0_4ZoneEPNS1_20ConstantArrayBuilderENS0_26SourcePositionTableBuilder13RecordingModeE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/bytecode-array-builder.cc:62",
+        "id": "6819",
+        "targets": [
+            "_ZN2v88internal11interpreter25BytecodeRegisterOptimizerC1EPNS0_4ZoneEPNS1_25BytecodeRegisterAllocatorEiiPNS2_14BytecodeWriterE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/bytecode-array-writer.cc:30",
+        "id": "6820",
+        "targets": [
+            "_ZN2v88internal26SourcePositionTableBuilderC1EPNS0_4ZoneENS1_13RecordingModeE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/bytecode-register-optimizer.cc:324",
+        "id": "6821",
+        "targets": [
+            "_ZN2v88internal11interpreter22RegisterTransferWriter8EmitStarENS1_8RegisterE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/constant-array-builder.cc:143",
+        "id": "6824",
+        "targets": [
+            "_ZN2v88internal11interpreter20ConstantArrayBuilder18ConstantArraySliceC1EPNS0_4ZoneEmmNS1_11OperandSizeE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/constant-array-builder.cc:144",
+        "id": "6825",
+        "targets": [
+            "_ZN2v88internal11interpreter20ConstantArrayBuilder18ConstantArraySliceC1EPNS0_4ZoneEmmNS1_11OperandSizeE"
+        ]
+    },
+    {
+        "line": "../src/interpreter/constant-array-builder.cc:146",
+        "id": "6826",
+        "targets": [
+            "_ZN2v88internal11interpreter20ConstantArrayBuilder18ConstantArraySliceC1EPNS0_4ZoneEmmNS1_11OperandSizeE"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.h:32",
+        "id": "10030",
+        "targets": [
+            "_ZN2v84base15RegionAllocatorD1Ev"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.h:32",
+        "id": "10031",
+        "targets": [
+            "_ZN2v84base5MutexD1Ev"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.cc:43",
+        "id": "10034",
+        "targets": [
+            "_ZN2v84base13PageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE",
+            "_ZN2v84base20BoundedPageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.cc:68",
+        "id": "10035",
+        "targets": [
+            "_ZN2v84base13PageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE",
+            "_ZN2v84base20BoundedPageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.cc:102",
+        "id": "10036",
+        "targets": [
+            "_ZN2v84base13PageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE",
+            "_ZN2v84base20BoundedPageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.cc:111",
+        "id": "10037",
+        "targets": [
+            "_ZN2v84base13PageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE",
+            "_ZN2v84base20BoundedPageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.cc:10",
+        "id": "10039",
+        "targets": [
+            "_ZN2v84base5MutexC1Ev"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.cc:14",
+        "id": "10040",
+        "targets": [
+            "_ZN2v84base13PageAllocator14CommitPageSizeEv",
+            "_ZN2v84base20BoundedPageAllocator14CommitPageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.cc:16",
+        "id": "10041",
+        "targets": [
+            "_ZN2v84base15RegionAllocatorC1Emmm"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.cc:18",
+        "id": "10042",
+        "targets": [
+            "_ZN2v84base13PageAllocator16AllocatePageSizeEv",
+            "_ZN2v84base20BoundedPageAllocator16AllocatePageSizeEv"
+        ]
+    },
+    {
+        "line": "../src/base/bounded-page-allocator.cc:57",
+        "id": "10043",
+        "targets": [
+            "_ZN2v84base13PageAllocator14SetPermissionsEPvmNS_13PageAllocator10PermissionE"
+        ]
+    },
+    {
+        "line": "../src/base/debug/stack_trace_posix.cc:323",
+        "id": "10048",
+        "targets": [
+            "_ZN2v84base5debug10StackTraceC1Ev"
+        ]
+    },
+    {
+        "line": "../src/base/debug/stack_trace_posix.cc:324",
+        "id": "10049",
+        "targets": [
+            "_ZN2v84base5debug10StackTraceD1Ev"
+        ]
+    }
+]
