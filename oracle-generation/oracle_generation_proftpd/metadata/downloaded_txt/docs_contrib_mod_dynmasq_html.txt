@@ -1,0 +1,26 @@
+ProFTPD module mod_dynmasq ProFTPD module mod_dynmasq The mod_dynmasq module is designed for those sites that
+use the MasqueradeAddress directive in conjunction with DNS
+names whose addresses periodically change, e.g. "dyndns"
+addresses.  The proftpd daemon is not aware of any changes
+to the IP address for a MasqueradeAddress that happen after
+the daemon has started up.  The mod_dynmasq module periodically
+checks all configured MasqueradeAddress directives and resolves
+their IP addresses, updating the stored addresses as needed. This module is contained in the mod_dynmasq.c file for
+ProFTPD 1.2.10 and later, and is not compiled by default.  Installation
+instructions are discussed here . The most current version of mod_dynmasq is distributed with
+the proftpd source distribution. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives DynMasqRefresh DynMasqRefresh Syntax: DynMasqRefresh secs Default: None Context: server config Module: mod_dynmasq Compatibility: 1.2.10 The DynMasqRefresh directive configures the amount of time,
+in seconds, between mod_dynmasq 's checking and updating of
+all MasqueradeAddress directives.  If no DynMasqRefresh directive is configured, then the module will
+do no checking. The process of resolving a DNS name to its IP address can, depending on
+the DNS configuration, take a noticeable amount of time.  This, combined
+with the number of MasqueradeAddress directives in your proftpd.conf , can cause mod_dynmasq to make
+the daemon unavailable while it resolves all addresses.  Therefore it
+is highly recommended that the configured interval be as long as possible,
+for example for 8 hours. Example: <IfModule mod_dynmasq.c>
+    # Refresh any configured MasqueradeAddress directives every 8 hours
+    DynMasqRefresh 28800
+  </IfModule> See also: Installation The mod_dynmasq module is distributed with ProFTPD.  Follow the
+usual steps for using third-party modules in ProFTPD: $ ./configure --with-modules=mod_dynmasq To build mod_dynmasq as a DSO module: $ ./configure --enable-dso --with-shared=mod_dynmasq Then follow the usual steps: $ make
+  $ make install For those with an existing ProFTPD installation, you can use the prxs tool to add mod_dynmasq , as a DSO module, to
+your existing server: $ prxs -c -i -d mod_dynmasq.c © Copyright 2004-2013 TJ Saunders All Rights Reserved

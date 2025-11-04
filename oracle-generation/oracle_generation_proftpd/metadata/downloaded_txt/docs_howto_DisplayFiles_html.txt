@@ -1,0 +1,21 @@
+ProFTPD: Display Files ProFTPD: Display Files ProFTPD supports a number of configuration directives that specify a file
+whose contents should be displayed to connected clients at various times: DisplayConnect Displayed to clients as soon as they connect DisplayLogin Displayed to clients once they have logged in using the USER and PASS commands DisplayChdir Displayed to a client whenever it changes into a directory DisplayFileTransfer Displayed to the client whenever a file is successfully transfer,
+        either uploaded or downloaded DisplayQuit Displayed to a client when the session ends via the QUIT command Note the subtle difference between DisplayConnect and DisplayLogin .  A DisplayConnect file will be
+displayed to all clients; this makes it suitable for server banners,
+messages of the day, etc .  A DisplayLogin file will only
+be displayed once the client has logged in. The configured file paths can be either relative or absolute (except in the
+case of DisplayConnect , which always requires absolute paths).
+In the case of a relative path, the file is assumed to be in the starting
+directory a user, i.e. the <Anonymous> directory
+for anonymous logins, and the user's home directory for non-anonymous logins. Note : If DefaultRoot is in effect, then the file must reside inside the chroot ed directory. If the 
+configured file cannot be found or accessed, no error occurs and nothing is
+logged or displayed to the client. Display Variables The following table contains the variables that can be used in Display files. Be aware that not all of these may have a rational
+value, depending on the context in which they are used ( e.g. , %u if IdentLookups are off ). Other contrib modules may provide additional variables for use
+as well; please consult their documentation for more information. Variable Meaning %C Current working directory %E Server admin's email address %F Available space on file system, in KB %f Available space on file system, with units %i The number of files uploaded (input) in this session %K Total number of bytes transferred %k Total number of bytes transferred, in units %L Local hostname %M Maximum number of connections %N Current number of connections %o The number of files downloaded (output) in this session %R Remote hostname %T Current time %t The number of files transferred (uploaded and downloaded) in this session %U Username originally used to login %u Username reported by ident protocol %V ServerName of virtual host, if any %x The name of the user's Class , if any %y Current number of connections from the user's Class %z Maximum number of connections from the user's Class %{total_bytes_in} The number of bytes uploaded (input) in this session %{total_bytes_out} The number of bytes downloaded (output) in this session %{total_bytes_xfer} The number of bytes transferred (uploaded and downloaded) in this session %{total_files_in} The number of files uploaded (input) in this session %{total_files_out} The number of files downloaded (output) in this session %{total_files_xfer} The number of files transferred (uploaded and downloaded) in this session %{env: name } The value of the environment variable name %{time: format } Uses format (as per the strftime(3) function) to format a timestamp Frequently Asked Questions Question : I configured a path which contains spaces for DisplayLogin , and it doesn't work.  Why not? Answer : If using paths/files which contains spaces,
+make sure that you enclose the path in quotation marks, e.g. : DisplayLogin "/path/to/display login.txt" Otherwise, the configuration file parser will treat the space-separated
+portions of the path as separate directive parameters. Question : I configured a DisplayLogin file which uses the %F variable, but it is not showing me the
+correct amount of bytes available on my system.  Why not? Answer :  ProFTPD determines the available bytes for
+the %F / %f variables based on the filesystem
+containing the Display file . For example, if your Display file is in /etc/proftpd ,,
+and the /etc directory is mounted on a small disk, then %F / %f will only report on the bytes available in the /etc filesystem, not on other filesystems ( e.g. not
+the /home filesystem). © Copyright 2012-2017 The ProFTPD Project All Rights Reserved

@@ -1,0 +1,15 @@
+mod_ident - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_ident Available Languages: en | fr | ja | ko Description: RFC 1413 ident lookups Status: Extension ModuleÂ Identifier: ident_module SourceÂ File: mod_ident.c Compatibility: Available in Apache 2.1 and later Summary This module queries an RFC 1413 compatible daemon on a remote host to look up the owner of
+    a connection. Directives IdentityCheck IdentityCheckTimeout Bugfix checklist httpd changelog Known issues Report a bug See also mod_log_config Comments IdentityCheck Directive Description: Enables logging of the RFC 1413 identity of the remote
+user Syntax: IdentityCheck On|Off Default: IdentityCheck Off Context: server config, virtual host, directory Status: Extension Module: mod_ident Compatibility: Moved out of core in Apache 2.1 This directive enables RFC 1413 -compliant logging of the remote user name for each
+    connection, where the client machine runs identd or something similar.
+    This information is logged in the access log using the %...l format string . The information should not be trusted in any way except for
+      rudimentary usage tracking. Note that this can cause serious latency problems accessing
+    your server since every request requires one of these lookups
+    to be performed. When firewalls or proxy servers are involved,
+    each lookup might possibly fail and add a latency duration as
+    defined by the IdentityCheckTimeout directive to each hit. So in
+    general this is not very useful on public servers accessible from
+    the Internet. IdentityCheckTimeout Directive Description: Determines the timeout duration for ident requests Syntax: IdentityCheckTimeout seconds Default: IdentityCheckTimeout 30 Context: server config, virtual host, directory Status: Extension Module: mod_ident This directive specifies the timeout duration of an ident
+    request. The default value of 30 seconds is recommended by RFC 1413 , mainly because
+    of possible network latency. However, you may want to adjust the
+    timeout value according to your local network speed. Available Languages: en | fr | ja | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

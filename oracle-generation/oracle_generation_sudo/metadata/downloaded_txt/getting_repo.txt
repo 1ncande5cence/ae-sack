@@ -1,0 +1,32 @@
+Source Repo | Sudo Source Repo Read-only access to the sudo source repository (from as far back as 1993)
+is available for checkout using git .
+If you are interested in contributing to sudo , the
+easiest way is probably via GitHub . Cloning the sudo source repo via git The main sudo source repo is located at git.sudo.ws .
+However, it is much faster to use one of the two official git mirrors, GitHub and Bitbucket . The following examples will use GitHub . To download a copy of the repo you must first install git .
+You can then make a clone of the repo by running: git clone https://github.com/sudo-project/sudo.git This will create a copy of the sudo repo on your local machine in the
+sudo directory. This step only needs to be done once. By default, this will check out the HEAD of the main development branch.
+To check out a copy of the sudo 1.9 source files, change to the
+sudo directory that you just created and run: cd sudo
+git checkout sudo-1.9 This will populate the sudo directory with the sudo source files for
+the HEAD of the sudo 1.9 branch. If you want to checkout a specific version of sudo, you can use the
+symbolic tag for that release.
+For example, to check out sudo version 1.9.0 you would do: git checkout v1.9.0 Once you have the source tree checked out, you can update it thusly: cd sudo
+git pull This will pull in changes from the master repo and merge them into
+your local repo.
+To fetch upstream changes without merging them or updating the local copy, use: cd sudo
+git fetch You can also do standard operations like log, diff, and blame.
+While you can check in changes to your local copy of the repo,
+you will be unable to push the changes directly upstream. Changes
+may be submitted in the form of GitHub pull requests. If you are new to git , the Git Handbook is a good place to start. Browse Online You can also browse the sudo source tree with on the web by clicking
+on the tree tab at git.sudo.ws .  This
+provides a nice interface and can be handy when you don’t necessarily
+want to check out a full copy of the source tree. Note that there are
+several branches and the default branch (main) may not be the one
+you want. Stable (released) versions of sudo are built from a branch
+that begins with sudo , followed by a major and minor number, e.g.
+sudo-1.9, sudo-1.8, sudo-1.7 and sudo-1.6. To view a specific
+release, use that release’s tag, e.g. git checkout v1.9.0 .  You may
+also browse the sudo source tree on GitHub or Bitbucket . Caveats Prior to sudo version 1.5.8, the source tree was stored in RCS
+without the use of symbolic tags. While there are symbolic tags
+for versions previous to 1.5.8, not all files included in those
+distributions have corresponding versions in the source tree.

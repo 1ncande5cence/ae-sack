@@ -1,0 +1,93 @@
+ProFTPD: Connection ACLs ProFTPD: Connection ACLs Many sites running proftpd have the need to limit/reject
+connections from known bad addresses, or to accept connections only from
+known good addresses.  ProFTPD supports several different mechanisms for
+implementing FTP connection ACLs. However, there is one important thing to note: ProFTPD is not a firewall. Never forget this.  You cannot prevent TCP connections from ever
+reaching proftpd in the first place by using proftpd itself.  This means that for many sites with connection ACL needs, their
+system's firewall capabilities may be a better mechanism for implementing ACLs. <Limit LOGIN> , and Whitelists versus Blacklists The easiest way of accepting/rejecting connections is to use ProFTPD's <Limit> syntax, particularly <Limit LOGIN> . For example, you can simply reject all connections to your proftpd instance by using: <Limit LOGIN>
+    DenyAll
+  </Limit> A more practical example would look like: <Limit LOGIN>
+    # These are trusted addresses
+    Allow from 1.2.3.4 5.6.7.8
+    Allow from trusted-domain.com
+
+    # Everyone else is denied
+    DenyAll
+  </Limit> The above configuration demonstrates the concept of a whitelist : known
+trusted ( i.e. "white") addresses are explicitly listed and allowed, and
+all others are denied.  Conversely, you might use a blacklist , where
+known bad/malicious/untrusted ( i.e. "black") addresses are explicitly
+listed and denied, and all others are allowed: <Limit LOGIN>
+    Order deny,allow
+
+    # These are known bad addresses
+    Deny from 1.2.3.4 5.6.7.8
+    Deny from evil-domain.com
+
+    # Everyone else is allowed
+    AllowAll
+  </Limit> It is useful to know about whitelists versus blacklists, as it can affect
+how large your ACLs become.  Sites which run publicly available FTP servers
+but which need to weed out bad clients tend to use blacklists; over time,
+these blacklists can become quite large.  Sites which know who will be using
+their FTP server and only want those people to be able to connect will use
+whitelists; these whitelists tend to remain fairly small/short. Large Blacklists Let's assume that you are running a public FTP server, and that you are using
+a <Limit LOGIN> section to make a blacklist.  Your site
+may even have some script which detects bad clients, and automatically adds
+them to your blacklist, e.g. : <Limit LOGIN>
+    Order deny,allow
+
+    # -- Add blacklisted addresses here --
+    Deny from ...
+    Deny from ...
+    # Many more Deny from lines
+
+    # Allow everyone not explicitly blacklisted
+    AllowAll
+  </Limit> Over time, your number of blacklisted IP addresses starts to become large
+and unwieldy.  You might have thousands of such addresses; you notice that proftpd starts acting strangely, and starts slowing down. When this happens, you should start looking for ways to make your list shorter.
+If your list is comprised of entries for each individual IP address, you
+should think about using glob expressions and netmasks to reduce the number
+of entries.  For example, rather than using something like
+this: Deny from 1.2.3.4
+  Deny from 1.2.3.5
+  Deny from 1.2.3.6
+  Deny from 1.2.3.7
+  Deny from 1.2.3.8
+  Deny from 1.2.3.9 you could (as of proftpd-1.3.4rc1 and later) use a range: Deny 1.2.3.[4-9] or even use a glob wildcard such as this, which makes for even fewer entries
+in your address lists: Deny 1.2.3.* Or you could use netmasks such as: Deny 1.2.3.0/8 Using Classes Now let's assume that at this point you have used glob ranges and wildcards
+and netmasks to make your ACL shorter, but it is still large, and proftpd is still slow.  It is time for you to use ProFTPD's
+connection classes . To do this, you would rewrite your large <Limit LOGIN> section to look something like this: <Class blacklist>
+    # Put all of your blacklisted address/range lines here, as From lines
+    From ...
+    From ...
+    From ...
+  </Class>
+
+  <Limit LOGIN>
+    Order deny,allow
+
+    # Rejected blacklisted clients
+    DenyClass blacklist
+
+    # Allow everyone else
+    AllowAll
+  </Limit> Why does using classes like this make things faster?  When using classes, the
+label ( i.e. the class name in the <Class> section,
+like "blacklist" in the above example) is determined when the client first connects to proftpd , before any comands are sent.
+That is when all of the various netmasks and such are checked -- and only at that time.  After that, all of the configuration-based ACLs
+are evaluated just using that label. When you do not use classes, then proftpd scans each configuration, each
+netmask/address for each command .  That's why things slow down so
+much. Alternatives There are a couple of other ways in which to implement connection ACLs; these
+alternatives may be more efficient and/or better suited to your site's needs. You can use a module like mod_wrap2 , particular its
+support for storing ACLs in SQL tables.  SQL lookups can be very quick, and
+can easily support large numbers of addresses efficiently. And if you find yourself starting to block large blocks of addresses from
+countries/regions, you should start thinking about connection ACLs in terms of
+geolocation information.  For this, the mod_geoip module for ProFTPD is quite useful. Frequently Asked Questions Question : Is there a limit to how many addresses can
+appear in a single line in the config file? Answer : No.  However, there is a maximum line
+length, which is determined by the buffer size used by the configuration file
+parser.  That buffer size is usually 1024 bytes (1K). This 1024 byte length limitation can be worked around, however, by breaking
+a single line in the configuration file into multiple lines using the
+line continuation syntax, e.g. : Allow 1.2.3.4 5.6.7.8 9.10.11.12 can also appear as: Allow \
+    1.2.3.4 \
+    5.6.7.8 \
+    9.10.11.12 © Copyright 2017 The ProFTPD Project All Rights Reserved

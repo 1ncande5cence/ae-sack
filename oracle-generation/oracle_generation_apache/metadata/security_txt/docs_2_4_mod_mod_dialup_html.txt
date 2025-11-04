@@ -1,0 +1,11 @@
+mod_dialup - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_dialup Available Languages: en | fr Description: Send static content at a bandwidth rate limit, defined by the various old modem standards Status: Experimental ModuleÂ Identifier: dialup_module SourceÂ File: mod_dialup.c Summary It is a module that sends static content at a bandwidth rate limit, defined
+by the various old modem standards. So, you can browse your site with a 56k
+V.92 modem, by adding something like this: <Location "/mysite">
+    ModemStandard "V.92"
+</Location> Previously to do bandwidth rate limiting modules would have to block an entire
+thread, for each client, and insert sleeps to slow the bandwidth down.
+Using the new suspend feature, a handler can get callback N milliseconds in
+the future, and it will be invoked by the Event MPM on a different thread,
+once the timer hits.  From there the handler can continue to send data to the client. Directives ModemStandard Bugfix checklist httpd changelog Known issues Report a bug See also Comments ModemStandard Directive Description: Modem standard to simulate Syntax: ModemStandard V.21|V.26bis|V.32|V.34|V.92 Context: directory Status: Experimental Module: mod_dialup Specify what modem standard you wish to simulate. <Location "/mysite">
+    ModemStandard "V.26bis"
+</Location> Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

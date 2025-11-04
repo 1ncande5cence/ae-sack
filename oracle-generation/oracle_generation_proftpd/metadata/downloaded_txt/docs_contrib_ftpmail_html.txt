@@ -1,0 +1,117 @@
+ftpmail: Automated Email Notifications of Uploads ftpmail : Automated Email Notifications of Uploads The ftpmail program is a Perl script designed to read
+ProFTPD's TransferLog log entries, watching for uploads, and
+to send an automatic email notification when uploads occur.  To use ftpmail , you configure your proftpd daemon to
+write its TransferLog to a FIFO ; the ftpmail program is a FIFO
+reading program which then processes those log messages. The most current version of ftpmail is distributed with the
+ProFTPD source code. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this program. Usage First, you have the following Perl modules installed: Mail::Sendmail Time::HiRes You can easily determine if your Perl has these modules present, using: $ perl -MMail::Sendmail -e0
+  $ perl -MTime::HiRes -e0 If you see an error similar to: Can't location Mail/Sendmail.pm in @INC (@INC contains: ... ) it means that you do not have that Perl module installed.  Go to search.cpan.org to download the latest versions of
+these modules, and install them as per their instructions. Next, you need to create the FIFO that ftpmail will read from.
+See the mkfifo(1) man page for instructions on how to create
+a FIFO.  Note that you must use mkfifo to create a FIFO;
+using an ordinary file that happens to have a ".fifo" extension will not work
+for this. After that, you need to start ftpmail running, before starting proftpd .  For example, you might do: $ ./ftpmail \
+       --fifo=/var/proftpd/log/transfer.fifo \
+       --from='tj@castaglia.org' \
+       --recipient='tj@castaglia.org' \
+       --smtp-server=mail.domain.com \
+       --attach-file \
+       --log=/var/proftpd/log/transfer.log & The key is to make ftpmail run in the background, so that it is
+constantly running.  If the ftpmail process dies, then proftpd will not be able to write the TransferLog . The next step is to configure your proftpd daemon to write to
+the FIFO you created.  Thus in your proftpd.conf , you would
+use the same path as given to ftpmail 's --fifo option, e.g. : TransferLog /var/proftpd/log/transfer.fifo Then start proftpd , log in, upload a file, and see what happens.
+One user modified their init for proftpd such
+that the ftpmail program was automatically started before
+the proftpd daemon was started. Options The following shows the full list of ftpmail options; this
+can also be obtained by running: $ ftpmail --help
+
+  usage: ftpmail [--help] [--fifo $path] [--from $addr] [--log $path]
+    [--recipient $addrs] [--upload-recipient \$addrs]
+    [--download-recipient $addrs] [--subject $string] [--smtp-server $addr]
+    [--attach-file] [--ignore-users $regex | --watch-users $regex]
+
+  The purpose of this script is to monitor the TransferLog written by proftpd
+  for uploaded files.  Whenever a file is uploaded by a user, an email
+  will be sent to the specified recipients.  In the email there will be
+  the timestamp, the name of the user who uploaded the file, the path to
+  the uploaded file, the size of the uploaded file, and the time it took
+  to upload.
+
+  Command-line options:
+
+    --attach-file         If used, this will cause a copy of the uploaded file
+                          to be included, as an attachment, in the generated
+                          email.
+
+    --auth $path          Configures the path to a file containing SMTP
+                          authentication information.
+
+                          The configured file should look like this:
+
+                              user = $user
+                              password = $password
+
+    --fifo $path          Indicates the path to the FIFO to which proftpd is
+                          writing its TransferLog.  That is, this is the path
+                          that you used for the TransferLog directive in your
+                          proftpd.conf.  This parameter is REQUIRED.
+
+    --from $addr          Specifies the email address to use in the From header.
+                          This parameter is REQUIRED.
+
+    --help                Displays this message.
+
+    --ignore-users $regex Specifies a Perl regular expression.  If the
+                          uploading user name matches this regular expression,
+                          then an email notification is NOT sent; otherwise,
+                          an email is sent.
+
+    --log $path           Since this script reads the TransferLog using FIFOs,
+                          the actual TransferLog file is not written by default.
+                          Use this option to write the normal TransferLog file,
+                          in addition to watching for uploads.
+
+    --recipient $addr     Specifies an email address to which to send an email
+                          notification of the upload.  This option can be
+                          used multiple times to specify multiple recipients.
+                          AT LEAST ONE recipient is REQUIRED.
+
+    --upload-recipient $addr
+                          Same as --recipient.
+
+    --download-recipient $addr
+                          Specifies an email address to which to send an email
+                          notification of the download.  This option can be
+                          used multiple times to specify multiple recipients.
+
+                          If this option is specified, then ftpmail will watch
+                          for FTP downloads as well as uploads.
+
+    --smtp-server $addr   Specifies the SMTP server to which to send the email.
+                          This parameter is REQUIRED.
+
+    --subject $string     Specify a custom Subject header for the email sent.
+                          The default Subject is:
+
+                            User '$user' uploaded file '$file' via FTP
+
+    --watch-users $regex  Specifies a Perl regular expression.  If the
+                          uploading user name matches this regular expression,
+                          then an email notification is sent; otherwise,
+                          no email is sent. FAQ Question : I would like to use ftpmail to send emails, but only for files uploaded to specific domains.  How do
+I do this? Answer : To do this, you will need to configure
+different TransferLog files in your different <VirtualHost> sections in your proftpd.conf . The TransferLog file format does not include a field indicating the IP
+address (or DNS name) of the server on which the file transfer is occurring.
+This means that ftpmail does not know which server is handling
+the transfer.  So, in order to have ftpmail send emails only
+for certain domains/servers, you will have to do something like: <VirtualHost a.b.c.d>
+    ...
+    TransferLog /path/to/vhost1.xferlog
+    ..
+  </VirtualHost>
+
+  <VirtualHost e.f.g.h>
+    ...
+    TransferLog /path/to/vhost2.xferlog
+    ...
+  </VirtualHost> Then start instances of ftpmail running, but only for the TransferLog files of the domains/virtual servers to be monitored. © Copyright 2008-2017 TJ Saunders All Rights Reserved

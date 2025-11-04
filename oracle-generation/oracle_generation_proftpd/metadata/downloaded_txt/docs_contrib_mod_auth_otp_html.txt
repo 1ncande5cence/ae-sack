@@ -1,0 +1,132 @@
+ProFTPD module mod_auth_otp ProFTPD module mod_auth_otp The purpose of the mod_auth_otp module is to enable the use
+of one-time-passwords (OTP) for proftpd authentication.  There have
+been multiple different OTP algorithms devised over the years; this module
+implements the HOTP and TOTP algorithms.  Note that mod_auth_otp requires storage/retrieval for per-user shared keys and counters, and thus
+this module currently requires mod_sql . One-Time Password RFCs For those wishing to learn more about these one-time password algorithms, see: HOTP: An HMAC-Based One-Time Password Algorithm (RFC 4226) TOTP: Time-Based One-Time Password Algorithm(RFC 6238) Note that Google Authenticator is based on the TOTP algorithm; mod_auth_otp thus enables use of Google Authenticator for ProFTPD
+authentication. Installation instructions are discussed here ;
+detailed notes on best practices for using this module are here . The most current version of mod_auth_otp is distributed with the
+ProFTPD source code. This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/). This product includes cryptographic software written by Eric Young (eay@cryptsoft.com). Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives AuthOTPAlgorithm AuthOTPEngine AuthOTPLog AuthOTPOptions AuthOTPTable AuthOTPTableLock AuthOTPAlgorithm Syntax: AuthOTPAlgorithm hotp|totp Default: AuthOTPAlgorithm totp Context: server config, <VirtualHost> , <Global> Module: mod_auth_otp Compatibility: 1.3.5rc4 and later The AuthOTPAlgorithm directive configures which one-time password
+algorithm will be used when calculating codes for connections to the virtual
+host. The supported algorithm names are: hotp (counter-based codes) totp (time-based codes, using HMAC-SHA1) totp-sha256 (time-based codes, using HMAC-SHA256) totp-sha512 (time-based codes, using HMAC-SHA512) The default algorithm is "totp". AuthOTPEngine Syntax: AuthOTPEngine on|off Default: None Context: server config, <VirtualHost> , <Global> Module: mod_auth_otp Compatibility: 1.3.5rc4 and later The AuthOTPEngine directive enables the handling of one-time
+password codes for authentication, both for FTP/FTPS as well as SFTP/SCP
+sessions.  By default, use of one-time passwords is disabled. AuthOTPLog Syntax: AuthOTPLog path|"none" Default: None Context: server config, <VirtualHost> , <Global> Module: mod_auth_otp Compatibility: 1.3.5rc4 and later The AuthOTPLog directive is used to specify a log file for mod_auth_otp 's reporting on a per-server basis.  The path parameter given must be the full path to the file to use for logging. Note that this path must not be to a world-writable directory and,
+unless AllowLogSymlinks is explicitly set to on (generally a bad idea), the path must not be a symbolic link. AuthOTPOptions Syntax: AuthOTPOptions opt1 ... Default: None Context: server config, <VirtualHost> , <Global> Module: mod_auth_otp Compatibility: 1.3.5rc4 and later The AuthOTPOptions directive is used to configure various optional
+behavior of mod_auth_otp . For example: AuthOTPOptions FTPStandardResponse The currently implemented options are: DisplayVerificationCode When mod_auth_otp prompts the user for the OTP code, it
+    requests that the client not echo/display the verification code
+    as it is entered by the user.  In some cases, however, administrators
+    may wish to have the OTP code be displayed.  For these situations, use
+    this option, e.g. : AuthOTPOptions DisplayVerificationCode FTPStandardResponse When mod_auth_otp is handling FTP sessions, it will respond
+    to a USER command with a response message indicating the
+    expectation of a one-time password: 331 One-time password required for user However, this change of the response message "leaks" information about
+    the server configuration, i.e. that OTPs will be used.  To
+    tell mod_auth_otp to continue using the standard/normal
+    response message, use this option. OptionalTableEntry If this option is used, then when mod_auth_otp requests
+    information for a user from the AuthOTPTable and no
+    information is found, it will allow other auth modules to handle the login
+    attempt, even if mod_auth_otp is authoritative .
+    This behavior allows for a seamless transition of your user base,
+    provisioning users with shared keys/secrets for their one-time passwords
+    as time allows. Note that this option first appeared in proftpd-1.3.9rc1 . RequireTableEntry When mod_auth_otp requests information for a user from the AuthOTPTable and no information is found, it could allow other auth modules to handle the login attempt, even if mod_auth_otp is authoritative .  This behavior allows
+    for a seamless transition of your user base, provisioning users with
+    shared keys/secrets for their one-time passwords as time allows. However, there may be sites which require the use of one-time
+    passwords; any login attempt which does not use a valid one-time
+    password must be rejected.  Thus the lack of an entry for a user
+    in the AuthOTPTable is, for this policy, a fatal error and
+    should be handled as such.  For this kind of very secure configuration,
+    use this option, in conjunction with the AuthOrder directive, e.g. : AuthOrder mod_auth_otp.c* ...
+      AuthOTPOptions RequireTableEntry StandardResponse Note that as of ProFTPD 1.3.9rc1, this option is enabled by
+    default.  Use the OptionalTableEntry option to enable
+    the "opt in" behavior for supporting transitions. AuthOTPTable Syntax: AuthOTPTable table-info Default: None Context: server config, <VirtualHost> , <Global> Module: mod_auth_otp Compatibility: 1.3.5rc4 and later The AuthOTPTable directive configures the information necessary
+for mod_auth_otp to retrieve the shared key/secret and current
+counter, on a per-user basis; this directive is required for mod_auth_otp to function.  If AuthOTPTable is not configured , mod_auth_otp will refuse to work. The mod_auth_otp module currently expects/uses SQL tables for
+retrieval/storage of its data on a per-user basis.  Thus the AuthOTPTable directives requires two separate SQLNamedQuery directives: one for looking up the needed data,
+the other for updating that data.  The table-info parameter
+encodes these SQLNamedQuery names like so: SQLNamedQuery get-user-totp SELECT ...
+  SQLNamedQuery update-user-totp UPDATE ...
+
+  AuthOTPTable sql:/get-user-totp/update-user-totp See the usage section for a more detailed example. AuthOTPTableLock Syntax: AuthOTPTableLock path Default: None Context: server config, <VirtualHost> , <Global> Module: mod_auth_otp Compatibility: 1.3.5rc4 and later The AuthOTPTableLock directive sets the path for a
+synchronization lockfile which mod_auth_otp needs when updating
+the AuthOTPTable for e.g. counter-based codes.  Use of AuthOTPTableLock is recommended, but not required. If AuthOTPTableLock is used, it is strongly advised that
+the configured path not be on an NFS (or any other network)
+filesystem. Usage Note that the following examples assume the existing of an SQL table whose
+schema looks like the following (using the SQLite schema syntax): CREATE TABLE auth_otp (
+    user TEXT PRIMARY KEY,
+    secret TEXT,
+    counter INTEGER
+  ); The auth_otp.secret column must contain the base32-encoded shared key for the user.  Why Base32-encoding?  That
+is what Google Authenticator expects/uses for its shared key storage; its google-authenticator command-line tool generates a Base32-encoded
+string for entering into the Google Authenticator app on your mobile device. To get the base32-encoded shared key using google-authenticator : $ ./google-authenticator
+  Do you want authentication tokens to be time-based (y/n) y Here you will see generated QR code Your new secret key is: base32-encoded secret here ... Example Time-based (TOTP) Configuration <IfModule mod_auth_otp.c>
+    AuthOTPEngine on
+
+    # Use time-based codes (TOTP)
+    AuthOTPAlgorithm totp
+
+    AuthOTPTable sql:/get-user-totp/update-user-totp
+  </IfModule>
+
+  <IfModule mod_sql.c>
+    ...
+
+    # Notice that for time-based counters, we do not need to retrieve
+    # the auth_otp.counter column; the counter value is determined from the
+    # system clock.
+    SQLNamedQuery get-user-totp SELECT "secret FROM auth_otp WHERE user = \'%{0}\'"
+    SQLNamedQuery update-user-totp UPDATE "counter = %{1} WHERE user = \'%{0}\'" auth_otp
+  </IfModule> Example Counter-based (HOTP) Configuration <IfModule mod_auth_otp.c>
+    AuthOTPEngine on
+
+    # Use counter-based codes (HOTP)
+    AuthOTPAlgorithm hotp
+
+    AuthOTPTable sql:/get-user-hotp/update-user-hotp
+  </IfModule>
+
+  <IfModule mod_sql.c>
+    ...
+    SQLNamedQuery get-user-hotp SELECT "secret, counter FROM auth_otp WHERE user = \'%{0}\'"
+    SQLNamedQuery update-user-hotp UPDATE "counter = %{1} WHERE user = \'%{0}\'" auth_otp
+  </IfModule> Secure/Paranoid Configurations Security-conscious administrators may not want users to notice if/when they
+have started expecting one-time passwords for their logins; not all users may
+have been provisioned with the necessary shared key.  To prevent mod_auth_otp from "leaking" its presence/usage and instead to
+continue using the standard FTP response messages, use the following in
+your configuration for mod_auth_otp : AuthOTPOptions FTPStandardResponse If, on the other hand, you have successfully provisioned all of your
+users with OTP shared keys, and now require that all logins use a
+one-time password (but still want to not leak this information), then
+you would use: # Make mod_auth_otp authoritative; if it fails to handle a login attempt,
+  # that login attempt MUST fail.
+  AuthOrder mod_auth_otp.c* ...
+
+  # Use the standard FTP response message, and fail the login if we find
+  # a user that has not been provisioned.
+  AuthOTPOptions FTPStandardResponse RequireTableEntry SFTP/SCP Support One-time passwords can also be used for mod_sftp sessions, i.e. for SFTP and SCP clients.  The SSH RFCs define any non-standard
+"password-like" authentication method as "keyboard-interactive".  Thus to
+use mod_auth_otp for your SFTP connections, simply include
+both mod_sftp and mod_auth_otp in your build.  That's
+it. Now, if you want mod_sftp to only try to use one-time
+passwords (or public keys), and not normal passwords, then you might
+use a mod_sftp configuration like this: SFTPAuthMethods publickey password+keyboard-interactive If you allow the "keyboard-interactive" authentication method by itself, and the user does not have an OTP entry, then that authentication will
+fail, regardless of any RequireTableEntry AuthOTPOption configuration (or lack of). Module Load Order and mod_sftp In order for mod_auth_otp to work its magic, it must come after the mod_sftp module in the module load order.
+To do this as a static module, you would use something like this when building
+proftpd: $ ./configure --with-modules=...:mod_sftp:mod_auth_otp:... ensuring that mod_auth_otp comes after mod_sftp in
+your --with-modules list. As a shared module, configuring mod_auth_otp to be after mod_sftp is much easier.  Your configuration will have a list
+of LoadModule directives; make sure mod_auth_otp appears after mod_sftp : LoadModule mod_sftp.c
+  ...
+  LoadModule mod_auth_otp.c
+  ... You will know if the module load ordering is wrong if you see the following
+log message appear in your logs: proftpd[87129]: mod_auth_otp/0.0: mod_sftp not loaded, skipping keyboard-interactive support Logging The mod_auth_otp module supports different forms of logging.  The
+main module logging is done via the AuthOTPLog directive.  This
+log is used for successes/failures.  For example, if the user provides an OTP
+code, but that user is not configured in the AuthOTPTable , you
+would see a log message such as: 2016-01-18 12:35:46,725 mod_auth_otp/0.2[27192]: user 'foobar' has no OTP info in AuthOTPTable
+  2016-01-18 12:36:47,152 mod_auth_otp/0.2[27192]: FAILED: user 'foobar' provided invalid OTP code If the user is provisioned in the AuthOTPTable , but the
+OTP code is invalid, you would see just this message: 2016-01-18 12:40:09,500 mod_auth_otp/0.2[27235]: FAILED: user 'foobar' provided invalid OTP code And finally, for valid OTP codes, the following is logged: 2016-01-18 12:42:40,115 mod_auth_otp/0.2[27484]: SUCCESS: user 'foobar' provided valid OTP code For debugging purposes, the module also uses trace logging ,
+via the module-specific channels: auth_otp Thus for trace logging, to aid in debugging, you would use the following in
+your proftpd.conf : TraceLog /path/to/auth-trace.log
+  Trace auth_otp:20 This trace logging can generate large files; it is intended for debugging
+use only, and should be removed from any production configuration. Suggested Future Features The following lists the features I hope to add to mod_auth_otp ,
+according to need, demand, inclination, and time: Configurable number of digits in the expected code (currently hardcoded as 6) Support "emergency recovery" codes Support resynchronization with clients Frequently Asked Questions Installation The mod_auth_otp module is distributed with ProFTPD.  Simply follow
+the normal steps for using third-party modules in ProFTPD.  For including mod_auth_otp as a statically linked module: $ ./configure --enable-openssl --with-modules=mod_sql:mod_sql_sqlite:mod_auth_otp:... Note the ordering of modules in the above --with-modules list; mod_sql must precede mod_auth_otp ,
+otherwise you will see errors like this: mod_auth_otp/0.2: Missing required 'mod_sql.c'; HOTP/TOTP logins will FAIL To build mod_auth_otp as a DSO module: $ ./configure --enable-dso --enable-openssl --with-shared=mod_auth_otp:... Then follow the usual steps: $ make
+  $ make install © Copyright 2015-2023 TJ Saunders All Rights Reserved

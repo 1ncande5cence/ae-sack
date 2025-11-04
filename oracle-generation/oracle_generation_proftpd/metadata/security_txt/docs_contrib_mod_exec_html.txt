@@ -1,0 +1,156 @@
+ProFTPD module mod_exec ProFTPD module mod_exec This module is contained in the mod_exec.c file for
+ProFTPD 1.3. x , found here , and is not compiled by
+default.  Installation instructions are discussed here . The mod_exec module can be used to execute external programs
+or scripts at various points in the process of handling FTP commands.  By
+conscious design, the core ProFTPD engine does not and will not execute
+external programs.  This is a security decision, as it was decided not to allow
+ProFTPD to serve as a means of compromising a system or disclosing information
+via bugs in external programs or scripts.  Use of this module allows for such
+external programs to be executed, and also opens up the server to the
+mentioned possibilities of compromise or disclosure via those programs. YOU HAVE BEEN WARNED USE AT YOUR OWN RISK Please read the usage section to know the other caveats
+with this module. The most current version of mod_exec is distributed with the
+ProFTPD source code. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives ExecBeforeCommand ExecEnable ExecEngine ExecEnviron ExecLog ExecOnCommand ExecOnConnect ExecOnError ExecOnEvent ExecOnExit ExecOnRestart ExecOptions ExecTimeout ExecBeforeCommand Syntax: ExecBeforeCommand cmds path [arg1 arg2 ...] Default: None Context: server config, <VirtualHost> , <Global> , <Anonymous> , <Directory> Module: mod_exec Compatibility: 1.2.8 and later The ExecBeforeCommand directive is used to execute the program or
+script at path before the handling of any FTP command listed
+in cmds , where cmds is a comma-delimited list of FTP commands.
+The command groups of the <Limit> directive, such as
+READ, WRITE, and ALL, may also be used.  The program will be executed with
+the privileges of the logged-in user. Any number of arbitrary arguments may be configured to pass to the script.
+In addition, the variables supported by the ExecEnviron directive
+may also be used in the script argument list. Important : use of DefaultRoot will cause complications
+(to be elaborated upon soon). Example: ExecBeforeCommand RETR /path/to/ftp-prep --file %f See Also: ExecEnviron , ExecOnCommand , ExecOnConnect , ExecOnError , ExecOnExit , ExecOnRestart , <Limit> ExecEnable Syntax: ExecEnable on|off Default: None Context: <Anonymous> , <Directory> , .ftpaccess Module: mod_exec Compatibility: 1.3.6rc1 and later The ExecEnable directive can be used to disable the execution
+of commands by mod_exec for particular directories or anonymous
+logins. ExecEngine Syntax: ExecEngine on|off Default: None Context: server config, <VirtualHost> , <Global> Module: mod_exec Compatibility: 1.2.5rc2 and later The ExecEngine directive enables or disables the module's
+runtime exec engine.  If it is set to off this module will not
+manipulate environment variables or execute external scripts.  Use this
+directive to disable the module instead of commenting out all mod_exec directives. ExecEnviron Syntax: ExecEnviron key value Default: None Context: server config, <VirtualHost> , <Global> Module: mod_exec Compatibility: 1.2.5rc2 and later The ExecEnviron directive is used to set the environment variables
+in the environment created for the script to be executed.  The current
+environment is not passed directly to the script; this is to prevent unwanted
+information leakage.  The given key parameter will be uppercased,
+to follow the convention for environment variable keys. The value parameter may be any arbitrary string which may contain any
+of the normal LogFormat variables. The value parameter may be also be "-", which indicates that
+the current value of the environment variable of name key should be
+used ( e.g. PATH).  If there is no environment of name key when
+"-" is used, it will be created with a blank string as the value. ExecLog Syntax: ExecLog file|"none" Default: None Context: server config, <VirtualHost> , <Global> Module: mod_exec Compatibility: 1.2.5rc2 and later The ExecLog directive is used to specify a log file for mod_exec reporting and debugging, and can be done a per-server
+basis.  The file parameter must be the full path to the file to use for
+logging.  Note that this path must not be to a world-writeable
+directory and, unless AllowLogSymlinks is explicitly set to on (generally a bad idea), the path must not be a symbolic
+link. If file is "none", no logging will be done at all; this
+setting can be used to override an ExecLog setting inherited from
+a <Global> context. ExecOnCommand Syntax: ExecOnCommand cmds path [arg1 arg2 ...] Default: None Context: server config, <VirtualHost> , <Global> , <Anonymous> , <Directory> Module: mod_exec Compatibility: 1.2.5rc2 and later The ExecOnCommand directive is used to execute the program or
+script at path after the successful completion of any FTP command
+listed in cmds , where cmds is a comma-delimited list of FTP
+commands.  The command groups of the <Limit> directive,
+such as READ, WRITE, and ALL, may also be used.  The program will be executed
+with the privileges of the logged-in user. Any number of arbitrary arguments may be configured to pass to the script.
+In addition, the variables supported by the ExecEnviron directive
+may also be used in the script argument list. Important : use of DefaultRoot will cause complications
+(to be elaborated upon soon). Example: ExecOnCommand APPE,STOR /path/to/ftp-email-script --user %u --file %f See Also: ExecBeforeCommand , ExecEnviron , ExecOnConnect , ExecOnError , ExecOnExit , ExecOnRestart , <Limit> ExecOnConnect Syntax: ExecOnConnect path [arg1 arg2 ...] Default: None Context: server config, <VirtualHost> , <Global> , <Anonymous> , <Directory> Module: mod_exec Compatibility: 1.2.5rc2 and later The ExecOnConnect directive is used to execute the program or
+script at path whenever a client connects to the server.  The program
+will be executed with the privileges of the contacted server, which are
+set via the User / Group directives. Any number of arbitrary arguments may be configured to pass to the script.
+In addition, the variables supported by the ExecEnviron directive
+may also be used in the script argument list. Example: ExecOnConnect /path/to/ftp-logger --ip %a --dns %h See Also: ExecBeforeCommand , ExecEnviron , ExecOnCommand , ExecOnError , ExecOnExit , ExecOnRestart ExecOnError Syntax: ExecOnError cmds path [arg1 arg2 ...] Default: None Context: server config, <VirtualHost> , <Global> , <Anonymous> , <Directory> Module: mod_exec Compatibility: 1.2.5rc2 and later The ExecOnError directive is used to execute the program or
+script at path if an error occurs while processing any FTP command listed
+in cmds , where cmds is a comma-delimited list of FTP commands.
+The command groups of the <Limit> directive, such as
+READ, WRITE, and ALL, may also be used.  The program will be executed with
+the privileges of the logged-in user. Any number of arbitrary arguments may be configured to pass to the script.
+In addition, the variables supported by the ExecEnviron directive
+may also be used in the script argument list. Important : use of DefaultRoot will cause complications
+(to be elaborated upon soon). Example: ExecOnError APPE,STOR /path/to/ftp-cleanup-script --user %u --file %f See Also: ExecBeforeCommand , ExecEnviron , ExecOnCommand , ExecOnConnect , ExecOnExit , ExecOnRestart , <Limit> ExecOnEvent Syntax: ExecOnEvent event[*|~] path [arg1 arg2 ...] Default: None Context: server config, <VirtualHost> , <Global> Module: mod_exec Compatibility: 1.2.10rc1 and later The ExecOnEvent directive is used to execute the program or
+script at path when the given event occurs.  The program will
+be executed with the privileges of the server (set via the User and Group directives in the proftpd.conf file),
+unless the event name is followed either by a "*" or a "~" character. If the event name is followed by a "*", the program will be
+executed with root privileges. Note : this feature should be used very carefully .  It allows scripts to modify things like firewall
+rules, but should be used only for such sensitive tasks. If, on the other hand, the eevent name is followed by a "~",
+the program will be executed with the privileges of the logged-in user. Note : support for this feature first appeared in proftpd-1.3.5rc4 . Any number of arbitrary arguments may be configured to pass to the script.
+In addition, the variables supported by the ExecEnviron directive
+may also be used in the script argument list. Presently only two specific events are supported: MaxConnectionRate and MaxInstances .  These events happen when ever the limit
+configured by these configuration directives is reached. This directive may be used several times to configure multiple programs
+to be invoked when event occurs. Important : use of DefaultRoot will cause complications
+(to be elaborated upon soon). Example: ExecOnEvent MaxConnectionRate* /path/to/ftp-firewall-script --ip %a See Also: ExecBeforeCommand , ExecEnviron , ExecOnCommand , ExecOnConnect , ExecOnExit , ExecOnRestart ExecOnExit Syntax: ExecOnExit path [arg1 arg2 ...] Default: None Context: server config, <VirtualHost> , <Global> , <Anonymous> , <Directory> Module: mod_exec Compatibility: 1.2.8 and later The ExecOnExit directive is used to execute the program or
+script at path whenever a client disconnects to the server.  The program
+will be executed with the privileges of the contacted server, which are
+set via the User / Group directives. Any number of arbitrary arguments may be configured to pass to the script.
+In addition, the variables supported by the ExecEnviron directive
+may also be used in the script argument list. Example: ExecOnExit /path/to/ftp-logger --ip %a --dns %h See Also: ExecBeforeCommand , ExecEnviron , ExecOnCommand , ExecOnConnect , ExecOnError , ExecOnRestart ExecOnRestart Syntax: ExecOnRestart path [arg1 arg2 ...] Default: None Context: server config, <VirtualHost> , <Global> , <Anonymous> , <Directory> Module: mod_exec Compatibility: 1.2.5rc2 and later The ExecOnRestart directive is used to execute the program or
+script at path whenever the server receives a SIGHUP signal.  The program will be executed with the privileges of the contacted
+server, which are set via the User / Group directives. Any number of arbitrary arguments may be configured to pass to the script.
+In addition, the variables supported by the ExecEnviron directive
+may also be used in the script argument list. Example: ExecOnRestart /path/to/ftp-counter-reset See Also: ExecBeforeCommand , ExecEnviron , ExecOnCommand , ExecOnConnect , ExecOnError , ExecOnExit ExecOptions Syntax: ExecOptions opt1 ... Default: None Context: server config, <VirtualHost> , <Global> Module: mod_exec Compatibility: 1.2.9rc2 and later The ExecOptions directive is used to configure various optional
+behavior of mod_exec . Example: ExecOptions logStderr sendStdout The currently implemented options are: logStderr When executing commands, mod_exec usually ignore any stderr output of the command.  If this option is enabled, mod_exec will monitor for and log any stderr from the executed command to the ExecLog . logStdout When executing commands, mod_exec usually ignore any stdout output of the command.  If this option is enabled, mod_exec will monitor for and log any stdout from the executed command to the ExecLog . sendStdout If this option is enabled, mod_exec will attempt to
+    send any stdout output from the executed command to the
+    connected client.  Note that this only works for commands that are
+    executed via ExecOnCommand or ExecOnConnect . Note this this option should not be used for SSH2/SFTP/SCP
+    sessions, as it will only cause connection problems for SSH2/SFTP/SCP
+    clients. useStdin If this option is enabled, mod_exec will not send arguments to the command being executed using the command line;
+    instead, those arguments will written to the stdin stream.
+    Each command-line argument will be written as a newline-terminated
+    string to stdin ; the end of arguments is indicated by
+    writing the period ('.') character on a line by itself (again, terminated
+    with a newline). For example, a Perl script reading its arguments from stdin would use something like: while (my $line = <STDIN>) {
+      chomp($line);
+
+      if ($line eq ".") {
+        last;
+      }
+
+      # Handle $line appropriately here
+    } The advantange of using this useStdin option is that some
+    systems have tools ( e.g. ps ) which will show the
+    command-line arguments to commands being executed.  For the security
+    conscious, using stdin to pass arguments is less visible
+    to other users of the system. ExecTimeout Syntax: ExecTimeout seconds Default: None Context: server config, <VirtualHost> , <Global> Module: mod_exec Compatibility: 1.2.9rc2 and later The ExecTimeout directive is used to set a limit on how long
+the executed commands can run.  Processes that exceed the configured timeout
+will first be sent SIGTERM, to allow them to cleanly shutdown.  If the process
+is still around, it will then be sent SIGKILL, which cannot be ignored. A
+value of zero configures an infinite timeout (not recommended). Usage Example configuration: <IfModule mod_exec.c>
+    ExecEngine on
+    ExecLog /var/log/ftpd/exec.log
+    ExecOnConnect /path/to/script
+  </IfModule> This module will not work properly for <Anonymous> logins,
+or for logins that are affected by DefaultRoot .  These directives
+use the chroot(2) system call, which wreaks havoc when it
+comes to scripts.  The path to script/shell interpreters often assume a certain
+location that is no longer valid within a chroot.  In addition, most modern
+operating systems use dynamically loaded libraries ( .so libraries) for many binaries, including script/shell interpreters.  The
+location of these libraries, when they come to be loaded, are also assumed;
+those assumptions break within a chroot.  Perl, in particular, is so
+wrought with filesystem location assumptions that it's almost impossible
+to get a Perl script to work within a chroot, short of installing Perl
+itself into the chroot environment. In short, this module is probably not what you want.  And, try as I might,
+I cannot convince users that this module is not what they want.  Therefore,
+I'll let you try to use this module yourself, and you can prove to yourself
+that it probably won't do what you want. As an alternative to mod_exec for executing arbitrary
+scripts/commands based on FTP command issued, file uploaded/downloaded, etc , I recommend using a logging FIFO-based approach, similar to
+what is illustrated here .  This approach
+allows for any script you wish, and is not subject to the restrictions of a
+chroot, meaning that you can use DefaultRoot and still have
+arbitrary scripts executed.  If requested, I can provide help in writing a
+FIFO reader to execute the necessary scripts. Installation The mod_exec module is distributed with ProFTPD.  Follow the
+usual steps for using third-party modules in ProFTPD: $ ./configure --with-modules=mod_exec To build mod_exec as a DSO module: $ ./configure --enable-dso --with-shared=mod_exec Then follow the usual steps: $ make
+  $ make install Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_exec as a shared
+module: $ prxs -c -i -d mod_exec.c Frequently Asked Questions Question : Why do %U/%u not work properly with ExecOnConnect ? Answer : Both %U and %u will
+be empty on ExecOnConnect because, at that point, the client has
+done a TCP connect to the server, but has not sent any sort of information
+(including user name).  Which means that mod_exec does not have
+a user name to use at connect time. One way to work around this limitation is to use a different trigger, e.g. : ExecOnCommand PASS ... By the time the client sends the USER and PASS commands, the server will have the necessary user information to populate
+the %U/%u variables. Question : When I use DefaultRoot to chroot
+my sessions, my exec scripts no longer work; the ExecLog shows
+errors like this: preparing to execute '/tmp/ftp-logger.py' with uid 1000 (euid 1000), gid 1000 (egid 1000)
+ + '/tmp/ftp-logger.py': argv[1] = --user
+ + '/tmp/ftp-logger.py': argv[2] = ftp
+ + '/tmp/ftp-logger.py': argv[3] = --file
+ + '/tmp/ftp-logger.py': argv[4] = /home/ftp/test-ftp-demo.py
+ + '/tmp/ftp-logger.py': argv[5] = 172.17.0.1
+error: unable to open /dev/null for stdin: No such file or directory
+'/tmp/ftp-logger.py' terminated normally, with exit status 2
+STOR ExecOnCommand '/tmp/ftp-logger.py' failed: No such file or directory Is this a bug? Answer : No, this is not a bug.  It is a consequence
+of how the DefaultRoot directive works. The DefaultRoot directive uses the chroot(2) system
+call, to effectively "jail" your sessions, by changing the root of the
+filesystem for that process.  This affects everything .  Many scripts
+are executed by interpreters; you can see these in the very first line of the
+script, e.g. : #!/bin/bash or: #!/usr/bin/env python Within a chrooted environment, though, those interpreter paths are no longer
+valid.  Hence the "No such file or directory" error.  This also explains why /dev/null cannot be found; it does not exist in the chroot. © Copyright 2000-2023 TJ Saunders All Rights Reserved

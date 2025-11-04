@@ -1,0 +1,15 @@
+ProFTPD module mod_quotatab_file ProFTPD module mod_quotatab_file This mod_quotatab submodule is contained in the mod_quotatab_file.c , and is found in the contrib/ area of the ProFTPD source distribution.  See the mod_quotatab installation instructions. This submodule provides the file-specific "driver" for storing quota
+table information in files. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. File Quota Tables Using file-based quota tables ( source-type of "file") the
+data will be stored in binary fixed-record format.  This module is accompanied
+by a tool, ftpquota , to help in
+creating and managing these file-based tables. The mod_quotatab_file module supports the "file" string
+for the source-type parameter of the QuotaLimitTable and QuotaTallyTable configuration directives.  If the "file" source-type is used, then the source-info parameter must be the full path to
+the file table. mod_quotatab_file treats any number zero or less for a bytes limit as "unlimited".  Similarly, it treats a value of zero for any of the files limit s as "unlimited".
+"Unlimited" values are ignored, in that any limit that is
+"unlimited" is not used in any of mod_quotatab 's
+calculations. Examples: # Using a file-based limit table
+  QuotaLimitTable file:/usr/local/proftpd/ftpquota.limittab
+
+  # Using a file-based tally table
+  QuotaTallyTable file:/usr/local/proftpd/ftpquota.tallytab © Copyright 2000-2013 TJ Saunders All Rights Reserved

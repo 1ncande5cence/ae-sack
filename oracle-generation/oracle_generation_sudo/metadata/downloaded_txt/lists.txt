@@ -1,0 +1,10 @@
+Sudo Mailing Lists | Sudo Sudo Mailing Lists There are four mailing lists dedicated to sudo : sudo-announce This is a moderated list that consists solely of new release
+announcements.  There is also an archive of past
+messages. sudo-users This is an unmoderated list for general sudo questions and discussion.
+The sudo-users list is a good place to get help with using sudo .  There is
+also an archive of
+past messages. sudo-workers This is an unmoderated list for people porting, hacking on, or generally
+improving sudo . It is also where beta version announcements are sent.
+There is also an archive of past messages. sudo-commits This a moderated list that receives one message per check-in to the sudo git source repository .
+It is useful for people who wish to track sudo development as it happens.
+There is also an archive of past messages. To subscribe to or unsubscribe from a list, simply follow the links above.

@@ -1,0 +1,22 @@
+Static Analysis | Sudo Static Analysis Static analysis security testing (SAST) is a way of finding flaws
+in software without running it in the traditional sense.  Source
+code is checked for dangerous patterns and data flow analysis is
+performed to find potential errors.  One of the advantages of SAST
+is that it is capable of finding errors in code paths that are
+unlikely, but still possible, to happen at run-time. Multiple SAST tools are used during sudo development.  Why use more
+that one?  Different tools find different classes of issues. Coverity Scan Sudo is scanned using the Coverity static analysis
+tool before each release.  You can view a list of defects found,
+as well as any pending defects, on the sudo project
+page . Coverity Scan is free to use for
+Open Source projects. PVS Studio Sudo is also run through the PVS-Studio static code analyzer periodically, usually before a release.  The sudo code base
+has been annotated to ignore false positives. PVS Studio is free to use for Open
+Source projects, but requires a comment in the source files.
+To check sudo with PVS Studio you must
+generate a free license key . CodeQL Every Sudo commit is scanned using the CodeQL workflow on GitHub .  You can view the
+current defects as well as those that have been fixed on sudo’s Code scanning page .
+The workflow history is also available. CodeQL is free for research and open source. Clang Static Analyzer The Clang static analyzer is used periodically to check for defects.  Clang version 14
+or higher should be used to avoid a large number of false positives.
+The Clang static analyzer is
+Open Source, part of the LLVM project. Cppcheck Sudo is also run through the Cppcheck static analysis tool periodically.
+The sudo code base has been annotated to ignore some of the
+false positives. Cppcheck is Open Source.

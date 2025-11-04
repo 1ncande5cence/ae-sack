@@ -1,0 +1,114 @@
+Fuzzing Sudo | Sudo Fuzzing Sudo Fuzz testing is an automated method of finding bugs (and potential
+security vulnerabilities) by passing random input to a program or
+function.  It is often performed in conjunction with a tool that
+can detect incorrect or undefined behavior, such as out-of-bounds
+access (buffer overflow/underflow), use of uninitialized data, use
+of memory after it has been freed, and freeing the same memory more
+than once.  For testing sudo, we use both Address
+Sanitizer (ASAN)
+and Undefined Behavior
+Sanitizer (UBSAN) to catch these kind of bugs.  In addition to potential
+security bugs, ASAN also identifies memory leaks. Sudo uses coverage-guided fuzzing which starts with a seed corpus of
+sample inputs and mutates that input in an attempt to trigger bugs.
+This is generally more effective than completely random input.
+While multiple fuzzing libraries are supported, LLVM’s libFuzzer is used by
+default. Building sudo with fuzz testing support To build sudo with fuzzing support you must use the --enable-fuzzer and --enable-sanitizer configure options.  Currently, this requires
+the Clang C compiler .  For best results,
+Clang 11 or higher is recommended.  It is not currently possible
+to do automated fuzz testing with sudo using gcc. To use a different fuzzing library such as AFL++ or Honggfuzz , the --enable-fuzzer-engine configure option can be used to specify
+the library to link with.  Fuzzing libraries that rely on the C++
+run-time may need the --enable-fuzzer-linker configure option to
+link with a C++ compiler instead of a C compiler.
+For simplicity’s sake, we will only describe using libFuzzer , which is the
+default. In the simplest case, assuming Clang 11 is installed on the system
+as clang-11 , building sudo with fuzzing support is a simple matter
+of running: $ ./configure CC=clang-11 --enable-fuzzer --enable-sanitizer
+$ make You can verify that the fuzzers build and run by using the check-fuzzer Makefile target: $ make check-fuzzer This will run the fuzz targets with the seed corpora as input and exit. Sudo built with fuzzing support should not be used in a production
+environment.  The sanitizers are influenced by environment variables
+that make it unsafe to use a sudo binary with sanitizer or fuzzing
+support for anything other than testing. Available fuzzers Sudo comes with several fuzzing targets which exercise different
+parts of the code base. fuzz_iolog_json Fuzzes parsing of the new-style (JSON) I/O info log files that contain
+information about the command that was run. fuzz_iolog_legacy Fuzzes parsing of the legacy I/O info log files that contain
+information about the command that was run. fuzz_iolog_timing Fuzzes parsing of the I/O log timing file.  This file contains the I/O
+log event type, timing information and other metadata for I/O log events. fuzz_logsrvd_conf Fuzzes parsing of the sudo_logsrvd.conf file (.ini file format). fuzz_policy Fuzzes the policy plugin API used by the sudo front-end.
+The seed corpus includes an entry to reproduce CVE-2021-3156 . fuzz_sudo_conf Fuzzes parsing of the sudo.conf file. fuzz_sudoers Fuzzes parsing of the sudoers policy file. fuzz_sudoers_ldif Fuzzes parsing of the LDIF-format policy data for the sudoers LDAP back-end. Running the fuzzers Once you have built sudo with fuzzing support it is possible to
+run the various fuzzing targets.  The sudo Makefile includes a top-level fuzz target that can be used to run all the fuzzers serially.
+For example: $ make fuzz will run all the fuzzing targets with a maximum input length of 4096
+for 8192 iterations each.  You can control the input length and
+number of iterations using the FUZZ_MAX_LEN and FUZZ_RUNS Makefile
+variables.  For instance, to do a quick fuzzing run with only 128
+iterations: $ make FUZZ_RUNS=128 fuzz As the fuzzer runs, it will add to the fuzzing corpus for each
+target.  This allows the fuzzer to make incremental improvements
+instead of starting from the seed corpus each time.  However, it
+can take up a substantial amount of space when run for a long time. To run a specific fuzzer, use the “run-fuzzer-name” Makefile target
+in the appropriate directory.  For example, to run fuzz_sudoers from the root of the sudo source tree: $ make -C plugins/sudoers run-fuzz_sudoers Fuzzing at scale with OSS-Fuzz The OSS-Fuzz project makes
+it possible to fuzz a large number of Open Source projects at scale.
+The longer a fuzzing session is allowed to run, the greater the
+chance is of finding a bug.  OSS-Fuzz uses a cluster of cloud-based
+VMs to fuzz different projects.  When a bug is detected, it
+reports the issue along with a reproducer test case (if possible). Bugs found by OSS-Fuzz are
+available on Sudo’s OSS-Fuzz issue
+tracker .
+Note that bugs are only made public when they are fixed or after
+90 days, whichever comes first.  This gives us time to triage and
+fix bugs as they are discovered. Running OSS-Fuzz in a container It is also possible to run OSS-Fuzz yourself in a container.  This is often the easiest way to run the
+fuzzers since you don’t need to install a specific compiler or worry
+about other build dependencies.  Everything you need is provided
+in the container.  The only real dependency is that you have Docker
+installed on the system. To run your own instance of OSS-Fuzz ,
+first check out the current version from the OSS-Fuzz GitHub : $ git clone https://github.com/google/oss-fuzz.git Then build the container.  In this example, we are using ASAN as
+the sanitizer. $ python3 infra/helper.py build_image sudoers
+$ python3 infra/helper.py build_fuzzers --sanitizer address sudoers
+$ python3 infra/helper.py check_build sudoers Once the container is built, you can start a fuzzing session: $ python3 infra/helper.py run_fuzzer sudoers <fuzz_target> where <fuzz_target> is one of the fuzzers listed above.  See the
+help text for the run_fuzzer sub-command for more information on
+how to run fuzz targets within a container with oss-fuzz. By default, the fuzzers will run indefinitely until they detect a
+problem.  You can restrict the amount of time a fuzzer runs by passing
+it the -max_total_time option.  For example, to limit the fuzzing
+run to one hour (3600 seconds): $ python3 infra/helper.py run_fuzzer sudoers <fuzz_target> \
+    -- -max_total_time=3600 As with running the fuzzers manually, the test corpus will be updated
+as the fuzzer runs.  Over long periods of time, this can add up,
+so be sure that you have sufficient disk space if you want to perform
+long fuzzing runs. It is also possible to run the container interactively to build and
+fuzz sudo manually: $ python3 infra/helper.py shell sudoers
+[ starts the container with a root shell]
+# compile This will install the fuzz targets, dictionary files and seed corpora
+to the /out directory in the container.  This directory is also
+accessible from outside the container from the top of the oss-fuzz
+tree as build/out/sudoers .  You can then run the fuzz target manually.
+For example, to run fuzz_policy with the provided dictionary and
+seed corpus: # cd /out
+# mkdir /tmp/fuzz_policy_corpus
+# unzip -o -d /tmp/fuzz_policy_corpus/ fuzz_policy_seed_corpus.zip
+# ./fuzz_policy /tmp/fuzz_policy_corpus -dict=fuzz_policy.dict It is also possible to install gdb in the container to debug problems
+found by the fuzzers.  However, it is often easier to copy the unit
+test cases produced by fuzzing from the container to your development
+environment. Finding bugs If a fuzzer detects a crash or if a fuzz target takes too long to
+complete, the problematic input will be stored in a file for later
+analysis.  Input files are named by their SHA-1 digest with a prefix
+such as “crash”, “oom”, “slow-unit” or “timeout” depending on the
+problem.  For example: crash-ad6700613693ef977ff3a8c8f4dae239c3dde6f5 The fuzz target may be run manually with the input file as an
+argument to reproduce the problem. One of the goals for fuzzing sudo was to be able to find bugs like CVE-2021-3156 .
+Since the seed corpus includes a test for this, we can verify that
+the fuzzer is capable of finding the bug by reverting the fix and
+running the fuzzer. With the fix reverted, the fuzz_policy fuzzer will detect the bug
+as soon as it processes the policy.3 seed file: ==32423==ERROR: AddressSanitizer: heap-buffer-overflow on address
+0x60200002ae77 at pc 0x55e06a49e76d bp 0x7ffc4c94cb60 sp 0x7ffc4c94cb58
+READ of size 1 at 0x60200002ae77 thread T0
+    #0 0x55e06a49e76c in strlcpy_unescape plugins/sudoers/strlcpy_unesc.c:39:18
+    #1 0x55e06a49eb39 in strvec_join plugins/sudoers/strvec_join.c:60:6
+    #2 0x55e06a4a473f in set_cmnd plugins/sudoers/sudoers.c
+    #3 0x55e06a4a473f in sudoers_policy_main plugins/sudoers/sudoers.c:449:19
+    #4 0x55e06a49c4e2 in sudoers_policy_check plugins/sudoers/policy.c:1130:11
+    ...
+artifact_prefix='./'; Test unit written to
+./crash-f8d2e17e3f1216b9c5d5c981cedaa33f4635002a The full backtrace from the fuzzer also includes information about
+where the memory was allocated and a dump of the CPU registers.
+In many cases, the backtrace and allocation information are sufficient
+to understand the source of the bug.  If more debugging is needed,
+the input file can be used in conjunction with a debugger, such as gdb or lldb , to get at the root of the problem. Continuous Integration To find bugs as soon as possible after they are introduced, sudo uses CIFuzz to perform a short fuzzing run after every commit using
+the latest test corpus from OSS-Fuzz .
+You can view the results in the CIFuzz workflow of the sudo GitHub repo . A failed workflow usually indicates a compilation error, a memory
+leak, or a bug of some kind.  If a failure does occur, the output
+of the fuzzers and the input that triggered the error are attached
+to the workflow in the form of a zip file.  This can be used to
+reproduce the problem manually.

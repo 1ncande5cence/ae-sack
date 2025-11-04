@@ -1,0 +1,44 @@
+mod_authz_dbm - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_authz_dbm Available Languages: en | fr | ko Description: Group authorization using DBM files Status: Extension ModuleÂ Identifier: authz_dbm_module SourceÂ File: mod_authz_dbm.c Compatibility: Available in Apache 2.1 and later Summary This module provides authorization capabilities so that
+       authenticated users can be allowed or denied access to portions
+       of the web site by group membership. Similar functionality is
+       provided by mod_authz_groupfile . Topics The Require Directives Example usage Directives AuthDBMGroupFile AuthzDBMType Bugfix checklist httpd changelog Known issues Report a bug See also Require Comments The Require Directives Apache's Require directives are used during the authorization phase to ensure that
+    a user is allowed to access a resource.  mod_authz_dbm extends the
+    authorization types with dbm-group . Since v2.4.8, expressions are supported
+    within the DBM require directives. Require dbm-group This directive specifies group membership that is required for the
+    user to gain access. Require dbm-group admin Require dbm-file-group When this directive is specified, the user must be a member of the group
+    assigned to the file being accessed. Require dbm-file-group Example usage Note that using mod_authz_dbm requires you to require dbm-group instead of group : <Directory "/foo/bar">
+  AuthType Basic
+  AuthName "Secure Area"
+  AuthBasicProvider dbm
+  AuthDBMUserFile "site/data/users"
+  AuthDBMGroupFile "site/data/users"
+  Require dbm-group admin
+</Directory> AuthDBMGroupFile Directive Description: Sets the name of the database file containing the list
+of user groups for authorization Syntax: AuthDBMGroupFile file-path Context: directory, .htaccess Override: AuthConfig Status: Extension Module: mod_authz_dbm The AuthDBMGroupFile directive sets the
+    name of a DBM file containing the list of user groups for user
+    authorization. File-path is the absolute path to the
+    group file. The group file is keyed on the username. The value for a
+    user is a comma-separated list of the groups to which the users
+    belongs. There must be no whitespace within the value, and it
+    must never contain any colons. Security Make sure that the AuthDBMGroupFile is
+      stored outside the document tree of the web-server. Do not put it in the directory that it protects.
+      Otherwise, clients will be able to download the AuthDBMGroupFile unless otherwise
+      protected. Combining Group and Password DBM files: In some cases it is
+    easier to manage a single database which contains both the
+    password and group details for each user. This simplifies any
+    support programs that need to be written: they now only have to
+    deal with writing to and locking a single DBM file. This can be
+    accomplished by first setting the group and password files to
+    point to the same DBM: AuthDBMGroupFile "/www/userbase"
+AuthDBMUserFile "/www/userbase" The key for the single DBM is the username. The value consists
+    of Encrypted Password : List of Groups [ : (ignored) ] The password section contains the encrypted
+    password as before. This is followed by a colon and the comma
+    separated list of groups. Other data may optionally be left in the
+    DBM file after another colon; it is ignored by the authorization
+    module. This is what www.telescope.org uses for its combined
+    password and group database. AuthzDBMType Directive Description: Sets the type of database file that is used to
+store list of user groups Syntax: AuthzDBMType default|SDBM|GDBM|NDBM|DB Default: AuthzDBMType default Context: directory, .htaccess Override: AuthConfig Status: Extension Module: mod_authz_dbm Sets the type of database file that is used to store the list
+    of user groups.
+    The default database type is determined at compile time.  The
+    availability of other types of database files also depends on compile-time settings . It is crucial that whatever program you use to create your group
+    files is configured to use the same type of database. Available Languages: en | fr | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

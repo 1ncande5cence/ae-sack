@@ -1,0 +1,32 @@
+ProFTPD Logging: Log Levels ProFTPD Logging: Log Levels Log Levels As mentioned in the logging documentation,
+log messages are logged at different log levels (also known as
+log priorities ), and with different facilities ( i.e. the component generating the log message). The following table lists the supported log levels, in descending priority
+order.  Thus the DEBUG level has the lowest priority, and the EMERG level has the highest priority. Level Description EMERG Fatal/unrecoverable error/condition, application is unusable and
+        stops immediately ALERT Condition requires immediate intervention by
+        administrator/operator CRIT Condition should be corrected immediately, but indicates e.g. failure in secondary system/library ERR Non-urgent failure conditions that should be relayed to developers
+        and/or administrators; should be resolved/corrected soon WARNING Unexpected error/condition that may require intervention to
+        review/correct NOTICE Significant/noteworthy condition, no intervention/action
+        required INFO Normal operating conditions, no intervention/action
+        required DEBUG Internal details of application operations useful to developers,
+        not necessarily useful during normal operations The proftpd daemon can use any or all of the above log levels for
+its emitted log messages, depending on the situation.  You might find that
+you only want proftpd to log messages above a certain level; for
+example, you might not be interested in INFO and DEBUG level messages.  ProFTPD logs all levels by default.  To tell proftpd to silently ignore all log messages below a certain level,
+use the SyslogLevel directive.  Thus to ignore INFO / DEBUG messages,
+you would use: SyslogLevel notice Note that additional log filtering is also done by the syslogd daemon, to which proftpd logs by default.  You will need to
+consult your syslogd configuration (typically found in /etc/syslog.conf ) to see whether it is capturing log messages
+from the facility used by proftpd (default is "daemon"), and
+whether it is filtering out messages below a certain level/priority. If you need to tell proftpd to use a different facility,
+so that it matches your /etc/syslog.conf settings for example,
+you can use the SyslogFacility directive like so: # Tell proftpd to log using the "ftp" facility, rather than "daemon"
+  SyslogFacility ftp The DEBUG Level ProFTPD treats the DEBUG log level a little differently.  There
+are so many conditions which are relevant only when triaging a specific issue
+(such as figuring out why a user cannot log in, or why a file cannot be
+uploaded) that the DEBUG level would become cluttered.  Additional
+filtering of these debug messages is needed.  Thus ProFTPD imposes its own
+notion of debug levels within the DEBUG logging level/priority. The DebugLevel directive is used to control the granularity/verbosity of the DEBUG level messages; the default level is 0, and goes to 10 (inclusive).  In general,
+the higher the DebugLevel , the more debug messages will be emitted
+by proftpd to the DEBUG logging level/priority. Additional Logging Note that ProFTPD also supports even finer-grained logging of internals via
+its trace logging .  Trace logging, however, is
+completely unrelated to syslogd , and thus the syslog facility and level concepts/filtering do not apply
+to trace logging. © Copyright 2013-2019 The ProFTPD Project All Rights Reserved

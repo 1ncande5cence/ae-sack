@@ -1,0 +1,19 @@
+mod_cern_meta - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_cern_meta Available Languages: en | fr | ko Description: CERN httpd metafile semantics Status: Extension ModuleÂ Identifier: cern_meta_module SourceÂ File: mod_cern_meta.c Summary Emulate the CERN HTTPD Meta file semantics. Meta files are HTTP
+    headers that can be output in addition to the normal range of
+    headers for each file accessed. They appear rather like the
+    Apache .asis files, and are able to provide a crude way of
+    influencing the Expires: header, as well as providing other
+    curiosities. There are many ways to manage meta information,
+    this one was chosen because there is already a large number of
+    CERN users who can exploit this module. More information on the CERN metafile semantics is available. Directives MetaDir MetaFiles MetaSuffix Bugfix checklist httpd changelog Known issues Report a bug See also mod_headers mod_asis Comments MetaDir Directive Description: Name of the directory to find CERN-style meta information
+files Syntax: MetaDir directory Default: MetaDir .web Context: server config, virtual host, directory, .htaccess Override: Indexes Status: Extension Module: mod_cern_meta Specifies the name of the directory in which Apache can find
+    meta information files. The directory is usually a 'hidden'
+    subdirectory of the directory that contains the file being
+    accessed. Set to " . " to look in the same directory
+    as the file: MetaDir . Or, to set it to a subdirectory of the directory containing the
+    files: MetaDir .meta MetaFiles Directive Description: Activates CERN meta-file processing Syntax: MetaFiles on|off Default: MetaFiles off Context: server config, virtual host, directory, .htaccess Override: Indexes Status: Extension Module: mod_cern_meta Turns on/off Meta file processing on a per-directory basis. MetaSuffix Directive Description: File name suffix for the file containing CERN-style
+meta information Syntax: MetaSuffix suffix Default: MetaSuffix .meta Context: server config, virtual host, directory, .htaccess Override: Indexes Status: Extension Module: mod_cern_meta Specifies the file name suffix for the file containing the
+    meta information. For example, the default values for the two
+    directives will cause a request to DOCUMENT_ROOT/somedir/index.html to look in DOCUMENT_ROOT/somedir/.web/index.html.meta and
+    will use its contents to generate additional MIME header
+    information. Example: MetaSuffix .meta Available Languages: en | fr | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

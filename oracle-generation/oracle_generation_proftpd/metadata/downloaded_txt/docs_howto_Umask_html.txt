@@ -1,0 +1,60 @@
+ProFTPD: Umask Umask ProFTPD's Umask configuration directive is used to set the file permission bits on newly
+created files and directories.  However, the way in which Umask is to be used is not entirely straightforward. Umask is used to set the value that proftpd will
+use when calling umask(2) .  The umask(2) function
+works something like this: new file mode = base-mode - umask (Technically, the operation is base-mode & ~umask ).
+Thus, with a base-mode of 0666 , and a umask of 0022 , the permissions on the newly created file will be 0644 ( e.g. rw-r--r-- ). A quick review of permission bits: 4 is read permission ( r )
+  2 is write permission ( w )
+  1 is execute permission ( x ) The first digit of a mode ( 0750 , for example) is used to
+specify some special bits ( e.g. set-user-ID, set-group-ID, and the
+"sticky bit").  The second digit, the 7 in this
+example, specifies the user owner permissions, and is a sum of the above
+permission bits: 7 = 4 + 2 + 1 ( e.g. rwx ).
+Group owner permissions are specified by the third bit, 5 : 5 = 4 + 1 ( e.g. r-x ).  And finally, other
+or world permissions are specified using the last bit, which in the
+example is 0 (no permissions, e.g. --- ). Here are some concrete examples to help illustrate things: Mode Label Description 0777 rwxrwxrwx read/write/execute permissions for user owner, group owner, and other 0666 rw-rw-rw- read/write permissions for user owner, group owner, and other 0755 rwxr-xr-x read/write/execute permissions for user owner, read/execute permissions for group owner and other 0750 rwxr-x--- read/write/execute permissions for user owner, read permission for group owner, no permissions for other 0644 rw-r--r-- read/write permissions for user owner, read permission for group owner and other 0511 r-x--x--x read/execute permissions for user owner, execute permission for group owner and other The proftpd daemon always starts with a base-mode of 0666 when creating files.  Note that Umask can only
+be used to "take away" permissions granted by the base-mode ;
+it cannot be used to add permissions that are not there.  This means that
+files uploaded to a proftpd server will never have the execute
+permission enabled by default, since the 0666 base-mode does not have any execute bits enabled).  This is a conscious security design
+decision.  For directories, a different base-mode of 0777 is used.  The umask used for directories can be configured using the
+optional second parameter to the Umask directive; if this second
+parameter is not used, the umask used for created directories will
+default to the same umask as used for files. If it is necessary to make uploaded files executable, the SITE CHMOD FTP command can be used: SITE CHMOD mode file Use of this command can be restricted using a "command" of SITE_CHMOD in a <Limit> section.  For
+example, this section of a proftpd.conf file: <Limit SITE_CHMOD>
+    AllowUser ftpadmin
+    DenyAll
+  </Limit> will deny everyone except user ftpadmin from being able to
+use the SITE CHMOD command to change the permissions on files
+via FTP.  Note that this construction is recommended instead of using the
+deprecated (as of proftpd-1.2.2rc2 ) AllowChmod configuration directive. Examples of Using the Umask Directive You have just installed proftpd , and now need to figure out what
+permissions file/directories created on your FTP server should have.  As
+a conscientious FTP server administrator, you want files/directories to
+have the minimum necessary permissions (rather than letting users have access
+to files/directories that they do not need). If only the user who creates the files and directories should have full
+access, e.g. so they can read and write their own files, then you might
+use: # Only the user can see their own files/directories
+  Umask 0066 0077 With this configuration, a newly uploaded file would have 0600 ( rw------- ) permissions: 0600 = 0666 - 0066 and a newly created directory would have 0700 ( rwx------ ) permissions: 0700 = 0777 - 0077 Another common case is where you have many users who are uploading files
+for sharing with other users.  So you want the files to be readable by
+everyone, but only the user who uploaded the file should have permission for
+writing/changing the file.  For this, you might use: # Only the user can change their own files
+  Umask 0022 With this configuration, a newly uploaded file would have 0644 ( rw-r--r-- ) permissions: 0644 = 0666 - 0022 and a newly created directory would have 0755 ( rwxr-xr-x ) permissions: 0755 = 0777 - 0022 Frequently Asked Questions Question : How can I configure proftpd so
+that I can upload a file with 770 permissions? Answer : Short answer: you can't.  Too many FTP servers,
+in the past, would allow users to upload executable files.  Hackers would
+use this capability, and then exploit a flaw in one of the servers on that
+machine to execute the crafted file they just uploaded.  Thus ProFTPD does
+not allow uploading of files with execute permissions. The workaround, as mentioned above, is to allow the client to use the SITE CHMOD command to change the permissions on the file to
+have the execute permissions. Question : I have a Umask value of 0066 , so that only I have read/write permissions on my files.  But other users can delete my files!  Is this a proftpd bug? Answer : No.  The permission for deleting a file is not governed by the write permission on the deleted file; it is
+controlled by the write permission on the directory containing the file . If you think of a directory as a "table of contents", with entries for each
+of the files in that directory, then deleting a file means deleting the entry
+for that file from the "table of contents", which is a write on the directory
+(not on the deleted file). Let's assume that your files were in a directory whose permissions were 0777 ( rwxrwxrwx ).  This means that everyone has
+write permissions in that directory.  It also means that everyone can
+delete files from that directory. Now let's assume that your files instead were in a directory whose permissions
+where 0755 ( rwxr-xr-x ).  This means that only the
+user owner of the directory can delete files from that directory, and no one
+else. For directories which contain files from different users, one of the
+little-known (and very useful) permissions to have for the directory is 1777 ( rwxrwxrwt ).  The leading 1 (and t )
+indicates the "sticky bit".  This obscure bit is little used these days, except in this useful configuration.  When the sticky bit is set on
+a directory (making it a "sticky directory"), normal users may not delete or
+rename files of other users in that directory.  Because of this property,
+"sticky directories" are quite useful as shared directories ( e.g. /tmp ). © Copyright 2017 The ProFTPD Project All Rights Reserved

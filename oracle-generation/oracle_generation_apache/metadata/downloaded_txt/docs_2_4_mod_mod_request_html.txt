@@ -1,0 +1,27 @@
+mod_request - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_request Available Languages: en | fr | tr Description: Filters to handle and make available HTTP request bodies Status: Base ModuleÂ Identifier: request_module SourceÂ File: mod_request.c Compatibility: Available in Apache 2.3 and later Directives KeptBodySize Bugfix checklist httpd changelog Known issues Report a bug See also Comments KeptBodySize Directive Description: Keep the request body instead of discarding it up to
+the specified maximum size, for potential use by filters such as
+mod_include. Syntax: KeptBodySize maximum size in bytes Default: KeptBodySize 0 Context: directory Status: Base Module: mod_request Under normal circumstances, request handlers such as the
+    default handler for static files will discard the request body
+    when it is not needed by the request handler. As a result,
+    filters such as mod_include are limited to making GET requests
+    only when including other URLs as subrequests, even if the
+    original request was a POST request, as the discarded
+    request body is no longer available once filter processing is
+    taking place. When this directive has a value greater than zero, request
+    handlers that would otherwise discard request bodies will
+    instead set the request body aside for use by filters up to
+    the maximum size specified. In the case of the mod_include
+    filter, an attempt to POST a request to the static
+    shtml file will cause any subrequests to be POST requests, instead of GET requests as before. This feature makes it possible to break up complex web pages and
+    web applications into small individual components, and combine
+    the components and the surrounding web page structure together
+    using mod_include . The components can take the
+    form of CGI programs, scripted languages, or URLs reverse proxied
+    into the URL space from another server using mod_proxy . Note: Each request set aside has to be set
+    aside in temporary RAM until the request is complete. As a result,
+    care should be taken to ensure sufficient RAM is available on the
+    server to support the intended load. Use of this directive
+    should be limited to where needed on targeted parts of your
+    URL space, and with the lowest possible value that is still big
+    enough to hold a request body. If the request size sent by the client exceeds the maximum
+    size allocated by this directive, the server will return 413 Request Entity Too Large . See also mod_include documentation mod_auth_form documentation Available Languages: en | fr | tr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

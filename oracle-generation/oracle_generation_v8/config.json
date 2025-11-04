@@ -1,0 +1,4 @@
+{
+    "TARGET_PROG": "JavaScript Engine V8's D8 developer shell",
+    "START_URL": "https://v8.dev/docs"
+}

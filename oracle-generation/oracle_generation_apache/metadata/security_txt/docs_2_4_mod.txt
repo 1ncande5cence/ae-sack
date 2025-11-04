@@ -1,0 +1,57 @@
+Module Index - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 Module Index Available Languages: de | en | es | fr | ja | ko | tr | zh-cn Below is a list of all of the modules that come as part of
+      the Apache HTTP Server distribution.  See also the complete
+      alphabetical list of all Apache HTTP Server
+      directives . Core Features and Multi-Processing
+            Modules Other Modules See also Multi-Processing Modules (MPMs) Directive Quick Reference Core Features and Multi-Processing
+            Modules core Core Apache HTTP Server features that are always
+available mpm_common A collection of directives that are implemented by
+more than one multi-processing module (MPM) event A variant of the worker MPM with the goal
+of consuming threads only for connections with active processing mpm_netware Multi-Processing Module implementing an exclusively threaded web
+    server optimized for Novell NetWare mpmt_os2 Hybrid multi-process, multi-threaded MPM for OS/2 prefork Implements a non-threaded, pre-forking web server mpm_winnt Multi-Processing Module optimized for Windows NT. worker Multi-Processing Module implementing a hybrid
+    multi-threaded multi-process web server Other Modules A | B | C | D | E | F | H | I | L | M | N | P | R | S | U | V | W | X mod_access_compat Group authorizations based on host (name or IP
+address) mod_actions Execute CGI scripts based on media type or request method. mod_alias Provides for mapping different parts of the host
+    filesystem in the document tree and for URL redirection mod_allowmethods Easily restrict what HTTP methods can be used on the server mod_asis Sends files that contain their own
+HTTP headers mod_auth_basic Basic HTTP authentication mod_auth_digest User authentication using MD5
+    Digest Authentication mod_auth_form Form authentication mod_authn_anon Allows "anonymous" user access to authenticated
+    areas mod_authn_core Core Authentication mod_authn_dbd User authentication using an SQL database mod_authn_dbm User authentication using DBM files mod_authn_file User authentication using text files mod_authn_socache Manages a cache of authentication credentials to relieve
+the load on backends mod_authnz_fcgi Allows a FastCGI authorizer application to handle Apache
+httpd authentication and authorization mod_authnz_ldap Allows an LDAP directory to be used to store the database
+for HTTP Basic authentication. mod_authz_core Core Authorization mod_authz_dbd Group Authorization and Login using SQL mod_authz_dbm Group authorization using DBM files mod_authz_groupfile Group authorization using plaintext files mod_authz_host Group authorizations based on host (name or IP
+address) mod_authz_owner Authorization based on file ownership mod_authz_user User Authorization mod_autoindex Generates directory indexes,
+    automatically, similar to the Unix ls command or the
+    Win32 dir shell command mod_brotli Compress content via Brotli before it is delivered to the
+client mod_buffer Support for request buffering mod_cache RFC 2616 compliant HTTP caching filter. mod_cache_disk Disk based storage module for the HTTP caching filter. mod_cache_socache Shared object cache (socache) based storage module for the
+HTTP caching filter. mod_cern_meta CERN httpd metafile semantics mod_cgi Execution of CGI scripts mod_cgid Execution of CGI scripts using an
+    external CGI daemon mod_charset_lite Specify character set translation or recoding mod_data Convert response body into an RFC2397 data URL mod_dav Distributed Authoring and Versioning
+( WebDAV ) functionality mod_dav_fs Filesystem provider for mod_dav mod_dav_lock Generic locking module for mod_dav mod_dbd Manages SQL database connections mod_deflate Compress content before it is delivered to the
+client mod_dialup Send static content at a bandwidth rate limit, defined by the various old modem standards mod_dir Provides for "trailing slash" redirects and
+    serving directory index files mod_dumpio Dumps all I/O to error log as desired. mod_echo A simple echo server to illustrate protocol
+modules mod_env Modifies the environment which is passed to CGI scripts and
+SSI pages mod_example_hooks Illustrates the Apache module API mod_expires Generation of Expires and Cache-Control HTTP headers according to user-specified
+criteria mod_ext_filter Pass the response body through an external program before
+delivery to the client mod_file_cache Caches a static list of files in memory mod_filter Context-sensitive smart filter configuration module mod_headers Customization of HTTP request and response
+headers mod_heartbeat Sends messages with server status to frontend proxy mod_heartmonitor Centralized monitor for mod_heartbeat origin servers mod_http2 Support for the HTTP/2 transport layer mod_ident RFC 1413 ident lookups mod_imagemap Server-side imagemap processing mod_include Server-parsed html documents (Server Side Includes) mod_info Provides a comprehensive overview of the server
+configuration mod_isapi ISAPI Extensions within Apache for Windows mod_lbmethod_bybusyness Pending Request Counting load balancer scheduler algorithm for mod_proxy_balancer mod_lbmethod_byrequests Request Counting load balancer scheduler algorithm for mod_proxy_balancer mod_lbmethod_bytraffic Weighted Traffic Counting load balancer scheduler algorithm for mod_proxy_balancer mod_lbmethod_heartbeat Heartbeat Traffic Counting load balancer scheduler algorithm for mod_proxy_balancer mod_ldap LDAP connection pooling and result caching services for use
+by other LDAP modules mod_log_config Logging of the requests made to the server mod_log_debug Additional configurable debug logging mod_log_forensic Forensic Logging of the requests made to the server mod_logio Logging of input and output bytes per request mod_lua Provides Lua hooks into various portions of the httpd
+request processing mod_macro Provides macros within apache httpd runtime configuration files mod_md Managing domains across virtual hosts, certificate provisioning 
+        via the ACME protocol mod_mime Associates the requested filename's extensions
+    with the file's behavior (handlers and filters)
+    and content (mime-type, language, character set and
+    encoding) mod_mime_magic Determines the MIME type of a file
+    by looking at a few bytes of its contents mod_negotiation Provides for content negotiation mod_nw_ssl Enable SSL encryption for NetWare mod_privileges Support for Solaris privileges and for running virtual hosts
+under different user IDs. mod_proxy Multi-protocol proxy/gateway server mod_proxy_ajp AJP support module for mod_proxy mod_proxy_balancer mod_proxy extension for load balancing mod_proxy_connect mod_proxy extension for CONNECT request handling mod_proxy_express Dynamic mass reverse proxy extension for mod_proxy mod_proxy_fcgi FastCGI support module for mod_proxy mod_proxy_fdpass fdpass external process support module for mod_proxy mod_proxy_ftp FTP support module for mod_proxy mod_proxy_hcheck Dynamic health check of Balancer members (workers) for mod_proxy mod_proxy_html Rewrite HTML links in to ensure they are addressable
+from Clients' networks in a proxy context. mod_proxy_http HTTP support module for mod_proxy mod_proxy_http2 HTTP/2 support module for mod_proxy mod_proxy_scgi SCGI gateway module for mod_proxy mod_proxy_uwsgi UWSGI gateway module for mod_proxy mod_proxy_wstunnel Websockets support module for mod_proxy mod_ratelimit Bandwidth Rate Limiting for Clients mod_reflector Reflect a request body as a response via the output filter stack. mod_remoteip Replaces the original client IP address for the connection
+with the useragent IP address list presented by a proxies or a load balancer
+via the request headers. mod_reqtimeout Set timeout and minimum data rate for receiving requests mod_request Filters to handle and make available HTTP request bodies mod_rewrite Provides a rule-based rewriting engine to rewrite requested
+URLs on the fly mod_sed Filter Input (request) and Output (response) content using sed syntax mod_session Session support mod_session_cookie Cookie based session support mod_session_crypto Session encryption support mod_session_dbd DBD/SQL based session support mod_setenvif Allows the setting of environment variables based
+on characteristics of the request mod_slotmem_plain Slot-based shared memory provider. mod_slotmem_shm Slot-based shared memory provider. mod_so Loading of executable code and
+modules into the server at start-up or restart time mod_socache_dbm DBM based shared object cache provider. mod_socache_dc Distcache based shared object cache provider. mod_socache_memcache Memcache based shared object cache provider. mod_socache_redis Redis based shared object cache provider. mod_socache_shmcb shmcb based shared object cache provider. mod_speling Attempts to correct mistaken URLs by ignoring
+capitalization, or attempting to correct various minor
+misspellings. mod_ssl Strong cryptography using the Secure Sockets
+Layer (SSL) and Transport Layer Security (TLS) protocols mod_status Provides information on server activity and
+performance mod_substitute Perform search and replace operations on response bodies mod_suexec Allows CGI scripts to run as a specified user
+and Group mod_systemd Provides better support for systemd integration mod_unique_id Provides an environment variable with a unique
+identifier for each request mod_unixd Basic (required) security for Unix-family platforms. mod_userdir User-specific directories mod_usertrack Clickstream logging of user activity on a site mod_version Version dependent configuration mod_vhost_alias Provides for dynamically configured mass virtual
+hosting mod_watchdog provides infrastructure for other modules to periodically run
+    tasks mod_xml2enc Enhanced charset/internationalisation support for libxml2-based
+filter modules Available Languages: de | en | es | fr | ja | ko | tr | zh-cn Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

@@ -1,0 +1,29 @@
+mod_authn_dbm - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_authn_dbm Available Languages: en | fr | ja | ko Description: User authentication using DBM files Status: Extension ModuleÂ Identifier: authn_dbm_module SourceÂ File: mod_authn_dbm.c Compatibility: Available in Apache 2.1 and later Summary This module provides authentication front-ends such as mod_auth_digest and mod_auth_basic to authenticate users by looking up users in dbm password
+    files. Similar functionality is provided by mod_authn_file . When using mod_auth_basic or mod_auth_digest , this module is invoked via the AuthBasicProvider or AuthDigestProvider with the dbm value. Directives AuthDBMType AuthDBMUserFile Bugfix checklist httpd changelog Known issues Report a bug See also AuthName AuthType AuthBasicProvider AuthDigestProvider htpasswd htdbm Password Formats Comments AuthDBMType Directive Description: Sets the type of database file that is used to
+store passwords Syntax: AuthDBMType default|SDBM|GDBM|NDBM|DB Default: AuthDBMType default Context: directory, .htaccess Override: AuthConfig Status: Extension Module: mod_authn_dbm Sets the type of database file that is used to store the passwords.
+    The default database type is determined at compile time. The
+    availability of other types of database files also depends on compile-time settings . For example, in order to enable the support for Berkeley DB
+    (correspondent to the db type) the --with-berkeley-db option needs to be added to httpd's
+    configure to generate the necessary DSO. It is crucial that whatever program you use to create your password
+    files is configured to use the same type of database. AuthDBMUserFile Directive Description: Sets the name of a database file containing the list of users and
+passwords for authentication Syntax: AuthDBMUserFile file-path Context: directory, .htaccess Override: AuthConfig Status: Extension Module: mod_authn_dbm The AuthDBMUserFile directive sets the
+    name of a DBM file containing the list of users and passwords for
+    user authentication. File-path is the absolute path to
+    the user file. The user file is keyed on the username. The value for a user is
+    the encrypted password, optionally followed by a colon and arbitrary
+    data. The colon and the data following it will be ignored by the
+    server. Security: Make sure that the AuthDBMUserFile is stored
+      outside the document tree of the web-server; do not put it in
+      the directory that it protects. Otherwise, clients will be able to
+      download the AuthDBMUserFile . The encrypted password format depends on which authentication
+    frontend (e.g. mod_auth_basic or mod_auth_digest ) is being used.  See Password Formats for
+    more information. Important compatibility note: The implementation of dbmopen in the Apache modules reads the string length of
+    the hashed values from the DBM data structures, rather than relying
+    upon the string being NULL-appended. Some applications, such as
+    the Netscape web server, rely upon the string being
+    NULL-appended, so if you are having trouble using DBM files
+    interchangeably between applications this may be a part of the
+    problem. A perl script called dbmmanage is included with
+    Apache. This program can be used to create and update DBM
+    format password files for use with this module. Another
+    tool for maintaining the DBM files is the included program htdbm . Available Languages: en | fr | ja | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

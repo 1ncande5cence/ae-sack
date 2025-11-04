@@ -1,0 +1,37 @@
+mod_actions - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_actions Available Languages: de | en | fr | ja | ko Description: Execute CGI scripts based on media type or request method. Status: Base ModuleÂ Identifier: actions_module SourceÂ File: mod_actions.c Summary This module has two directives. The Action directive lets you run CGI
+    scripts whenever a file of a certain MIME content type is requested. The Script directive lets
+    you run CGI scripts whenever a particular method is used in a
+    request. This makes it much easier to execute scripts that process
+    files. Directives Action Script Bugfix checklist httpd changelog Known issues Report a bug See also mod_cgi Dynamic Content with CGI Apache httpd's Handler Use Comments Action Directive Description: Activates a CGI script for a particular handler or
+content-type Syntax: Action action-type cgi-script [virtual] Context: server config, virtual host, directory, .htaccess Override: FileInfo Status: Base Module: mod_actions Compatibility: The virtual modifier and handler passing were
+introduced in Apache 2.1 This directive adds an action, which will activate cgi-script when action-type is triggered by
+    the request.  The cgi-script is the URL-path to a
+    resource that has been designated as a CGI script using ScriptAlias or AddHandler .  The action-type can be either a handler or a MIME content type . It sends the URL and
+    file path of the requested document using the standard CGI PATH_INFO and PATH_TRANSLATED environment variables. The handler used for the particular request
+    is passed using the REDIRECT_HANDLER variable. Example: MIME type # Requests for files of a particular MIME content type:
+Action image/gif /cgi-bin/images.cgi In this example, requests for files with a MIME content
+    type of image/gif will be handled by the
+    specified cgi script /cgi-bin/images.cgi . Example: File extension # Files of a particular file extension
+AddHandler my-file-type .xyz
+Action my-file-type "/cgi-bin/program.cgi" In this example, requests for files with a file extension of .xyz are handled by the specified cgi script /cgi-bin/program.cgi . The optional virtual modifier turns off the check
+    whether the requested file really exists. This is useful, for example,
+    if you want to use the Action directive in
+    virtual locations. <Location "/news">
+    SetHandler news-handler
+    Action news-handler "/cgi-bin/news.cgi" virtual
+</Location> See also AddHandler Script Directive Description: Activates a CGI script for a particular request
+method. Syntax: Script method cgi-script Context: server config, virtual host, directory Status: Base Module: mod_actions This directive adds an action, which will activate cgi-script when a file is requested using the method of method . The cgi-script is the URL-path to a
+    resource that has been designated as a CGI script using ScriptAlias or AddHandler .  The URL and
+    file path of the requested document is sent using the standard CGI PATH_INFO and PATH_TRANSLATED environment
+    variables. Any arbitrary method name may be used. Method names are
+      case-sensitive , so Script PUT and Script put have two entirely different
+      effects. Note that the Script command defines default
+    actions only. If a CGI script is called, or some other resource that is
+    capable of handling the requested method internally, it will do
+    so. Also note that Script with a method of GET will only be called if there are query arguments present
+    ( e.g. , foo.html?hi). Otherwise, the request will
+    proceed normally. # All GET requests go here
+Script GET "/cgi-bin/search"
+
+# A CGI PUT handler
+Script PUT "/~bob/put.cgi" Available Languages: de | en | fr | ja | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

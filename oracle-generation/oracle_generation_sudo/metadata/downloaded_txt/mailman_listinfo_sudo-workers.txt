@@ -1,0 +1,9 @@
+sudo-workers Info Page sudo-workers --
+	Discussion of sudo by people hacking on it About sudo-workers This list is for people hacking on sudo to share enhancements and general sudo-like ideas.  It is also where beta versions of sudo get announced. To see the collection of prior postings to the list,
+	      visit the sudo-workers
+		  Archives . Using sudo-workers To post a message to all the list members, send email to sudo-workers@sudo.ws . You can subscribe to the list, or change your existing
+	    subscription, in the sections below. Subscribing to sudo-workers Subscribe to sudo-workers by filling out the following
+	      form.
+	  You will be sent email requesting confirmation, to
+            prevent others from gratuitously subscribing you. This is a private list, which means that the
+            list of members is not available to non-members. sudo-workers Subscribers sudo-workers list run by sudo-workers-owner at sudo.ws sudo-workers administrative interface (requires authorization) Overview of all sudo.ws mailing lists version 2.1.39

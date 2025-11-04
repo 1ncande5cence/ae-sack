@@ -1,0 +1,23 @@
+mod_proxy_wstunnel - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_proxy_wstunnel Available Languages: en | fr Description: Websockets support module for mod_proxy Status: Extension ModuleÂ Identifier: proxy_wstunnel_module SourceÂ File: mod_proxy_wstunnel.c Compatibility: Available in httpd 2.4.5 and later Summary Deprecation Since Apache HTTP Server 2.4.47, protocol Upgrade (tunneling) can be better handled by mod_proxy_http . See Protocol Upgrade . This module requires the service of mod_proxy .
+    It provides support for the tunnelling of web
+    socket connections to a backend websockets server. The connection
+    is automatically upgraded to a websocket connection: HTTP Response Upgrade: WebSocket
+Connection: Upgrade Proxying requests to a websockets server like echo.websocket.org can be done using the ProxyPass directive: ProxyPass "/ws2/"  "ws://echo.websocket.org/"
+ProxyPass "/wss2/" "wss://echo.websocket.org/" Proxying both HTTP and websockets at the same time, with a specific set of URL's being
+websocket-only, can be done by specifying the websockets ProxyPass directive before the
+HTTP directive: ProxyPassMatch ^/(myApp/ws)$  ws://backend.example.com:9080/$1
+ProxyPass / http://backend.example.com:9080/ Proxying both HTTP and websockets at the same time, where the websockets URL's are not
+websocket-only or not known in advance can be done by using the RewriteRule directive to
+configure the websockets proxying: ProxyPass / http://example.com:9080/
+RewriteEngine on
+RewriteCond %{HTTP:Upgrade} websocket [NC]
+RewriteCond %{HTTP:Connection} upgrade [NC]
+RewriteRule ^/?(.*) "ws://example.com:9080/$1" [P,L] Load balancing for multiple backends can be achieved using mod_proxy_balancer . The module can also be used to upgrade to other protocols than WebSocket, by setting
+the upgrade parameter in the ProxyPass directive to some custom protocol name.
+Special upgrade=NONE and upgrade=ANY values may be used for
+testing/forcing the upgrade but they are not recommended in production for
+security reasons. NONE means that the check for the header is omitted but still the upgrade/tunneling to
+WebSocket always happens. ANY means that the upgrade/tunneling will happen using any protocol asked by the client. Directives ProxyWebsocketFallbackToProxyHttp Bugfix checklist httpd changelog Known issues Report a bug See also mod_proxy Comments ProxyWebsocketFallbackToProxyHttp Directive Description: Instructs this module to let mod_proxy_http handle the request Syntax: ProxyWebsocketFallbackToProxyHttp On|Off Default: ProxyWebsocketFallbackToProxyHttp On Context: server config, virtual host Status: Extension Module: mod_proxy_wstunnel Compatibility: Available in httpd 2.4.48 and later Since httpd 2.4.47, mod_proxy_http can handle WebSocket
+    upgrading and tunneling in accordance to RFC 7230, this directive controls
+    whether mod_proxy_wstunnel should hand over to mod_proxy_http to this, which is the case by default. Setting to Off lets mod_proxy_wstunnel handle
+    WebSocket requests as in httpd 2.4.46 and earlier. Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

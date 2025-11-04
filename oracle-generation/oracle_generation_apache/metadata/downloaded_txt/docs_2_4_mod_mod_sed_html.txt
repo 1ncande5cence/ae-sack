@@ -1,0 +1,24 @@
+mod_sed - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_sed Available Languages: en | fr Description: Filter Input (request) and Output (response) content using sed syntax Status: Experimental ModuleÂ Identifier: sed_module SourceÂ File: mod_sed.c sed0.c sed1.c regexp.c regexp.h sed.h Compatibility: Available in Apache 2.3 and later Summary mod_sed is an in-process content filter. The mod_sed filter implements the sed editing
+commands implemented by the Solaris 10 sed program as described in the manual
+page . However, unlike sed , mod_sed doesn't take data from
+standard
+input. Instead, the filter acts on the entity data sent between client and
+server. mod_sed can be used as an input or output filter. mod_sed is a
+content filter, which means that it cannot be used to modify client or
+server http headers. The mod_sed output filter accepts a chunk of data, executes the sed scripts on the data, and generates the output which is passed to the next filter in the chain. The mod_sed input filter reads the data from the next filter in the chain, executes the sed scripts, and returns the generated data to the caller filter in the filter chain. Both the input and output filters only process the data if newline characters are seen in the content. At the end of the data, the rest of the data is treated as the last line.  Lines greater than 8MB in length result in an error, in 2.4.54 and later. Topics Sample Configuration Sed Commands Directives InputSed OutputSed Bugfix checklist httpd changelog Known issues Report a bug See also Comments Sample Configuration Adding an output filter # In the following example, the sed filter will change the string
+# "monday" to "MON" and the string "sunday" to SUN in html documents
+# before sending to the client.
+<Directory "/var/www/docs/sed"> 
+    AddOutputFilter Sed html 
+    OutputSed "s/monday/MON/g" 
+    OutputSed "s/sunday/SUN/g" 
+</Directory> Adding an input filter # In the following example, the sed filter will change the string
+# "monday" to "MON" and the string "sunday" to SUN in the POST data
+# sent to PHP.
+<Directory "/var/www/docs/sed"> 
+    AddInputFilter Sed php 
+    InputSed "s/monday/MON/g" 
+    InputSed "s/sunday/SUN/g" 
+</Directory> Sed Commands Complete details of the sed command can be found from the sed manual
+page . b Branch to the label specified (similar to goto). h Copy the current line to the hold buffer. H Append the current line to the hold buffer. g Copy the hold buffer to the current line. G Append the hold buffer to the current line. x Swap the contents of the hold buffer and the current line. InputSed Directive Description: Sed command to filter request data (typically POST data) Syntax: InputSed sed-command Context: directory, .htaccess Status: Experimental Module: mod_sed The InputSed directive specifies the sed command
+    to execute on the request data e.g., POST data. OutputSed Directive Description: Sed command for filtering response content Syntax: OutputSed sed-command Context: directory, .htaccess Status: Experimental Module: mod_sed The OutputSed directive specifies the sed command to execute on the response. Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

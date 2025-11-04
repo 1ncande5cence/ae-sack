@@ -1,0 +1,50 @@
+[
+    {
+        "feature": "Database File Encryption (via SEE/extension)",
+        "explain": "The sqlite3 CLI itself does not natively support database encryption, but it can be compiled or extended with the SQLite Encryption Extension (SEE) or third-party extensions to provide transparent database file encryption. This protects data at rest from unauthorized access."
+    },
+    {
+        "feature": ".auth Command (Authorization Testing)",
+        "explain": "The CLI provides the .auth command to test the SQLite authorizer callback, which can be used to simulate and debug access control policies at the SQL statement level. However, this is primarily for testing and not a runtime security enforcement mechanism."
+    },
+    {
+        "feature": ".system Command Control (Compile-time Option)",
+        "explain": "The .system command allows execution of arbitrary system shell commands from within the CLI. For security, this feature can be disabled at compile time using the SQLITE_NO_SYSTEM_COMMAND option, preventing command injection or misuse."
+    },
+    {
+        "feature": "Input Quoting and Escaping",
+        "explain": "The CLI provides mechanisms to safely quote and escape input values (e.g., using the quote() SQL function or parameterized queries in scripts) to help prevent SQL injection when constructing queries."
+    },
+    {
+        "feature": "Safe-mode (SQLITE_DBCONFIG_DEFENSIVE)",
+        "explain": "When enabled (via PRAGMA or at compile time), defensive mode restricts certain potentially dangerous SQL features (like writing to the schema or using unsafe functions), reducing the risk of accidental or malicious database corruption. The CLI can enable this via PRAGMA defensive=ON."
+    },
+    {
+        "feature": ".read Command Restrictions (Compile-time Option)",
+        "explain": "The .read command can be restricted at compile time to prevent loading and executing arbitrary script files, which could be a vector for malicious input."
+    },
+    {
+        "feature": "No Built-in Authentication",
+        "explain": "By default, the sqlite3 CLI does not implement user authentication or access control. However, it can be extended or used with encrypted databases that require a key to open, providing a form of access control."
+    },
+    {
+        "feature": "No Network Exposure",
+        "explain": "The sqlite3 CLI operates only on local files and does not open network ports or provide remote access, reducing the attack surface compared to networked database servers."
+    },
+    {
+        "feature": "SQLITE_LIMIT_* PRAGMAs",
+        "explain": "The CLI allows setting various resource limits (such as maximum SQL statement length, maximum number of columns, etc.) via PRAGMA statements, which can help mitigate denial-of-service attacks from resource exhaustion."
+    },
+    {
+        "feature": ".bail and .timeout Commands",
+        "explain": ".bail can be used to stop execution on errors, and .timeout can set a busy timeout for database locks, which can help prevent certain types of misuse or denial-of-service scenarios."
+    },
+    {
+        "feature": "No Plugin System",
+        "explain": "The CLI does not support loading arbitrary plugins or extensions by default, reducing the risk of introducing insecure or malicious code. Extensions must be explicitly loaded using the .load command."
+    },
+    {
+        "feature": ".load Command Control (Compile-time Option)",
+        "explain": "The ability to load extensions via the .load command can be disabled at compile time, preventing the execution of potentially unsafe or untrusted code."
+    }
+]

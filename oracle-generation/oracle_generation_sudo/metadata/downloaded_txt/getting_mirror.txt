@@ -1,0 +1,10 @@
+Mirroring Sudo | Sudo Mirroring Sudo If you wish to mirror the sudo distribution, please mirror the
+master site, ftp://ftp.sudo.ws/pub/sudo .
+The best times to mirror are between midnight and 8am US mountain
+standard time (MST). In addition to standard ftp-based mirroring, you may also mirror the ftp
+site via rsync .
+To mirror the ftp site via rsync, run something like rsync -avz rsync.sudo.ws::sudo_ftp /path/to/your/mirror If you wish to mirror the sudo web pages, you may do so via a
+web mirroring program such as wget .
+Alternately, you may use rsync to do the mirroring. rsync -avz rsync.sudo.ws::sudo_www /path/to/your/mirror Note that this will not mirror the dist subdirectory since this should simply be a link to the ftp site (or
+a mirror thereof). Send mail to sudo@sudo.ws if you wish to
+have your mirror listed in the official sudo mirrors list.

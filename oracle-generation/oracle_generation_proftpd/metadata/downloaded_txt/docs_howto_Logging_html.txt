@@ -1,0 +1,192 @@
+ProFTPD: Logging ProFTPD: Logging Logging Logging the activity of the server is an integral part of effective server
+administration.  ProFTPD provides several different and flexing logging
+mechanisms.  When examining the different logging mechanisms, have in
+mind the intended use of the logged data, the volume of data being logged,
+any post-processing that may need to be done, etc .  Log files are more
+useful when they contain a complete record of server activity. It is often
+easier to simply post-process the log files to remove requests that you do not
+want to consider. Security Warning Anyone who can write to the directory where ProFTPD is writing a log file can
+almost certainly gain access to the UID that the server is started under, which
+is normally root . Do not give people write access to the
+directory where the logs are stored without being aware of the consequences:
+if the logs directory is writable (by a non- root user), someone
+could replace a log file with a symlink to some other system file, and then root might overwrite that file with arbitrary data. If the log
+files themselves are writable (by a non- root user), then someone
+may be able to overwrite the log itself with bogus data. When opening log files, proftpd will by default log a warning if
+the file being opened for logging is in a directory that does not exist, or
+is world-writable.  The log file will not be written in world-writable
+directories; there are no exceptions.  (If you have configured log files in
+your proftpd.conf that are not appearing, check for the warnings
+about world-writable directories.)  The proftpd process will also,
+by default, log a warning if the file given is a symlink; this symlink check
+can be configured via the AllowLogSymlinks directive. In addition, log files may contain information supplied directly by the client,
+without escaping. Therefore, it is possible for malicious clients to insert
+control-characters in the log files, so care must be taken in dealing with
+raw logs. Unix syslog Logging By default, proftpd will log via syslog(3) , using
+the daemon facility ( auth for some logging),
+at various levels: err , notice , warn , info , and debug (debugging is done at this syslog
+level).  The location of the server's log files in this case is determined by
+your /etc/syslog.conf configuration. You can fine-tune your proftpd 's syslog-based logging via the SyslogFacility and SyslogLevel directives.  See the log level documentation for
+more details on these settings. Log Files There are three main types of logs that a proftpd daemon can
+generate: TransferLog , SystemLog , and ExtendedLog . TransferLog A TransferLog is the most common log kept, recording file transfers.  It is written in the xferlog(5) format, described here, and in the xferlog(5) man page. Each entry in the TransferLog is a single line of space-delimited
+fields: Field Values Description current-time DDD MMM dd hh:mm:ss YYYY Current local time at the time of transfer transfer-time Seconds Total time in seconds for the transfer remote-host String Remote client DNS name (or IP address) file-size Bytes Number of bytes transferred filename String Name of the transferred file transfer-type Flags Indicates whether the transfer was an ASCII ( "a" ) or
+        binary ( "b" ) transfer special-action-flag Flags One or more single character indicating any special action taken: "C" (compressed), "U" (uncompressed), "T" (tarred), "_" (no action) direction Flags Direction of the transfer: "o" (outgoing, i.e. download), "i" (incoming, i.e. upload), "d" (deleted) access-mode Flags Method by which the user is logged in: "a" (anonymous), "g" (guest), "r" (real user) username String Authenticated username service-name String Name of the service used: "ftp", "sftp", "scp", etc authentication-method Flags Method of authentication used: "0" (none), "1" ( RFC 1413 ) authenticated-user-id Flags Name of user provided by RFC 1413 lookup, otherwise "*" completion-status Flags Single character indicating the status of the transfer: "c" (complete), "i" (incomplete) History of the xferlog(5) Format This xferlog(5) format seems a bit odd, right?  To understand this, it helps
+to keep in mind the history of this format.  The xferlog(5) format predates ProFTPD.  The ProFTPD Project copied this format from wu-ftpd , which
+was the popular FTP server at that time.  There were already existing
+tools/scripts which knew how to parse that format, so ProFTPD used it.  Since
+then, wu-ftpd has waned in maintenance and popularity; other
+FTP servers ( e.g. pure-ftpd , vsftpd , but not the built-in ftpd on FreeBSD) have since then picked
+up the xferlog(5) format from ProFTPD.  Thus this log format has
+a 20+ year history, and keeps going. This history helps explain certain fields in the xferlog(5) format, such as the authentication-method and authenticated-user-id fields.  These fields were more relevant in
+the past, when the RFC 1413 Identd protocol was more widespread in use.  Now, very few sites run identd servers; these fields in the
+log format are thus archaic.  Thus in almost all ProFTPD-generated TransferLog entries, authentication-method will be "0",
+and authenticated-user-id will be "*". Likewise, the special-action-flags field mentions "compressed" and
+"uncompressed" files; these flags specifically refer to the compress Unix program, which used the ".Z" file extension.  This compression utility
+has been superseded with e.g. gzip , bzip2 ,
+and others these days.  Thus the special-action-flags field in
+ProFTPD-generated TransferLog entries is almost always "_". SystemLog If the site administrator wants to have proftpd log its messages
+to a file rather than going through syslogd , the SystemLog configuration directive is the one to use.  There is only one such file kept
+for the entire daemon.  See the ServerLog directive for keeping a similar log on a per-vhost basis.  Note that the DebugLevel directive only applies to SystemLog files; it does not materially
+affect the syslog-based logging messages. ExtendedLog The ExtendedLog directive is used to create log files of a very flexible and configurable
+format, and to have granular control over what is logged, and when.  The format
+of an ExtendedLog is described using the LogFormat directive.
+Multiple ExtendedLogs can be configured, each with a different LogFormat . Use of syslog versus file logging Most sites will choose to have proftpd log via syslog (which is
+the default) or to a file (via the SystemLog directive).  In
+either case, there is the question of logging verbosity , i.e. which messages to log.  This verbosity is determined by the SyslogLevel directive.  ProFTPD will log everything by default, meaning that the default SyslogLevel is effectively debug .  If, however, you
+have your proftpd configured to log via syslog, then you should also check your /etc/syslog.conf file, to see what
+additional filtering of log messages is being applied by syslog.  For example,
+if /etc/syslog.conf contained something like: # Log anything (except mail) of level info or higher.
+  *.info;mail.none;authpriv.none;cron.none                /var/log/messages then ProFTPD's log messages below the info level would be filtered
+out by syslog .  When you are using syslog logging, the SyslogLevel configuration directive applies only to the proftpd
+logging, and does not control the additional syslog filtering. For finer-grained control of the debug level log messages, ProFTPD
+internally implements different levels for its debug log messages.
+Currently ProFTPD has level 1 through level 10 debug messages.
+The DebugLevel directive is used control the verbosity/filtering of these messages.  Since
+these different debug levels are purely a ProFTPD convention, the DebugLevel directive has no effect on syslog logging.  Also, if
+your SyslogLevel configuration uses a level higher than debug , then the DebugLevel configuration will have
+no effect — your debug level messages are already filtered
+out by the SyslogLevel filtering. The last point to mention is that the SyslogFacility directive only applies to syslog logging; it has no effect on file logging. Log Analysis There are a variety of log analyzers available; these are just a few: Webalizer: http://www.webalizer.org/ HTTP-analyze: http://www.netstore.de/Supply/http-analyze/ Report Magic: http://www.reportmagic.org/ FTPWeblog: http://www.nihongo.org/snowhare/utilities/ftpweblog/ Log Rotation On even a moderately busy server, the quantity of information stored in the log
+files is very large.  It will consequently be necessary to periodically rotate
+the log files by moving or deleting the existing logs. This cannot be done
+while the processes are running, because the processes will continue writing to
+the old log file as long as they hold the file open.  Instead, the server must
+be restarted after the log files are moved or
+deleted so that the processes will open new log files. The SIGHUP signal, for restarting ProFTPD, goes to the "master"
+daemon process, the process that is listening for new connections.  Whenever a
+new connection is received, the daemon process forks off a separate new session process which handles that connection, including logging for that
+session. Part of handling of a session often involves handling the DefaultRoot directive, which uses the chroot(2) function to restrict the session process.  This means, in practice, that once
+the process is chrooted, it cannot re-open the configured log files
+anymore, as those log paths are not located within the restricted portion of
+the filesystem. This means that any log rotation will need to handle the case where existing
+session processes continue writing to the old log files, until those sessions
+complete.  If one is using logrotate , for example, this means
+using the copytruncate and/or delaycompress settings. Another way to perform log rotation is using FIFOs as
+discussed in the next section. FIFOs ( a.k.a. named pipes) ProFTPD is capable of writing log files to FIFOs, from which another
+process can read.  Use of this capability dramatically increases the
+flexibility of logging, without adding code to the main server.  In order to
+write logs to a pipe, simply create the FIFO at the desired path
+( man mkfifo(1) ), and use that path in the logging configuration
+directive. One important use of piped logs is to allow log rotation without having to
+restart the server.  One such popular flexible log rotation program is cronolog ;
+however, at present cronolog requires a small patch to enable it to read
+from a FIFO (by default, cronolog reads data from stdin).  Please contact
+the author of this article for details concerning the patch. Here's an example of FIFO-based logging script, based on one posted by Michael
+Renner: #!/usr/bin/perl
+
+  use strict;
+
+  use File::Basename qw(basename);
+  use Sys::Syslog qw(:DEFAULT setlogsock);
+
+  my $program = basename($0);
+
+  my $fifo = '/var/log/proftpd-log.fifo';
+  my $syslog_facility = 'daemon';
+  my $syslog_level = 'info';
+
+  open(FIFO, "< $fifo") or die "$program: unable to open $fifo: $!\n";
+
+  setlogsock 'unix';
+
+  openlog($program, 'pid', $syslog_facility);
+  syslog($syslog_level, $_) while (<FIFO>);
+  closelog();
+
+  close(FIFO);
+  exit 0; More complex filtering can be added to such scripts. If using FIFOs, there are some caveats to keep in mind.  If you use in init.d script to start standalone daemons, you can
+add commands to start the FIFO logging programs first, before the daemon.
+For inetd -run servers, consider wrapping up the necessary
+commands for starting a FIFO reader and the server into a simple shell
+script, or simply run the FIFO-reading program from an init.d script, and save the overhead of starting that process, in addition to the proftpd process, for each FTP session. FIFO-based log readers are a very powerful tool, but they should not be
+used where a simpler solution like off-line post-processing is available. Note : In ProFTPD 1.3.3, the code was changed to use nonblocking open(2) system calls when opening log files.  This was done to
+prevent a proftpd process from blocking indefinitely
+( i.e. "hanging") if the log file was a FIFO, and there was no FIFO
+reader process running when the log file was opened.  However, some sites do want this blocking open behavior, as their FIFO reader processes
+may be temporarily busy.  To get the pre-1.3.3 blocking behavior, you will
+need to compile proftpd using the --disable-nonblocking-log-open configure option. SQL Logging The mod_sql module also enables some powerful and complex
+logging capabilities... Trace Logging ProFTPD also supports a much more verbose form of logging called "trace
+logging".  This form of logging is covered in greater detail here . Pid File On startup, proftpd saves the process ID of the parent daemon
+process to the file var/proftpd/proftpd.pid . This filename can be
+changed with the PidFile directive. The process ID ( aka PID) is for use by the administrator
+in restarting and terminating the daemon by sending signals to the parent
+process.  For more information see the stopping and
+starting page. Scoreboard File The last type of "logging" is done via the scoreboard file.  The
+scoreboard is binary-formatted file the server uses to store information
+about each session; it is this file that is read by ftptop , ftpwho and ftpcount .  The location for the
+scoreboard file is determined by the ScoreboardFile directive. Frequently Asked Questions Question : How can I direct the TransferLog logging to syslog? Answer : It is not currently possible to configure
+proftpd to log TransferLog data to syslog. However , you can configure an ExtendedLog which logs to syslog, and
+which uses a LogFormat to log the data you wish.  For example: LogFormat xfer "%h %l %u %t\"%r\" %s %b"
+  ExtendedLog syslog:notice xfer tells proftpd to log that LogFormat via syslog at the "notice"
+syslog level. Question : I have SystemLog in my proftpd.conf , and when I use the SyslogLevel directive
+to try to filter the messages which proftpd logs to my SystemLog , it doesn't work.  Why not? Answer : When ProFTPD is configured to log everything
+to a file via the SystemLog directive, it will do just that:
+log everything , without any filtering, regardless of any SyslogLevel directive. However , this changed in
+ProFTPD 1.3.4rc1: in that release, the SyslogLevel directive was
+made to apply to file-based logging as well. Question : I configured my ExtendedLog directive (or SystemLog , or other logs) to point to a FIFO.
+The FIFO path exists.  But when I try to start proftpd , it
+fails to start with this error: unable to open ExtendedLog '/path/to/extlog.fifo': No such device or address Shouldn't this work? Answer : The "No such device or address" error occurs
+when you configure proftpd to log to a FIFO, and the
+FIFO reader process has not yet been started.  In times past, proftpd would wait indefinitely on startup, waiting for the FIFO
+reader process to start; now, proftpd tries to open the FIFO
+in a nonblocking mode, so that it can fail immediately if there is no process
+on the other end of the FIFO. The "fix" is to make sure that any FIFO reader processes are started before starting proftpd . Question : How can I configure proftpd so
+that nothing is logged for certain clients/IP addresses? Answer : Using a combination of classes and the mod_ifsession module, this can be done using a configuration like this: <Class invisible>
+    From 1.2.3.4
+  </Class>
+
+  <IfClass invisible>
+    # Disable all logging of these clients
+    SystemLog none
+    ExtendedLog /path/to/ext.log NONE
+    TransferLog none
+  </IfClass> Question : How can I configure proftpd so
+that it does no logging at all ?  I have a very small embedded system
+for development/testing, and so do not need or want the logging. Answer : To do this, you will need to disable much
+of the builtin, default logging that proftpd does, e.g. : # Discard the normal logging
+  SystemLog none
+
+  # Disable xferlog(5) logging
+  TransferLog none
+
+  # Disable logging to b/u/wtmp files
+  WtmpLog off In addition, you may need to go through your proftpd.conf file
+(as well as any Include config files), and remove all ExtendedLog and TraceLog directives.  Also remove
+any per-module * Log directives like BanLog , SFTPLog , SQLLogFile , TLSLog , etc . You might be tempted to symlink the log files configured to /dev/null , rather than changing the proftpd.conf .
+This approach can work, if you also use the AllowLogSymlinks directive , i.e. : # Allow proftpd to write logs to symlinks; note that this is insecure,
+  # as the symlinks might be changed to point to other files such that
+  # proftpd will overwrite them.
+  AllowLogSymlinks on Question : I see: wtmp /var/log/wtmp: No such file or directory in my logs.  What is WtmpLog logging?  The description in the
+documentation is quite vague. Answer : The wtmp logging support is not specific to proftpd , and instead is a more general Unix
+facility; this is why the ProFTPD documentation does not cover it in great
+detail.  To learn more about wtmp (or any of its other
+incarnations: wtmpx , utmp , utmpx ),
+please find their related man pages. Now to make the "No such file or directory" log message go away, simply tell proftpd to stop trying to use wtmp logging by using
+the WtmpLog directive: WtmpLog off in your proftpd.conf . Question : I usually run in a non-English locale; my
+ProFTPD version is older than 1.3.6, and I use fail2ban .
+Unfortunately, fail2ban has trouble with the non-English
+localized dates in the syslog messages, e.g. : juil. 28 16:42:17 server-hostname proftpd[9423] server-hostname ... in my logs.  How can I get ProFTPD to log using the English locale, for
+working with fail2ban properly? Answer : The locale-related environment variable which
+governs how dates are formatted is the LC_TIME environment
+variable.  Thus you need to set that environment variable, before ProFTPD is started, to use the English locale if you want English localization, e.g. : $ export LC_TIME=en_US.UTF-8
+  $ service proftpd start Note that the above is only really needed due to the older version of ProFTPD. In later version of ProFTPD, the syslog logging format changed (to avoid such
+localization issues), so that it now looks like: 2017-07-28 16:42:17 server-hostname proftpd[9423] server-hostname ... This should help many such log-parsing issues. © Copyright 2017-2024 The ProFTPD Project All Rights Reserved

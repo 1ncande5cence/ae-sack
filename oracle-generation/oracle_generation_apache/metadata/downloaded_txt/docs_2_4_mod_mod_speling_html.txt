@@ -1,0 +1,38 @@
+mod_speling - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_speling Available Languages: en | fr | ja | ko Description: Attempts to correct mistaken URLs by ignoring
+capitalization, or attempting to correct various minor
+misspellings. Status: Extension ModuleÂ Identifier: speling_module SourceÂ File: mod_speling.c Summary Requests to documents sometimes cannot be served by the core
+    apache server because the request was misspelled or
+    miscapitalized. This module addresses this problem by trying to
+    find a matching document, even after all other modules gave up.
+    It does its work by comparing each document name in the
+    requested directory against the requested document name without regard to case , and allowing up to one misspelling (character insertion /
+    omission / transposition or wrong character). A list is built
+    with all document names which were matched using this
+    strategy. Erroneous extension can also be fixed
+    by this module. If, after scanning the directory, no matching document was found, Apache will proceed as
+      usual and return an error ( 404 - document not found ). only one document is found that "almost" matches the
+      request, then it is returned in the form of a redirection
+      response ( 301 - Moved Permanently ). more than one document with a close match was found, then
+      the list of the matches is returned to the client, and the
+      client can select the correct candidate ( 300 - Multiple
+      Choices ). Directives CheckBasenameMatch CheckCaseOnly CheckSpelling Bugfix checklist httpd changelog Known issues Report a bug See also Comments CheckBasenameMatch Directive Description: Also match files with differing file name extensions. Syntax: CheckBasenameMatch on|off Default: CheckBasenameMatch On Context: server config, virtual host, directory, .htaccess Override: Options Status: Extension Module: mod_speling Compatibility: Available in httpd 2.4.50 and later When set, this directive extends the action of the spelling correction
+    to the file name extension. For example a file foo.gif will
+    match a request for foo or foo.jpg . This can be
+    particularly useful in conjunction with MultiViews . CheckCaseOnly Directive Description: Limits the action of the speling module to case corrections Syntax: CheckCaseOnly on|off Default: CheckCaseOnly Off Context: server config, virtual host, directory, .htaccess Override: Options Status: Extension Module: mod_speling When set, this directive limits the action of the spelling correction
+    to lower/upper case changes.  Other potential corrections are not performed,
+    except when CheckBasenameMatch is also set. CheckSpelling Directive Description: Enables the spelling
+module Syntax: CheckSpelling on|off Default: CheckSpelling Off Context: server config, virtual host, directory, .htaccess Override: Options Status: Extension Module: mod_speling This directive enables or disables the spelling module. When
+    enabled, keep in mind that the directory scan which is necessary for the spelling
+      correction will have an impact on the server's performance
+      when many spelling corrections have to be performed at the
+      same time. the document trees should not contain sensitive files
+      which could be matched inadvertently by a spelling
+      "correction". the module is unable to correct misspelled user names (as
+      in http://my.host/~apahce/ ), just file names or
+      directory names. spelling corrections apply strictly to existing files, so
+      a request for the <Location /status> may
+      get incorrectly treated as the negotiated file
+      " /stats.html ". mod_speling should not be enabled in DAV enabled directories, because it will try to "spell fix" newly created
+    resource names against existing filenames, e.g., when trying to upload
+    a new document doc43.html it might redirect to an existing
+    document doc34.html , which is not what was intended. Available Languages: en | fr | ja | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

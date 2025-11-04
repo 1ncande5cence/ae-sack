@@ -1,0 +1,17 @@
+The ProFTPD Project: Mailing lists ProFTPD Highly configurable GPL-licensed FTP server software Current Versions Stable: 1.3.9 [ RELEASE_NOTES ] [ NEWS ] [ gz ] Maintenance: 1.3.8d [ RELEASE_NOTES ] [ NEWS ] [ gz ] Downloads PGP public keys SHA256 & PGP signatures Git Repository Newsroom News Flashes Contrib module news Information What is ProFTPD? Features & Platforms Bug reporting system Bug reporting and security guidelines Sites powered by ProFTPD Forums Documentation Docs index RFCs FAQ Howtos Standard Modules Contrib Modules Example configurations Mailing Lists Available Lists Announce Archive Users Archive Development Archive Copyright © 1999 - 2025, The ProFTPD Project. Mailing lists There are a number of mailing lists for the ProFTPD Project covering the
+entire range of activites. They are hosted by SourceForge . How to unsubscribe List Policy To limit the amount of spam received on the lists, posting is
+      restricted to list members only. The list administrators reserve the right to remove members from the
+      list(s) at any time. Announcements A very low traffic mailing list, used for major announcements related to
+ProFTPD (new versions, bug fixes, security issues). This list is
+highly recommended for all ProFTPD users. Subscribe via e-mail or
+visit the web interface . Users This list is for end user questions and comments on ProFTPD. This
+is a high-volume list. Subscribe via e-mail or
+visit the web interface . Developers This list is intended for those who are interested in the development and
+future functionality of ProFTPD. Subscribe via e-mail or
+visit the web interface . Docs This list is intended for those who are interested in the development of
+documentation, including HOWTOs, tutorials, examples, and translations. Subscribe via e-mail or
+visit the web interface . Committers This list receives the automated e-mail messages from CVS and the bug
+tracking system. These messages are probably only of use or interest to
+subscribers of the -devel list (it is intended to cut down on the traffic
+hitting -devel). Subscribe via e-mail or
+visit the web interface .

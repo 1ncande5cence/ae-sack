@@ -1,0 +1,42 @@
+ProFTPD module mod_wrap2_file ProFTPD module mod_wrap2_file This submodule provides the file-specific "driver" for storing
+IP/DNS-based access control information in files. Many programs will automatically add entries in the common hosts.allow / hosts.deny files, and use of this module
+will allow a proftpd daemon running in standalone mode to adapt as these entries are added.  The portsentry program
+does this, for example: when illegal access is attempted, it will add hosts to
+the /etc/hosts.deny file. This mod_wrap2 submodule is contained in the mod_wrap2_file.c , and is not compiled by default.  See the mod_wrap2 installation instructions. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. File Access Tables Using file-based access tables ( source-type of "file") the
+data will be stored in the familiar hosts.allow , hosts.deny file format. The mod_wrap2_file module supports the "file" string
+for the source-type parameter of the WrapUserTables , WrapGroupTables ,
+and WrapTables ,
+configuration directives.  If the "file" source-type is used, then the source-info parameter must be the full path to
+the file table. Both file names are required.  Also, the paths to both files must be the full
+path, with two exceptions: if the path starts with ~/ , the check
+of that path will be delayed until a user requests a connection, at which time
+the path will be resolved to that user's home directory; or if the path starts
+with ~user/ , where user is some system user.  In this latter case, mod2_wrap will attempt to resolve and verify the given user's home
+directory on start-up.  The %U variable can also be used in the
+paths; it will be resolved to the USER name sent by the client. The format for the files used by mod_wrap2_file is described
+in the host_access(5) man page. Examples: # Server-wide access files
+  WrapTables file:/etc/hosts.allow file:/etc/hosts.deny
+
+  # FTP server-specific access files
+  WrapTables file:/etc/ftpd.allow file:/etc/ftpd.deny
+
+  # Per-user access files, which are to be found in the user's home directory
+  WrapUserTables file:~/my.allow file:~/my.deny
+
+  # Per-user access files, which are not found in the user's home.
+  WrapUserTables file:/etc/ftpd/acls/%U.allow file:/etc/ftpd/acls/%U.deny Example File Tables The following examples are taken from the hosts_access(5) man page: Mostly Closed In this case, access is denied by default. Only explicitly authorized hosts
+are permitted access. The default policy (no access) is implemented with a trivial deny file: /etc/hosts.deny:
+    ALL: ALL This denies all service to all hosts, unless they are permitted access by
+entries in the allow file. The explicitly authorized hosts are listed in the allow file.  For example: /etc/hosts.allow:
+    ALL: LOCAL @some_netgroup
+    ALL: .foobar.edu EXCEPT terminalserver.foobar.edu The first rule permits access from hosts in the local domain (no `.' in the
+host name) and from members of the some_netgroup netgroup.  The
+second rule permits access from all hosts in the .foobar.edu domain
+(notice the leading dot), with the exception of terminalserver.foobar.edu . Mostly Open Here, access is granted by default; only explicitly specified hosts are
+refused service. The default policy (access granted) makes the allow file redundant so that it
+can be omitted.  The explicitly non-authorized hosts are listed in the deny
+file. For example: /etc/hosts.deny:
+    ALL: some.host.name, .some.domain
+    ALL EXCEPT in.fingerd: other.host.name, .other.domain The first rule denies some hosts and domains all services; the second rule
+still permits finger requests from other hosts and domains. © Copyright 2000-2017 TJ Saunders All Rights Reserved

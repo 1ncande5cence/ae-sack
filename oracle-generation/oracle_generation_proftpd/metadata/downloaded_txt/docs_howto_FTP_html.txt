@@ -1,0 +1,98 @@
+ProFTPD: Supported FTP Commands ProFTPD: Supported FTP Commands Supported FTP Commands ABOR ALLO Short for ALLO cate. APPE Short for APPE nd. AUTH Short for AUTH enticate (supported by mod_tls ) CDUP Short for C hange D irectory UP , this command is used
+    to move the client's "location" on the server up one level in
+    the filesystem hierarchy. CLNT Short for CL ie NT , this command is used by clients to
+    offer/provide any freeform identification they desire to the server. CSID Short for C lient/ S server ID entification, this command
+    is used by clients and servers to offer/provide identification information
+    to the other side. CWD Short for C hange W orking D irectory. DELE Short for DELE te, this command is used by the client to tell the
+    server to delete a file. EPRT Short for E xtended P o RT , an enhanced version of
+    the PORT command that can handle IPv6
+    addresses. EPSV Short for E xtended P a S si V e, an enhanced
+    version of the PASV command that can
+    handle IPv6 addresses. FEAT Short for FEAT ures, this command is used by the client to request
+    a descriptive list of server-supported features. HASH This command is used by clients to request the checksum, or "hash", of
+    a file on the server.  This command is available when the mod_digest module
+    is compiled/loaded. HELP HOST This command is the equivalent of HTTP's "Host" header for FTP, providing
+    the ability to have name-based virtual hosting. LANG LIST MDTM Short for M o D ification T i M e, this command
+    is used by the client to request the modification time of a file on the
+    server.  This command is defined formally in RFC 3659 , and is a commonly implemented FTP command. Note that this command cannot be used to change the
+    modification time of the file on the server; it only reports on the
+    file's modification time.  The MFMT command is used to change a file's modification time. MFMT Short for M odify F act: Last M odified T ime,
+    supported by mod_facts .
+    Some clients use this command to change the last modified timestamp on
+    a newly uploaded file so that the timestamp on the server matches the
+    timestamp of that file on the client. MKD Short for M a K e D irectory. MLSD Short for M achine L i S ting, D irectory, supported
+    by mod_facts .  Unlike
+    the LIST command, whose response format
+    was never specified, the MLSD command has a strictly defined
+    response format (see RFC 3659 for details).  This format was designed to be easily machine parseable,
+    for automated processing of directory listing formats; the format was also
+    designed to be platform-agnostic, and thus portable. MLST Short for M achine L i ST ing, supported by mod_facts .  This
+    command is similar to MLSD in that it
+    uses the same response format.  Unlike MLSD , the response for a MLST is sent back on the control connection rather than
+    using a data connection, and is for a single file only . MODE There are three mode types defined by RFC 959 ; proftpd only supports one ( i.e. S tream). NLST Short for N ame L i ST . NOOP Short for NO OP eration.  This command has no functionality, and
+    is often used as a session keepalive mechanism. OPTS Short for OPT ion S .  This command is used to specify
+    optional parameters for the command to follow the OPTS command, if that command supports such optional parameters. PASS Short for PASS word, the client uses this command to convey the
+    password of the user attempting to log into the server. PASV Short for PAS si V e, the client uses this command to ask the
+    server for a port to which the client should connect, indicating a
+    passive data transfer. PBSZ Short for P rotection B uffer S i Z e.  Used
+    to determine the size of a buffer needed for secure handshaking (supported
+    by mod_tls ) PORT The client uses this command to tell the server to what client-side port
+    the server should contact; use of this command indicates an active data
+    transfer. PROT Short for PROT ection.  Used to set the protection level on the
+    data channel (supported by mod_tls ) PWD Short for P rint W orking D irectory. QUIT RANG Short for RANG e, this command is used by clients to request
+    that a specific range of bytes be transferred for files, including
+    uploads and downloads; supported by mod_xfer and defined by this IETF
+    Draft . REST Short for REST art, this command is used by the client to tell the
+    server that it would like to restart a previous data transfer, either
+    upload or download. RETR Short for RETR ieve, this command is used by the client to inform
+    the server of the file the client would like to download.  On many FTP
+    client, this is implemented using the client-specfic "get"
+    command. RMD Short for R e M ove D irectory, this command is used
+    to have the server delete the requested directory from its filesystem. RNFR Short for R e N ame FR om. RNTO Short for R e N ame TO . SITE This command is used for site-specific commands.  See below for descriptions
+    of proftpd 's SITE commands. SIZE SSCN Short for S et S ecured C lient N egotiation, this
+    non-standard command is used by FTPS clients to tell a server to use TLS
+    when performing a site-to-site transfer.  For more details, see here . STAT STOR Short for STOR e, this command is used by the client to tell the
+    the server that the client will be uploading data for a file to stored
+    on the server using the filename given.  On many FTP clients, this
+    is implemented using the client-specific "put" command. STOU Short for STO re U unique, it requests that the file being
+    stored on the server be given a unique filename.  The server chooses the
+    unique name for the stored file, and reports the name chosen back to
+    the client. On some FTP clients, this ability is enabled using the
+    client-specific "sunique" command. SYST TYPE USER An FTP client uses this command to inform the server of the name of the
+    user requesting an FTP session. XCUP This is an X-variant of the CDUP command,
+    and has the same functionality. XCWD This is an X-variant of the CWD command,
+    and has the same functionality. XMKD This is an X-variant of the MKD command,
+    and has the same functionality. XPWD This is an X-variant of the PWD command,
+    and has the same functionality. XRMD This is an X-variant of the RMD command,
+    and has the same functionality. Supported SITE commands CHGRP Short for CH ange GR ou P . Example: SITE CHGRP ftpgroup script.cgi CHMOD Short for CH ange MOD e. Example: SITE CHMOD 755 script.cgi HELP MKDIR Similar to the MKD command, this SITE can be used to create a directory.  It will, unlike MKD , also create any directories in the path that do
+    not exist. Example: SITE MKDIR /path/to/some/dir/that/is/not/there/ Supported by the mod_site_misc module. RMDIR Similar to the RMD command, this SITE can be used to remove a directory.  It will, unlike RMD , also delete any files in the directory. Example: SITE RMDIR /path/to/some/dir/with/files/ Supported by the mod_site_misc module. SYMLINK Used to create a symbolic link ( a.k.a. a symlink) from
+    the source path ( src ) to the destination path ( dest ). Example: SITE SYMLINK src dest Supported by the mod_site_misc module. UTIME Used to update the access and modification timestamps on a file. Example: SITE UTIME 200412312359 /path/to/some/file.txt Supported by the mod_site_misc module. Unsupported FTP Commands ACCT Short for ACC oun T MACB Short for MAC intosh B inary.  This command is not defined in
+    any RFC, and is something of a hack added by Apple in order to support
+    transfers of the resource forks of Mac files. REIN SMNT STRU Short for STRU cture. proftpd only supports a STRU parameter of type F (for "file"),
+    and so does not support this command. Frequently Asked Questions Question : I can use the RNFR and RNTO commands to move a file, even across different
+disks/mount points.  And I can use RNFR / RNTO to move
+a directory, but I cannot move a directory across different
+disks/mount points.  Is this a bug? Answer : No, it is not a bug.  Why not?  Ultimately,
+it is because the FTP specifications do not guarantee (or even discuss )
+that an FTP implementation must support renaming of directories across
+mount points. ProFTPD implements the RNFR / RNTO functionality
+by using the rename(2) system call.  And rename(2) is documented to not work across mount points. "But then why does it work when I rename a file across mount points?" you
+ask.  Good question.  The answer is that for files only , ProFTPD
+detects the rename(2) error for renaming across mount points,
+and then copies the file in question to the new location, deleting
+the old location when the copy completes successfully. "Great!" you say, "Now do the same thing for directories!" Unfortunately, for
+directories, the answer is not that simple.  Here are some things to consider
+when copying directories: what if the directory contains sockets, FIFOs,
+devices, and other irregular file types which cannot be easily copied/moved?
+Should copying/moving of directories automatically use root privileges in
+order to preserve the ownership on files that do not belong to the logged-in
+user?  What if the copying/deleting of files fails in the midde: what should
+then happen to the copied (and remaining) files/directories? Since there are no easy answers as yet to the above questions, ProFTPD now
+detects the rename(2) error for renaming across mount points
+for a directory , and rejects the RNTO command, showing
+something like: RNFR directory
+  350 File or directory exists, ready for destination name
+  RNTO /other/mount/directory
+  550 Rename /other/mount/directory: Is a directory That "Is a directory" error indicates that ProFTPD cannot rename a directory
+across the mount points you requested.  (That particular error message can,
+and will, be made more informative.) © Copyright 2000-2022 The ProFTPD Project All Rights Reserved

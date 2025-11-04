@@ -1,0 +1,70 @@
+[
+    {
+        "feature": "HTTP Basic Authentication",
+        "explain": "Nginx can require users to provide a valid username and password before accessing specified resources, using the 'auth_basic' and 'auth_basic_user_file' directives."
+    },
+    {
+        "feature": "Access Control by IP Address",
+        "explain": "Nginx allows or denies access to resources based on client IP addresses using the 'allow' and 'deny' directives."
+    },
+    {
+        "feature": "TLS/SSL Encryption",
+        "explain": "Nginx supports HTTPS by enabling SSL/TLS encryption, protecting data in transit between clients and the server."
+    },
+    {
+        "feature": "HTTP Strict Transport Security (HSTS)",
+        "explain": "Nginx can send the HSTS header to enforce secure (HTTPS) connections to the server, preventing protocol downgrade attacks."
+    },
+    {
+        "feature": "Request Rate Limiting",
+        "explain": "Nginx can limit the number of requests a client can make in a given time period using the 'limit_req' and 'limit_conn' modules, mitigating DoS and brute-force attacks."
+    },
+    {
+        "feature": "Request Size Limiting",
+        "explain": "Nginx can restrict the maximum allowed size of client requests (body, headers, etc.) to prevent resource exhaustion and buffer overflow attacks."
+    },
+    {
+        "feature": "Input Validation and Filtering",
+        "explain": "Nginx can filter and validate incoming requests using modules like 'ngx_http_rewrite_module' and 'ngx_http_map_module', and by blocking suspicious patterns with 'location' and 'if' directives."
+    },
+    {
+        "feature": "Reverse Proxy and Load Balancing",
+        "explain": "By acting as a reverse proxy, Nginx can hide backend server details and distribute traffic, reducing the attack surface."
+    },
+    {
+        "feature": "Web Application Firewall (WAF) Integration",
+        "explain": "Nginx can be integrated with WAF modules (such as ModSecurity or NAXSI) to detect and block malicious requests."
+    },
+    {
+        "feature": "Logging and Auditing",
+        "explain": "Nginx provides detailed access and error logs, which can be used to monitor, detect, and investigate security incidents."
+    },
+    {
+        "feature": "HTTP Header Security Controls",
+        "explain": "Nginx can set security-related HTTP headers (like X-Frame-Options, X-Content-Type-Options, Content-Security-Policy) to mitigate attacks such as clickjacking and MIME sniffing."
+    },
+    {
+        "feature": "Request Method Restrictions",
+        "explain": "Nginx can restrict allowed HTTP methods (e.g., only GET and POST), reducing the risk of exploitation via unsupported or dangerous methods."
+    },
+    {
+        "feature": "Buffer Overflow Protection",
+        "explain": "Nginx is designed with careful memory management and can limit buffer sizes to help prevent buffer overflow vulnerabilities."
+    },
+    {
+        "feature": "File and Directory Access Restrictions",
+        "explain": "Nginx can restrict access to sensitive files and directories using configuration directives, preventing unauthorized disclosure."
+    },
+    {
+        "feature": "Connection Limiting and Timeouts",
+        "explain": "Nginx can limit the number of simultaneous connections and set timeouts for client connections, reducing the risk of resource exhaustion attacks."
+    },
+    {
+        "feature": "Dynamic Module Loading Control",
+        "explain": "Nginx allows administrators to control which dynamic modules are loaded, reducing the risk of introducing insecure or unnecessary code."
+    },
+    {
+        "feature": "Proxy Protocol Support",
+        "explain": "Nginx supports the PROXY protocol to securely pass client connection information through proxies, preserving original client IP addresses for logging and access control."
+    }
+]

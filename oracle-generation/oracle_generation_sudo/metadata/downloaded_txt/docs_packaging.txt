@@ -1,0 +1,51 @@
+Building Sudo Packages | Sudo Building Sudo Packages Starting with version 1.7.4, sudo is distributed in binary package
+form in addition to the traditional source tarballs. In order to
+support as many operating system-dependent package formats as
+possible without having to maintain a large number of configuration
+files, sudo uses PolyPkg to build the actual packages. Package configuration is located in the sudo.pp file that
+is included with the sudo source distribution. The included mkpkg script can be used to configure sudo
+using the same parameters as the official binary packages and generate
+a package using the “package” target in the Makefile . The mkpkg script Sudo includes mkpkg , a script to simplify configuring
+and packaging sudo. On operating systems where sudo is available as
+a vendor-supplied package, mkpkg uses configure options that match the vendor sudo package as closely as possible.
+On such a system, sudo will be installed in the system location (usually /usr/bin/sudo ) instead of under the /usr/local hierarchy. The mkpkg script supports the following options: --debug Include debugging information about package building and preserve the polypkg work directory. --flavor flavor The mkpkg script supports the concept of flavors that influence the configure options and the arguments passed to pp . Currently, the only flavor is ldap . --platform This option allows you to override the default package type for the operating system. For example ./mkpkg --platform=rpm can be used to build an RPM package under AIX, where RPM is not the native package manager. This flag is passed directly to the pp script (polypkg). All other options to mkpkg are passed through to the configure script. Building packages Building a sudo package is simply a matter of unpacking sudo and running: ./mkpkg [options] from the sudo source directory. On systems where the vendor sudo package does not include LDAP
+support, separate packages are built both with and without LDAP
+support. To build an LDAP-enabled sudo package, run: ./mkpkg --flavor=ldap [options] This will build a “sudo-ldap” package. If you need to pass the
+path to LDAP libraries and includes to configure , you may
+use the --with-ldap=/path/to/ldap flag just as you would
+with configure . Building in a container Building in a container can be convenient as all the build dependencies
+can be specified in the container configuration.  Sudo is built and
+tested in a container during continuous integration (CI).  The
+Docker configuration files used for CI may be found in the sudo
+source tree in the docker directory.  Pre-built container images
+may be found at https://hub.docker.com/u/sudoproject .  These images
+include a build user to make it easy to build sudo as an unprivileged
+user. Cross-compiling packages It is possible to use a cross-compiler to build sudo packages.
+Typically, this involves putting the directly holding the cross-compiler
+and tools before the system directories in the PATH and
+may require setting the CC , LD or NM environment variables. The local and target architectures should be given to mkpkg which will pass them along to configure . If possible,
+the cross-compiler and tools should be prefixed with the
+cpu-machine-os triple of the target platform. For example sudo packages for Solaris/SPARC are cross-compiled on
+a Solaris/i386 machine as follows: PATH=/opt/SUNWgccfss/5.10-sparc/usr/bin:$PATH \
+    LD=sparc-sun-solaris2.10-ld NM="sparc-sun-solaris2.10-nm -p" \
+    ./mkpkg --build=i386-pc-solaris2.10 --host=sparc-sun-solaris2.10 Where the /opt/SUNWgccfss/5.10-sparc/usr/bin directory
+contains a version of gcc that generates SPARC code.
+The resulting Solaris .pkg file is suitable for installation on
+a SPARC architecture machine. NOTE: prior to sudo version 1.7.4p1 the configure script
+was missing cross-build defaults for some of the tests.
+As such you will need to set autoconf cache values for these tests
+in the environment. E.g. sudo_cv_func_fnmatch=no \
+sudo_cv_sock_sa_len=no \
+sudo_cv_uid_t_len=10 \
+sudo_cv_type_long_is_quad=no \
+sudo_cv_func_fnmatch=no \
+sudo_cv_func_unsetenv_void=no \
+ac_cv_func_getgroups_works=yes Changing the installation directory It is possible to create a sudo package that uses a difference
+installation directory. For example, users of the old Quest Software sudo package may wish
+to build packages with the same directory layout.
+This can be achieved as follows: ./mkpkg --prefix=/opt/quest \
+    --sysconfdir=/etc/opt/quest/sudo \
+    --mandir=/opt/quest/man \
+    --docdir=/opt/quest/share/doc/sudo \
+    --localstatedir=/var/opt/quest/sudo \
+    --with-vardir=/var/opt/quest/sudo

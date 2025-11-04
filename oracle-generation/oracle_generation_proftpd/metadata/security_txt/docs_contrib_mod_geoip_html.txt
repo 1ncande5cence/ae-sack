@@ -1,0 +1,146 @@
+ProFTPD module mod_geoip ProFTPD module mod_geoip The mod_geoip module uses the GeoIP library from MaxMind to
+look up various geographic information for a connecting client: http://www.maxmind.com/app/c This information can be used to set access controls for the server. This module is contained in the mod_geoip.c file for
+ProFTPD 1.3. x , and is not compiled by default.  Installation
+instructions are discussed here . The most current version of mod_geoip is distributed with the
+ProFTPD source code. This product includes GeoLite data created by MaxMind, available from http://www.maxmind.com/ . Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives GeoIPAllowFilter GeoIPDenyFilter GeoIPEngine GeoIPLog GeoIPPolicy GeoIPTable GeoIPAllowFilter Syntax: GeoIPAllowFilter filter1 pattern1 [filter2 pattern2 ...] Default: none Context: server config, <VirtualHost> , <Global> Module: mod_geoip Compatibility: 1.3.3rc1 and later The GeoIPAllowFilter directive is used to configure ACLs based
+on the geographic data provided by the GeoIP library. Multiple GeoIPAllowFilter directives in the configuration are
+supported; if any filter matches the connecting client, the connection
+will be allowed. The filter parameter specifies the GeoIP value to which to apply
+the configured pattern for matching.  The possible filter values are: AreaCode ASN City Continent CountryCode CountryCode3 CountryName ISP Latitude Longitude NetworkSpeed Organization PostalCode Proxy RegionCode RegionName Timezone The pattern parameter is case-insensitive regular expression 
+that will be applied to the specified filter value, if available. Note that as of proftpd-1.3.6rc3 and later, the GeoIPAllowFilter directive can also take a single parameter which specifies a SQL query (via mod_sql 's SQLNamedQuery ), which
+will be used to retrieve the filter and pattern values to use. Examples: # Allow clients with high-speed connections
+  GeoIPAllowFilter NetworkSpeed corporate
+
+  # Reject clients connecting from North America or South America
+  GeoIPDenyFilter Continent (NA|SA) The following more complex configuration demonstrates what can be done using
+SQL queries: <IfModule mod_sql.c>
+    ...
+    SQLNamedQuery get-geo-allowed SELECT "filter_name, pattern FROM allowed_user_geo WHERE user_name = '%u'"
+    SQLNamedQuery get-geo-denied SELECT "filter_name, pattern FROM denied_user_geo WHERE user_name = '%u'"
+  </IfModule>
+
+  <IfModule mod_geoip.c>
+    GeoIPEngine on
+
+    GeoIPAllowFilter sql:/get-geo-allowed
+    GeoIPDenyFilter sql:/get-geo-denied
+  </IfModule> The above assumes SQL tables with schema similar to the following (expressed
+using SQLite syntax): CREATE TABLE allowed_user_geo (
+    user_name TEXT,
+    filter_name TEXT,
+    pattern TEXT
+  );
+
+  CREATE TABLE denied_user_geo (
+    user_name TEXT,
+    filter_name TEXT,
+    pattern TEXT
+  );
+
+  # Note that we create separate indexes, to allow for multiple rows per user
+  CREATE INDEX allowed_user_geo_name_idx ON allowed_user_geo (user_name);
+  CREATE INDEX denied_user_geo_name_idx ON denied_user_geo (user_name); GeoIPDenyFilter Syntax: GeoIPDenyFilter filter1 pattern1 [filter2 pattern2 ...] Default: none Context: server config, <VirtualHost> , <Global> Module: mod_geoip Compatibility: 1.3.3rc1 and later The GeoIPDenyFilter directive is used to configure ACLs based
+on the geographic data provided by the GeoIP library. Multiple GeoIPDenyFilter directives in the configuration are
+supported; if any filter matches the connecting client, the connection
+will be rejected. Note that as of proftpd-1.3.6rc3 and later, the GeoIPDenyFilter directive can also take a single parameter which specifies a SQL query (via mod_sql 's SQLNamedQuery ), which
+will be used to retrieve the filter and pattern values to use. See GeoIPAllowFilter for
+a description of the directive syntax and parameters. GeoIPEngine Syntax: GeoIPEngine on|off Default: off Context: server config, <VirtualHost> , <Global> Module: mod_geoip Compatibility: 1.3.3rc1 and later The GeoIPEngine directive enables or disables the module's
+lookup of geographic information for a connecting client, and subsequent
+enforcement of any configured ACLs. GeoIPLog Syntax: GeoIPLog file|"none" Default: None Context: server config, <VirtualHost> , <Global> Module: mod_geoip Compatibility: 1.3.3rc1 and later The GeoIPLog directive is used to specify a log file for mod_geoip 's reporting on a per-server basis.  The file parameter given must be the full path to the file to use for logging. Note that this path must not be to a world-writable directory and,
+unless AllowLogSymlinks is explicitly set to on (generally a bad idea), the path must not be a symbolic link. GeoIPPolicy Syntax: GeoIPPolicy "allow,deny"|"deny,allow" Default: GeoIPPolicy allow,deny Context: server config, <VirtualHost> , <Global> Module: mod_geoip Compatibility: 1.3.5rc1 and later The GeoIPPolicy directive determines whether the mod_geoip module will allow a connection by default or not. If GeoIPPolicy is configured using "allow,deny" (which
+is the default setting), then the mod_geoip module will allow the
+connection, unless the connecting client is rejected by any GeoIPDenyFilter rules. If GeoIPPolicy is configured using "deny,allow" , then
+the mod_geoip module will reject any connection, unless the connecting client matches any configured GeoIPAllowFilter rules. GeoIPTable Syntax: GeoIPTable path [flags] Default: None Context: server config, <VirtualHost> , <Global> Module: mod_geoip Compatibility: 1.3.3rc1 and later The GeoIPTable directive is used to a GeoIP database file
+for use by the GeoIP library.  The path parameter given must be the
+full path to the database file. If no GeoIPTable directive is configured, then the GeoIP library
+will use the default GeoIP Country database file installed with the library.
+Otherwise, only the database files configured via GeoIPTable directives will be used. Multiple GeoIPTable directives can be used to configure
+multiple different GeoIP database files for use at the same time. The possible flags values supported are: Standard Reads the database from the filesystem; uses the least memory but causes
+    database to be read for each connection. MemoryCache Loads the database into memory; faster performance but uses the most
+    memory.  Tables configured with MemoryCache are loaded
+    into the parent process memory, avoiding the need to read them for
+    each connection. CheckCache Causes the GeoIP library to check for database updates.  If the database
+    has been updated, the library will automatically reload the file and/or
+    memory cache. IndexCache Loads just the most frequently accessed index portion of the database
+    into memory, resulting in faster lookups than Standard but
+    less memory usage than MemoryCache .  This can be useful
+    for larger databases such as GeoIP Organization and GeoIP City. MMapCache Loads the database into mmap shared memory. UTF8 Tells the GeoIP library to return UTF8 strings for the data obtained
+    from this database file.  By default, the GeoIP library uses ISO-8859-1
+    encoded strings. Multiple different flags can be configured. Examples: GeoIPTable /path/to/GeoIP.dat MemoryCache CheckCache
+  GeoIPTable /path/to/GeoISP.dat Standard
+  GeoIPTable /path/to/GeoIPCity.dat IndexCache Installation The mod_geoip module requires that the GeoIP library be installed.
+For including mod_geoip as a statically linked module: $ ./configure --with-modules=mod_geoip Alternatively, mod_geoip could be built as a DSO module: $ ./configure --with-shared=mod_geoip Then follow the usual steps: $ make
+  $ make install You may need to specify the location of the GeoIP header and library files in
+your configure command, e.g. : $ ./configure --with-modules=mod_geoip \
+    --with-includes=/usr/local/geoip/include \
+    --with-libraries=/usr/local/geoip/lib Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_geoip as a shared
+module: $ prxs -c -i -d mod_geoip.c Usage Access Controls If any GeoIPAllowFilter or GeoIPDenyFilter directives are configured, the mod_geoip module applies them
+against the geographic information retrieved from the GeoIP library.  First
+any GeoIPAllowFilter s are checked.  If any of these
+filters matches the connecting client's information, the connection is allowed.
+Next, any GeoIPDenyFilter s are checked.  If any of these
+filters matches the connecting client's information, the connection is closed.
+Otherwise, the connection is allowed. This means that if you wanted to reject connections from the US except for connections from California, you might use something like this: # Deny all connections from the US
+  GeoIPDenyFilter CountryCode US
+
+  # But allow connections from California
+  GeoIPAllowFilter RegionCode CA Environment Variables The mod_geoip module will set the following environment
+variables whenever a client connects, assuming that the appropriate
+GeoIP tables have been configured and the values are known for the connecting
+client: GEOIP_AREA_CODE GEOIP_ASN GEOIP_CITY GEOIP_CONTINENT_CODE GEOIP_COUNTRY_CODE ( two-letter country code ) GEOIP_COUNTRY_CODE3 ( three-letter country code ) GEOIP_COUNTRY_NAME GEOIP_ISP GEOIP_LATITUDE GEOIP_LONGITUDE GEOIP_NETSPEED GEOIP_ORGANIZATION GEOIP_POSTAL_CODE GEOIP_PROXY GEOIP_REGION GEOIP_REGION_NAME GEOIP_TIMEZONE These values are also available in the session.notes table,
+under keys of the names above. Example Configuration <IfModule mod_geoip.c>
+    GeoIPEngine on
+    GeoIPLog /path/to/ftpd/geoip.log
+
+    # Load GeoLite city database into memory on server startup, and use
+    # UTF8-encoded city names
+    GeoIPTable /path/to/GeoLiteCity.dat MemoryCache UTF8
+
+    # Add your GeoIPAllowFilter/GeoIPDenyFilter rules here
+  </IfModule> Logging The mod_geoip module supports different forms of logging.  The
+main module logging is done via the GeoIPLog directive.
+For debugging purposes, the module also uses trace logging , via the module-specific log channels: geoip Thus for trace logging, to aid in debugging, you would use the following in
+your proftpd.conf : TraceLog /path/to/ftpd/trace.log
+  Trace geoip:20 The geographic information retrieved from the GeoIP library for the
+connecting client is logged using this "geoip" trace log channel.  This trace
+logging can generate large files; it is intended for debugging
+use only, and should be removed from any production configuration. Suggested Future Features The following lists the features I hope to add to mod_geoip ,
+according to need, demand, inclination, and time: Configure a message to be sent to rejected clients Support requiring all GeoIPAllowFilter / GeoIPDenyFilter to apply, in addition to any Frequently Asked Questions Question : How I can whitelist specific clients from mod_geoip 's checking? Answer : You should be able to easily do this using classes and the mod_ifsession module.  For example: <Class geoip-whitelist>
+    From 1.2.3.4
+  </Class>
+
+  <IfModule mod_geoip.c>
+    # Add the normal mod_geoip directives here except GeoIPEngine </IfModule>
+
+  <IfClass geoip-whitelist>
+    # Disable mod_geoip for the whitelisted clients
+    GeoIPEngine off
+  </IfClass>
+
+  <IfClass !geoip-whitelist>
+    # Enable mod_geoip for all non-whitelisted clients
+    GeoIPEngine on
+  </IfClass> Question : How I can require that a connection match
+multiple rules, e.g. both a RegionCode and a CountryCode ? Answer : In a given GeoIPAllowFilter or GeoIPDenyFilter , you can configure a list of
+filters/patterns.  And all of these filters must be matched,
+in order for that GeoIPAllowFilter or GeoIPDenyFilter to be matched.  Thus you can use: # Deny all connections, unless they are explicitly allowed
+  GeoIPPolicy deny,allow
+
+  # Allow only connections from TX, US
+  GeoIPAllowFilter RegionCode TX CountryCode US Question : Does mod_geoip support IPv6? Answer : Yes, assuming that the IPv6
+MaxMind tables are configured via GeoIPTable .  You can find
+the free IPv6 country and city "legacy" files; see this MaxMind IPv6 FAQ for details. Question : Is it possible to configure mod_geoip to block connections from a geographic region for a specific user ? Answer : Yes, in conjunction with the mod_ifsession module. To do this, you would configure mod_geoip as normal, and then
+have an <IfUser> section like so: <IfModule mod_geoip.c>
+    GeoIPEngine on
+    GeoIPLog /var/log/proftpd/geoip.log
+    GeoIPTable /usr/share/GeoIP/GeoLite2-Country.mmdb
+    GeoIPPolicy allow,deny
+  </IfModule>
+
+  <IfModule mod_ifsession.c>
+    <IfUser baduser>
+      GeoIPDenyFilter CountryCode CZ
+    </IfUser>
+  </IfModule> The mod_geoip modules checks the GeoIPAllowFilter and GeoIPDenyFilter directives that are in effect, after a client authenticates. © Copyright 2010-2023 TJ Saunders All Rights Reserved

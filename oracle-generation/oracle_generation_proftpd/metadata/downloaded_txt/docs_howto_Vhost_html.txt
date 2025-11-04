@@ -1,0 +1,117 @@
+ProFTPD: Virtual Servers ProFTPD: Virtual Servers What is a virtual server? A virtual server, also known as a virtual host (or vhost for short),
+refers to the practice of serving more than one address/site on a single host
+machine.  The fact that these multiple sites are being served by the same
+physical machine is transparent to the end user. Until very recently, the definition of FTP did not allow for name -based
+virtual hosts, such as supported by HTTP/1.1.  That changed with RFC 7151 , which defined a HOST FTP command.  ProFTPD virtual hosts are IP-based and name-based. In some documents, one might see reference to both "daemon" and
+"server".  Sometimes these words are used interchangeably; however,
+there is a slight difference.  A "daemon" is a long-lived process
+on a host machine, and a "server" is a process that provides some
+service, typically to remote clients.  A process, such as a standalone proftpd process, can be considered both a "daemon"
+and a "server".  With this in mind, then, a "virtual server"
+is not a separate process itself; it just looks like one to the remote clients.
+Hence the "virtual". There are three "server" contexts (sometimes also called sections ) in the proftpd.conf configuration file: <VirtualHost> , <Global> ,
+and "server config". The <VirtualHost> context is used to define the configuration
+for a particular virtual host, bound to an IP address.  For example: <VirtualHost 1.2.3.4>
+    ...
+  </VirtualHost> defines a configuration for a virtual server that proftpd should
+use whenever a remote client connects to the IP address 1.2.3.4.  DNS names,
+too, can be used with the <VirtualHost> configuration
+directive: <VirtualHost ftp.mydomain.com>
+    ...
+  </VirtualHost> When proftpd parses this section on startup, it will resolve the
+given DNS name to its IP address and use that, just as if that IP address
+had been used in the first place.  In addition, when DNS names are used like
+this, ProFTPD will automatically create a ServerAlias directive using that DNS name.
+This allows for multiple <VirtualHost> sections using the
+same DNS name to be defined in your proftpd.conf . If you want the same vhost to be used for multiple different names at the
+same time ( e.g. because you have multiple DNS names for the same
+server), you would use the ServerAlias directive to list those
+other names, like so: <VirtualHost ftp.mydomain.com>
+    # Use this vhost for other names, too
+    ServerAlias ftp.mydomain.org ftp2.mydomain.com ftp.otherdomain.org
+    ...
+  </VirtualHost> The <Global> section is provided as a convenience.  Imagine
+that the administrator has many <VirtualHost> sections
+in her proftpd.conf , and yet has a lot of the same configuration
+for each virtual host, such as common <Directory> sections, DefaultRoot settings, etc .  Rather than including the
+same configuration over and over, she could use the <Global> section: <Global>
+    ...
+  </Global> Anything inside of a <Global> section is applied to every
+server configuration in the file, to every <VirtualHost> as
+well as the default "server config" server. Which brings us to the "server config" section.  The name is
+ill-suited, and is really borrowed directly from Apache's naming conventions.
+The "server config" context refers to anything not in a <VirtualHost> or <Global> section in
+the proftpd.conf file.  Unlike Apache's httpd.conf ,
+ProFTPD's configuration is designed such that one should be able to use
+the simplest file as possible.  In fact, proftpd will start
+if the proftpd.conf is completely empty; try it!  This will
+cause the daemon to use all of the default settings, which in most cases
+is not what is wanted, but it is possible.  With this in mind,
+there is always at least one server configuration present: the default
+server context, and it is this context that is known as the
+"server config".  Just like the <VirtualHost> section, any configuration directives inside the "server config"
+section do not apply outside of the context.  Many administrators often assume that this is the case.  It is not.  This is what the <Global> section is for. However, one particular drawback to the "server config" section was
+that it did not provide a way to specify to which IP address that configuration
+pertained.  By default, when proftpd parses the proftpd.conf file, it will use the gethostname() function to determine the IP address to which the default server should listen.
+On a single address, single interface system, this default is fine. It is one
+a multiple address system that the default handling does not always work;
+the administrator may wish to explicitly specify to which address the default
+server should listen.  This is what the DefaultAddress configuration directive provides: the
+ability to specify to which IP address the "server config" vhost
+should listen. By default, every server will listen to port 21, the IANA standard port for
+FTP.  If you want to have server react to a different port, use the Port directive to
+change the port.  As might be mentioned elsewhere, if you have many different <VirtualHost> sections using the same address but
+different ports , you'll want to make sure that you leave each Port -1 number empty. RFC 959 specifies that the source port for an active
+data transfer (read here )
+must be L-1 , where L is the port on which your server
+listens.  Also, as mentioned in the Port documentation, using: Port 0 in any server context will effectively "disable" that server.  This
+is sometimes used to disable the "server config" configuration. There is another configuration directive that comes into play in all of this
+: DefaultServer .  Here is why: when a client contacts proftpd , the server has to
+determine which configuration to use for handling the client.  To do this, it
+searches its list of configured vhosts, searching for a vhost whose IP address
+matches the IP address that the client contacted.  If there is a matching vhost
+for that IP address, simple: use that configuration.  If not, proftpd will then resort to using the configuration that bears the DefaultServer directive, which says that the server configuration
+in which it appears should be used in cases like this.  If there is no DefaultServer directive in the proftpd.conf file,
+and no matching configuration can be found, then the client will see a message
+such as "no server available to service your request".  The DefaultServer can be used to say that a <VirtualHost> should be the default, and not necessarily the
+"server config" context, as is common. If you would like the same virtual host configuration to be used for
+multiple different IP addresses (or DNS names), the <VirtualHost> supports this: <VirtualHost 1.2.3.4 5.6.7.8>
+    ...
+  </VirtualHost> If, however, you want to specific the address to which the configuration
+of the "server config" context, use DefaultAddress (mentioned above). There is one last configuration directive about which an administrator should
+know: SocketBindTight .  By default, the proftpd daemon will listen on all addresses, port 21, for the
+connection requests of remote clients.  Sometimes, the administrator may
+wish to have the proftpd daemon listen only on the IP
+addresses for which it has been configured, and not every address.
+To accomplish this, simply use the SocketBindTight configuration
+directive: SocketBindTight on This configures the daemon to "bind tightly" only to those IP
+addresses to which it has been configured to listen, rather than every address.
+By default, the proftpd daemon will listen to every address on
+the host machine. Frequently Asked Questions Question : Why do I see the following when I start proftpd ? - warning: "Virtual Server" address/port (1.2.3.4:21) already in use by "Main Server" Answer : This happens when a <VirtualHost> section is "hidden" behind the default server in the "server config"
+section ( i.e. the context that is outside of all <VirtualHost> and <Global> sections).  It is "hidden" because
+both the <VirtualHost> section and the "server config"
+section are using the same IP address and port. It is quite common to configure <VirtualHost> sections
+using DNS names, rather than IP addresses.  And the "server config" section
+in the proftpd.conf file, by default, uses the IP address of
+the machine's hostname.  This makes it quite easy to inadvertently have
+multiple sections trying to use the same IP address and port. The quick-and-easy fix is to place the following your "server config" section
+in your proftpd.conf : Port 0 as mentioned above.  You can also use the DefaultAddress directive in the "server config" section to explicitly tell the "server config"
+section to use a different IP address/DNS name. Question : How can I have my "server config" section
+(or a <VirtualHost> section) listen for multiple IP
+addresses/DNS names? Answer : In version 1.3.0rc1 and later, the <VirtualHost> configuration was enhanced so that it could
+handle multiple IP addresses/DNS names, e.g. : <VirtualHost 1.2.3.4 ftp.example.com>
+    ...
+  </VirtualHost> And for the "server config" context, you would use the DefaultAddress directive, which can also handle multiple IP
+addresses/DNS names: DefaultAddress 1.2.3.4 ftp.example.com Question : If I want to use many virtual hosts, do I
+need to use a different port for each virtual host, or can the same port be
+reused? Answer : The short answer is yes, it is possible to
+have many virtual hosts on the same IP address and port. However, doing so requires support from clients to work as you expect.
+Specifically, it requires that FTP clients send the HOST command
+(defined in RFC 7151 ), and not
+all FTP clients do so.  This command is equivalent to HTTP's Host header, but it is newer, and so not every FTP client implementation has been
+updated to use it.  Without that HOST command, ProFTPD only has
+the IP address/port combination from a client TCP connection to use for
+determining which virtual host to use, and if there are many virtual hosts
+(differentiated only by name ) using the same IP address and port,
+then ProFTPD cannot tell which specific virtual host to use.  It will not work
+as you expect, for clients that do not use the HOST command. © Copyright 2017-2023 The ProFTPD Project All Rights Reserved

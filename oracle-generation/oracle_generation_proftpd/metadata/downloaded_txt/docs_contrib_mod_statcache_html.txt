@@ -1,0 +1,43 @@
+ProFTPD module mod_statcache ProFTPD module mod_statcache The mod_statcache module is designed to cache the results
+of stat(2) and lstat(2) calls in shared memory,
+so that the results can be shared among multiple session processes.  On
+a busy server, especially one handling many directory listings, these stat(2) / lstat(2) calls can add quite a bit of
+overhead. This module is contained in the mod_statcache.c file for
+ProFTPD 1.3. x , and is not compiled by default.  Installation
+instructions are discussed here .  More examples
+of mod_statcache usage can be found here . The most current version of mod_statcache is distributed with the
+ProFTPD source code. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives StatCacheCapacity StatCacheControlsACLs StatCacheEngine StatCacheMaxAge StatCacheTable Control Actions statcache StatCacheCapacity Syntax: StatCacheCapacity count Default: StatCacheCapacity 5000 Context: server config Module: mod_statcache Compatibility: 1.3.4rc2 and later The StatCacheCapacity directive configures the capacity of the cache, i.e. the maximum number of cache entries.  By default, mod_statcache allocates space for 5000 cache entries. The count value be 10 or greater.  The configured count is handled as a hint ; the actual allocated capacity may be rounded up
+to the nearest multiple of the internal block sizes. StatCacheControlsACLs Syntax: StatCacheControlsACLs actions|"all" "allow"|"deny" "user"|"group" list Default: None Context: server config Module: mod_statcache Compatibility: 1.3.4rc2 and later The StatCacheControlsACLs directive configures access lists of users or groups who are allowed (or denied) the ability to
+use the actions implemented by mod_statcache . The default
+behavior is to deny everyone unless an ACL allowing access has been explicitly
+configured. If "allow" is used, then list , a comma-delimited list
+of users or groups , can use the given actions ; all
+others are denied.  If "deny" is used, then the list of users or groups cannot use actions all others are
+allowed.  Multiple StatCacheControlsACLs directives may be used to
+configure ACLs for different control actions, and for both users and groups. The action provided by mod_statcache is "statcache" . Examples: # Allow only user root to examine cache stats
+  StatCacheControlsACLs all allow user root StatCacheEngine Syntax: StatCacheEngine on|off Default: StatCacheEngine off Context: server config, <VirtualHost> , <Global> Module: mod_statcache Compatibility: 1.3.4rc2 and later The StatCacheEngine directive enables or disables the module's
+caching of stat(2) and lstat(2) calls. StatCacheMaxAge Syntax: StatCacheMaxAge positive-cache-age [negative-cache-age] Default: StatCacheMaxAge 5 Context: server config Module: mod_statcache Compatibility: 1.3.4rc2 and later The StatCacheMaxAge directive configures how long the mod_statcache module will keep the stat(2) or lstat(2) results cached for a given path.  By default, mod_statcache will cache results for 5 seconds (and will
+cache failed stat(2) / lstat(2) calls for
+1 second). If you configure a single age parameter, then that value will be used for
+both positive and negative cache entries.  Thus: StatCacheMaxAge 300 will cache successful and failed stat(2) / lstat(2) calls for 5 minutes (300 seconds). To disable caching of failed stat(2) / lstat(2) calls
+entirely, use a negative-cache-age value of zero, e.g. : # Cache lookups for 60 seconds, and do not cache failed lookups
+  StatCacheMaxAge 60 0 StatCacheTable Syntax: StatCacheTable path Default: None Context: server config Module: mod_statcache Compatibility: 1.3.4rc2 and later The StatCacheTable directive configures a path to a file
+that mod_statcache uses for handling its cache data.  The given path must be an absolute path. Note : this directive is required for mod_statcache to function.  It is recommended
+that this file not be on an NFS mounted partition. Note that statcache data is not kept across daemon stop/starts.  That is,
+once proftpd is shutdown, all current statcache data is lost. Control Actions statcache Syntax: ftpdctl statcache info|dump Purpose: Display statcache information The statcache action is used to display cache statistics about
+the statcache data maintained by mod_statcache .  For example: # ftpdctl statcache info
+  ftpdctl:  hits 773, misses 67: 92.0% hit rate
+  ftpdctl:    expires 22, rejects 0
+  ftpdctl:  current count: 1 (of 5000) (0.0% usage)
+  ftpdctl:  highest count: 45 (of 5000) (0.9% usage) To dump out the entire cache contents (not recommended on a busy server),
+you can use: # ftpdctl statcache dump Installation The mod_statcache module is distributed with ProFTPD.  For
+including mod_statcache as a statically linked module, use: $ ./configure --with-modules=mod_statcache To build mod_statcache as a DSO module: $ ./configure --enable-dso --with-shared=mod_statcache Then follow the usual steps: $ make
+  $ make install For those with an existing ProFTPD installation, you can use the prxs tool to add mod_statcache , as a DSO module, to
+your existing server: $ prxs -c -i -d mod_statcache.c Note : Use of the mod_statcache module will interfere with the mod_vroot and mod_quotatab modules. Usage The mod_statcache module works by allocating a SysV shared
+memory segment.  The different proftpd session processes
+then attach to that shared memory segment so that they can share statcache
+results. Example configuration: <IfModule mod_statcache.c>
+    StatCacheEngine on
+    StatCacheTable /var/run/proftpd/statcache.tab
+  </IfModule> © Copyright 2013-2017 TJ Saunders All Rights Reserved

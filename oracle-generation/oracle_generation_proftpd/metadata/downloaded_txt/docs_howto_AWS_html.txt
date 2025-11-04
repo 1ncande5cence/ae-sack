@@ -1,0 +1,235 @@
+ProFTPD: AWS AWS and ProFTPD So you want to run ProFTPD on an AWS EC2 instance?  Due to FTP's nature as
+a multi-connection protocol, it is not as straightforward to use FTP within AWS
+EC2, but it can be done .  Read on to find out how. Note that the
+following documentation assumes that you know how to install and configure
+ProFTPD already.
+
+If you are only running individual FTP servers, then the sections on AWS security groups and addresses are relevant.  If you want to provide a "scalable" pool/cluster of
+FTP servers, then the AWS Elastic Load Balancing and AWS Route53 sections will also be of interest. Security Groups Every EC2 instance belongs to one or more AWS Security Groups (often abbreviated as simply "SGs").  As the AWS documentation states, a
+"security group" is a effectively a set of firewall rules controlling network
+access to your EC2 instance.  I tend to think of SGs more like NAT rules,
+since the "firewall" is the EC2 network perimeter managed by Amazon, and
+an SG dictates what holes to allow from the outside world into the EC2 internal
+networks. Clients wishing to make a connection to the proftpd running on
+your EC2 instance, be it FTP, FTPS, SFTP, or SCP, will thus need to be allowed
+to connect by one (or more) of your SGs.  Assuming your proftpd listens on the standard FTP control port (21), you would configure one of your
+SGs to allow access to that port, from any IP address, using the AWS CLI like
+so: $ aws ec2 authorize-security-group-ingress \
+    --group-id sg-XXXX \
+    --protocol tcp \
+    --port 21 \
+    --cidr 0.0.0.0/0 Note that you do not need to allow access to port 20!  Many,
+many sites/howtos recommend opening port 20 in addition to port 21 for FTP
+access, but it simply not needed .  For active data transfers
+( i.e. where the FTP server actively connects back to the
+client machine for the data transfer), the source port will be port 20.
+But incoming connections for FTP will never be to port 20. If you are allowing SFTP/SCP connections, e.g. to your proftpd , running the mod_sftp module on the standard SSH port (22): $ aws ec2 authorize-security-group-ingress \
+    --group-id sg-YYYY \
+    --protocol tcp \
+    --port 22 \
+    --cidr 0.0.0.0/0 Note : I recommend using different SGs for your FTP/FTPS rules and your
+SFTP/SCP rules.  FTP/FTPS rules are more complex, and it is more clear to
+manage an SG named "FTP", with all of the related FTP rules, and separately
+to have an SG named "SFTP", with the SFTP/SCP related rules. If you are only allowing SFTP/SCP access, that should suffice for
+the security group configuration for your instance. Allowing FTP/FTPS
+connections requires more security group tweaks. FTP uses multiple TCP connections: one for the control connection, and separate other connections for data transfers (directory listings and file
+uploads/downloads).  The ports used for these data connections are dynamically
+negotiated over the control connection; it is this dynamic nature of the
+data connections which causes complexity with network access rules.  This
+site does a great job of describing these issues more in detail: http://slacksite.com/other/ftp.html Remember how I said that SGs are similar to NAT rules?  This similarity is
+one of the reasons why the ProFTPD NAT howto is relevant here as well. We want to configure ProFTPD to use a known range of ports for its passive
+data transfers, and then we want to configure our FTP SG to allow access to
+that known port range.  Thus we would use something like this in the proftpd.conf : PassivePorts 60000 65535 And then, to configure the SG to allow those ports: $ aws ec2 authorize-security-group-ingress \
+    --group-id sg-XXXX \
+    --protocol tcp \
+    --port 60000-65534 \
+    --cidr 0.0.0.0/0 The SFTP/SCP protocols only use a single TCP connection, and thus they do not
+require any other special configuration/access rules. Public vs Private Instance Addresses Every EC2 instance with have its own local/private IP address and DNS name,
+automatically assigned by AWS.  Instances may also be automatically
+assigned public IP addresses/DNS names as well, depending on various
+factors.  The AWS docs on instance addressing discuss those
+factors in greater detail. If your EC2 instance will be supporting FTP/FTPS sessions, then you will need
+to determine whether your instance has a public address.  If so, that address
+needs to be configured using the MasqueradeAddress directive.
+Why?  When an FTP client negotiates a passive data transfer ,
+ProFTPD tells that FTP client an address, and a port, to which to connect to
+transfer the data.  For EC2 instances with a public address, that public
+address is what ProFTPD needs to convey to the FTP client, and the MasqueradeAddress is the directive that does so. So how can you tell what the public address of your EC2 instance is, if it
+even has one?  You can use the EC2 instance metadata , via curl , like so: $ curl http://169.254.169.254/latest/meta-data/public-hostname If your instance has a public address, the DNS name to use would be
+returned.  Otherwise, you might see something like this: $ curl http://169.254.169.254/latest/meta-data/public-hostname
+  <?xml version="1.0" encoding="iso-8859-1"?>
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+    <title>404 - Not Found</title>
+   </head>
+   <body>
+    <h1>404 - Not Found</h1>
+   </body>
+  </html> which indicates that your EC2 instances does not have a public address.
+And if your instance does not have a public address, then you do not need to use the MasqueradeAddress directive. Here's one solution for handling this situation: obtain the public hostname
+for your instance, store it in an environment variable, and then use that
+environment variable in your proftpd.conf : $ export EC2_PUBLIC_HOSTNAME=`curl -f -s http://169.254.169.254/latest/meta-data/public-hostname` The -f option is necessary, in case the instance does not have a public address.  The -s option simply makes for
+quieter shell scripts.  Then, in your proftpd.conf , you might
+use: MasqueradeAddress %{env:EC2_PUBLIC_HOSTNAME} If the instance does not have a public address, though, that environment
+variable will be the empty string, and proftpd will fail to start
+up because of that.  Better would be to automatically handle the
+"no public address" case, if we can.  Assume you have a shell script for
+starting proftpd which does something like this, using our EC2_PUBLIC_HOSTNAME environment variable: PROFTPD_ARGS=""
+
+  # If we have a public hostname, then the string will not be
+  # zero length, and we define a property for ProFTPD's use.
+  if [ ! -z "$EC2_PUBLIC_HOSTNAME" ]; then
+    PROFTPD_ARGS="$PROFTPD_ARGS -DUSE_MASQ_ADDR"
+  fi Then, in your proftpd.conf , you use both that property and the environment variable notation: <IfDefined USE_MASQ_ADDR>
+    MasqueradeAddress %{env:EC2_PUBLIC_HOSTNAME}
+  </IfDefined> Fortunately the EC2 instance addressing does not require any additional
+changes/tweaks to the AWS Security Groups. Elastic Load Balancing Now that you have ProFTPD up and running on your EC2 instance, and you can
+connect using FTP/FTPS and SFTP/SCP, and browse directories and upload and
+download files, you are probably thinking about how to have more than one
+instance for your FTP service.  After all, you want redundancy for your FTP
+servers just like you have for your HTTP servers, right?  And for HTTP servers,
+you would use an AWS Elastic Load Balancer (often called an "ELB").  Why not use the same technique for FTP? Can you configure an ELB for FTP? Yes, ELBs can be used for FTP.  Like SGs, though, it's complicated by FTP's
+use of multiple TCP connections; for SFTP/SCP, ELBs are simpler to configure. The first thing to keep in mind is that ELBs only distribute ( i.e. "balance") connections in a round-robin fashion among
+the backend TCP servers; they do not distribute connections based on the load of those backend servers.  (The balancing algorithm is slightly
+different for HTTP servers, but that does not apply to ProFTPD.)  This means
+that any user might connect to any of your ProFTPD instances;
+this, in turn, means that users must be able to login on all instances, and that the files for all users should be available on all instances.
+These requirements lead to the requirements for centralized/shared
+authentication data, and for shared filesystems.  The centralized/shared
+authentication data can be handled by using e.g. SQL databases,
+LDAP directories, or even synchronized password files.  For shared filesystems,
+the popular approaches are: s3fs NFS Samba Gluster AWS EFS There are probably other solutions as well; the key is to have the users'
+files available on any/every instance. The next thing to keep in mind is whether you have an EC2 Classic account,
+or whether you are using AWS VPC .
+Chances are that you are using a VPC.  ELBs for an EC2 Classic account can
+only be configured to listen on a restricted list of ports, i.e. : 25 (SMTP) 80 (HTTP) 443 (HTTPS) 465 (SMTPS) 587 (SMTP mail submission) 1024-65535 This means that if you have an EC2 Classic account and want to use
+an ELB for your FTP/SFTP servers, you will need to run those servers on
+non-standard ports, in the 1024-65535 range.  ELBs within a VPC, on the
+other hand, can listen on any port. Let's assume that you are using a VPC, and thus you configure a TCP listener
+on your ELB for port 21, which uses the instance port 21.  And for SFTP/SCP,
+it would be a TCP listener for port 22, using instance port 22.  Obviously
+you would not use HTTP or HTTPS listeners, but what about an SSL listener,
+for FTPS?  No.  An SSL listener performs the SSL/TLS handshake first ,
+then forwards the plaintext messages to the backend instance.  But FTPS is
+a "STARTTLS" protocol,
+which means the connection is first unencrypted, and then feature
+negotiation happens on that connection, and then the SSL/TLS handshake
+happens.  ELBs do not support STARTTLS protocols, thus you cannot use them
+for terminating SSL/TLS sessions for FTP servers. Your ProFTPD configuration might use multiple different ports, for different <VirtualHost> s.  Your ELB would need a different TCP
+listener for each of those separate ports.  However, now that ProFTPD supports
+the FTP HOST command (which allows for proper name-based virtual
+hosts in FTP, just like HTTP 1.1 has via its Host header), you should only need on TCP listener now. An ELB wants to perform health checks on its backend instances, to know that
+that instance is up, running, and available to handle connections.  ELBs
+can perform HTTP requests as healthchecks, or make TCP connections.  ProFTPD
+is not an HTTP server, so using TCP health checks is necessary.  You would
+configure the ELB to make TCP connections to ProFTPD port, e.g. port
+21 for FTP/FTPS, and/or port 22 for SFTP/SCP. What about the range of ports defined via PassivePorts , that
+you had to allow in your SG?  Does your ELB need TCP listeners for all of
+those ports, too?  No.  To understand why, we need to examine in detail just
+how passive data transfers work in FTP.  An FTP client connects to your
+FTP server, through the ELB, like this, for its control connection: client --- ctrl ---> ELB:21 --- ctrl ---> instance:21 The client and server negotiate a passive data transfer; the FTP server
+tells the client, over the control connection, an address and port to which
+to connect.  Now, let's assume that ProFTPD gives the address of the ELB,
+and one of the PassivePorts ; we'l use port 65000 for this example.
+The FTP client connects to the address/port on the ELB , like this: client --- data ---> ELB:65000 --- data ---> instance:65000 This would mean that the ELB would need TCP listeners for the PassivePorts , and that MasqueradeAddress would
+need to point to the ELB DNS name.  So why did I say that the ELB did not
+need those extra TCP listeners? If your ELB will only ever have just one backend instance , then
+the above configuration would work.  Your EC2 instance might be in a VPC,
+with no public address, and thus perhaps the only way to make your
+FTP server there reachable is using an ELB.  Where forcing passive
+data connections through an ELB starts to fail is when there are multiple
+backend instances .  Consider the case where your ELB might have 3 instances: +--> instance1:21
+     ELB:21 --|--> instance2:21
+              +--> instance3:21 An FTP client connects to the ELB, and the ELB selects instance #2: client --- ctrl ---> ELB:21 --- ctrl ---> instance2:21 So far, so good.  The client requests a passive data transfer; the FTP server
+tells the client to connect to the ELB address, port 65000, but the
+ELB sends that connection to instance #3 , not instance #2: client --- data ---> ELB:65000 --- data ---> instance3:65000 This can happen because the ELB does not understand FTP; it does not know
+that the data connection is related, in any way, to any other connections.  To
+the ELB, all TCP connections are independent, and thus any connection will be
+routed, round-robin, to any backend instance.  There is no guarantee that the
+data connections, going through the ELB, will connect to the proper backend
+instance.  If there is only one backend instance , though, everything
+will work as expected. In order to properly support multiple backend instances (which is one of the
+goals/benefits of using an ELB in the first place) for FTP, then, the trick
+is to not force data connections through the ELB.  Instead, the MasqueradeAddress directive points to each backend instance's
+respective public hostname.  With this configuration, the FTP client connects
+to the ELB for its control connection, like usual: client --- ctrl ---> ELB:21 --- ctrl ---> instance2:21 And for the data transfer, ProFTPD tells the client the instance public
+hostname, and port 65000: client -------------- data -------------> instance2:65000 Notice how, with this configuration, the TCP connection for the data transfer
+bypasses the ELB completely. This is why you do not need to configure
+any TCP listeners on the ELB for those PassivePorts , and why
+you do not want MasqueradeAddress using the ELB DNS name;
+you do not want passive data connections going through the ELB. Now you have an ELB with multiple backend FTP servers.  Success, right?  Maybe.
+There are some caveats.  FTP clients might notice that they connect to
+one name (the ELB DNS name), but for data transfers, they are being told
+(by the FTP server) to connect to a different name; some FTP clients
+might warn/complain about this mismatch.  ProFTPD would definitely complain
+about this mismatch, for it would see the control connection as originating
+from the ELB, but the data connection originating from a different address,
+and would refuse the data transfer.  To allow data transfers to work, then,
+you would need to add the following to your proftpd.conf : # Allow "site-to-site" transfers, since that is what FTP traffic with
+  # an ELB looks like.
+  AllowForeignAddress on which has its own security implications . Next, there is the ELB idle timeout setting to
+adjust.  The default is 60 seconds.  During a data transfer, most FTP clients
+will be handling the data connection, and the control connection is idle.
+Thus if the data transfer lasts longer than 60 seconds, the ELB might terminate
+the idle control connection, and the FTP session is lost.  Unfortunately the
+maximum allowed idle timeout for ELBs is 1 hour (3600 seconds); for large (or slow) data transfers, even that timeout could be a problem.  There are
+ways of keeping the control connection from being idle for too long, using keepalives . Note that this idle timeout is not really an issue for SFTP/SCP
+sessions, as all data transfers for them use the same single TCP connection. Last, using an ELB only for FTP control connections, and using direct
+connections for the FTP data transfers only works if your backend EC2 instances have public hostnames; for instances in a VPC, that may not be true.
+So how can we use an ELB for multiple backend instances that only have private
+addresses?  Sadly, the answer is: you can't.  For load balancing FTP sessions
+among multiple backend EC2 instances with private addresses, you need an
+FTP-aware proxy, such as ProFTPD with the mod_proxy module.  This means running your
+own instance for doing that load balancing, rather than having AWS manage it.
+Of course, if the clients using your ELB for FTP services are also within your VPC, then the lack of public hostnames for your EC2 instances
+is not an issue, and using an ELB as described above will work. DNS and AWS Route53 Using an ELB for balancing connections across your pool of FTP servers is
+rather complex.  Are there alternatives?  Yes: "DNS load balancing". Instead of using an AWS ELB for balancing/distributing connections across
+your pool of ProFTPD-running instances, you can use DNS tricks to implement
+the same functionality.  Note, however, these DNS tricks still assume that
+your EC2 instances are publicly reachable, i.e. have public hostnames. With DNS load balancing, the client resolves a DNS name to an IP address,
+and connects to that IP address: client1 ----------------- ctrl ----------------> instance2:21
+     client1 ----------------- data ----------------> instance2:65000 But the DNS server might be configured with several IP addresses for
+the same DNS name; the client then chooses one IP address from the given
+list (usually the first address), and connects to that.  Some DNS servers will shuffle the list of returned addresses for a name, so that clients will
+choose different addresses, and thus distribute/balance their connections
+across all of the addresses: client1 ----------------- ctrl ----------------> instance2:21
+     client1 ----------------- data ----------------> instance2:65000
+
+     client2 ----------------- ctrl ----------------> instance1:21
+     client2 ----------------- data ----------------> instance1:65000
+
+     client3 ----------------- ctrl ----------------> instance3:21
+     client3 ----------------- data ----------------> instance3:65000 Within AWS, the Route53 service
+can be used as the DNS service for your domain names.  AWS Route53 calls this round robin of addresses a weighted routing
+policy, as each address associated with a name can be given a "weight",
+affecting the probability that that address will be returned, by Route53,
+when the DNS name is resolved to an IP address.  Other routing policies are
+supported, e.g. latency-based routing
+(so that the instance with the fastest response time is chosen), and geolocation-based routing (the instance address
+chosen is based on the location of the resolving client). If you are using AWS Route53, then you will need to configure health checks,
+just as you would for an ELB.  Route53 supports TCP health checks, which
+you would point at your FTP/FTPS port (21) or SFTP/SCP port (22) on your
+instances. Since any/all clients could connect to any/all of the EC2 instances associated
+with your DNS name, all of the users would need to be able to login on any
+instance, and have their files/data available.  Thus using a shared filesystem
+for the files (such as s3fs , NFS, Samba, gluster, etc ) and a centralized/shared authentication
+mechanism ( e.g. SQL database, LDAP directory, etc ) would be
+needed. Future Work In order to automate much of the above manual steps, work is progressing on
+a mod_aws module for ProFTPD, which will eventually: automatically set PassivePorts for FTP/FTPS vhost, if needed automatically set MasqueradeAddress if needed automatically adjust Security Group rules for FTP/FTPS, SFTP/SCP in addition to other interactions with AWS services. Frequently Asked Questions Question : I need to send particular users only to
+a particular instance/set of instances.  How do I configure AWS to do this? Answer : Short answer: you cannot.  But it can be done! The AWS services like ELBs and Route53 understand TCP connections, and the
+HTTP protocol, but they do not understand FTP.  And understanding of the
+protocol is necessary, so that you know how/when to expect the user name, and
+how to redirect/proxy the backend connection.  This is why you cannot use AWS to do per-user balancing.  However, you can use the mod_proxy module for ProFTPD, which is protocol-aware, and thus can balance
+FTP/FTPS connections in multiple ways, including per-user. Question : I am using ELBs for my pool of ProFTPD
+servers.  I would like my logs to show the IP address of the connecting
+clients, but all I get is the IP address of the ELB.  Is there a way to get
+the original IP address, an equivalent to the X-Forwarded-For HTTP header? Answer :  Yes, there is an equivalent mechanism
+that is supported by ELBs for TCP listeners: the PROXY protocol . To enable use of the PROXY protocol by your ELB, see here .  You will also need to tell ProFTPD to expect
+the PROXY protocol, which means using the mod_proxy_protocol module. The PROXY protocol, and the mod_proxy_protocol module,
+work equally well for FTP/FTPS and SFTP/SCP sessions. Question : Should I run a firewall on my instance as well? Answer : It is considered a good network security
+practice to do so, as it provides security in depth. However , care
+must be taken with those firewall rules; they need to allow the same ports/
+addresses as your SGs.  (Also note that local/instance firewall rules CANNOT
+be applied to the connecting client's IP address when connecting through ELB.) © Copyright 2017 The ProFTPD Project All Rights Reserved

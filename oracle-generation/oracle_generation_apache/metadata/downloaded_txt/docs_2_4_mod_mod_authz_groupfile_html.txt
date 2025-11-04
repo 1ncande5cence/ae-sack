@@ -1,0 +1,19 @@
+mod_authz_groupfile - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_authz_groupfile Available Languages: en | fr | ja | ko Description: Group authorization using plaintext files Status: Base ModuleÂ Identifier: authz_groupfile_module SourceÂ File: mod_authz_groupfile.c Compatibility: Available in Apache 2.1 and later Summary This module provides authorization capabilities so that
+    authenticated users can be allowed or denied access to portions
+    of the web site by group membership. Similar functionality is
+    provided by mod_authz_dbm . Topics The Require Directives Directives AuthGroupFile Bugfix checklist httpd changelog Known issues Report a bug See also Require Comments The Require Directives Apache's Require directives are used during the authorization phase to ensure that
+    a user is allowed to access a resource.  mod_authz_groupfile extends the
+    authorization types with group and group-file . Since v2.4.8, expressions are supported
+    within the groupfile require directives. Require group This directive specifies group membership that is required for the
+    user to gain access. Require group admin Require file-group When this directive is specified, the filesystem permissions on
+    the file being accessed are consulted. The user must be a member of
+    a group with the same name as the group that owns the file.
+    See mod_authz_owner for more
+    details. Require file-group AuthGroupFile Directive Description: Sets the name of a text file containing the list
+of user groups for authorization Syntax: AuthGroupFile file-path Context: directory, .htaccess Override: AuthConfig Status: Base Module: mod_authz_groupfile The AuthGroupFile directive sets the
+    name of a textual file containing the list of user groups for user
+    authorization. File-path is the path to the group
+    file. If it is not absolute, it is treated as relative to the ServerRoot . Each line of the group file contains a groupname followed by a
+    colon, followed by the member usernames separated by spaces. Example: mygroup: bob joe anne Note that searching large text files is very inefficient; AuthDBMGroupFile provides a much better performance. Security Make sure that the AuthGroupFile is
+      stored outside the document tree of the web-server; do not put it in the directory that it protects. Otherwise, clients may
+      be able to download the AuthGroupFile . Available Languages: en | fr | ja | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

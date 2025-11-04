@@ -1,0 +1,29 @@
+ProFTPD module mod_unique_id ProFTPD module mod_unique_id The mod_unique_id module attempts to generate a unique ID for
+every FTP session.  To make the ID unique across multiple servers, the
+following bits of information are used: host IP address client IP address process ID time of day (including microseconds) The generated ID is stored in the UNIQUE_ID environment variable
+in a printable form; other modules can retrieve the unique session ID from the
+environment.  (Note that you will want mod_unique_id listed toward
+the end of your --with-modules configure list, so that the
+ID generation runs early in the session establishment process.)  The contents
+of the UNIQUE_ID should be considered opaque, and are subject
+to change in the future. This module is contained in the mod_unique_id file for
+ProFTPD 1.3. x , and is not compiled by default.  Installation
+instructions are discussed here . The most current version of mod_unique_id is distributed with
+the proftpd source code. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives UniqueIDEngine UniqueIDEngine Syntax: UniqueIDEngine on|off Default: on Context: server config Module: mod_unique_id Compatibility: 1.3.1rc1 and later The UniqueIDEngine directive enables or disables the module's
+generation of a unique ID for each FTP session. By default, UniqueIDEngine is on . Installation The mod_unique_id module is distributed with ProFTPD.  For
+including mod_unique_id as a statically linked module, use: $ ./configure --with-modules=mod_unique_id Alternatively, mod_unique_id could be built as a DSO module: $ ./configure --with-shared=mod_unique_id Then follow the usual steps: $ make
+  $ make install Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_unique_id as a
+shared module: $ prxs -c -i -d mod_unique_id.c Usage Since mod_unique_id generates a new unique ID for each session
+by default, there is no special configuration needed for enabling the
+module.  Taking advantage of mod_unique_id , however, requires
+some adjustments in other parts of your proftpd.conf . Example configuration: <IfModule mod_unique_id.c>
+    # Include the unique session ID in an ExtendedLog
+    LogFormat session "%{UNIQUE_ID}e %h %l %u %t \"%r\" %s %b"
+    ExtendedLog /path/to/extended.log ALL session
+
+    # Store the unique ID in a SQL table named 'ftpsessions'
+    SQLLog PASS login
+    SQLNamedQuery login INSERT "'%{note:UNIQUE_ID}', '%u', now()" ftpsessions
+  </IfModule> © Copyright 2006-2020 TJ Saunders All Rights Reserved

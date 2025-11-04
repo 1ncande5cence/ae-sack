@@ -1,0 +1,14 @@
+mod_lbmethod_bybusyness - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_lbmethod_bybusyness Available Languages: en | fr Description: Pending Request Counting load balancer scheduler algorithm for mod_proxy_balancer Status: Extension ModuleÂ Identifier: lbmethod_bybusyness_module SourceÂ File: mod_lbmethod_bybusyness.c Compatibility: Split off from mod_proxy_balancer in 2.3 Summary This module does not provide any configuration directives of its own.
+It requires the services of mod_proxy_balancer , and
+provides the bybusyness load balancing method. Topics Pending Request Counting Algorithm Directives This module provides no
+            directives. Bugfix checklist httpd changelog Known issues Report a bug See also mod_proxy mod_proxy_balancer Comments Pending Request Counting Algorithm Enabled via lbmethod=bybusyness , this scheduler keeps
+    track of how many requests each worker is currently assigned at present. A new
+    request is automatically assigned to the worker with the lowest
+    number of active requests. This is useful in the case of workers
+    that queue incoming requests independently of Apache, to ensure that
+    queue length stays even and a request is always given to the worker
+    most likely to service it the fastest and reduce latency. In the case of multiple least-busy workers, the statistics (and
+    weightings) used by the Request Counting method are used to break the
+    tie. Over time, the distribution of work will come to resemble that
+    characteristic of byrequests (as implemented
+    by mod_lbmethod_byrequests ). Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

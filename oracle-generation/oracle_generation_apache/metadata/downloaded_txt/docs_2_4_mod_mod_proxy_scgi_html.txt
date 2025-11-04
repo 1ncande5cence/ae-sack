@@ -1,0 +1,48 @@
+mod_proxy_scgi - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_proxy_scgi Available Languages: en | fr Description: SCGI gateway module for mod_proxy Status: Extension ModuleÂ Identifier: proxy_scgi_module SourceÂ File: mod_proxy_scgi.c Compatibility: Available in version 2.2.14 and later Summary This module requires the service of mod_proxy . It provides support for the SCGI protocol, version
+    1 . Thus, in order to get the ability of handling the SCGI protocol, mod_proxy and mod_proxy_scgi have to
+    be present in the server. Warning Do not enable proxying until you have secured your server . Open proxy
+      servers are dangerous both to your network and to the Internet at
+      large. Topics Examples Environment Variables Directives ProxySCGIInternalRedirect ProxySCGISendfile Bugfix checklist httpd changelog Known issues Report a bug See also mod_proxy mod_proxy_balancer Comments Examples Remember, in order to make the following examples work, you have to
+    enable mod_proxy and mod_proxy_scgi . Simple gateway ProxyPass "/scgi-bin/" "scgi://localhost:4000/" The balanced gateway needs mod_proxy_balancer and
+    at least one load balancer algorithm module, such as mod_lbmethod_byrequests , in addition to the proxy
+    modules listed above. mod_lbmethod_byrequests is the
+    default, and will be used for this example configuration. Balanced gateway ProxyPass "/scgi-bin/" "balancer://somecluster/"
+<Proxy "balancer://somecluster">
+    BalancerMember "scgi://localhost:4000"
+    BalancerMember "scgi://localhost:4001"
+</Proxy> Environment Variables In addition to the configuration directives that control the
+    behaviour of mod_proxy , an environment
+    variable may also control the SCGI protocol
+    provider: proxy-scgi-pathinfo By default mod_proxy_scgi will neither create
+        nor export the PATH_INFO environment variable. This allows
+        the backend SCGI server to correctly determine SCRIPT_NAME and Script-URI and be compliant with RFC 3875 section 3.3.
+        If instead you need mod_proxy_scgi to generate
+        a "best guess" for PATH_INFO , set this env-var.  The
+        variable must be set before SetEnv is effective. SetEnvIf can be
+        used instead: SetEnvIf Request_URI . proxy-scgi-pathinfo ProxySCGIInternalRedirect Directive Description: Enable or disable internal redirect responses from the
+backend Syntax: ProxySCGIInternalRedirect On|Off| Headername Default: ProxySCGIInternalRedirect On Context: server config, virtual host, directory Status: Extension Module: mod_proxy_scgi Compatibility: The Headername feature is available in version
+2.4.13 and later The ProxySCGIInternalRedirect enables the backend
+    to internally redirect the gateway to a different URL. This feature
+    originates in mod_cgi , which internally redirects the
+    response if the response status is OK ( 200 ) and
+    the response contains a Location (or configured alternate
+    header) and its value starts with a slash ( / ). This value is 
+    interpreted as a new local URL that Apache httpd internally redirects to. mod_proxy_scgi does the same as mod_cgi in this regard, except that you can turn off the
+    feature or specify the use of a header other than Location . Example ProxySCGIInternalRedirect Off
+
+# Django and some other frameworks will fully qualify "local URLs"
+# set by the application, so an alternate header must be used.
+<Location /django-app/>
+    ProxySCGIInternalRedirect X-Location
+</Location> ProxySCGISendfile Directive Description: Enable evaluation of X-Sendfile pseudo response
+header Syntax: ProxySCGISendfile On|Off| Headername Default: ProxySCGISendfile Off Context: server config, virtual host, directory Status: Extension Module: mod_proxy_scgi The ProxySCGISendfile directive enables the
+    SCGI backend to let files be served directly by the gateway. This is useful
+    for performance purposes â httpd can use sendfile or other
+    optimizations, which are not possible if the file comes over the backend
+    socket.  Additionally, the file contents are not transmitted twice. The ProxySCGISendfile argument determines the
+    gateway behaviour: Off No special handling takes place. On The gateway looks for a backend response header called X-Sendfile and interprets the value as the filename to serve.
+    The  header is removed from the final response headers. This is equivalent to ProxySCGISendfile X-Sendfile . anything else Similar to On , but instead of the hardcoded header name X-Sendfile , the argument is used as the header name. Example # Use the default header (X-Sendfile)
+ProxySCGISendfile On
+
+# Use a different header
+ProxySCGISendfile X-Send-Static Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

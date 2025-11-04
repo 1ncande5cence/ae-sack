@@ -1,0 +1,16 @@
+mod_lbmethod_bytraffic - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_lbmethod_bytraffic Available Languages: en | fr Description: Weighted Traffic Counting load balancer scheduler algorithm for mod_proxy_balancer Status: Extension ModuleÂ Identifier: lbmethod_bytraffic_module SourceÂ File: mod_lbmethod_bytraffic.c Compatibility: Split off from mod_proxy_balancer in 2.3 Summary This module does not provide any configuration directives of its own.
+It requires the services of mod_proxy_balancer , and
+provides the bytraffic load balancing method. Topics Weighted Traffic Counting Algorithm Directives This module provides no
+            directives. Bugfix checklist httpd changelog Known issues Report a bug See also mod_proxy mod_proxy_balancer Comments Weighted Traffic Counting Algorithm Enabled via lbmethod=bytraffic , the idea behind this
+    scheduler is very similar to the Request Counting method, with
+    the following changes: lbfactor is how much traffic, in bytes, we want
+    this worker to handle . This is also a normalized value
+    representing their "share" of the amount of work to be done,
+    but instead of simply counting the number of requests, we take
+    into account the amount of traffic this worker has either seen
+    or produced. If a balancer is configured as follows: worker a b c lbfactor 1 2 1 Then we mean that we want b to process twice the
+    amount of bytes than a or c should. It does
+    not necessarily mean that b would handle twice as
+    many requests, but it would process twice the I/O. Thus, the
+    size of the request and response are applied to the weighting
+    and selection algorithm. Note: input and output bytes are weighted the same. Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

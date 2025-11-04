@@ -1,0 +1,13 @@
+ProFTPD module mod_qos ProFTPD module mod_qos The mod_qos module can be used to set the Differentiated
+Services field ( RFC2474 )
+of IP packet headers.  This can dramatically aid in the handling of these
+packets in the network, depending on the network QoS configuration. This module is contained in the mod_qos file for
+ProFTPD 1.3. x , and is not compiled by default.  Installation
+instructions are discussed here . The most current version of mod_qos is distributed with
+the ProFTPD source code. Directives QoSOptions QoSOptions Syntax: QoSOptions "ctrlqos" value|"dataqos" value Default: None Context: server config, <VirtualHost> Module: mod_qos Compatibility: 1.3.4rc1 and later The QoSOptions directive configures the QoS bits to use for
+the control and/or data connections. The possible values to use are: cs0 cs1 cs2 cs3 cs4 cs5 cs6 cs7 af11 af12 af13 af21 af22 af23 af31 af32 af33 af41 af42 af43 See RFC2474 for a better
+discussion of these values. Note that while the following values are also supported, their use is
+deprecated, and can have adverse effects on TCP congestion control: lowcost lowdelay mincost reliability throughput Installation For including mod_qos as a statically linked module in your proftpd , use: $ ./configure --with-modules=mod_qos Alternatively, mod_qos could be built as a DSO module: $ ./configure --enable-dso --with-shared=mod_qos Then follow the usual steps: $ make
+  $ make install Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_qos as a shared
+module: $ prxs -c -i -d mod_qos.c © Copyright 2010-2013 TJ Saunders All Rights Reserved

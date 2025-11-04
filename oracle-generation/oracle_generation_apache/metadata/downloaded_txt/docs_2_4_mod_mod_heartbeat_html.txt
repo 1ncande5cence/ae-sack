@@ -1,0 +1,12 @@
+mod_heartbeat - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_heartbeat Available Languages: en | fr Description: Sends messages with server status to frontend proxy Status: Experimental ModuleÂ Identifier: heartbeat_module SourceÂ File: mod_heartbeat Compatibility: Available in Apache 2.3 and later Summary mod_heartbeat sends multicast messages to a mod_heartmonitor listener 
+that advertises the servers current connection count.  Usually, mod_heartmonitor will be running on a proxy server with mod_lbmethod_heartbeat loaded, which allows ProxyPass to use the "heartbeat" lbmethod inside
+of ProxyPass . mod_heartbeat itself is loaded on the origin server(s) that serve requests 
+    through the proxy server(s). To use mod_heartbeat , mod_status and mod_watchdog must be either a static modules or, if a dynamic module, must
+        be loaded before mod_heartbeat . Topics Consuming mod_heartbeat Output Directives HeartbeatAddress Bugfix checklist httpd changelog Known issues Report a bug See also Comments Consuming mod_heartbeat Output Every 1 second, this module generates a single multicast UDP
+      packet, containing the number of busy and idle workers.  The
+      packet is a simple ASCII format, similar to GET query parameters
+      in HTTP. An Example Packet v=1&ready=75&busy=0 Consumers should handle new variables besides busy and ready,
+    separated by '&', being added in the future. HeartbeatAddress Directive Description: Multicast address for heartbeat packets Syntax: HeartbeatAddress addr:port Default: disabled Context: server config Status: Experimental Module: mod_heartbeat The HeartbeatAddress directive specifies the
+multicast address to which mod_heartbeat will send
+status information. This address will usually correspond to a configured HeartbeatListen on a
+frontend proxy system. HeartbeatAddress 239.0.0.1:27999 Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

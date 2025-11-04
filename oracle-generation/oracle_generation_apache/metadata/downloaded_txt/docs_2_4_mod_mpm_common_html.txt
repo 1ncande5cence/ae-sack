@@ -1,0 +1,250 @@
+mpm_common - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache MPM Common Directives Available Languages: de | en | fr | ja | tr Description: A collection of directives that are implemented by
+more than one multi-processing module (MPM) Status: MPM Directives CoreDumpDirectory EnableExceptionHook GracefulShutdownTimeout Listen ListenBackLog ListenCoresBucketsRatio MaxConnectionsPerChild MaxMemFree MaxRequestWorkers MaxSpareThreads MinSpareThreads PidFile ReceiveBufferSize ScoreBoardFile SendBufferSize ServerLimit StartServers StartThreads ThreadLimit ThreadsPerChild ThreadStackSize Bugfix checklist httpd changelog Known issues Report a bug See also Comments CoreDumpDirectory Directive Description: Directory where Apache HTTP Server attempts to
+switch before dumping core Syntax: CoreDumpDirectory directory Default: See usage for the default setting Context: server config Status: MPM Module: event , worker , prefork This controls the directory to which Apache httpd attempts to
+    switch before dumping core. If your operating system is configured to
+    create core files in the working directory of the crashing process, CoreDumpDirectory is necessary to change working
+    directory from the default ServerRoot directory, which should not be writable by the user the server runs as. If you want a core dump for debugging, you can use this directive to
+    place it in a different location. This directive has no effect if your
+    operating system is not configured to write core files to the working directory
+    of the crashing processes. Security note for Linux systems Using this directive on Linux may allow other processes on
+      the system (if running with similar privileges, such as CGI
+      scripts) to attach to httpd children via the ptrace system call.  This may make weaken the protection from certain
+      security attacks.  It is not recommended to use this directive
+      on production systems. Core Dumps on Linux If Apache httpd starts as root and switches to another user, the
+      Linux kernel disables core dumps even if the directory is
+      writable for the process. Apache httpd (2.0.46 and later) reenables core dumps
+      on Linux 2.4 and beyond, but only if you explicitly configure a CoreDumpDirectory . Core Dumps on BSD To enable core-dumping of suid-executables on BSD-systems (such
+    as FreeBSD), set kern.sugid_coredump to 1. Specific signals CoreDumpDirectory processing only occurs for
+      a select set of fatal signals: SIGFPE, SIGILL, SIGABORT,
+      SIGSEGV, and SIGBUS. On some operating systems, SIGQUIT also results in a core dump but
+      does not go through CoreDumpDirectory or EnableExceptionHook processing, so the core
+      location is dictated entirely by the operating system. EnableExceptionHook Directive Description: Enables a hook that runs exception handlers
+after a crash Syntax: EnableExceptionHook On|Off Default: EnableExceptionHook Off Context: server config Status: MPM Module: event , worker , prefork For safety reasons this directive is only available if the server was
+    configured with the --enable-exception-hook option. It
+    enables a hook that allows external modules to plug in and do something
+    after a child crashed. There are already two modules, mod_whatkilledus and mod_backtrace that make use of this hook. Please have a
+    look at Jeff Trawick's EnableExceptionHook site for more information about these. GracefulShutdownTimeout Directive Description: Specify a timeout after which a gracefully shutdown server
+will exit. Syntax: GracefulShutdownTimeout seconds Default: GracefulShutdownTimeout 0 Context: server config Status: MPM Module: event , worker , prefork Compatibility: Available in version 2.2 and later The GracefulShutdownTimeout specifies
+    how many seconds after receiving a "graceful-stop" signal, a
+    server should continue to run, handling the existing connections. Setting this value to zero means that the server will wait
+    indefinitely until all remaining requests have been fully served. Listen Directive Description: IP addresses and ports that the server
+listens to Syntax: Listen [ IP-address :] portnumber [ protocol ] Context: server config Status: MPM Module: event , worker , prefork , mpm_winnt , mpm_netware , mpmt_os2 Compatibility: The protocol argument was added in 2.1.5 The Listen directive instructs Apache httpd to
+    listen to only specific IP addresses or ports; by default it
+    responds to requests on all IP interfaces. Listen is now a required directive. If it is not in the config file, the
+    server will fail to start. This is a change from previous versions
+    of Apache httpd. The Listen directive tells the server to
+    accept incoming requests on the specified port or address-and-port
+    combination. If only a port number is specified, the server listens to
+    the given port on all interfaces. If an IP address is given as well
+    as a port, the server will listen on the given port and
+    interface. Multiple Listen directives may be used to
+    specify a number of addresses and ports to listen to. The server will
+    respond to requests from any of the listed addresses and ports. For example, to make the server accept connections on both
+    port 80 and port 8000, use: Listen 80
+Listen 8000 To make the server accept connections on two specified
+    interfaces and port numbers, use Listen 192.170.2.1:80
+Listen 192.170.2.5:8000 IPv6 addresses must be surrounded in square brackets, as in the
+    following example: Listen [2001:db8::a00:20ff:fea7:ccea]:80 The optional protocol argument is not required for most
+       configurations. If not specified, https is the default for
+       port 443 and http the default for all other ports.  The
+       protocol is used to determine which module should handle a request, and
+       to apply protocol specific optimizations with the AcceptFilter directive. You only need to set the protocol if you are running on non-standard
+       ports.  For example, running an https site on port 8443: Listen 192.170.2.1:8443 https Error condition Multiple Listen directives for the same ip
+      address and port will result in an Address already in use error message. See also DNS Issues Setting which addresses and ports Apache HTTP Server
+    uses Further
+discussion of the Address already in use error message,
+including other causes. ListenBackLog Directive Description: Maximum length of the queue of pending connections Syntax: ListenBackLog backlog Default: ListenBackLog 511 Context: server config Status: MPM Module: event , worker , prefork , mpm_winnt , mpm_netware , mpmt_os2 The maximum length of the queue of pending connections.
+    Generally no tuning is needed or desired; however on some
+    systems, it is desirable to increase this when under a TCP SYN
+    flood attack. See the backlog parameter to the listen(2) system call. This will often be limited to a smaller number by the
+    operating system. This varies from OS to OS. Also note that
+    many OSes do not use exactly what is specified as the backlog,
+    but use a number based on (but normally larger than) what is
+    set. ListenCoresBucketsRatio Directive Description: Ratio between the number of CPU cores (online) and the number of
+listeners' buckets Syntax: ListenCoresBucketsRatio ratio Default: ListenCoresBucketsRatio 0 (disabled) Context: server config Status: MPM Module: event , worker , prefork Compatibility: Available in Apache HTTP Server 2.4.17, with a kernel supporting
+the socket option SO_REUSEPORT and distributing new connections
+evenly across listening processes' (or threads') sockets using it (eg. Linux
+3.9 and later, but not the current implementations of SO_REUSEPORT in *BSDs. A ratio between the number of (online) CPU cores and the
+    number of listeners' buckets can be used to make Apache HTTP Server create num_cpu_cores / ratio listening buckets, each containing its
+    own Listen -ing socket(s) on the same port(s), and
+    then make each child handle a single bucket (with round-robin distribution
+    of the buckets at children creation time). Meaning of "online" CPU core On Linux (and also BSD) a CPU core can be turned on/off if Hotplug is configured, therefore ListenCoresBucketsRatio needs to
+    take this parameter into account while calculating the number of buckets to create. ListenCoresBucketsRatio can improve the
+    scalability when accepting new connections is/becomes the bottleneck.
+    On systems with a large number of CPU cores, enabling this feature has
+    been tested to show significant performances improvement and shorter
+    responses time. There must be at least twice the number of CPU cores than the
+    configured ratio for this to be active. The recommended ratio is 8 , hence at least 16 cores should be available at runtime when this value is used.
+    The right ratio to obtain maximum performance needs to be calculated
+    for each target system, testing multiple values and observing the variations in your 
+    key performance metrics. This directive influences the calculation of the MinSpareThreads and MaxSpareThreads lower bound values.
+    The number of children processes needs to be a multiple of the number 
+    of buckets to optimally accept connections. Multiple Listen ers or Apache HTTP servers on
+    the same IP address and port Setting the SO_REUSEPORT option on the listening socket(s)
+    consequently allows multiple processes (sharing the same EUID ,
+    e.g. root ) to bind to the the same IP address and port,
+    without the binding error raised by the system in the usual case. This also means that multiple instances of Apache httpd configured on a
+    same IP:port and with a positive ListenCoresBucketsRatio would start without an error too, and then run with incoming connections
+    evenly distributed across both instances (this is NOT a recommendation or
+    a sensible usage in any case, but just a notice that it would prevent such
+    possible issues to be detected). Within the same instance, Apache httpd will check and fail to start if
+    multiple Listen directives on the exact same IP (or
+    hostname) and port are configured, thus avoiding the creation of some
+    duplicated buckets which would be useless and kill performances.  However
+    it can't (and won't try harder to) catch all the possible overlapping cases
+    (like a hostname resolving to an IP used elsewhere). MaxConnectionsPerChild Directive Description: Limit on the number of connections that an individual child server
+will handle during its life Syntax: MaxConnectionsPerChild number Default: MaxConnectionsPerChild 0 Context: server config Status: MPM Module: event , worker , prefork , mpm_winnt , mpm_netware , mpmt_os2 Compatibility: Available Apache HTTP Server 2.3.9 and later. The old name MaxRequestsPerChild is still supported. The MaxConnectionsPerChild directive sets
+    the limit on the number of connections that an individual child
+    server process will handle. After MaxConnectionsPerChild connections, the child
+    process will die. If MaxConnectionsPerChild is 0 , then the process will never expire. Setting MaxConnectionsPerChild to a
+    non-zero value limits the amount of memory that a process can consume
+    by (accidental) memory leakage. MaxMemFree Directive Description: Maximum amount of memory that the main allocator is allowed
+to hold without calling free() Syntax: MaxMemFree KBytes Default: MaxMemFree 2048 Context: server config Status: MPM Module: event , worker , prefork , mpm_winnt , mpm_netware The MaxMemFree directive sets the
+    maximum number of free Kbytes that every allocator is allowed
+    to hold without calling free() . In threaded MPMs, every
+    thread has its own allocator. When set
+    to zero, the threshold will be set to unlimited. MaxRequestWorkers Directive Description: Maximum number of connections that will be processed
+simultaneously Syntax: MaxRequestWorkers number Default: See usage for details Context: server config Status: MPM Module: event , worker , prefork The MaxRequestWorkers directive sets the limit
+    on the number of simultaneous requests that will be served.  Any
+    connection attempts over the MaxRequestWorkers limit will normally be queued, up to a number based on the ListenBacklog directive. Once a child process is freed at the end of a different
+    request, the connection will then be serviced. For non-threaded servers ( i.e. , prefork ), MaxRequestWorkers translates into the maximum
+    number of child processes that will be launched to serve requests.
+    The default value is 256 ; to increase it, you must also raise ServerLimit . For threaded and hybrid servers ( e.g. event or worker ), MaxRequestWorkers restricts
+    the total number of threads that will be available to serve clients.
+    For hybrid MPMs, the default value is 16 ( ServerLimit ) multiplied by the value of 25 ( ThreadsPerChild ). Therefore, to increase MaxRequestWorkers to a value that requires more than 16 processes,
+    you must also raise ServerLimit . MaxRequestWorkers was called MaxClients before version 2.3.13. The old name is still
+    supported. MaxSpareThreads Directive Description: Maximum number of idle threads Syntax: MaxSpareThreads number Default: See usage for details Context: server config Status: MPM Module: event , worker , mpm_netware , mpmt_os2 Maximum number of idle threads. Different MPMs deal with this
+    directive differently. For worker and event , the default is MaxSpareThreads 250 . These MPMs deal with idle threads
+    on a server-wide basis. If there are too many idle threads in the
+    server, then child processes are killed until the number of idle
+    threads is less than this number. Additional processes/threads
+    might be created if ListenCoresBucketsRatio is enabled. For mpm_netware the default is MaxSpareThreads 100 . Since this MPM runs a
+    single-process, the spare thread count is also server-wide. mpmt_os2 works
+    similar to mpm_netware . For mpmt_os2 the default value is 10 . Restrictions The range of the MaxSpareThreads value
+      is restricted. Apache httpd will correct the given value automatically
+      according to the following rules: mpm_netware wants the value to be greater than MinSpareThreads . For worker and event , the value
+        must be greater or equal to the sum of MinSpareThreads and ThreadsPerChild . See also MinSpareThreads StartServers MaxSpareServers MinSpareThreads Directive Description: Minimum number of idle threads available to handle request
+spikes Syntax: MinSpareThreads number Default: See usage for details Context: server config Status: MPM Module: event , worker , mpm_netware , mpmt_os2 Minimum number of idle threads to handle request spikes.
+    Different MPMs deal with this directive differently. worker and event use a default of MinSpareThreads 75 and deal with idle threads on a server-wide
+    basis. If there aren't enough idle threads in the server, then child
+    processes are created until the number of idle threads is greater
+    than number . Additional processes/threads
+    might be created if ListenCoresBucketsRatio is enabled. mpm_netware uses a default of MinSpareThreads 10 and, since it is a single-process
+    MPM, tracks this on a server-wide basis. mpmt_os2 works
+    similar to mpm_netware .  For mpmt_os2 the default value is 5 . See also MaxSpareThreads StartServers MinSpareServers PidFile Directive Description: File where the server records the process ID
+of the daemon Syntax: PidFile filename Default: PidFile logs/httpd.pid Context: server config Status: MPM Module: event , worker , prefork , mpm_winnt , mpmt_os2 The PidFile directive sets the file to
+    which the server records the process id of the daemon. If the
+    filename is not absolute, then it is assumed to be relative to the ServerRoot . Example PidFile /var/run/apache.pid It is often useful to be able to send the server a signal,
+    so that it closes and then re-opens its ErrorLog and TransferLog , and
+    re-reads its configuration files. This is done by sending a
+    SIGHUP (kill -1) signal to the process id listed in the PidFile . The PidFile is subject to the same
+    warnings about log file placement and security . Note As of Apache HTTP Server 2, we recommended that you only use the apachectl script, or the init script that your OS provides,
+      for (re-)starting or stopping the server. ReceiveBufferSize Directive Description: TCP receive buffer size Syntax: ReceiveBufferSize bytes Default: ReceiveBufferSize 0 Context: server config Status: MPM Module: event , worker , prefork , mpm_winnt , mpm_netware , mpmt_os2 The server will set the TCP receive buffer size to the number of
+    bytes specified. If set to the value of 0 , the server will use the
+    OS default. ScoreBoardFile Directive Description: Location of the file used to store coordination data for
+the child processes Syntax: ScoreBoardFile file-path Default: ScoreBoardFile logs/apache_runtime_status Context: server config Status: MPM Module: event , worker , prefork , mpm_winnt Apache HTTP Server uses a scoreboard to communicate between its parent
+    and child processes.  Some architectures require a file to facilitate
+    this communication. If the file is left unspecified, Apache httpd first
+    attempts to create the scoreboard entirely in memory (using anonymous
+    shared memory) and, failing that, will attempt to create the file on
+    disk (using file-based shared memory). Specifying this directive causes
+    Apache httpd to always create the file on the disk. Example ScoreBoardFile /var/run/apache_runtime_status File-based shared memory is useful for third-party applications
+    that require direct access to the scoreboard. If you use a ScoreBoardFile , then
+    you may see improved speed by placing it on a RAM disk. But be
+    careful that you heed the same warnings about log file placement
+    and security . See also Stopping and Restarting
+Apache HTTP Server SendBufferSize Directive Description: TCP buffer size Syntax: SendBufferSize bytes Default: SendBufferSize 0 Context: server config Status: MPM Module: event , worker , prefork , mpm_winnt , mpm_netware , mpmt_os2 Sets the server's TCP send buffer size to the number of bytes
+    specified. It is often useful to set this past the OS's standard
+    default value on high speed, high latency connections
+    ( i.e. , 100ms or so, such as transcontinental fast pipes). If set to the value of 0 , the server will use the
+    default value provided by your OS. Further configuration of your operating system may be required to elicit
+    better performance on high speed, high latency connections. On some operating systems, changes in TCP behavior resulting
+    from a larger SendBufferSize may not be seen unless EnableSendfile is set to OFF.  This
+    interaction applies only to static files. ServerLimit Directive Description: Upper limit on configurable number of processes Syntax: ServerLimit number Default: See usage for details Context: server config Status: MPM Module: event , worker , prefork For the prefork MPM, this directive sets the
+    maximum configured value for MaxRequestWorkers for the lifetime of the
+    Apache httpd process. For the worker and event MPMs, this directive in combination with ThreadLimit sets
+    the maximum configured value for MaxRequestWorkers for the lifetime of the
+    Apache httpd process. For the event MPM, this directive
+    also defines how many old server processes may keep running and finish processing
+    open connections.
+    Any attempts to change this directive during a restart will be ignored, but MaxRequestWorkers can be modified
+    during a restart. Special care must be taken when using this directive.  If ServerLimit is set to a value much higher
+    than necessary, extra, unused shared memory will be allocated.  If
+    both ServerLimit and MaxRequestWorkers are set to values
+    higher than the system can handle, Apache httpd may not start or the
+    system may become unstable. With the prefork MPM, use this directive only
+    if you need to set MaxRequestWorkers higher than 256 (default).
+    Do not set the value of this directive any higher than what you
+    might want to set MaxRequestWorkers to. With worker , use this directive only if your MaxRequestWorkers and ThreadsPerChild settings require more than 16 server processes (default). Do not set
+    the value of this directive any higher than the number of server
+    processes required by what you may want for MaxRequestWorkers and ThreadsPerChild . With event , increase this directive if the process
+    number defined by your MaxRequestWorkers and ThreadsPerChild settings, plus the
+    number of gracefully shutting down processes, is more than 16 server
+    processes (default). Note There is a hard limit of ServerLimit 20000 compiled
+      into the server (for the prefork MPM 200000). This is
+      intended to avoid nasty effects caused by typos. To increase it
+      even further past this limit, you will need to modify the value of
+      MAX_SERVER_LIMIT in the mpm source file and rebuild the server. See also Stopping and Restarting Apache HTTP Server StartServers Directive Description: Number of child server processes created at startup Syntax: StartServers number Default: See usage for details Context: server config Status: MPM Module: event , worker , prefork , mpmt_os2 The StartServers directive sets the
+    number of child server processes created on startup. As the number
+    of processes is dynamically controlled depending on the load, (see MinSpareThreads , MaxSpareThreads , MinSpareServers , MaxSpareServers )
+    there is usually little reason to adjust this parameter. The default value differs from MPM to MPM. worker and event default to StartServers 3 ; prefork defaults to 5 ; mpmt_os2 defaults to 2 . StartThreads Directive Description: Number of threads created on startup Syntax: StartThreads number Default: See usage for details Context: server config Status: MPM Module: mpm_netware Number of threads created on startup. As the
+    number of threads is dynamically controlled depending on the
+    load, (see MinSpareThreads , MaxSpareThreads , MinSpareServers , MaxSpareServers )
+    there is usually little reason to adjust this
+    parameter. For mpm_netware the default is StartThreads 50 and, since there is only a single
+    process, this is the total number of threads created at startup to
+    serve requests. ThreadLimit Directive Description: Sets the upper limit on the configurable number of threads
+per child process Syntax: ThreadLimit number Default: See usage for details Context: server config Status: MPM Module: event , worker , mpm_winnt This directive sets the maximum configured value for ThreadsPerChild for the lifetime
+    of the Apache httpd process.  Any attempts to change this directive
+    during a restart will be ignored, but ThreadsPerChild can be modified
+    during a restart up to the value of this directive. Special care must be taken when using this directive.  If ThreadLimit is set to a value much higher
+    than ThreadsPerChild ,
+    extra unused shared memory will be allocated.  If both ThreadLimit and ThreadsPerChild are set to values
+    higher than the system can handle, Apache httpd may not start or the
+    system may become unstable. Do not set the value of this directive
+    any higher than your greatest predicted setting of ThreadsPerChild for the
+    current run of Apache httpd. The default value for ThreadLimit is 1920 when used with mpm_winnt and 64 when used with the others. Note There is a hard limit of ThreadLimit 20000 (or ThreadLimit 100000 with event , ThreadLimit 15000 with mpm_winnt )
+      compiled into the server. This is intended to avoid nasty effects
+      caused by typos. To increase it even further past this limit, you
+      will need to modify the value of MAX_THREAD_LIMIT in the mpm
+      source file and rebuild the server. ThreadsPerChild Directive Description: Number of threads created by each child process Syntax: ThreadsPerChild number Default: See usage for details Context: server config Status: MPM Module: event , worker , mpm_winnt This directive sets the number of threads created by each
+    child process. The child creates these threads at startup and
+    never creates more. If using an MPM like mpm_winnt ,
+    where there is only one child process, this number should be high
+    enough to handle the entire load of the server. If using an MPM
+    like worker , where there are multiple child processes,
+    the total number of threads should be high enough to handle
+    the common load on the server. The default value for ThreadsPerChild is 64 when used with mpm_winnt and 25 when used with the others. The value of ThreadsPerChild can not exceed the
+    value of ThreadLimit . If a
+    higher value is configured, it will be automatically reduced at start-up
+    and a warning will be logged. The relationship between these 2 directives
+    is explained in ThreadLimit . ThreadStackSize Directive Description: The size in bytes of the stack used by threads handling
+client connections Syntax: ThreadStackSize size Default: 65536 on NetWare; varies on other operating systems Context: server config Status: MPM Module: event , worker , mpm_winnt , mpm_netware , mpmt_os2 Compatibility: Available in Apache HTTP Server 2.1 and later The ThreadStackSize directive sets the
+    size of the stack (for autodata) of threads which handle client
+    connections and call modules to help process those connections.
+    In most cases the operating system default for stack size is
+    reasonable, but there are some conditions where it may need to be
+    adjusted: On platforms with a relatively small default thread stack size
+      (e.g., HP-UX), Apache httpd may crash when using some third-party modules
+      which use a relatively large amount of autodata storage.  Those
+      same modules may have worked fine on other platforms where the
+      default thread stack size is larger.  This type of crash is
+      resolved by setting ThreadStackSize to a
+      value higher than the operating system default.  This type of
+      adjustment is necessary only if the provider of the third-party
+      module specifies that it is required, or if diagnosis of an Apache httpd
+      crash indicates that the thread stack size was too small. On platforms where the default thread stack size is
+      significantly larger than necessary for the web server
+      configuration, a higher number of threads per child process
+      will be achievable if ThreadStackSize is
+      set to a value lower than the operating system default.  This type
+      of adjustment should only be made in a test environment which allows
+      the full set of web server processing to be exercised, as there
+      may be infrequent requests which require more stack to process.
+      The minimum required stack size strongly depends on the modules
+      used, but any change in the web server configuration can invalidate
+      the current ThreadStackSize setting. On Linux, this directive can only be used to increase the default
+      stack size, as the underlying system call uses the value as a minimum stack size.  The (often large) soft limit for ulimit -s (8MB if unlimited) is used as the default stack
+      size. It is recommended to not reduce ThreadStackSize unless a high number of threads per child process is needed. On some
+    platforms (including Linux), a setting of 128000 is already too low and
+    causes crashes with some common modules. Available Languages: de | en | fr | ja | tr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

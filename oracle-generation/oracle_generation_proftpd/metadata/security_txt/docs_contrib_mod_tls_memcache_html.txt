@@ -1,0 +1,33 @@
+ProFTPD module mod_tls_memcache ProFTPD module mod_tls_memcache The mod_tls_memcache submodule is contained in the mod_tls_memcache.c file, and is not compiled by default.
+Installation instructions are discussed here . This submodule a memcached-based implementation of an external SSL session
+cache for use by the mod_tls module's TLSSessionCache directive.  The module also implements a memcached-based implementation of an
+external OCSP response cache for the TLSStaplingCache directive. This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/). This product includes cryptographic software written by Eric Young (eay@cryptsoft.com). Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. The mod_tls_memcache module supports the "memcache"
+string for the type parameter of the TLSSessionCache configuration directive.  The info parameter for mod_tls_memcache can be empty/blank, indicating a native binary
+encoding of the cached data), or it can be "/json", indicating that
+the cached data will be encoded using JSON. This means the TLSSessionCache setting will look like: # Use binary encoding for cached data
+  TLSSessionCache memcache: or: # Use JSON encoding for cached data
+  TLSSessionCache memcache:/json If memcache support has not been enabled in your proftpd, this configuration cannot be used. The mod_tls_memcache module also supports the "memcache"
+string for the type parameter of the TLStaplingCache configuration directive, e.g. : TLSStaplingCache memcache: Examples <IfModule mod_memcache.c>
+    MemcacheEngine on
+    MemcacheServers memcache-servers </IfModule>
+
+  <IfModule mod_tls.c>
+    ...
+
+    <IfModule mod_tls_memcache.c>
+      # Store the data formatted as JSON
+      TLSSessionCache memcache:/json
+      TLSStaplingCache memcache:
+    </IfModule>
+  </IfModule> Logging The mod_tls_memcache module supports trace logging , via the module-specific log channels: tls.memcache Thus for trace logging, to aid in debugging, you would use the following in
+your proftpd.conf : TraceLog /path/to/ftpd/trace.log
+  Trace tls.memcache:20 This trace logging can generate large files; it is intended for debugging use
+only, and should be removed from any production configuration. Installation The mod_tls_memcache module is distributed with the ProFTPD
+source code.  Simply follow the normal steps for using third-party modules
+in ProFTPD, being sure to include the mod_tls module (on which mod_tls_memcache depends), and enabling memcache
+support: $ ./configure --enable-memcache --with-modules=mod_tls:mod_tls_memcache
+  $ make
+  $ make install Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_tls_memcache as
+a shared module: $ prxs -c -i -d mod_tls_memcache.c © Copyright 2011-2015 TJ Saunders All Rights Reserved

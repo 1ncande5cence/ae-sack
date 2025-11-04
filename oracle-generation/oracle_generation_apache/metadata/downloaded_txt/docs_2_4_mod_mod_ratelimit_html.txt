@@ -1,0 +1,15 @@
+mod_ratelimit - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_ratelimit Available Languages: en | fr Description: Bandwidth Rate Limiting for Clients Status: Extension ModuleÂ Identifier: ratelimit_module SourceÂ File: mod_ratelimit.c Compatibility: rate-initial-burst available in httpd 2.4.24 and later.
+    Rate limiting proxied content does not work correctly up to httpd 2.4.33. Summary Provides a filter named RATE_LIMIT to limit client bandwidth.
+The throttling is applied to each HTTP response while it is transferred to the client,
+and not aggregated at IP/client level.
+The connection speed to be simulated is specified, in KiB/s, using the environment
+variable rate-limit . Optionally, an initial amount of burst data, in KiB, may be
+configured to be passed at full speed before throttling to the
+specified rate limit.  This value is optional, and is set using
+the environment variable rate-initial-burst . Example Configuration <Location "/downloads">
+    SetOutputFilter RATE_LIMIT
+    SetEnv rate-limit 400 
+    SetEnv rate-initial-burst 512
+</Location> If the value specified for rate-limit causes integer overflow, the rate-limited will be disabled.
+If the value specified for rate-limit-burst causes integer overflow, the burst will be disabled. Directives This module provides no
+            directives. Bugfix checklist httpd changelog Known issues Report a bug See also Comments Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

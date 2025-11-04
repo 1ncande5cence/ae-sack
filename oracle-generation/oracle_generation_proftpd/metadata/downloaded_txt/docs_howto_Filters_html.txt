@@ -1,0 +1,61 @@
+ProFTPD: Filters ProFTPD: Filters ProFTPD supports the ability to "filter" the FTP commands it receives
+from the client.  These filters are written as regular expressions .  This means that while the
+filters can be very powerful, they can also be complex and harder to construct. First, there are the AllowFilter and DenyFilter configuration directives.  These configuration directives are used
+to set filters on every FTP command.  If an AllowFilter is
+used, the command parameters must match the given filter, otherwise the
+command will be denied.  If a DenyFilter is used, the command
+parameters must not match the given filter, otherwise the command will
+be denied.  If both AllowFilter and DenyFilter are
+used, then the AllowFilter will be checked first. Second, there are some special filter configuration directives aimed at those
+FTP commands that cause changes to files and directories on the server system: PathAllowFilter and PathDenyFilter .  Like AllowFilter and DenyFilter , the Allow filter, if present, is checked first, then a DenyFilter , if present. PathAllowFilter and PathDenyFilter are checked after the AllowFilter and DenyFilter directives.  These Path filters are only applied to the following FTP commands: DELE , MKD/XMKD , RMD/XRMD , RNFR , RNTO , STOR , STOU ,
+and to the SITE commands CHGRP and CHMOD .
+Note that using both PathAllowFilter and PathDenyFilter at the same time is not a good idea; only one
+filter is generally needed. One property that often catches the unwary administrator is the fact that proftpd only operates on the first Filter directive
+defined in the configuration file; it does not cycle through multiple Filter directives.  This is because multiple regular expressions
+can be combined into a single (albeit more complex) regular expression.  The
+alternation metacharacter is helpful in creating such combined regular
+expressions.  For example, if you had the following in your proftpd.conf : PathAllowFilter \.jpg$
+  PathAllowFilter \.jpeg$
+  PathAllowFilter \.mpeg$
+  PathAllowFilter \.mpg$
+  PathAllowFilter \.mp3$ only the first PathAllowFilter would be enforced.  To enforce
+all Filter simultaneously, use: PathAllowFilter \.(jpg|jpgeg|mpeg|mpg|mp3)$ Matches are case-sensitive! Also note that if you surround your regular
+expression in quotation (") marks, any backslash will itself need
+to be escaped; ProFTPD's configuration parser interprets backslashes inside
+of quoted strings a little differently.  Thus, the example above would look
+like this: PathAllowFilter "\\.(jpg|jpgeg|mpeg|mpg|mp3)$" if using quotation marks. Another characteristic to keep in mind is that Filters are only applied to
+FTP command parameters , not to the FTP command itself.  Most of the
+time, this is not a problem.  It would be useful sometimes, though, to
+be able to filter parameters of commands other than those filtered by the Path filter directives.  It would be an easy change to the
+source code; however, there is no feature request for the ability to do this
+on bugs.proftpd.org with a good
+justification for such a feature.  If you can think of one, please open
+such a request. When developing your Filter directives, it often helps to keep an eye on the
+server debugging output, to see how well your
+filters are being applied. Examples To prevent clients from using paths which may contain non-printable characters
+( e.g. CR, LF, VB, etc ), you can use the following PathDenyFilter pattern: PathDenyFilter [^[:print:]] Alternatively, you could use a PathAllowFilter which only allows printable characters in paths: PathAllowFilter [[:print:]] And if you want to prevent spaces and tabs from appearing in paths, you
+can use: PathDenyFilter [[:blank:]] What if you want to prevent clients from uploading so-called "dot files", i.e. files whose names start with a period ('.'), so that they are
+"hidden"?  To prevent uploading of all dot files, you can use the following PathDenyFilter configuration: PathDenyFilter \.[^/]*$ In ProFTPD 1.3.3rc1 and later, you can use the AllowFilter and DenyFilter configuration directives inside of <Limit> sections, so that those Filter directives only apply to the FTP commands listed in the <Limit> section.  This means you can specify regular
+expression filters for the arguments for specific commands.  For example,
+you may want to configure a directory that only allows uploads of files with
+specific extensions.  You could use PathAllowFilter for
+this -- but PathAllowFilter also applies to the MKD command, and you might want to allow users to create subdirectories in your
+special directory.  Thus you only want your regular expression to apply
+to the STOR command in your directory.  Below is an example
+of how to do this using AllowFilter : <Directory /path/to/dir >
+    <Limit STOR>
+      Order deny, allow
+      AllowFilter \. ext $
+    </Limit>
+  </Directory> The key is the Order directive; without it, the configuration
+will not work as you expect. Frequently Asked Questions Question : How can I prevent SITE CHMOD commands which use the mode 777, but allow other SITE CHMOD commands? Answer : For this, you would use the DenyFilter directive, like so: <Limit SITE_CHMOD>
+    DenyFilter 777
+  </Limit> However, the desired mode can also be expressed symbolically , using e.g. "SITE CHMOD a+rwx file ".  So our filter should take this into
+account, as well as some variants: <Limit SITE_CHMOD>
+    DenyFilter (777|a+rwx|u=rwx,g=rwx,o=rwx)
+  </Limit> Looking better, but still not perfect.  A determined user could still work
+around our filter by using a series of SITE CHMOD commands
+like this: SITE CHMOD u+rwx file SITE CHMOD g+rwx file SITE CHMOD o+rwx file Or the determined user could make the change even more granular: SITE CHMOD u+r file SITE CHMOD u+w file SITE CHMOD u+x file SITE CHMOD g+r file SITE CHMOD g+w file SITE CHMOD g+x file SITE CHMOD o+r file SITE CHMOD o+w file SITE CHMOD o+x file Another trap is that the numbers "777" might appear in a legitimate file name,
+and thus the following allowed command would fail unnecessarily: SITE CHMOD 644 ServiceOrder777.doc In short, it is possible to create filters for portions of commands, but you
+do need to be very careful to not inadvertently cause commands to fail that
+should succeed. © Copyright 2017 The ProFTPD Project All Rights Reserved

@@ -1,0 +1,54 @@
+mod_authn_anon - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_authn_anon Available Languages: en | fr | ja | ko Description: Allows "anonymous" user access to authenticated
+    areas Status: Extension ModuleÂ Identifier: authn_anon_module SourceÂ File: mod_authn_anon.c Compatibility: Available in Apache 2.1 and later Summary This module provides authentication front-ends such as mod_auth_basic to authenticate users similar
+    to anonymous-ftp sites, i.e. have a 'magic' user id
+    'anonymous' and the email address as a password. These email
+    addresses can be logged. Combined with other (database) access control methods, this
+    allows for effective user tracking and customization according
+    to a user profile while still keeping the site open for
+    'unregistered' users. One advantage of using Auth-based user
+    tracking is that, unlike magic-cookies and funny URL
+    pre/postfixes, it is completely browser independent and it
+    allows users to share URLs. When using mod_auth_basic , this module is invoked
+    via the AuthBasicProvider directive with the anon value. Topics Example Directives Anonymous Anonymous_LogEmail Anonymous_MustGiveEmail Anonymous_NoUserID Anonymous_VerifyEmail Bugfix checklist httpd changelog Known issues Report a bug See also Comments Example The example below is combined with "normal" htpasswd-file based
+    authentication and allows users in additionally as 'guests' with the
+    following properties: It insists that the user enters a userID.
+      ( Anonymous_NoUserID ) It insists that the user enters a password.
+      ( Anonymous_MustGiveEmail ) The password entered must be a valid email address, i.e. contain at least one '@' and a '.'.
+      ( Anonymous_VerifyEmail ) The userID must be one of anonymous guest www test
+      welcome and comparison is not case
+      sensitive. ( Anonymous ) And the Email addresses entered in the passwd field are
+      logged to the error log file.
+      ( Anonymous_LogEmail ) Example <Directory "/var/www/html/private">
+    AuthName "Use 'anonymous' & Email address for guest entry"
+    AuthType Basic
+    AuthBasicProvider file anon
+    AuthUserFile "/path/to/your/.htpasswd"
+    
+    Anonymous_NoUserID off
+    Anonymous_MustGiveEmail on
+    Anonymous_VerifyEmail on
+    Anonymous_LogEmail on
+    Anonymous anonymous guest www test welcome
+    
+    Require valid-user
+</Directory> Anonymous Directive Description: Specifies userIDs that are allowed access without
+password verification Syntax: Anonymous user [ user ] ... Context: directory, .htaccess Override: AuthConfig Status: Extension Module: mod_authn_anon A list of one or more 'magic' userIDs which are allowed
+    access without password verification. The userIDs are space
+    separated. It is possible to use the ' and " quotes to allow a
+    space in a userID as well as the \ escape character. Please note that the comparison is case-IN-sensitive . It's strongly recommended that the magic username
+    ' anonymous ' is always one of the allowed
+    userIDs. Example: Anonymous anonymous "Not Registered" "I don't know" This would allow the user to enter without password
+    verification by using the userIDs "anonymous",
+    "AnonyMous", "Not Registered" and "I Don't Know". As of Apache 2.1 it is possible to specify the userID as
+    " * ". That allows any supplied userID to be
+    accepted. Anonymous_LogEmail Directive Description: Sets whether the password entered will be logged in the
+error log Syntax: Anonymous_LogEmail On|Off Default: Anonymous_LogEmail On Context: directory, .htaccess Override: AuthConfig Status: Extension Module: mod_authn_anon When set On , the default, the 'password' entered
+    (which hopefully contains a sensible email address) is logged in
+    the error log. Anonymous_MustGiveEmail Directive Description: Specifies whether blank passwords are allowed Syntax: Anonymous_MustGiveEmail On|Off Default: Anonymous_MustGiveEmail On Context: directory, .htaccess Override: AuthConfig Status: Extension Module: mod_authn_anon Specifies whether the user must specify an email address as
+    the password. This prohibits blank passwords. Anonymous_NoUserID Directive Description: Sets whether the userID field may be empty Syntax: Anonymous_NoUserID On|Off Default: Anonymous_NoUserID Off Context: directory, .htaccess Override: AuthConfig Status: Extension Module: mod_authn_anon When set On , users can leave the userID (and
+    perhaps the password field) empty. This can be very convenient for
+    MS-Explorer users who can just hit return or click directly on the
+    OK button; which seems a natural reaction. Anonymous_VerifyEmail Directive Description: Sets whether to check the password field for a correctly
+formatted email address Syntax: Anonymous_VerifyEmail On|Off Default: Anonymous_VerifyEmail Off Context: directory, .htaccess Override: AuthConfig Status: Extension Module: mod_authn_anon When set On the 'password' entered is checked for
+    at least one '@' and a '.' to encourage users to enter valid email
+    addresses (see the above Anonymous_LogEmail ). Available Languages: en | fr | ja | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

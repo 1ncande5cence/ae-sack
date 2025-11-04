@@ -1,0 +1,39 @@
+ProFTPD module mod_wrap2_redis ProFTPD module mod_wrap2_redis This submodule provides the Redis server "driver" for storing
+IP/DNS-based access control information in Redis lists/sets. This mod_wrap2 submodule is contained in the mod_wrap2_redis.c file, and is not compiled by default.  See the mod_wrap2 installation instructions. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Redis Access Lists/Sets The mod_wrap2_redis module supports the "redis" string
+for the source-type parameter of the WrapUserTables , WrapGroupTables ,
+and WrapTables ,
+configuration directives. If the "redis" source-type is used,
+then the source-info parameter must be as described below.  Note
+that support for Redis-based lists/sets requires the use of mod_redis ( e.g. via the --enable-redis configure option). mod_wrap2_redis requires only that the mod_redis module be
+enabled and configured to access a Redis server. One Redis list (or set) is needed to retrieving access information from the allow "table", and another list/set for access information from the deny "table".  These lists/sets should contain a list of words,
+where each word is a host name, host address, pattern, or wildcard (see here for how these things are
+defined). Optionally, other Redis lists/sets can be defined to look up access options from the allow and deny tables. For Redis lists, the format for the WrapUserTables , WrapGroupTables , and WrapTables directives is: WrapTables redis:/ list: allow-list-key [/ list: allow-list-options-key ] \
+    redis: list: deny-list-key [/ list: deny-list-options-key ] where the allow-list-options-key and deny-list-options-key portions of the string are optional. For Redis sets , the format is similar to the above, only you specify
+a key prefix of "set:" rather than "list", e.g. : WrapTables redis:/ set: allow-set-key [/ set: allow-set-options-key ] \
+    redis: set: deny-set-key [/ set: deny-set-options-key ] Redis Access Lists/Sets Example Here are example directives to help demonstrate how the mod_redis hooks are used by mod_wrap2_redis .
+These example directives assume the existence of two lists: a wrapallow list that defines allowed clients, and a wrapdeny list that defines the denied clients. # Using Redis lists
+  WrapTables redis:/list:wrapallow redis:/list:wrapdeny
+
+  # Using Redis sets
+  WrapTables redis:/set:wrapallow redis:/set:wrapdeny For per-user/per-group lists/sets, the key name can use the %{name} variable, like so: WrapUserTables * redis:/list:wrapallow.%{name} redis:/list:wrapdeny.%{name}
+  WrapGroupTables * redis:/list:wrapallow.%{name} redis:/list:wrapdeny.%{name} In the case of WrapUserTables , the %{name} variable
+will be resolved to the user name (from the USER command) of the
+logging-in user; for WrapGroupTables , %{name} will be
+resolved to the name of the user's primary group. If the administrator wants to make use of access options, then URIs for those
+options would need to be similarly defined: # Access tables for users (with options)
+  WrapUserTables user1,user2 \
+    redis:/list:allowed.%{name}/list:allowed-options.%{name} \
+    redis:/list:denied.%{name}/list:denied-options.%{name}
+
+  # Access tables for groups (with options)
+  WrapGroupTables group1,group2 \
+    redis:/list:allowed.%{name}/list:allowed-options.%{name} \
+    redis:/list:denied.%{name}/list:denied-options.%{name}
+
+  # Access tables for everyone else (without options)
+  WrapTables redis:/list:allowed redis:/list:denied When constructing the client and options lists to return to mod_wrap2 's access control engine, mod_wrap2_redis will parse each returned item separately, handling both comma- and space-limited
+names in an item, into client list items.  This means that the administrator can
+store multiple client and option tokens in multiple items, as in the above
+schema, or the administrator can choose to store all of the clients and/or
+options in a single item, in an appropriately formatted string. © Copyright 2017 TJ Saunders All Rights Reserved

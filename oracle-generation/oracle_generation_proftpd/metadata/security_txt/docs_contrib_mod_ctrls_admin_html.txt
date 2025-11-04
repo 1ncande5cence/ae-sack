@@ -1,0 +1,108 @@
+ProFTPD module mod_ctrls_admin ProFTPD module mod_ctrls_admin This module is contained in the mod_ctrls_admin.c file for
+ProFTPD /1.3. x , and is not compiled by default.  Installation
+instructions are discussed here . This module implements administrative control actions for the ftpdctl program. The most current version of mod_ctrls_admin is distributed with
+the ProFTPD source. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives AdminControlsACLs AdminControlsEngine Control Actions config debug dns down get kick restart scoreboard shutdown status trace up Directives AdminControlsACLs Syntax: AdminControlsACLs actions|all allow|deny user|group list Default: None Context: server config Module: mod_ctrls_admin Compatibility: 1.2.10rc1 and later The AdminControlsACLs directive configures access lists of users or groups who are allowed (or denied) the ability to
+use the actions implemented by mod_ctrls_admin .  The
+default behavior is to deny everyone unless an ACL allowing access has been
+explicitly configured. If "allow" is used, then list , a comma-delimited list
+of users or groups , can use the given actions ; all
+others are denied.  If "deny" is used, then the list of users or groups cannot use actions all others are
+allowed.  Multiple AdminControlsACLs directives may be used to
+configure ACLs for different control actions, and for both users and groups. AdminControlsEngine Syntax: AdminControlsEngine on|off|actions Default: None Context: server config Module: mod_ctrls_admin Compatibility: 1.2.10rc1 and later The AdminControlsEngine directive enables or disables the mod_ctrls_admin module, and thus the handling of its
+implemented control actions. If only certain of the module's control actions are wanted, provide a list
+of those actions , rather than the normal "on" or
+"off".  Any of mod_ctrls_admin 's control actions that
+do not appear in actions will be unregistered; by default, all of
+the module's control actions are registered. Control Actions config Syntax: ftpdctl config set|remove ip-address|dns-name[:port] directive ... Purpose: Update configuration of a virtual server The config control action can be used to update the configuration
+of an individual virtual server, without requiring a SIGHUP to restart the daemin and reparse the configuration.  The config action supports two subcommands: "set" and "remove". Both config subcommands take the address of the virtual server
+whose configuration is to be changed.  This can be specified as a DNS name
+or an IP address, and optionally the port number.  If no port number is
+explicitly provided, a default of port 21 is assumed.  IPv6 addresses are supported.  Examples: $ ftpdctl config set 10.1.2.3 ...
+  $ ftpdctl config set ftp.example.com:2121 ...
+  $ ftpdctl config set '[::1]:4242' ... Note that using the IPv6 syntax may require that you enclose the
+address in single quotes, to prevent the shell from parsing those characters. When setting a configuration directive, all of the parameters of that
+configuration directive are required, just as if you were typing that
+configuration directive in the config file: $ ftpdctl config set 192.168.0.101:2121 TLSRequired off
+  ftpdctl: config set: TLSRequired configured When removing a configuration directive, only the configuration directive
+name is needed: $ ftpdctl config remove 192.168.0.101 TLSRequired
+  ftpdctl: config remove: TLSRequired removed debug Syntax: ftpdctl debug [level [number]]|memory|config Purpose: Obtain debug information from the running daemon Obtaining debug output from the server greatly helps in diagnosing problems.
+The trick is in getting this debug output from the server.  The debug control action can be used to gather such information. First, this control action can increase or query the debug logging verbosity
+of the daemon on-the-fly, to obtain the needed output, and then to return the
+daemon to a more silent state of logging. Example: $ ftpdctl debug level 9 raises the verbosity of the daemon to its maximum level.  Once enough output
+has been collected, use: $ ftpdctl debug level 0 to return the daemon to its default debug output level. Instead, to simply check the current debug logging verbosity, use: $ ftpdctl debug level Alternatively, for developers ( i.e. if proftpd was
+compiled with the --enable-devel configure option), this control
+action can be used to display the current memory allocation of the daemon: $ ftpdctl debug memory Memory allocations for session processes are currently not available via
+this control action. dns Syntax: ftpdctl dns on|off Purpose: DNS configuration The dns control action can be used to enable or disable
+the UseReverseDNS configuration at run time: # Enable resolution of IP addresses to DNS names
+  $ ftpdctl dns on
+
+  # Disable resolution of IP addresses to DNS names
+  $ ftpdctl dns off Note that the dns control action also supports a command for
+clearing any cached DNS lookup information: $ ftpdctl dns clear cache down Syntax: ftpdctl down ip-address|dns-name[#port]|"all" Purpose: Turn down a virtual server The down control action can be used to "turn down"
+an individual virtual server, so that clients cannot connect to it.  Once
+a virtual server has been "downed", the
+" up " control action can be used to bring
+that virtual server back up. If a port number is not specified, it defaults to 21. Note that using "down all" effectively puts the daemon in an
+"administrative" shutdown state, where the daemon is still running
+but no servers are available for servicing incoming connection requests.
+Current sessions are not affected. get Syntax: ftpdctl get "config"|"directives" Purpose: Obtain configuration information The get control action can be used obtain various sorts of
+configuration information from the daemon.  At present, this control action
+only supports the "config" and  "directives" parameters. The "config" parameter causes ftpdctl to display
+a configuration dump, similar to what is displayed by a syntax check
+( i.e. using the -t proftpd command-line option). The "directives" parameter causes ftpdctl to display a
+sorted list of all supported configuration directives, as well as the module
+which handles the corresponding directive. kick Syntax: ftpdctl kick [class name]|[host dns-name|ip-address][user name] Purpose: Kick a currently connected class, host or user from the daemon The kick control action can be used to disconnect a currently
+connected class , host or user from the daemon. Examples: $ ftpdctl kick user bob dave will kick all sessions that have logged in as user "bob" or user "dave". $ ftpdctl kick host luser.host.net will kick all sessions that have connected from host "luser.host.net". $ ftpdctl kick class eval intranet will kick all sessions that belong to classes "eval" and "intranet". You can also use the -n <count> command-line option to
+specify the maximum number of clients to be kicked.  For example, perhaps
+you only want to kick off 10 clients from host "luser.host.net"
+rather than kicking all of them off.  To do this, use: $ ftpdctl kick host -n 10 luser.host.net restart Syntax: ftpdctl restart Purpose: Restart the daemon The restart control action causes the daemon to re-read its
+configuration file, just as if a SIGHUP had been used.  This is
+convenient for administrators, as it does not (necessarily) require root
+privileges, nor knowledge of the daemon's PID, to restart the daemon. Example: $ ftpdctl restart In addition, you can use the restart control to ask the daemon
+how many times it has been restarted: $ ftpdctl restart count
+  ftpdctl: restarted 4 times since 2010-01-06 23:20:09 GMT scoreboard Syntax: ftpdctl scoreboard scrub Purpose: Scrubs the ScoreboardFile for dead processes The scoreboard control action can be used to force the ScoreboardFile to be "scrubbed" for dead session
+processes which may not have exited cleanly. $ ftpdctl scoreboard scrub
+
+  # The verb "clean" is synonymous with "scrub"
+  $ ftpdctl scoreboard clean shutdown Syntax: ftpdctl shutdown ["graceful" seconds] Purpose: Stop the daemon The shutdown control action shuts the daemon down.  This is
+convenient for administrators, as it does not (necessarily) require root
+privileges, nor knowledge of the daemon's PID, to stop the daemon. The optional "graceful" parameter allows for a graceful shutdown,
+in which proftpd will wait for the given number of seconds for all current sessions to end, before shutting down. Example: $ ftpdctl shutdown graceful 30 will cause proftpd to wait for 30 seconds for all current
+sessions to end before shutting down completely. status Syntax: ftpdctl status ip-address|dns-name[#port]|"all" Purpose: Display the status of virtual servers The status control action can be used to show the status of
+a particular virtual server, whether it is up or down . If a port number is not specified, it defaults to 21. If "status all" is used, the status of all virtual servers will be
+displayed. trace Syntax: ftpdctl trace channel:level|"info" Purpose: Configure trace channel log levels The trace control action can be used to dynamically change
+the log levels of trace log levels. Example: $ ftpdctl trace delay:10 will set the log verbosity level of the delay trace log channel to 10. Additionally, the trace control action can be used to display
+the list of current trace channels and their log levels, e.g. : $ ftpdctl trace info
+  ftpdctl: Channel    Level 
+  ftpdctl: ---------- ------
+  ftpdctl:        pam 10    
+  ftpdctl:     netacl 10    
+  ftpdctl:   response 10    
+  ftpdctl:       auth 10    
+  ftpdctl:       utf8 10    
+  ftpdctl:       inet 10    
+  ftpdctl:    binding 10    
+  ftpdctl:        dns 10    
+  ftpdctl:        dso 10    
+  ftpdctl:     parser 10    
+  ftpdctl:       pool 10    
+  ftpdctl:      ctrls 10    
+  ftpdctl:       data 10    
+  ftpdctl:      netio 10    
+  ftpdctl:     config 10    
+  ftpdctl:      ident 10    
+  ftpdctl:    command 10    
+  ftpdctl:      delay 10    
+  ftpdctl:      timer 10    
+  ftpdctl:        var 10    
+  ftpdctl:      event 10    
+  ftpdctl:       fsio 10    
+  ftpdctl:       site 10 up Syntax: ftpdctl up ip-address|dns-name[#port] Purpose: Turn up a "downed" virtual server The up control action can be used to "turn up"
+any virtual server that has been "downed" by the
+" down " control action.  Note that using the
+" restart " control action is sufficient to
+enable, with one command, all virtual servers that have been downed. If a port number is not specified, it defaults to 21. Installation This module requires that controls support be enabled in proftpd via the --enable-ctrls configure option.  Follow the normal
+steps for using third-party modules in ProFTPD: $ ./configure --enable-ctrls --with-modules=mod_ctrls_admin To build mod_ctrls_admin as a DSO module: $ ./configure --enable-ctrls --enable-dso --with-shared=mod_ctrls_admin Then follow the usual steps: $ make
+  $ make install For those with an existing ProFTPD installation, you can use the prxs tool to add mod_ctrls_admin , as a DSO module, to
+your existing server: $ prxs -c -i -d mod_ctrls_admin.c © Copyright 2004-2016 The ProFTPD Project All Rights Reserved

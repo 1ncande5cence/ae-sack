@@ -1,0 +1,22 @@
+ProFTPD module mod_quotatab_ldap ProFTPD module mod_quotatab_ldap This mod_quotatab submodule is contained in the mod_quotatab_ldap.c , and is found in the contrib/ area of the ProFTPD source distribution.  See the mod_quotatab installation instructions. This submodule provides the LDAP-specific "driver" for retrieving
+quota limit table information from an LDAP server. Author Please contact John Morrissey <jwm at horde.net> with any
+questions, concerns, or suggestions regarding this module. LDAP Limit Quota Tables LDAP-based quota tables ( source-type of "ldap") can
+only be used for limit tables, not for tally tables.  The frequent
+updates needed for maintaining tally tables mean that LDAP is not well-suited
+to handle tally table storage. The mod_quotatab_ldap module supports the "ldap" string
+for the source-type parameter of the QuotaLimitTable configuration directive. To enable LDAP-provisioned limit tables, you need to configure mod_ldap to lookup the proper attribute using the LDAPDoAttr configuration directive. The LDAP attribute to be looked up (named ftpQuota by default)
+should contain a comma-separated list of 8 values, in the following order: per_session, limit_type, bytes_in_avail, bytes_out_avail, bytes_xfer_avail,
+    files_in_avail, files_out_avail, files_xfer_avail For example: "false,hard,100,100,100,100,100,100" An example proftpd.conf configuration might look like: <IfModule mod_quotatab.c>
+    <IfModule mod_quotatab_ldap.c>
+      # Enable LDAP quota lookups
+      LDAPDoQuotaLookups on
+
+      # Use an LDAP-based limit table.  Note that there is no additional
+      # information supplied after the source-type: this is intentional. 
+      # mod_ldap handles the rest.
+      QuotaLimitTable ldap:
+    </IfModule>
+
+    # Use a file-based tally table
+    QuotaTallyTable file:/usr/local/proftpd/ftpquota.tallytab
+  </IfModule> © Copyright 2003-2022 TJ Saunders All Rights Reserved

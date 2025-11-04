@@ -1,0 +1,58 @@
+ProFTPD: Tracing ProFTPD: Tracing What is Tracing? "Tracing" is a new form of logging, introduced in the 1.3.1 ProFTPD release
+series. Trace logging has the concept of multiple logging channels , each of
+which has its own log level .  Layers and APIs within the ProFTPD source
+will tend to use their own channels.  There is no limit to the number of
+different log channels that can be supported. Within a channel, the assumption is that lower log levels indicate higher
+priority or importance.  Or to look at it another way, the higher the log
+level for channel, the more noisy that log channel might be.  The lowest log
+level is 1; there is no upper log level limit. Why have this new form of logging, in addition to all the other kinds of logs
+( e.g. SystemLog , ExtendedLog , etc )
+that a proftpd daemon can currently produce?  The usual SystemLog of proftpd debug logging, at a high DebugLevel , was becoming unreadable; it is difficult to find the
+tidbits of knowledge amidst the other messages in that file.  By separating
+log messages into channels and levels, tracing gives the administrator a much
+finer-grained control over the logging, given them a way of focusing the
+logging more narrowly, so only the area of code of interest is logged. Support for tracing is enabled by default.  Use the --disable-trace configure option, when compiling ProFTPD, to
+disable all tracing support.  I recommend that high-traffic production sites,
+which have no need for debug logging at this granularity, use the --disable-trace option. Configuration Directives There are two new configuration directives for tracing: TraceLog and Trace .  Note that for tracing to be effective, these
+two directives, if used, must appear at the start of your proftpd.conf file, before any other directives. The TraceLog directive specifies a filename to which to write
+the tracing log messages.  For example: TraceLog /var/ftpd/trace.log Without this directive, no trace logging will occur. Once you have configured your TraceLog , you will use the Trace directive to control the verbosity of that log: Trace channel1 : level1 channel2 : level2 ... This directive lets you set each log channel and its level differently, e.g. : Trace command:5 response:8 timer:2 config:9 There is also support for a special "DEFAULT" keyword: Trace DEFAULT:10 The following is the list of channels which are covered by the "DEFAULT"
+keyword: auth binding command config ctrls data delay dns dso encode error event facl fsio ident inet lock log module netacl netio pam pool regexp response scoreboard signal site timer var This means that if you use the following in your proftpd.conf file, at the very top: TraceLog /path/to/ftpd/trace.log
+  Trace DEFAULT:10 Then all of the above channels, up to log level 10, will have their
+messages logged. If you want to look at the default trace channels except for a
+particular channel, use level 0 to effectively disable that channel.
+For example, to exclude the "fsio" channel but see the rest of the default
+channels, you would use: Trace DEFAULT:10 fsio:0 Note that there are trace channel names that are not part of the
+"DEFAULT" channel name list ( e.g. "class"); any custom channel names,
+such as might be used by a third-party module, are also not covered in the
+"DEFAULT" list.  For example, the mod_tls module may log to a
+"tls" channel.  Any messages to that "tls" channel would not appear in the TraceLog file, using the above configuration.  Instead,
+you would need to explicitly mention the "tls" channel, i.e. : TraceLog /path/to/ftpd/trace.log
+  Trace DEFAULT:10 tls:10 Optional Trace Log Channels In addition to the default trace log channels listed above, there are
+optional trace log channels: directory The "directory" log channel is used when the core engine attempts
+    to find the closest matching <Directory> section
+    for a path. fileperms The "fileperms" log channel is used whenever a user action involving
+    the filesystem ( e.g. opening/closing/writing/renaming/deleting
+    files or directories) fails.  This channel will log the relevant FTP
+    command, user name, UID/GID, filesystem path, and the error. Trace Log Format Every log message in a TraceLog uses the following format: timestamp [process ID] <channel:level>: message For example: Jan 16 17:15:58 [30583] <auth:6>: dispatching auth request "endgrent" to module mod_auth_unix This shows process ID 30583 logging to the "auth" channel, log level 6, a
+message about handling the "endgrent" Auth API request. Runtime Tracing If Controls support is enabled in your proftpd , and you are using the mod_ctrls_admin module, then you can also use the ftpdctl command to adjust the trace logging settings in the
+running proftpd , without needing to change your proftpd.conf file.  See: doc/contrib/mod_ctrls_admin.html#trace for more information on the ftpdctl trace action. Here's a concrete example of how tuning the trace logging at runtime can be
+useful.  You may need the extra information logged via trace logging in order
+to track down/debug some issue, but you do not want to enable trace
+logging all of the time in your environment.  Fortunately, it is possible
+to make it possible to get the trace logging information you need, when
+you need to get it, and then turn the trace logging off all without
+restarting proftpd . First, you need to configure your proftpd.conf like so: TraceLog /path/to/proftpd/trace.log
+  Trace DEFAULT:0 This configuration tells proftpd to direct all trace logging to that TraceLog file, but to not actually write anything to the
+file; the log level zero (0) filters out all trace logging messages.  Start
+proftpd with the updated proftpd.conf .  Later, while proftpd is
+running, you can tune the tracing using the ftpdctl utility, like this: $ ftpdctl trace lock:10 scoreboard:5 which dynamically changes the 'lock' trace channel level to 10, and the
+'scoreboard' trace channel level to 5.  Once you have gathered the necessary
+information in the TraceLog file, you then use ftpdctl again and restore the trace levels back to zero, effectively turning off
+trace logging once more: $ ftpdctl trace DEFAULT:0 Note that the changed settings will only apply to new sessions; this
+does not change the trace logging for existing sessions. Use Only When Needed Remember that tracing is a verbose (and thus expensive) form of logging,
+and thus makes the proftpd daemon run slower.  Tracing should only
+ever be used for debugging and development purposes; once your proftpd is up and running the way you need, you should remove all Trace and TraceLog directives from your proftpd.conf . Frequently Asked Questions Question : Can I configure Trace on a
+per-user basis, using mod_ifsession 's <IfUser> ? Answer : You can indeed use mod_ifsession for Trace configurations, starting in ProFTPD 1.3.4rc1.  To
+do this, you need to use the optional "session" keyword in your Trace configuration, e.g. : <IfUser traced-user >
+    Trace session DEFAULT:10
+  </IfUser> This goes for <IfClass> and <IfGroup> sections as well. © Copyright 2017 The ProFTPD Project All Rights Reserved

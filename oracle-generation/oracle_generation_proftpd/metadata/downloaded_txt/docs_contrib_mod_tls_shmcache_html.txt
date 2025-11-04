@@ -1,0 +1,59 @@
+ProFTPD module mod_tls_shmcache ProFTPD module mod_tls_shmcache The mod_tls_shmcache submodule is contained in the mod_tls_shmcache.c file, and is not compiled by default.
+Installation instructions are discussed here . This submodule provides a SysV shared memory-based implementation of
+an external SSL session cache for use by the mod_tls module's TLSSessionCache directive.  The module also implements a SysV shared memory-based
+implementation of an external OCSP response cache for the TLSStaplingCache directive. This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/). This product includes cryptographic software written by Eric Young (eay@cryptsoft.com). Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. The mod_tls_shmcache module supports the "shm" string
+for the type parameter of the TLSSessionCache configuration directive.  The info parameter for mod_tls_shmcache must be formatted like: /file= /path/to/cache/file [&size= bytes ] The configured path is used for synchronizing access to the shared memory
+segment among the various server processes.  The default shared memory
+segment size allocated is 1.5MB; use the optional size key to
+configure a different size, in bytes.  Note that the configured size must be able to hold at least one cached session; if a too-small size
+is configured, that size will be ignored and the default size will be used. The mod_tls_shmcache module also supports the "shm"
+string for the type parameter of the TLStaplingCache configuration directive.  The info parameter for mod_tls_shmcache must be formatted like: /file= /path/to/cache/file [&size= bytes ] The configured path is used for synchronizing access to the shared memory
+segment among the various server processes.  The default shared memory
+segment size allocated is 1.5MB; use the optional size key to
+configure a different size, in bytes.  Note that the configured size must be able to hold at least one cached OCSP response; if a too-small
+size is configured, that size will be ignored and the default size will be used. Examples Use the default shared memory segment size and timeout: <IfModule mod_tls.c>
+    ...
+
+    <IfModule mod_tls_shmcache.c>
+      TLSSessionCache shm:/file=/var/ftpd/sess_cache
+      TLSStaplingCache shm:/file=/var/ftpd/ocsp_pcache
+    </IfModule>
+  </IfModule> Use a larger shared memory segment size: <IfModule mod_tls.c>
+    ...
+
+    <IfModule mod_tls_shmcache.c>
+      TLSSessionCache shm:/file=/var/ftpd/sess_cache&size=2097152
+      TLSStaplingCache shm:/file=/var/ftpd/ocsp_cache&size=2097152
+    </IfModule>
+  </IfModule> Use a smaller shared memory size, and a shorter timeout: <IfModule mod_tls.c>
+    ...
+
+    <IfModule mod_tls_shmcache.c>
+      TLSSessionCache shm:/file=/var/ftpd/sess_cache&size=512000 600
+
+      # Note that TLSStaplingCache does not use a timeout
+      TLSStaplingCache shm:/file=/var/ftpd/ocsp_cache&size=512000
+    </IfModule>
+  </IfModule> Installation The mod_tls_shmcache module is distributed with the ProFTPD
+source code.  Simply follow the normal steps for using third-party modules
+in ProFTPD, being sure to include the mod_tls module (on which mod_tls_shmcache depends): $ ./configure --with-modules=mod_tls:mod_tls_shmcache
+  $ make
+  $ make install Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_tls_shmcache as
+a shared module: $ prxs -c -i -d mod_tls_shmcache.c Note : If using mod_tls_shmcache as a shared module, make
+sure that this module is loaded after the mod_tls module, i.e. : # Load mod_tls first
+  LoadModule mod_tls.c
+ 
+  # Then load any SSL caching modules
+  LoadModule mod_tls_shmcache.c Usage Logging The mod_tls_shmcache module supports trace logging , via the module-specific log channels: tls.shmcache Thus for trace logging, to aid in debugging, you would use the following in
+your proftpd.conf : TraceLog /path/to/ftpd/trace.log
+  Trace tls.shmcache:20 This trace logging can generate large files; it is intended for debugging use
+only, and should be removed from any production configuration. Frequently Asked Questions Question : I configured a TLSSessionCache file, but it is empty.  Is mod_tls_shmcache not working properly? Answer : Yes, mod_tls_shmcache is working
+properly.  The actual cache of SSL/TLS session data is stored in shared memory,
+not on the filesystem.  Storing data in system shared memory requires a unique
+key; the mod_tls_shmcache uses the configured file to create
+this unique key.  The module also uses the configured TLSSessionCache file for locking, as when handling a ftpdctl request to clear the cache. Question : I am trying to use mod_tls_shmcache as a shared module, but my proftpd server fails to start up, failing with this error: proftpd: symbol lookup error: /usr/local/libexec/mod_tls_shmcache.so: undefined symbol: tls_sess_cache_register Answer : This happens when your configuration is
+loading the mod_tls_shmcache module before the mod_tls has been loaded.  The fix, then, is to make sure
+your config looks something like this: LoadModule mod_tls.c
+  LoadModule mod_tls_shmcache.c © Copyright 2009-2015 TJ Saunders All Rights Reserved

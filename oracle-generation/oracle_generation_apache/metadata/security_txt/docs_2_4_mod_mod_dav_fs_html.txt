@@ -1,0 +1,14 @@
+mod_dav_fs - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_dav_fs Available Languages: en | fr | ja | ko Description: Filesystem provider for mod_dav Status: Extension ModuleÂ Identifier: dav_fs_module SourceÂ File: mod_dav_fs.c Summary This module requires the service of mod_dav . It acts as a support module for mod_dav and provides access to resources located in the
+    server's file system. The formal name of this provider is filesystem . mod_dav backend providers
+    will be invoked by using the Dav directive: Example Dav filesystem Since filesystem is the default provider for mod_dav , you may simply use the value On instead. Directives DavLockDB DavLockDiscovery Bugfix checklist httpd changelog Known issues Report a bug See also mod_dav Comments DavLockDB Directive Description: Location of the DAV lock database Syntax: DavLockDB file-path Context: server config, virtual host Status: Extension Module: mod_dav_fs Use the DavLockDB directive to specify
+    the full path to the lock database, excluding an extension. If
+    the path is not absolute, it will be taken relative to ServerRoot . The implementation of mod_dav_fs uses a SDBM database to track user
+    locks. Example DavLockDB "var/DavLock" The directory containing the lock database file must be
+    writable by the User and Group under which
+    Apache is running.  For security reasons, you should create a
+    directory for this purpose rather than changing the permissions on
+    an existing directory.  In the above example, Apache will create
+    files in the var/ directory under the ServerRoot with the base filename DavLock and extension name chosen by the server. DavLockDiscovery Directive Description: Enable lock discovery Syntax: DavLockDiscovery on|off Default: DavLockDiscovery on Context: server config, virtual host, directory, .htaccess Status: Extension Module: mod_dav_fs Compatibility: Available from Apache 2.4.55 and later. DavLockDiscovery controls if the lock
+    discovery feature is enabled for PROPFIND method.
+    When disabled, PROPFIND always returns an empty lockdiscovery section. This improves performance
+    if clients use PROPFIND a lot. Example DavLockDiscovery off Available Languages: en | fr | ja | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

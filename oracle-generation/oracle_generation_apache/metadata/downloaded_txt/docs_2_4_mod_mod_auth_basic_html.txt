@@ -1,0 +1,81 @@
+mod_auth_basic - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_auth_basic Available Languages: en | fr | ja | ko Description: Basic HTTP authentication Status: Base ModuleÂ Identifier: auth_basic_module SourceÂ File: mod_auth_basic.c Compatibility: Available in Apache 2.1 and later Summary This module allows the use of HTTP Basic Authentication to
+    restrict access by looking up users in the given providers.
+    HTTP Digest Authentication is provided by mod_auth_digest .  This module should
+    usually be combined with at least one authentication module
+    such as mod_authn_file and one authorization
+    module such as mod_authz_user . Directives AuthBasicAuthoritative AuthBasicFake AuthBasicProvider AuthBasicUseDigestAlgorithm Bugfix checklist httpd changelog Known issues Report a bug See also AuthName AuthType Require Authentication howto Comments AuthBasicAuthoritative Directive Description: Sets whether authorization and authentication are passed to
+lower level modules Syntax: AuthBasicAuthoritative On|Off Default: AuthBasicAuthoritative On Context: directory, .htaccess Override: AuthConfig Status: Base Module: mod_auth_basic Normally, each authorization module listed in AuthBasicProvider will attempt
+    to verify the user, and if the user is not found in any provider,
+    access will be denied. Setting the AuthBasicAuthoritative directive explicitly
+    to Off allows for both authentication and
+    authorization to be passed on to other non-provider-based modules
+    if there is no userID or rule matching the supplied userID.  This should only be necessary when
+    combining mod_auth_basic with third-party modules
+    that are not configured with the AuthBasicProvider directive.  When using such modules, the order of processing
+    is determined in the modules' source code and is not configurable. AuthBasicFake Directive Description: Fake basic authentication using the given expressions for
+username and password Syntax: AuthBasicFake off| username [ password ] Default: none Context: directory, .htaccess Override: AuthConfig Status: Base Module: mod_auth_basic Compatibility: Apache HTTP Server 2.4.5 and later The username and password specified are combined into an
+    Authorization header, which is passed to the server or service
+    behind the webserver. Both the username and password fields are
+    interpreted using the expression parser ,
+    which allows both the username and password to be set based on
+    request parameters. If the password is not specified, the default value "password"
+    will be used. To disable fake basic authentication for an URL
+    space, specify "AuthBasicFake off". In this example, we pass a fixed username and password to a
+    backend server. Fixed Example <Location "/demo">
+    AuthBasicFake demo demopass
+</Location> In this example, we pass the email address extracted from a client
+    certificate, extending the functionality of the FakeBasicAuth option
+    within the SSLOptions directive. Like the FakeBasicAuth option, the password is set to the
+    fixed string "password". Certificate Example <Location "/secure">
+    AuthBasicFake "%{SSL_CLIENT_S_DN_Email}"
+</Location> Extending the above example, we generate a password by hashing the
+    email address with a fixed passphrase, and passing the hash to the
+    backend server. This can be used to gate into legacy systems that do
+    not support client certificates. Password Example <Location "/secure">
+    AuthBasicFake "%{SSL_CLIENT_S_DN_Email}" "%{sha1:passphrase-%{SSL_CLIENT_S_DN_Email}}"
+</Location> Exclusion Example <Location "/public">
+    AuthBasicFake off
+</Location> AuthBasicProvider Directive Description: Sets the authentication provider(s) for this location Syntax: AuthBasicProvider provider-name [ provider-name ] ... Default: AuthBasicProvider file Context: directory, .htaccess Override: AuthConfig Status: Base Module: mod_auth_basic The AuthBasicProvider directive sets
+    which provider is used to authenticate the users for this location.
+    The default file provider is implemented
+    by the mod_authn_file module.  Make sure
+    that the chosen provider module is present in the server. Example <Location "/secure">
+    AuthType basic
+    AuthName "private area"
+    AuthBasicProvider  dbm
+    AuthDBMType        SDBM
+    AuthDBMUserFile    "/www/etc/dbmpasswd"
+    Require            valid-user
+</Location> Providers are queried in order until a provider finds a match
+    for the requested username, at which point this sole provider will
+    attempt to check the password.  A failure to verify the password does
+    not result in control being passed on to subsequent providers. Providers are implemented by mod_authn_dbm , mod_authn_file , mod_authn_dbd , mod_authnz_ldap and mod_authn_socache . AuthBasicUseDigestAlgorithm Directive Description: Check passwords against the authentication providers as if
+Digest Authentication was in force instead of Basic Authentication. Syntax: AuthBasicUseDigestAlgorithm MD5|Off Default: AuthBasicUseDigestAlgorithm Off Context: directory, .htaccess Override: AuthConfig Status: Base Module: mod_auth_basic Compatibility: Apache HTTP Server 2.4.7 and later Normally, when using Basic Authentication, the providers listed in AuthBasicProvider attempt to verify a user by checking their data stores for
+    a matching username and associated password.  The stored passwords
+    are usually encrypted, but not necessarily so; each provider may
+    choose its own storage scheme for passwords. When using AuthDigestProvider and Digest
+    Authentication, providers perform a similar check to find a matching
+    username in their data stores.  However, unlike in the Basic
+    Authentication case, the value associated with each stored username
+    must be an encrypted string composed from the username, realm name,
+    and password.  (See RFC 2617, Section 3.2.2.2 for more details on the format used
+    for this encrypted string.) As a consequence of the difference in the stored values between
+    Basic and Digest Authentication, converting from Digest
+    Authentication to Basic Authentication generally requires that all
+    users be assigned new passwords, as their existing passwords cannot
+    be recovered from the password storage scheme imposed on those
+    providers which support Digest Authentication. Setting the AuthBasicUseDigestAlgorithm directive
+    to MD5 will cause the user's Basic Authentication password
+    to be checked using the same encrypted format as for Digest
+    Authentication.  First a string composed from the username, realm name,
+    and password is hashed with MD5; then the username and this encrypted
+    string are passed to the providers listed in AuthBasicProvider as if AuthType was set to Digest and Digest Authentication was in force. Through the use of AuthBasicUseDigestAlgorithm a site may switch from Digest to Basic Authentication without
+    requiring users to be assigned new passwords. The inverse process of switching from Basic to Digest
+      Authentication without assigning new passwords is generally
+      not possible.  Only if the Basic Authentication passwords
+      have been stored in plain text or with a reversible encryption
+      scheme will it be possible to recover them and generate a
+      new data store following the Digest Authentication password
+      storage scheme. Only providers which support Digest Authentication will be able
+      to authenticate users when AuthBasicUseDigestAlgorithm is set to MD5 .  Use of other providers will result
+      in an error response and the client will be denied access. Available Languages: en | fr | ja | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

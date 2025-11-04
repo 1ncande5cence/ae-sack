@@ -1,0 +1,21 @@
+mpm_netware - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache MPM netware Available Languages: en | fr Description: Multi-Processing Module implementing an exclusively threaded web
+    server optimized for Novell NetWare Status: MPM ModuleÂ Identifier: mpm_netware_module SourceÂ File: mpm_netware.c Summary This Multi-Processing Module (MPM) implements an exclusively
+    threaded web server that has been optimized for Novell
+    NetWare. The main thread is responsible for launching child
+    worker threads which listen for connections and serve them when they
+    arrive. Apache HTTP Server always tries to maintain several spare or idle worker threads, which stand ready to serve incoming
+    requests. In this way, clients do not need to wait for a new
+    child threads to be spawned before their requests can be
+    served. The StartThreads , MinSpareThreads , MaxSpareThreads , and MaxThreads regulate how the main thread creates worker threads to serve
+    requests. In general, Apache httpd is very self-regulating, so most
+    sites do not need to adjust these directives from their default
+    values. Sites with limited memory may need to decrease MaxThreads to keep the server from
+    thrashing (spawning and terminating idle threads). More information
+    about tuning process creation is provided in the performance hints documentation. MaxConnectionsPerChild controls how frequently the server recycles processes by killing old
+    ones and launching new ones. On the NetWare OS it is highly
+    recommended that this directive remain set to 0. This allows worker
+    threads to continue servicing requests indefinitely. Directives Listen ListenBacklog MaxConnectionsPerChild MaxMemFree MaxSpareThreads MaxThreads MinSpareThreads ReceiveBufferSize SendBufferSize StartThreads ThreadStackSize Bugfix checklist httpd changelog Known issues Report a bug See also Setting which addresses and
+    ports Apache httpd uses Comments MaxThreads Directive Description: Set the maximum number of worker threads Syntax: MaxThreads number Default: MaxThreads 2048 Context: server config Status: MPM Module: mpm_netware The MaxThreads directive sets the desired
+    maximum number worker threads allowable. The default value is
+    also the compiled in hard limit. Therefore it can only be lowered,
+    for example: MaxThreads 512 Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

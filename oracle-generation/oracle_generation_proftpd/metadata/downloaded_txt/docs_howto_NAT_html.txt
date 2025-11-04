@@ -1,0 +1,105 @@
+ProFTPD: Firewalls, Routers, and NAT ProFTPD: Firewalls, Routers, and NAT Basic NAT information NAT ( N etwork A ddress T ranslation) is a system that acts
+like a proxy, but on a "packet" level.  When a computer on your
+local network connects to a computer on the Internet, the NAT replaces the
+"from" information of packets with its own address, making your
+local network invisible to the Internet.  Many firewalls perform NAT
+duties as well, so the following information is valid in firewalled
+environments as well. For server systems, NAT can improve security and enable multiple servers to be
+accessed using a single IP address.  This is done by allowing certain ports
+forwarded "inward" to the local network. However, the part of the
+FTP protocol known as "passive" data transfers is not by default
+compatible with NAT solutions.  But NAT functionality is possible with
+ProFTPD versions 1.2rc2 and later. Note : for details on NAT configuration for Linux, read the Linux
+IP-masq HOWTO at: tldp.org/HOWTO/IP-Masquerade-HOWTO/ or search for information concerning your OS of choice. Configuring ProFTPD behind NAT First configure your installed proftpd so that it works correctly
+from inside the NAT. There are example configuration files included with the
+source.  Then add the MasqueradeAddress directive
+to your proftpd.conf file to define the public name or IP address
+of the NAT.  For example: MasqueradeAddress	ftp.mydomain.com  # using a DNS name
+  MasqueradeAddress	123.45.67.89      # using an IP address Now your proftpd will hide its local address and instead use the
+public address of your NAT. However, one big problem still exists.  The passive FTP connections
+will use ports from 1024 and up, which means that you must forward all ports 1024-65535 from the NAT to the FTP server!  And you have to allow many
+(possibly) dangerous ports in your firewalling rules!  Not a good situation.
+For a good description of active versus passive FTP data transfers, see: http://slacksite.com/other/ftp.html To resolve this, simply use the PassivePorts directive
+in your proftpd.conf to control what ports proftpd will use for its passive data transfers: PassivePorts 60000 65535	# These ports should be safe... Note that if the configured range of ports is too small, connecting clients
+may experience delays or be completely unable to operate when they
+request passive data transfers.  When the daemon cannot use one of the
+ports in the configured range, it will fall back to using a kernel-assigned
+port, and log a message reporting the issue.  The clients' ability to
+use this non-configured port will then depend on any NAT, router, or firewall
+configuration. Now start the FTP daemon and you should see something like: 123.45.67.89 - Masquerading as '123.45.67.89' (123.45.67.89) in the log files. A Linux Example This example is for Linux kernel version 2.2. x with ipchains and ipmasqadm .  The examples below assume
+that your FTP server has local address 192.168.1.2 . First we need to enable NAT for our FTP server. As root : $ echo "1">/proc/sys/net/ipv4/ip_forward
+  $ ipchains -P forward DENY
+  $ ipchains -I forward -s 192.168.1.2 -j MASQ Now we load the autofw kernel module and forward ports 20 and 21
+to the FTP server: $ insmod ip_masq_autofw
+  $ ipmasqadm autofw -A -r tcp 20 21 -h 192.168.1.2 Then we forward ports for passive FTP transfers. In our proftpd.conf file we restricted passive transfers to ports
+60000-65535, so that is what we use here as well: $ ipmasqadm autofw -A -r tcp 60000 65535 -h 192.168.1.2 If instead your Linux system uses IP Filters, then you might do something
+like the following.  First, update your ipf.conf with: # Allow passive FTP transfers from ports 49152 to 65534, the IANA-registered
+  # ephemeral port range.
+  pass in quick proto tcp from any to any port 49151 >< 65535 flags S keep state Then make sure that the changes take effect by using: $ ipf -Fa -f /path/to/ipf.conf Double Checking Setting up proftpd that allows passive data transfers srequires
+that a range of ports be forwarded from the NAT to the local network.  This
+could be a security hazard, but since you can specify what port range to use,
+you are still able to setup relatively tight firewalling rules.  To be sure
+that you have no other processes listening on the ports you have specified
+for passive transfers, use a port scanner such as nmap : $ nmap -sT -I -p 60000-65535 localhost If the result says something like: All 5536 scanned ports on localhost (127.0.0.1) are: closed then you should be safe. Frequently Asked Questions Question : How do I know if my MasqueradeAddress and PassivePorts configuration is
+working? Answer : When performing a passive data transfer, an
+FTP client sends the PASV command to the FTP server.  The server
+responds with the address and port to which the client should connect.  For
+example: 227 Entering Passive Mode (127,0,0,1,19,6). The address and port are contained in the parentheses, formatted as a1,a2,a3,a4,p1,p2 , where the IP address is: a1.a2.a3.a4 and the port number is: p1 * 256 + p2 If the address seen in the server's response is not a public IP address
+or the port is not in the port range configured by your PassivePorts , double-check your proftpd.conf .
+Non-public IP addresses are defined by RFC 1918 , and include 10. x , 172.16. x and 192.168.0. x . Question : I am using the PassivePorts directive, but my FTP client still doesn't work.  In the proftpd debug logging,
+I see: May 20 17:00:55 www.example.com proftpd[10078] wwww.example.com (::ffff:1.2.3.4[::ffff:1.2.3.4]): Refused PORT 192,168,1,2,193,116 (address mismatch) Answer : The PORT there means that the
+FTP client is requesting an active data transfer; this means that
+proftpd is being asked to actively connect to the client
+(to the given address 192.168.1.2, port 49524). The first problem is, as the log message indicates, that the IP address
+given in the PORT command, 192.168.1.2, does not match
+the IP address from which the client connected ( i.e. 1.2.3.4).  By
+default, proftpd will refuse to create a data transfer connection to anywhere except back to the requesting client's IP address; see the AllowForeignAddress directive for
+more information. The next problem is that 192.168.1.2 IP address is not a publicly routable I
+ address; specifically, it is part of an RFC 1918 address space.
+This means that is not possible for proftpd to connect to that
+address (unless proftpd is located in the same LAN). The solution for these situations is to a) configure proftpd to use both PassivePorts and MasqueradeAddress ,
+and b) to configure your FTP client to request passive data
+transfers (via the PASV and EPSV commands), rather
+than active data transfers. Question : I am using MasqueradeAddress in my config, using the external DNS name for my site, but proftpd still returns the internal/LAN IP address in the PASV response.
+Is it a bug? Answer : Most likely not.  If you use something like: MasqueradeAddress ftp.example.com and see the internal IP address in the PASV response, it
+suggests that proftpd , when starting up, resolves that DNS name
+from within your LAN, and gets that internal IP address.  Rather than using
+the DNS name, you should explicitly use the external IP address in your MasqueradeAddress directive: MasqueradeAddress 1.2.3.4 where "1.2.3.4" is your real external IP address. Question : Can I configure proftpd so that
+it refuses to handle passive transfers? Answer : If you are using a version of proftpd older than 1.2.10rc1, no.  In 1.2.10rc1, support for
+placing limits on the PASV and PORT (and their
+IPv6 equivalents EPSV and EPRT ) was added, so that
+you could do the following: <Limit EPSV PASV>
+    DenyAll
+  </Limit> Question : How can I make proftpd use
+a different MasqueradeAddress based on the address of the
+connecting client? Answer : This question usually arises in the case
+where FTP clients connecting from inside the LAN see the same MasqueradeAddress as external clients, which causes problems.
+That MasqueradeAddress may be necessary in order to allow
+external FTP clients to do passive data transfers.  The internal clients
+do not need it.  To handle this, create a <VirtualHost> section in your proftpd.conf to handle the LAN address of
+the FTP server, the address that the internal clients are contacting.
+In this <VirtualHost> section, make sure there is no MasqueradeAddress directive.  This way, the external FTP
+clients "see" the configuration with the MasqueradeAddress they need, and the internal FTP clients
+"see" a different configuration, one with no MasqueradeAddress . For those that need to see a concrete example configuration of this: ServerName "Some Server Name"
+  MasqueradeAddress my.domain.com
+  PassivePorts 60000 65535 # Note that your LAN address should be used here <VirtualHost 192.168.0.10>
+    ServerName "Some Other Server Name" # Note that there is no MasqueradeAddress directive
+    # used in this section! </VirtualHost> On the other hand, there can be cases where you really do need
+different MasqueradeAddress values, in the same vhost ,
+depending on the client IP address.  For these situations, you should
+use classes and the mod_ifsession module, like so: <IfModule mod_ifsession.c>
+    # Define a class for internal clients
+    <Class internal>
+      From 10.0.0.0/8
+    </Class>
+
+    # Internal clients get a different MasqueradeAddress
+    <IfClass internal>
+      MasqueradeAddress 10.1.2.3
+    </IfClass>
+
+    # All other clients get some different, public MasqueradeAddress
+    <IfClass !internal>
+      MasqueradeAddress 1.2.3.4
+    </IfClass>
+  </IfModule> Contributor: Tobias Ekbom <tobias at vallcom dot com> © Copyright 2017 The ProFTPD Project All Rights Reserved

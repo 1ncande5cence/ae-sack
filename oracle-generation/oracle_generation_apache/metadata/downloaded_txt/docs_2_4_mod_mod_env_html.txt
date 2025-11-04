@@ -1,0 +1,18 @@
+mod_env - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_env Available Languages: en | fr | ja | ko | tr Description: Modifies the environment which is passed to CGI scripts and
+SSI pages Status: Base ModuleÂ Identifier: env_module SourceÂ File: mod_env.c Summary This module allows for control of internal environment variables that
+    are used by various Apache HTTP Server modules. These variables are also
+    provided to CGI scripts as native system environment variables, and available
+    for use in SSI pages. Environment variables may be passed from the shell
+    which invoked the httpd process. Alternatively,
+    environment variables may be set or unset within the configuration process. Directives PassEnv SetEnv UnsetEnv Bugfix checklist httpd changelog Known issues Report a bug See also Environment Variables SetEnvIf Comments PassEnv Directive Description: Passes environment variables from the shell Syntax: PassEnv env-variable [ env-variable ]
+... Context: server config, virtual host, directory, .htaccess Override: FileInfo Status: Base Module: mod_env Specifies one or more native system environment variables to make available
+    as internal environment variables, which are available to Apache HTTP Server modules
+    as well as propagated to CGI scripts and SSI pages. Values come from the
+    native OS environment of the shell which invoked the httpd process. Example PassEnv LD_LIBRARY_PATH SetEnv Directive Description: Sets environment variables Syntax: SetEnv env-variable [ value ] Context: server config, virtual host, directory, .htaccess Override: FileInfo Status: Base Module: mod_env Sets an internal environment variable, which is then available to Apache
+    HTTP Server modules, and passed on to CGI scripts and SSI pages. Example SetEnv SPECIAL_PATH /foo/bin If you omit the value argument, the variable is set to
+    an empty string. The internal environment variables set by this directive are set after most early request processing directives are run, such as access
+    control and URI-to-filename mapping.  If the environment variable you're
+    setting is meant as input into this early phase of processing such as the RewriteRule directive, you should
+    instead set the environment variable with SetEnvIf . See also Environment Variables UnsetEnv Directive Description: Removes variables from the environment Syntax: UnsetEnv env-variable [ env-variable ]
+... Context: server config, virtual host, directory, .htaccess Override: FileInfo Status: Base Module: mod_env Removes one or more internal environment variables from those passed
+    on to CGI scripts and SSI pages. Example UnsetEnv LD_LIBRARY_PATH Available Languages: en | fr | ja | ko | tr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

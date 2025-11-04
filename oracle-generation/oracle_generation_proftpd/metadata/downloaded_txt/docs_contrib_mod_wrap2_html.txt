@@ -1,0 +1,157 @@
+ProFTPD module mod_wrap2 ProFTPD module mod_wrap2 The mod_wrap2 package allows the proftpd daemon to
+provide tcpwrapper -like access control rules while running
+in standalone mode.  It also allows for those access rules to be stored
+in various formats, such as files ( e.g. /etc/hosts.allow and /etc/hosts.deny ) or in SQL tables. Note that the mod_wrap2 module does not require or use the
+standard tcpwrappers libwrap library, and instead implements
+the same functionality internally (in order to support SQL-based access rules).
+Please read the usage documentation for more details. This module is contained in mod_wrap2.c , mod_wrap2.h , and in the submodules source files, for
+ProFTPD 1.3. x .  These modules are not enabled by default.  Installation notes follow the directive documentation. The most current version of mod_wrap2 's submodules supports
+storage of access table information in various formats: mod_wrap2_file for file-based access tables mod_wrap2_redis for Redis-based access lists/sets mod_wrap2_sql for SQL-based access tables The most current version of mod_wrap2 is distributed with the
+ProFTPD source code. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Thanks Many, many thanks to Wietse Venema for writing the tcpwrappers package and its libwrap library, from which this module drew
+much of its code. 2002-12-12 : Thanks to Steve Grubb for pointing out a few cases where
+interrupted functions were not being properly handled, and for reviewing
+the module code. Directives WrapAllowMsg WrapDenyMsg WrapEngine WrapGroupTables WrapLog WrapOptions WrapServiceName WrapTables WrapUserTables WrapAllowMsg Syntax: WrapAllowMsg mesg Default: None Context: server config, <VirtualHost , <Global> , <Anonymous> Module: mod_wrap2 Compatibility: 1.3.1rc1 and later The WrapAllowMsg directive configures a message that will be
+added to proftpd 's response to the connecting client when that
+client is allowed by mod_wrap2 's access check.  In the mesg parameter, the magic cookie '%u' is replaced with the username
+specified by the client during login. Example: WrapAllowMsg "User '%u' allowed by access rules" WrapDenyMsg Syntax: WrapDenyMsg mesg Default: None Context: server config, <VirtualHost , <Global> , <Anonymous> Module: mod_wrap2 Compatibility: 1.3.1rc1 and later The WrapDenyMsg directive configures a message that will be
+sent to the connecting client when that client is denied by mod_wrap2 's access check, and disconnected.  In the mesg parameter, the magic cookie '%u' is replaced with the username specified by
+the client during login. Example: WrapDenyMsg "User '%u' denied by access rules" WrapEngine Syntax: WrapEngine on|off Default: None Context: server config, <VirtualHost> , <Global> Module: mod_wrap2 Compatibility: 1.3.1rc1 and later The WrapEngine directive enables or disables the module's runtime
+access control engine.  If it is set to off this module does no runtime
+processing at all.  Use this directive to disable the module instead of
+commenting out all mod_wrap2 directives. WrapGroupTables Syntax: WrapGroupTables group-AND-expression source-type:allow-source-info source-type:deny-source-info [source-type:options-source-info] Default: None Context: server config, <VirtualHost , <Global> , <Anonymous> Module: mod_wrap2 Compatibility: 1.3.1rc1 and later The WrapGroupTables directive configures the information necessary
+for mod_wrap2 to locate and use the tables containing the access
+rules for specific groups. The group-AND-expression parameter is a logical AND expression, which
+means that the connecting user must be a member of all the groups
+listed for this directive to apply.  Group names may be negated with a ! prefix. The next two parameters specify two tables, an allow and a deny table, each of
+which contain the IP addresses, networks or host/network masks to be allowed or
+denied. Please consult the relevant submodule documentation
+for details on that module's syntax for specifying tables.  The service name
+for which mod_wrap2 will look in the indicated access tables is
+"proftpd" by default; this can be configured via the WrapServiceName directive. See also: WrapServiceName , WrapTables , WrapUserTables WrapLog Syntax: WrapLog file|"none" Default: None Context: server config, <VirtualHost> , <Global> Module: mod_wrap2 Compatibility: 1.3.1rc1 and later The WrapLog directive is used to specify a log file for mod_wrap2 reporting, and can be done a per-server basis.
+The file parameter must be the full path to the file to use for
+logging.  Note that this path must not be to a world-writeable
+directory and, unless AllowLogSymlinks is explicitly set to on (generally a bad idea), the path must not be a symbolic
+link. If file is "none", no logging will be done at all; this
+setting can be used to override a WrapLog setting inherited from
+a <Global> context. WrapOptions Syntax: WrapOptions opt1 ... Default: None Context: server config, <VirtualHost> , <Global> Module: mod_wrap2 Compatibility: 1.3.4rc1 and later The WrapOptions directive is used to configure various optional
+behavior of mod_wrap2 . Note : all of the configured WrapOptions parameters must appear on the same line in the
+configuration; only the first WrapOptions directive that appears
+in the configuration is used. Example: WrapOptions CheckOnConnect The currently implemented options are: CheckAllNames This causes mod_wrap2 to check all of the known
+  DNS names for the client IP address against the DNS names/patterns
+  in the access rules, rather than just checking the first DNS name
+  returned for the client IP address. CheckOnConnect This causes mod_wrap2 to check the allow/deny tables when
+  the client first connects, rather than waiting until the client has
+  authenticated before checking the access rules.  This means that
+  per-user/group allow/deny tables, and the use of the tilde (~) notation
+  in table paths, is not supported when this option is used. In addition, if mod_wrap2_sql is used , the order in
+  which that module is loaded is very important.  The mod_sql module must appear after the mod_wrap2 module
+  in the --with-modules configure option, e.g. : --with-modules=mod_wrap2:mod_wrap2_sql:mod_sql:mod_sql_mysql Or, if you are using shared/DSO modules, then you must ensure that
+  the modules are loaded in the correct order via LoadModule : ...
+  LoadModule mod_wrap2.c
+  LoadModule mod_wrap2_sql.c
+  ...
+  LoadModule mod_sql.c
+  LoadModule mod_sql_mysql.c
+  ... You will also need to ensure that mod_sql creates a
+  database connection at connect time, using the PERCONNECTION connection policy; see SQLConnectInfo for
+  more details: SQLConnectInfo database user password PERCONNECTION Without this, the database connection will not be created at connect
+  time, and the mod_wrap2 module will be unable to check
+  any allow/deny rules stored in SQL tables when the client connects. WrapServiceName Syntax: WrapServiceName name Default: WrapServiceName proftpd Context: server config, <VirtualHost> , <Global> Module: mod_wrap2 Compatibility: 1.3.1rc1 and later WrapServiceName is used to configure the name of the service under
+which mod_wrap2 will check the allow/deny tables.  By default, this
+is the name of the program started, i.e. "proftpd". However,
+some administrators may want to use a different, more generic service name,
+such as "ftpd"; use this directive for such needs.  The lookup
+using the configured name is case-sensitive . WrapTables Syntax: WrapTables source-type:allow-source-info source-info:deny-source-info Default: None Context: server config, <VirtualHost , <Global> , <Anonymous> Module: mod_wrap2 Compatibility: 1.3.1rc1 and later The WrapTables directive configures the information necessary
+for mod_wrap2 to locate and use the tables containing the access
+rules for all clients. The two parameters specify two tables, an allow and a deny table, each of which
+contain the IP addresses, networks or host/network masks to be allowed or
+denied. Please consult the relevant submodule documentation
+for details on that module's syntax for specifying tables.  The service name
+for which mod_wrap2 will look in the indicated access tables is
+"proftpd" by default; this can be configured via the WrapServiceName directive. See also: WrapGroupTables , WrapServiceName , WrapUserTables WrapUserTables Syntax: WrapUserTables user-OR-expression source-type:allow-source-info source-type:deny-source-info [source-type:option-source-info] Default: None Context: server config, <VirtualHost , <Global> , <Anonymous> Module: mod_wrap2 Compatibility: 1.3.1rc1 and later The WrapUserTables directive configures the information necessary
+for mod_wrap2 to locate and use the tables containing the access
+rules for specific users. The user-OR-expression parameter is a logical OR expression, which
+means that the connecting user can be any the users listed for this
+directive to apply.  User names may be negated with a ! prefix. The next two parameters specify two tables, an allow and a deny table, each of
+which contain the IP addresses, networks or host/network masks to be allowed or
+denied. Please consult the relevant submodule documentation
+for details on that module's syntax for specifying tables.  The service name
+for which mod_wrap2 will look in the indicated access tables is
+"proftpd" by default; this can be configured via the WrapServiceName directive. See also: WrapGroupTables , WrapServiceName , WrapTables Usage To use mod_wrap2 's functionality, you must first define the tables
+that together contain the access rules.  Access rules are composed of daemon lists , client lists , and optional options lists . daemon lists are used so that the access rules can be configured for
+multiple daemons; mod_wrap2 ignores all daemons except that
+configured for proftpd . client lists are the heart of
+the access rules, specifying the host names, IP addresses, etc to
+be allowed or denied.  The handling of options lists is done only if mod_wrap2 is configured with the --enable-wrapper-options option. There is a built-in precedence to the WrapUserTables , WrapGroupTables , and WrapTables directives, if all
+are used. mod_wrap2 will look for applicable WrapUserTables for the connecting user first.  If no applicable WrapUserTables are found, mod_wrap2 will search for WrapGroupTables which pertain to the connecting user.  If not
+found, mod_wrap2 will then look for the server-wide WrapTables directive.  This allows for access control to be set
+on a per-server basis, and allow for per-user or per-group access control
+to be handled without interfering with the overall server access rules. When checking the tables, mod_wrap2 always checks the allow
+table first.  If the client has been explicitly allowed by the rules in
+that table, processing stops and mod_wrap2 allows the client
+to continue the session.  If not explicitly allowed, mod_wrap2 will then check the deny table's access rules.  If the client has been
+explicitly denied by rules in that table, mod_wrap2 will
+disconnect the client.  By default, if neither explicitly allowed or
+explicitly denied, mod_wrap2 will allow the client to continue. In addition to the various formats supported by the submodules , there is a special source type:
+"builtin".  This is used in the situations where the administrator
+wishes to configure "mostly closed" access rules, the most common
+situation.  For example, if all clients are to be denied by mod_wrap2 by default, unless that client is granted access via an
+allow table entry, then the administrator can use: builtin:all as the deny table parameter ( e.g. in a WrapUserTables , WrapGroupTables , or WrapTables directive), rather
+than configuring a static deny table that always says ALL. Access Rules When checking access rules, the check terminates when the first match is
+found.  A client list is a list of one or more host names, host
+addresses, patterns or wildcards (see below) that will be matched against the
+client host name or address. The more complex daemon@host and user@host forms are explained in the sections on server endpoint
+patterns and on client username lookups, respectively.  With the exception of
+NIS/YP netgroup lookups, all access control checks are case insensitive. Patterns The access control language implements the following patterns: A string that begins with a `.' character. A host name is matched if the
+    last components of its name match the specified pattern.  For example, the
+    pattern .castaglia.org matches the host name golem.devlan.castaglia.org . A string that ends with a `.' character. A host address is matched if its
+     first numeric fields match the given string.  For example, the pattern 131.155. matches the address of (almost) every host on the
+     Eindhoven University network ( 131.155. x . x ). A string that begins with an `@' character is treated as an NIS (formerly
+    YP) netgroup name. A host name is matched if it is a host member of the
+    specified  netgroup.  Netgroup matches are not supported for client user
+    names. Note that mod_wrap2 must be configured for NIS
+    support for netgroup lookups to occur. An expression of the form n.n.n.n/m.m.m.m is interpreted as
+    an IPv4 net/mask pair.  An IPv4 address is matched if the net portion is equal to the bitwise AND of the address and the mask portion. For example, the net/mask pattern 131.155.72.0/255.255.254.0 matches every address in the range 131.155.72.0 through 131.155.73.255 . An expression of the form [address]/number is interpreted as
+    an IPv6 net/mask pair.  An IPv6 address is matched if the
+    first number bits match the rule address .  For example, [3ffe:505:2:1::]/64 matches every address in the range 3ffe:505:2:1:: through 3ffe:505:2:1:ffff:ffff:ffff:ffff: . A string that begins with a `/' character is treated as a file name.
+    A host name or address is matched if it matches any host name or address
+    pattern listed in the named file. The file format is zero or more lines
+    with zero or more host name or address patterns separated by whitespace.
+    A file name pattern can be used anywhere a host name or address pattern
+    can be used. Wildcards `*' and `?' can be used to match hostnames or IP addresses.
+    This method of matching cannot be used in conjunction with net/mask matching, hostname matching beginning with `.' or
+    IP address matching ending with `.'. Wildcards The access control language supports explicit wildcards: ALL The universal wildcard, always matches. LOCAL Matches any host whose name does not contain a dot character. UNKNOWN Matches any user whose name is unknown, and matches any host whose name or
+    address are unknown.  This pattern should be used with care: host names may
+    be unavailable due to temporary name server problems. KNOWN Matches any user whose name is known, and matches any host whose name and
+    address are known. This pattern should be used with care: host names may be
+    unavailable due to temporary name server problems. PARANOID Matches any host whose name does not match its address, before looking
+    at the access control tables. Operators EXCEPT Intended use is of the form: list1 EXCEPT list2 This construct matches anything that matches list1 unless it
+    matches list2 . The EXCEPT operator can be used in daemon
+    lists and client lists . The EXCEPT operator can be nested: if
+    the control language would permit the use of parentheses: a EXCEPT b EXCEPT c would parse as (a EXCEPT (b EXCEPT c)) Server Endpoint Patterns In order to distinguish clients by the network address that they connect to,
+use patterns of the form: process-name @ host-pattern : client-list ... Patterns like these can be used when the machine has different Internet
+addresses with different Internet hostnames.  Service providers can use this
+facility to offer FTP, GOPHER or WWW archives with Internet names that may even
+belong to  different  organizations. Some systems can have more than one
+Internet address on one physical interface. The host-pattern obeys the same syntax rules as host names and addresses
+in client lists . Client Username Lookup When the client host supports the RFC 931 protocol, the proftpd daemon can retrieve additional information about the owner of a connection.
+Client username information, when available ( i.e. when IdentLookups are not disabled), is logged together with the client
+host name, and can be used to match patterns like: daemon-list : ... user-pattern @ host-pattern ... A user-pattern has the same syntax as a daemon pattern, so the same
+wildcards apply (netgroup membership is not supported).  One should not get
+carried  away  with username lookups, though: The client username information cannot be trusted when it is needed
+    most, i.e. when the client system has been compromised.  In
+    general, ALL and (UN)KNOWN are the only user name patterns that make sense. Username lookups are possible only when the client host runs a suitable
+    daemon; in all other cases the result is "unknown". Access Options This section describes optional options list portion the access control
+language described above.  The options list syntax uses the following
+format: opt1 : opt2 ... Any `:' characters within options should be protected with a backslash. An option is of the form "keyword" or "keyword  value" .  Options are processed in the
+specified order.  For the sake of backwards compatibility with earlier
+versions, a `=' is permitted between keyword and value. ALLOW Grant service.  This option must appear at the end of a rule. DENY Deny service.  This option must appear at the end of a rule. The allow and deny keywords make it possible to keep all access control
+rules within a single file, for example in the hosts.allow file. To permit access from specific hosts only: ALL: .friendly.domain: ALLOW
+    ALL: ALL: DENY To permit access from all hosts except a few trouble makers: ALL: .bad.domain: DENY
+    ALL: ALL: ALLOW Notice the leading dot on the domain name patterns. nice [number] Change the nice value of the process (default 10). Specify a positive
+    value to spend more CPU resources on other processes. setenv name=value Place a name=value pair into the process environment. The
+    value may contain whitespace (but leading and trailing blanks are stripped
+    off). Diagnostics When a syntax error is found in an options list, the error is reported in the WrapLog and the access option will be ignored. Installation Follow the usual steps for using third-party modules in ProFTPD: $ ./configure --with-modules= wrap-modules $ make
+  $ make install where wrap-modules will depend on the types of access tables you wish
+to support. For file-based access tables, include the mod_wrap2_file submodule, e.g. : mod_wrap2:mod_wrap2_file For SQL-based access tables, include the mod_wrap2_sql submodule, e.g. : mod_wrap2:mod_wrap2_sql And, if you wish to support both file- and SQL-based access tables, use: mod_wrap2:mod_wrap2_file:mod_wrap2_sql Note that SQL tables require that a correct installation of mod_sql (and any of its backend modules) also be used.  Consult the mod_sql documentation for installation instructions for that module. © Copyright 2000-2021 TJ Saunders All Rights Reserved

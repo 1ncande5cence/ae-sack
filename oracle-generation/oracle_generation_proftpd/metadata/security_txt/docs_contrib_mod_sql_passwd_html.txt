@@ -1,0 +1,152 @@
+ProFTPD module mod_sql_passwd ProFTPD module mod_sql_passwd Many FTP sites use SQL databases for storing user accounts, including the
+user name and password.  And while the mod_sql module provides
+support for some formats for the passwords stored in SQL databases, many
+sites have other formats which are not supported by mod_sql .
+These other formats often include MD5 or SHA1 passwords, base64-encoded
+or hex-encoded, without the prefix which is required by mod_sql 's "OpenSSL" SQLAuthType . The mod_sql_passwd module provides support for some of these
+other formats.  When the mod_sql_passwd module is enabled,
+you can configure SQLAuthTypes of: Argon2 Bcrypt MD5 PBKDF2 Scrypt SHA1 SHA256 SHA512 SSHA (see RFC 2307bis ) Sodium (uses libsodium's crypto_pwhash_str_verify function) as well as the existing types supported by mod_sql . This module is contained in the mod_sql_passwd.c file for
+ProFTPD 1.3. x , and is not compiled by default.  Installation
+instructions are discussed here ; a discussion
+on usage is also available. This product includes software developed by the OpenSSL Project for use in the
+OpenSSL Toolkit (http://www.openssl.org/). This product includes cryptographic software written by Eric Young
+(eay@cryptsoft.com). The most current version of mod_sql_passwd is distributed with
+ProFTPD. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives SQLPasswordArgon2 SQLPasswordCost SQLPasswordEncoding SQLPasswordEngine SQLPasswordOptions SQLPasswordPBKDF2 SQLPasswordRounds SQLPasswordSaltEncoding SQLPasswordSaltFile SQLPasswordScrypt SQLPasswordUserSalt SQLPasswordArgon2 Syntax: SQLPasswordArgon2 length Default: 32 Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.6rc5 and later The SQLPasswordArgon2 directive configures the length of the calculated Argon2 output hash in bytes .  The default length
+is 32 bytes. SQLPasswordCost Syntax: SQLPasswordCost interactive|sensitive Default: interactive Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.6rc3 and later The SQLPasswordCost directive configures the high-level cost settings to use for memory-hard algorithms like scrypt and argon2 .  The supported cost cost values are: interactive This cost uses parameters where generating the value is part of
+    an "interactive" session. For scrypt , depending on the version of libsodium used, this cost uses: N=16384, r=8, p=1 sensitive This cost uses parameters where the value generated is considered
+    very "sensitive". For scrypt , depending on the version of libsodium used, this cost uses: N=1048576, r=8, p=1 SQLPasswordEncoding Syntax: SQLPasswordEncoding encoding Default: hex Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.3rc2 and later The SQLPasswordEncoding directive configures the encoding that mod_sql_passwd expects when handling password values retrieved
+from a SQL database. The following encoding values are currently supported: base64 hex ( for lowercase hex values ) HEX ( for uppercase hex values ) If no SQLPasswordEncoding directive is configured, mod_sql_passwd will use "hex" by default. SQLPasswordEngine Syntax: SQLPasswordEngine on|off Default: off Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.3rc2 and later The SQLPasswordEngine directive enables or disables the module's
+registered SQLAuthType handlers. SQLPasswordOptions Syntax: SQLPasswordOptions opts Default: None Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.4rc2 and later The SQLPasswordOptions directive is used to configure various
+behaviors of mod_sql_passwd . Note : all of the configured SQLPasswordOptions parameters must appear on the same line
+in the configuration; only the first SQLPassworOptions directive
+that appears in the configuration is used. Example: SQLPasswordOptions HashEncodeSalt HashEncodePassword The following options are currently supported: HashPassword HashEncodePassword HashSalt HashEncodeSalt See the transformations section for a fuller
+description of how mod_sql_passwd operates on the password and
+salt data. SQLPasswordPBKDF2 Syntax: SQLPasswordPBKDF2 digest iterations length Default: None Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.5rc3 and later The SQLPasswordPBKDF2 directive configures the input parameters
+to be used for PBKDF2 (Password-Based Key Derivation Function, version 2) passwords.  The digest parameter specifies the digest algorithm to use ( e.g. "sha1" or "sha512"); the iterations specifies the number of iterations
+to use for the key derivation, and length indicates the number of
+bytes to emit for the derived key. Note that PBKDF2 requires that a salt be available, e.g. via SQLPasswordSaltFile or SQLPasswordUserSalt . Per RFC 2898 , the salt
+used should be 8 bytes or longer in length; this RFC also recommends that iterations be 1000 or greater. Example: # Tell mod_sql to use PBKDF2 passwords
+  SQLAuthTypes pbkdf2
+  ...
+
+  # Use the SHA1 digest algorithm, 200K iterations, and expect an output
+  # length of 20 bytes.
+  SQLPasswordPBKDF2 sha1 200000 20
+
+  SQLPasswordSaltFile /path/to/salt/file Use of digest algorithms other than SHA1 for SQLPasswordPBKDF2 requires OpenSSL-1.0.0c or later; earlier
+versions did not have the necessary APIs. As of proftpd-1.3.5 , the SQLPasswordPBKDF2 directive
+can instead take a named query, for determining the digest algorithm,
+iteration count, and output length on a per-user basis .  For example: SQLNamedQuery get-user-pbkdf2 SELECT "algo, iter, len FROM user_pbkdf2 WHERE user = '%{0}'
+  SQLPasswordPBKDF2 sql:/get-user-pbkdf2 SQLPasswordRounds Syntax: SQLPasswordRounds count Default: 1 Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.4rc2 and later The SQLPasswordRounds directive configures the number of
+rounds through which the password (and possibly salt) data will be hashed
+and encoded.  The count parameter must be greater than 1. See the transformations section for a fuller
+description of how mod_sql_passwd operates on the password and
+salt data. SQLPasswordSaltEncoding Syntax: SQLPasswordSaltEncoding encoding Default: none Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.6rc1 and later The SQLPasswordSaltEncoding directive configures the encoding that mod_sql_passwd expects when handling salt values
+retrieved either from a SQL database, or from a file. The following encoding values are currently supported: base64 hex ( for lowercase hex values ) HEX ( for uppercase hex values ) none (use salt value as is) If no SQLPasswordSaltEncoding directive is configured, mod_sql_passwd will use "none" by default. SQLPasswordSaltFile Syntax: SQLPasswordSaltFile path|"none" ["Prepend"|"Append"] Default: none Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.3rc2 and later The SQLPasswordSaltFile directive configures a file which contains
+salt data.  This salt will be added to the digest, along with the password
+sent by the client.  Note that the salt will be used for all users. Since many editors will automatically add a newline when writing a file,
+the mod_sql_passwd file will automatically trim the last newline
+in the salt data, if there is one.  This means that if your salt must end in a newline character, then your SQLPasswordSaltFile must
+contain " salt \n\n". When using salted passwords, some systems will prepend the salt as a
+prefix to the data, and others will append the salt as a suffix.  The
+optional second parameter to SQLPasswordSaltFile controls how
+this module will use the salt: SQLPasswordSaltFile /path/to/salt Prepend tells mod_sql_passwd to prepend the salt as a prefix, and: SQLPasswordSaltFile /path/to/salt Append will cause the salt to be appended as a sufix. Note that the default
+behavior is to append the salt as a suffix. If no SQLPasswordSaltFile is configured, then no salting is done. SQLPasswordScrypt Syntax: SQLPasswordScrypt length Default: 32 Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.6rc5 and later The SQLPasswordScrypt directive configures the length of the calculated Scrypt output hash in bytes .  The default length
+is 32 bytes. SQLPasswordUserSalt Syntax: SQLPasswordUserSalt "name"|source ["Prepend"|"Append"] Default: none Context: server config, <VirtualHost> , <Global> Module: mod_sql_passwd Compatibility: 1.3.3 and later The SQLPasswordUserSalt directive configures a per-user
+salt that will be added to the digest, along with the password sent by the
+client. If "name" is specified, then the per-user salt data will be the
+name of the user logging in.  Alternatively, you can configure a SQLNamedQuery which returns a single column of a single
+row, containing a string to use as the salt data, e.g. : SQLNamedQuery get-user-salt SELECT "salt FROM user_salts WHERE user_name = '%{0}'"
+  SQLPasswordUserSalt sql:/get-user-salt When using salted passwords, some systems will prepend the salt as a
+prefix to the data, and others will append the salt as a suffix.  The
+optional second parameter to SQLPasswordUserSalt controls how
+this module will use the salt: SQLPasswordUserSalt name Prepend
+  SQLPasswordUserSalt sql:/get-user-salt Prepend tells mod_sql_passwd to prepend the salt as a prefix, and: SQLPasswordUserSalt name Append
+  SQLPasswordUserSalt sql:/get-user-salt Append will cause the salt to be appended as a sufix. Note that the default
+behavior is to append the salt as a suffix. Installation The mod_sql_passwd module is distributed with ProFTPD.  Simply
+follow the normal steps for using third-party modules in proftpd.  The mod_sql_passwd module requires OpenSSL support, so you must use the --enable-openssl configuration option.  In addition,
+if you have the libsodium library installed, simply include the libsodium headers/libraries in the build command to enable
+additional algorithms. NOTE : it is important that mod_sql_passwd appear after mod_sql in your --with-modules configure
+option: $ ./configure --enable-openssl --with-modules=mod_sql:mod_sql_passwd ... To build mod_sql_passwd as a DSO module: $ ./configure --enable-dso --enable-openssl --with-shared=mod_sql_passwd Then follow the usual steps: $ make
+  $ make install For those with an existing ProFTPD installation, you can use the prxs tool to add mod_sql_passwd , as a DSO module, to
+your existing server: $ prxs -c -i -d mod_sql_passwd.c Usage The following examples demonstrate how the mod_sql_passwd can
+be used. To configure mod_sql_passwd to handle MD5 passwords that are
+base64-encoded, use: <IfModule mod_sql_passwd.c>
+    SQLPasswordEngine on
+    SQLPasswordEncoding base64
+  </IfModule>
+
+  <IfModule mod_sql.c>
+    ...
+
+    # Now that mod_sql_passwd is used, we can configure "MD5" as an
+    # SQLAuthType that mod_sql will handle.
+    SQLAuthTypes MD5
+  </IfModule> To have mod_sql_passwd to handle hex-encoded ( and in
+lowercase) passwords, use: <IfModule mod_sql_passwd.c>
+    SQLPasswordEngine on
+    SQLPasswordEncoding hex
+  </IfModule> And if for some reason your database values are stored as hex values in
+uppercase, you would use: <IfModule mod_sql_passwd.c>
+    SQLPasswordEngine on
+    SQLPasswordEncoding HEX
+  </IfModule> To use salted passwords, write the salt to use into a file, and configure
+the mod_sql_passwd module to use it: <IfModule mod_sql_passwd.c>
+    SQLPasswordEngine on
+    SQLPasswordEncoding hex
+    SQLPasswordSaltFile /path/to/salt
+  </IfModule> Argon2, Scrypt When mod_sql_passwd is compiled/linked with the libsodium library, then the
+Argon2 and Scrypt algorithms become available for use: <IfModule mod_sql_passwd.c>
+    SQLPasswordEngine on
+    SQLPasswordEncoding hex
+    SQLPasswordSaltFile /path/to/salt
+  </IfModule>
+
+  <IfModule mod_sql.c>
+    ...
+
+    # Now that mod_sql_passwd is used, we can configure "SCRYPT" as an
+    # SQLAuthType that mod_sql will handle.
+    SQLAuthTypes SCRYPT
+  </IfModule> The scrypt algorithm requires 32 bytes of salt data;
+lack of salt, or salt of the wrong amount, will result in authentication
+failure.  The argon2 algorithm requires 16 bytes of salt
+data; lack of salt or the wrong amount will result in failure. The argon2 algorithm requires libsodium-1.0.9 or
+later. Logging The mod_sql_passwd module supports trace logging , via the module-specific log
+channels: sql.passwd Thus for trace logging, to aid in debugging, you would use the following in
+your proftpd.conf : TraceLog /path/to/ftpd/trace.log
+  Trace sql.passwd:20 This trace logging can generate large files; it is intended for debugging use
+only, and should be removed from any production configuration. Processing of Password and Salt Data The logical description of the processing that mod_sql_passwd does can be expressed as: ENCODE(HASH( data )) where data is comprised of the password, and possibly a salt.  The
+function ENCODE() is determined by SQLPasswordEncoding , and
+the function HASH() by SQLAuthTypes . Thus if we use a configuration like: SQLAuthTypes MD5
+  SQLPasswordEncoding hex Then mod_sql_passwd performs the following processing: hex(MD5( data )) in order to calculate the value that it will compare against the password
+value stored for the authenticating client. Using Salts By default, the mod_sql_passwd module uses the password, as
+sent by the client, as the data on which to perform its processing.
+In many cases, however, a salt is needed in addition to the password.  The SQLPasswordSaltFile and SQLPasswordUserSalt directives
+are used to tell mod_sql_passwd that it should add a salt to the data before processing it.  These directives also specify whether the
+salt should be prepended to the password, e.g. : data = salt + password or appended to the password, e.g. : data = password + salt Let's show a configuration which uses a prepended salt: SQLAuthTypes MD5
+  SQLPasswordEncoding hex
+  SQLPasswordSaltFile /path/to/salt.data Prepend This means that mod_sql_passwd would end up checking the
+following computed value against the value in the database: hex(MD5( salt + password )) Some sites will have even more complex requirements for how the data processed by mod_sql_passwd need to be constructed.  The salt
+data may need to be hashed before being used with the password, or may need
+to be hashed and encoded before use.  Or maybe the password data needs
+to be hashed before use with the salt, or hashed and encoded.  
+The SQLPasswordOptions directive
+supports options for supporting these use cases. Each of the following examples assumes the following configuration: SQLAuthTypes MD5
+  SQLPasswordEncoding hex
+  SQLPasswordSaltFile /path/to/salt.data Prepend Let's look at each of the SQLPasswordOptions in turn: HashPassword This option says that mod_sql_passwd should use the HASH() function on the password data before using it,
+    regardless of whether a salt is used or not. I.e. : data = salt + HASH( password ) which assuming hex and MD5, means: data = salt + MD5( password ) HashSalt This option says that mod_sql_passwd should use the HASH() function on the salt data before using it.
+    If no salt is used, this option is silently ignored.  Thus: data = HASH( salt ) + password which assuming hex and MD5, means: data = MD5( salt ) + password HashEncodePassword This option says that mod_sql_passwd should use the HASH() function and then the ENCODE() function
+    on the password data before using it.  This option is only useful when salts are also used.  Thus: data = salt + ENCODE(HASH( password )) which assuming hex and MD5, means: data = salt + hex(MD5( password )) Note : If no salt is present, this option will be ignored.  Without
+    a salt, this option is equivalent to adding another round of transformation,
+    which is not an obvious side effect. HashEncodeSalt This option says that mod_sql_passwd should use the HASH() function and then the ENCODE() function
+    on the salt data before using it.  If no salt is used, this option is
+    silently ignored.  Thus: data = ENCODE(HASH( salt )) + password which assuming hex and MD5, means: data = hex(MD5( salt )) + password Of course, these various options can be combined: SQLPasswordOptions HashEncodePassword HashEncodeSalt which would cause the data on which mod_sql_passwd operates to
+be constructed like so: data = ENCODE(HASH( salt )) + ENCODE(HASH( password )) data = hex(MD5( salt )) + hex(MD5( password )) Rounds For convenience, let's assume that the function TRANSFORM encompasses the entire ENCODE(HASH()) operation: TRANSFORM( data ) = ENCODE(HASH( data )) Let's also assume that passwords are stored in your database using something
+like this: hex(MD5(hex(MD5(hex(MD5( data )))))) That means that the data value has gone through multiple rounds of the TRANSFORM function, e.g. : TRANSFORM(TRANSFORM(TRANSFORM( data ))) In this case, there are 3 rounds of transformation: for ( i = 0; i < nrounds ; i ++) { data = TRANSFORM( data )
+  } Using the above example case, you would configure mod_sql_passwd to perform multiple rounds of transformation using the SQLPasswordRounds directive,
+like so: SQLAuthTypes MD5
+  SQLPasswordEncoding hex
+  SQLPasswordRounds 3 The combination of SQLPasswordOptions and SQLPasswordRounds means that quite few combinations of password
+values can be supported by the mod_sql_passwd module. © Copyright 2009-2025 TJ Saunders All Rights Reserved

@@ -1,0 +1,138 @@
+ftpquota: tool for ProFTPD mod_quotatab ftpquota : tool for ProFTPD module mod_quotatab This program is distributed with the mod_quotatab module for
+ProFTPD 1.2.  It is used to create and manage quota tables of type
+"file". The most current version of ftpquota is distributed with the
+ProFTPD source code. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this program. Usage The following describes the common usage of the ftpquota tool.
+The options supported are described in more detail later . Creating Tables To start using mod_quotatab , the two required tables are required.
+Tables of type "file" have identifying magic headers such that ftpquota is needed to initially create both tables.  It is an
+error to attempt to create a table that already exists: $ ftpquota --create-table --type=limit
+  ftpquota: cannot create existing table To create the initial limit table: $ ftpquota --create-table --type=limit To create the initial tally table: $ ftpquota --create-table --type=tally The population of a tally table file with the tally for user s, group s, class es, and all is done
+automatically by mod_quotatab . For both of these operations, the --table-path can be used to
+create a table in a non-default location. Updating Tables Now that you have the initial tables created, but blank, you need to add
+records (to the limit table) for the users, groups, classes, etc on which
+you, as the administrator, wish to impose quotas. To a basic limit record for a user bob using the default quotas
+(which are all "unlimited" by default): $ ftpquota --add-record --type=limit --name=bob --quota-type=user Similarly for quotas of type group or class. Note
+that for quotas of type all , the --name option
+is not necessary; the all record applies to everyone, regardless
+of name or group or class membership.  If no byte or file limits are
+specified, the default settings ( unlimited numbers of bytes/files)
+are used. It is an error to add a record that already exists.  Note, however, that it
+is possible to have multiple records of the same name, but different
+quota types.  The record to use for a given session is identified by the
+combination of name and quota type. An example of creating a limit record with more complex quotas for a class
+named "browsers" $ ftpquota --add-record --type=limit --name=browsers --quota-type=class \
+    --files-upload=0  --files-download=25 --table-path=/usr/local/etc/ftplimit.tab or, another way: $ ftpquota --add-record --type=limit --name=browsers --quota-type=class \
+    --bytes-upload=0 --bytes-download=2 --units=Gb --table-path=/usr/local/etc/ftplimit.tab In general, it is a good idea to use either byte quotas or file quotas, but
+not both, unless you know what you are doing.  In these examples, the --table-path option is used to add the record to a limit table in
+a non-default location. Another option available when creating limit records is the --per-session option.  By default, quotas are persistent, and
+apply to the user (or group, class, or everyone) across all sessions.  Using
+this option means the limits will be enforced only for the duration of
+the client's session, and that the limits will apply only to that client.
+In other words, using this option for group , class ,
+or all quotas is not a good idea. Similarly, for removing records from the limit table (effectively removing
+quotas from affecting that user/group/class/all ) or from the
+tally table (effectively resetting the quotas to zero for that user/group/class/all ), there is the --delete-record option: $ ftpquota --delete-record --type=limit --name=browsers --quota-type=class In addition to adding and removing records, an administrator may want to
+simply change the quotas in a given record, either in the limit or tally
+tables.  In this case, use --update-record : $ ftpquota --update-record --type=tally --name=bob --quota-type=user \
+    --bytes-download=100 --files-download=1 This example command manually sets user bob 's download tally to
+100 bytes, 1 file.  It is an error to update a record that does not exist. There are some administrators who wish to impose quotas on a daily basis, that
+is, to have a per-day quota.  At present, the easiest way to do this is to
+have a cron job that, once a day, does the following: $ ftpquota --update-record --type=tally --name= name --quota-type= quotatype This command will "reset" the matching tally record.  By default, if
+no byte or file quotas are set, the default values are used: unlimited if updating a limit record, zero if updating a tally record. When editing the tables, ftpquota will obtain read or write
+locks as necessary.  If those tables are being used by a running server, which
+also performs locking, the script will wait until it is able to obtain a lock.
+Changing of in-use table information is ideally done while the server is
+quiescent.  This locking is to avoid data synchronization and corruption
+issues. Showing Tables Having tables in binary format makes it difficult to easily see what
+the current records are, to double-check limits or simply to view the
+current tally. ftpquota thus supports the dumping out of
+table contents in human-legible form via the --show-records option: $ ftpquota --show-records --type=limit or, for a tally table not in the location where the scripts expects it to
+be: $ ftpquota --show-records --type=tally --table-path=/usr/local/etc/ftpd/quota-tally.tab When viewing tables this way, the --units option can be used
+to display byte quotas in other units ( e.g. Kb, Mb, etc). Options The following is the output from running ftpquota --help : usage: ftpquota [options]
+
+ The following options describe the type of operation to be performed:
+
+  --add-record         Create a new record with the specified limits.  Any
+                       limits left unspecified with have their default
+                       values.  This option requires the --name and
+                       --quota-type options.
+
+  --create-table       Create the table if not present.  Used to initialize
+                       a table.  The default limit table path is
+                       "./ftpquota.limittab".  The default tally table path is
+                       "./ftpquota.tallytab".
+
+  --delete-record      Deletes a quota record from the table.  This option
+                       requires the --name and --quote-type options.
+
+  --show-records       Prints out all of the quota records in the table in
+                       a legible format.
+
+  --update-record      Updates a quota record with the specified limits.  Any
+                       limits left unspecified will be updated with their
+                       default value.  This option requires the --name and
+                       --quota-type options.
+
+ The following option describes the type of table on which to operate:
+
+  --type               Specifies a table type to use.  The allowable options
+                       are: "limit" or "tally".  This is required.
+
+ The following options are used to specify specific quota limits:
+
+  --Bu                 Specifies the limit of the number of bytes that may be
+  --bytes-upload       uploaded.  Defaults to -1 (unlimited).
+
+  --Bd                 Specifies the limit of the number of bytes that may be
+  --bytes-download     downloaded.  Defaults to -1 (unlimited).
+
+  --Bx                 Specifies the limit of the number of bytes that may be
+  --bytes-xfer         transferred.  Note that this total includes uploads,
+                       downloads, AND directory listings.  Defaults to
+                       -1 (unlimited).
+
+  --Fu                 Specifies the limit of the number of files that may be
+  --files-upload       uploaded.  Defaults to -1 (unlimited).
+
+  --Fd                 Specifies the limit of the number of files that may be
+  --files-download     downloaded.  Defaults to -1 (unlimited).
+
+  --Fx                 Specifies the limit of the number of files that may be
+  --files-xfer         transferred, including uploads and downloads.  Defaults
+                       to -1 (unlimited).
+
+  -L                   Specifies the type of limit, "hard" or "soft", of
+  --limit-type         the bytes limits.  If "hard", any uploaded files that
+                       push the bytes used counter past the limit will be
+                       automatically deleted; if "soft", those extra bytes
+                       will be allowed, but future uploads will be denied.
+                       This option only makes sense if --type is "limit".
+
+  -N                   Specifies a name for the quota record.  This name
+  --name               will be the user/login name, group name, or class
+                       name, depending on the quota type.  This option
+                       is ignored if the quota type specified is "all".
+
+  -P
+  --per-session        Specifies that the quota limit is to be applied only
+                       to each session, rather than persisting across
+                       sessions.  By default, quotas are persistent.
+
+  -Q                   Specifies a "quota type" for this record, where
+  --quota-type         the type means to which category of FTP users this
+                       quota will apply.  The quota type must be one of:
+                       "user", "group", "class", or "all".
+
+ The following options are miscellaneous:
+
+  --help               Displays this message.
+
+  --table-path         Specifies the path to a quota table file to use.
+
+  --units              Specifies whether to treats bytes as is, in kilobytes,
+                       megabytes, or gigabytes.  Allowable options are:
+                       "B" or "byte", "Kb" or "kilo", "Mb" or "mega",
+                       and "Gb" or "giga".  Defaults to "byte".
+
+  --verbose            Toggles more verbose information about the doings of
+                       the tool as it works. © Copyright 2000-2002 TJ Saunders All Rights Reserved

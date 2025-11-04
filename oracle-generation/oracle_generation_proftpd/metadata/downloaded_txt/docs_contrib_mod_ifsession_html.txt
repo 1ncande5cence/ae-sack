@@ -1,0 +1,113 @@
+ProFTPD module mod_ifsession ProFTPD module mod_ifsession The purpose of mod_ifsession is to provide a flexible way of
+specifying that certain configuration directives only apply to certain sessions,
+based on credentials such as connection class, user, or group membership. For class-based qualifications, mod_ifsession will apply 
+configuration directives to the current session as soon as the client has
+connected to the server; for user- and group-based qualifications, mod_ifsession applies configuration directives to the current
+session, if applicable, only after the client has successfully authenticated.
+This means that mod_ifsession cannot change the effect of some
+user- and group-qualified configuration directives, particularly those that
+influence the session prior to authentication.  These directives include: AccessDenyMsg
+  AccessGrantMsg
+  AnonRequirePassword
+  <Anonymous>
+  AuthGroupFile
+  AuthUserFile
+  CreateHome
+  DefaultChdir
+  DefaultRoot
+  DefaultTransferMode
+  DisplayConnect
+  ExtendedLog
+  MaxInstances
+  RequireValidShell
+  RootLogin
+  ServerIdent
+  ServerName
+  ShowSymlinks
+  TransferLog
+  UseFtpUsers
+  WtmpLog and the directives from the mod_auth_pam module.  All of these can set on based on class qualifications, however. While the above list of configuration directives is daunting, there are still valid uses for this module, e.g. configuring <Directory> and/or <Limit> for certain
+sessions, Filter directives, transfer rates, maximum file sizes,
+etc.  Plus, some of the above directives ( e.g. DefaultChdir , DefaultRoot ) already have their own configurable restrictions
+(group expressions in the case of DefaultChdir and DefaultRoot ), so all is not entirely lost. This module is contained in the contrib/mod_ifsession.c file for
+ProFTPD 1.2. x /1.3. x , and is not compiled by default.
+Installation instructions are discussed here . The most current version of mod_ifsession is distributed with
+the ProFTPD source. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives <IfAuthenticated> <IfClass> <IfGroup> IfSessionOptions <IfUser> <IfAuthenticated> Syntax: <IfAuthenticated> Default: None Context: server config, <VirtualHost> , <Global> Module: mod_ifsession Compatibility: 1.3.5rc1 and later The <IfAuthenticated> context should contain any
+configuration directives that should be in effect for any sessions where
+the client has successfully authenticated. Examples: # Only configure SQL logging for authenticated users, to avoid cluttering
+  # database tables with fail login data
+  <IfAuthenticated>
+    SQLLog ...
+  </IfAuthenticated> See also: <IfGroup> , <IfUser> <IfClass> Syntax: <IfClass ["AND"|"OR"] class-expression|"regex" regexp > Default: None Context: server config, <VirtualHost> , <Global> Module: mod_ifsession Compatibility: 1.2.8rc1 and later The <IfClass> context should contain any configuration
+directives that should be in effect for any sessions that match the class-expression . Classes must be enabled for this
+context to work properly; the connecting client must be in any of the classes
+listed in the expression for the directives contained to be applied.  Note
+that ! notation in front of a class name in the expression is
+supported. The given class-expression may optionally be prefixed
+with either the "AND" or "OR" keywords, which affect how
+the expression is evaluated: if "AND" is used, then all portions of the expression must evaluate to TRUE for the configuration context
+to be applied to the current session; if "OR" is used, then any portion of the expression must be TRUE for the context to be applied.  The
+default setting for <IfClass> is "OR". If the "regex" keyword is used, the regexp should be a
+regular expression to match class names. Examples: # Give friends, and local users, better transfer rates
+  <IfClass local, friends>
+    TransferRate RETR 8192
+  </IfClass>
+
+  TransferRate RETR 4096 See also: <IfGroup> , <IfUser> <IfGroup> Syntax: <IfGroup ["AND"|"OR"] group-expression|"regex" regexp > Default: None Context: server config, <VirtualHost> , <Global> Module: mod_ifsession Compatibility: 1.2.8rc1 and later The <IfGroup> context should contain any configuration
+directives that should be in effect for any sessions that match the group-AND-expression .  The authenticated user must be in all of
+the groups listed in the expression for the directives contained to be
+applied.  Note that ! notation in front of a group name in the
+expression is supported. The given group-expression may optionally be prefixed
+with either the "AND" or "OR" keywords, which affect how
+the expression is evaluated: if "AND" is used, then all portions of the expression must evaluate to TRUE for the configuration context
+to be applied to the current session; if "OR" is used, then any portion of the expression must be TRUE for the context to be applied.  The
+default setting for <IfGroup> is "AND". If the "regex" keyword is used, the regexp should be a
+regular expression to match group names. Example: # Only members of group webusers can upload/download HTML files
+  <IfGroup !webusers>
+    PathDenyFilter \.htm$|\.html$
+  </IfGroup> See also: <IfClass> , <IfUser> IfSessionOptions Syntax: IfSessionOptions opt1 ... Default: None Context: server config, <VirtualHost> , <Global> Module: mod_ifsession Compatibility: 1.3.9rc1 and later The IfSessionOptions directive is used to configure various
+optional behavior of mod_ifsession . Example: IfSessionOptions PerUnauthenticatedUser The currently implemented options are: PerUnauthenticatedUser By default, mod_ifsession will only use the authenticated identify of the remote client for conditional
+    configurations, i.e. after the client has successfully
+    authenticated. However, some sites need to use different authentication-related conditional configurations, which means using the unauthenticated identity (usually the username requested).  For such cases, use this
+    option. Not recommended , as such conditional configurations can
+    lead to timing differences, which can then be used to determine/test which
+    usernames are valid for the site. <IfUser> Syntax: <IfUser ["AND"|"OR"] user-expression|"regex" regexp > Default: None Context: server config, <VirtualHost> , <Global> Module: mod_ifsession Compatibility: 1.2.8rc1 and later The <IfUser> context should contain any configuration
+directives that should be in effect for any sessions that match the user-OR-expression . The authenticated user must be one of the users
+listed in the expression for the directives contained to be applied.  Note
+that ! notation in front of a user name in the expression is
+supported. The given user-expression may optionally be prefixed
+with either the "AND" or "OR" keywords, which affect how
+the expression is evaluated: if "AND" is used, then all portions of the expression must evaluate to TRUE for the configuration context
+to be applied to the current session; if "OR" is used, then any portion of the expression must be TRUE for the context to be applied.  The
+default setting for <IfUser> is "OR". If the "regex" keyword is used, the regexp should be a
+regular expression to match user names. Example: # Alter the view of files for everyone except the admin
+  <IfUser !ftpadm>
+    <Directory />
+      DirFakeUser on ~
+      DirFakeGroup on ~
+      DirFakeMode 0440
+    </Directory>
+  </IfUser>
+
+  # Impose a PathDenyFilter on ftp users
+  <IfUser regex ^ftp>
+    PathDenyFilter \.conf$
+  </IfUser> See also: <IfClass> , <IfGroup> Usage As a Shared Module If your proftpd is compiled with mod_ifsession as a shared module, then you must make sure that mod_ifsession is loaded last : <IfModule mod_dso.c>
+    LoadModule mod_sql.c
+    LoadModule mod_sql_mysql.c
+    LoadModule mod_tls.c
+    LoadModule mod_rewrite.c LoadModule mod_ifsession.c </IfModule> Failure to ensure that mod_ifsession is loaded last will mean
+that the per-user/group/class functionality will not work as you expect. Todo Expressions, AND vs OR Installation The mod_ifsession module is distributed with ProFTPD.  Follow the
+usual steps for using third-party modules in ProFTPD: $ ./configure --with-modules=mod_ifsession
+  $ make
+  $ make install Note that mod_ifsession should be the last module
+in the --with-modules list, if multiple modules are listed.
+This makes sure that mod_ifsession 's changes will be seen
+properly by other modules. To build mod_ifsession as a DSO module: $ ./configure --enable-dso --with-shared=mod_ifsession Then follow the usual steps: $ make 
+  $ make install Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_ifsession as a
+shared module: $ prxs -c -i -d mod_ifsession.c Logging The mod_ifsession module supports trace logging , via the module-specific log channels: ifsession Thus for trace logging, to aid in debugging, you would use the following in
+your proftpd.conf : TraceLog /path/to/ftpd/trace.log
+  Trace ifsession:20 This trace logging can generate large files; it is intended for debugging use
+only, and should be removed from any production configuration. © Copyright 2000-2023 TJ Saunders All Rights Reserved

@@ -1,0 +1,36 @@
+ProFTPD: IPv6 ProFTPD: IPv6 ProFTPD has support for IPv6 connections enabled by default.  To disable IPv6
+functionality at build time, use the proper configure option, e.g. : $ ./configure --disable-ipv6 ... To disable IPv6 support at runtime , use the UseIPv6 directive in your proftpd.conf : # Disable IPv6 support
+  UseIPv6 off The DefaultAddress , MasqueradeAddress , and <VirtualHost> directives can take both IP addresses and DNS names as
+parameters.  If IP addresses are used, either IPv4 or IPv6, they work as one
+expects.  Things are more involved when a DNS name is given as a parameter. It is possible for a DNS name to have multiple IP addresses, both A (IPv4) and AAAA (IPv6) records.  Thus DefaultAddress and <VirtualHost> will resolve a DNS name to its addresses;
+if multiple addresses are found, they will be added automatically. <VirtualHost localhost>
+    ...
+  </VirtualHost> on an IPv6-enabled host, would be treated as: <VirtualHost 127.0.0.1 ::1>
+    ...
+  </VirtualHost> Note that MasqueradeAddress does not resolve a DNS
+name to all possible addresses.  ProFTPD can only masquerade as one
+address, and so, if given a DNS name, MasqueradeAddress will use
+the first IP address returned by the DNS lookup. Known Issues Wildcard Sockets Various Unix platforms handle wildcard sockets differently with regard to IPv6
+address.  For example, on Mac OSX, one must configure a virtual host to listen
+for both the IPv4 and IPv6 wildcard addresses in order to accept both
+IPv4 and IPv6 connections: # Listen for all IPv4 AND all IPv6 connections
+  <VirtualHost 0.0.0.0 ::>
+    ...
+  </VirtualHost> However, on Solaris, binding to an IPv6 address will accept both IPv4 and IPv6
+connections to that address automatically.  On BSD systems, the behavior
+is affected by the net.inet6.ip6.v6only sysctl setting; on Linux, it is the net.ipv6.bindv6only sysctl setting. Note that the above are issues only if SocketBindTight is not enabled, i.e. if wildcard sockets are used. Broken Implementations HP-UX 11i has a broken getaddrinfo(2) implementation.  To fix
+this, a patch from HP-UX is needed.  See these release notes for IPv6 on HP-UX
+11i.  Alternatively, you can use ProFTPD's fallback implementation by building
+ProFTPD with the --builtin-getaddrinfo compile option. Badly Parsed DNS names Certain DNS names may be handled improperly when IPv6 support is enabled, e.g. : Allow from .ee Attempting to start up ProFTPD with a configuration that contains the above
+line will fail, with the following error being reported: getaddrinfo '.ee' error: Name or service not known
+  Fatal: Allow: bad ACL definition: '.ee': Success on line 13 of '/path/to/proftpd.conf' The issue is that ProFTPD's ACL parser has to guess, for a given string,
+whether the string is for an IP address (either IPv4 or IPv6) or a DNS name,
+which may or may not contain explicit or implicit glob characters.  One of the
+tests that the ACL parser uses is to see if the string contains any characters
+that cannot appear in an IPv4 or IPv6 address.  If the string has any
+non-IP address characters, it is treated as a DNS name string, otherwise, it is
+an IP address string. The range of characters which can appear in an IP address string is: 0123456789ABCDEFabcdef.: The string ".ee" contains all characters that are legal in an IP address string;
+hence why the ACL parser is trying to resolve that IP address, and failing.  As
+a counterexample, ".us" works. One way of working around this issue is to explicitly put glob characters in
+the string, so that the ACL parser can determine more easily that it is a DNS
+glob, e.g. : Allow from *.ee Note that this issue only applies if IPv6 support is enabled. © Copyright 2017 The ProFTPD Project All Rights Reserved

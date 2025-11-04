@@ -1,0 +1,43 @@
+SQLite Download Page Small. Fast. Reliable. Choose any three. Home Menu About Documentation Download License Support Purchase Search About Documentation Download Support Purchase SQLite Download Page Source Code sqlite-src-3500400.zip (13.73 MiB) Complete canonical source tree for SQLite version 3.50.4, include test cases and
+  extensions.  This is a snapshot of all code under version control at the time
+  of release.  This is the urtext.  All of the other source code bundles shown
+  below are derived from this one. (SHA3-256: 9795132ebaccbcf85d992fa9779699cba9807b3463707d0ad8853d3ac8392e7c) sqlite-amalgamation-3500400.zip (2.71 MiB) C source code as an amalgamation , version 3.50.4. (SHA3-256: f131b68e6ba5fb891cc13ebb5ff9555054c77294cb92d8d1268bad5dba4fa2a1) sqlite-autoconf-3500400.tar.gz (3.03 MiB) C source code as an amalgamation .  Also includes a "configure" script. (SHA3-256: 330bb88febc08814d49406391891eddac59e5f812e87b83c27ab172687554375) sqlite-preprocessed-3500400.zip (2.82 MiB) Preprocessed C sources for SQLite version 3.50.4.  This is a legacy
+  build product that is untested and unsupported. (SHA3-256: d8dde54f03881975cec49c327a337bec2e17d95c4c99ecc11b78e8fc95214114) Documentation sqlite-doc-3500400.zip (10.87 MiB) Documentation as a bundle of static HTML files. (SHA3-256: 3e17e7d6fdc0574a6b6e93035e8e79f34efd242c4c3428c63247ff5da45bb09e) Precompiled Binaries for Android sqlite-android-3500400.aar (3.41 MiB) A precompiled Android library containing
+  the core SQLite together with appropriate Java bindings , ready to drop
+  into any Android Studio project. (SHA3-256: 9813f42ef78ab71d9a68835c2ed196a2c6489f6702d543fd6343c2cbe73e5e3d) Precompiled Binaries for Linux sqlite-tools-linux-x64-3500400.zip (3.23 MiB) Command-line tools for Linux on x64,
+  including (1) the command-line shell , (2) sqldiff ,
+  (3) sqlite3_analyzer , and (4) sqlite3_rsync . (SHA3-256: c50c1960aec8a79644828a90a180d637c7cc8af8d230456c62344d3b56adbeab) Precompiled Binaries for Mac OS X sqlite-tools-osx-arm64-3500400.zip (3.62 MiB) Command-line tools for Mac OS-X on ARM,
+  including (1) the command-line shell , (2) sqldiff ,
+  (3) sqlite3_analyzer , and (4) sqlite3_rsync . (SHA3-256: d1efbbece7bf00cb199e82f4d91e272bf5ab4c67f941f3956727b3716f20f5d4) sqlite-tools-osx-x64-3500400.zip (3.55 MiB) Command-line tools for Mac OS-X on x64,
+  including (1) the command-line shell , (2) sqldiff ,
+  (3) sqlite3_analyzer , and (4) sqlite3_rsync . (SHA3-256: 9f6bc10246d7b60aafd04e16b9a277459fc4e86b2003f2dca5f9f64ded8288b8) Precompiled Binaries for Windows sqlite-dll-win-arm64-3500400.zip (1.02 MiB) DLL for Windows ARM64, SQLite version 3.50.4. (SHA3-256: c4f3d245377f4ee2da5c08e882ecaff376b35a609198dc399dd8cec0add1ea43) sqlite-dll-win-x64-3500400.zip (1.28 MiB) DLL for Windows x64, SQLite version 3.50.4. (SHA3-256: 8454a8ef362b4b2d5a259a54948ed278ef943128bf1ba74b5cbd87ebc58e5b85) sqlite-dll-win-x86-3500400.zip (1.03 MiB) DLL for Windows x86 (32-bit), SQLite version 3.50.4. (SHA3-256: 8ca29398cddcb78e46383fd60e1e12b41fc08a8fb5eadf9efadcb198208888e4) sqlite-tools-win-arm64-3500400.zip (5.20 MiB) Command-line tools for Windows ARM64,
+  including (1) the command-line shell , (2) sqldiff.exe ,
+  (3) sqlite3_analyzer.exe , and (4) sqlite3_rsync.exe . (SHA3-256: 39cbb1cb10945ebf58dd5bfa3576bbbd948eef1877e462030919d7f83e92101d) sqlite-tools-win-x64-3500400.zip (6.13 MiB) Command-line tools for Windows x64,
+  including (1) the command-line shell , (2) sqldiff.exe ,
+  (3) sqlite3_analyzer.exe , and (4) sqlite3_rsync.exe . (SHA3-256: a17b6e4d58efd95ecda7a77aa2ec0be97022dd91dc8d08a7f827fe3d5993b719) Precompiled Binaries for .NET System.Data.SQLite Visit the System.Data.SQLite.org website and especially the download page for
+    source code and binaries of SQLite for .NET. WebAssembly & JavaScript sqlite-wasm-3500400.zip (793.78 KiB) A precompiled bundle of sqlite3.wasm and its
+  JavaScript APIs, ready for use in web applications. (SHA3-256: cdff32cba45537d96efd883a9a3dd09af7616b2fa9b414afbbc7a36fbe474af5) Build Product Names and Info Build products are named using one of the following templates: sqlite- product - version .zip sqlite- product - version .tar.gz sqlite- product - os - cpu - version .zip sqlite- product - date .zip Templates (1) and (2) are used for source-code products.  Template (1) is
+used for generic source-code products and templates (2) is used for source-code
+products that are generally only useful on unix-like platforms.  Template (3)
+is used for precompiled binaries products.  Template (4) is used for
+unofficial pre-release "snapshots" of source code. The version is encoded so that filenames sort in order of
+increasing version number when viewed using "ls".  For version 3.X.Y the
+filename encoding is 3XXYY00.  For branch version 3.X.Y.Z, the encoding is
+3XXYYZZ. The date in template (4) is of the form: YYYYMMDDHHMM For convenient, script-driven extraction of the downloadable
+file URLs and associated information, an HTML comment is embedded
+in this page's source. Its first line (sans leading tag) reads: Download product data for scripts to read Its subsequent lines comprise a CSV table with this column header: PRODUCT,VERSION,RELATIVE-URL,SIZE-IN-BYTES,SHA3-HASH The column header and following data lines have no leading space.
+The PRODUCT column is a constant value ("PRODUCT") for convenient
+regular expression matching. Other columns are self-explanatory.
+This format will remain stable except for possible new columns
+appended to the right of older columns. Source Code Repositories The SQLite source code is maintained in three geographically-dispersed
+self-synchronizing Fossil repositories that are
+available for anonymous read-only access.  Anyone can
+view the repository contents and download historical versions
+of individual files or ZIP archives of historical check-ins.
+You can also clone the entire repository . See the How To Compile SQLite page for additional information
+on how to use the raw SQLite source code.
+Note that a recent version of Tcl is required in order to build from the repository sources.
+The amalgamation source code files
+(the "sqlite3.c" and "sqlite3.h" files) build products and are
+not contained in raw source code tree. https://sqlite.org/src (Dallas) https://www2.sqlite.org/src (Newark) https://www3.sqlite.org/src (San Francisco) There is a GitHub mirror at https://github.com/sqlite/sqlite/ The documentation is maintained in separate Fossil repositories located
+at: https://sqlite.org/docsrc (Dallas) https://www2.sqlite.org/docsrc (Newark) https://www3.sqlite.org/docsrc (San Francisco)

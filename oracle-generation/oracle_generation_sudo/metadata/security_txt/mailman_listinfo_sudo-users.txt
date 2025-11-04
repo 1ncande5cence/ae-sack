@@ -1,0 +1,9 @@
+sudo-users Info Page sudo-users --
+	General sudo questions and discussion About sudo-users This list is for people using sudo.  Questions and discussion that would not be appropriate for the sudo-workers list should go here. To see the collection of prior postings to the list,
+	      visit the sudo-users
+		  Archives . Using sudo-users To post a message to all the list members, send email to sudo-users@sudo.ws . You can subscribe to the list, or change your existing
+	    subscription, in the sections below. Subscribing to sudo-users Subscribe to sudo-users by filling out the following
+	      form.
+	  You will be sent email requesting confirmation, to
+            prevent others from gratuitously subscribing you. This is a private list, which means that the
+            list of members is not available to non-members. sudo-users Subscribers sudo-users list run by sudo-users-owner at sudo.ws sudo-users administrative interface (requires authorization) Overview of all sudo.ws mailing lists version 2.1.39

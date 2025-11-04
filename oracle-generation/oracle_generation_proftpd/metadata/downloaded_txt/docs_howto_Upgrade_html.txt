@@ -1,0 +1,21 @@
+ProFTPD: Upgrading ProFTPD: Upgrading Upgrading proftpd is usually a straightforward process, but
+as with any upgrade, double-checking that the upgrade will not break anything
+is a Good Idea. Recent ProFTPD releases have a RELEASE_NOTES file in the
+source distribution that documents the changes in that release, including
+new configuration directives, new contrib modules, deprecated directives,
+special instructions, etc .  In addition, the NEWS file
+contains a list of the bugs that have fixed, and comments about any changes
+the bugfix required. Please read these files carefully before
+starting your upgrade. One safe way to test the upgrade is to compile the new proftpd ,
+and test it out on your existing configuration file before actually installing
+the new version into the "live" location: $ tar zxvf proftpd- version .tar.gz
+  $ cd proftpd- version /
+  $ ./configure ..
+  $ make
+  $ ./proftpd -t -d10 -c /path/to/proftpd.conf The " ./proftpd " means to use the new proftpd binary compiled by make , but not yet
+installed.  If the new binary reports errors, make a copy of your existing proftpd.conf file, keeping the old one as a backup: $ cp /path/to/proftpd.conf /path/to/proftpd.conf.new Make any needed changes to the proftpd.conf.new file, until
+the new proftpd binary reports a successful syntax check: $ ./proftpd -t -d10 -c /path/to/proftpd.conf.new Once everything is configured the way you like, install the new binary and
+configuration file: $ make install
+  $ cp /path/to/proftpd.conf /path/to/proftpd.conf.old
+  $ mv /path/to/proftpd.conf.new /path/to/proftpd.conf Now do a stop/start on proftpd , and the new version of ProFTPD
+will be running. © Copyright 2017 The ProFTPD Project All Rights Reserved

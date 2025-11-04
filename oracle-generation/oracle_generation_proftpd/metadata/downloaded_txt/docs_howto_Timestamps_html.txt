@@ -1,0 +1,44 @@
+ProFTPD: Timestamps ProFTPD: Timestamps There have been various reports that timestamps displayed in various
+ProFTPD log files, such as an ExtendedLog or TransferLog , or even in directory listings, are not as expected.
+Other applications ( e.g. sshd ) on the same machine do
+not exhibit the same problem.  So is proftpd having issues
+with timestamps? If the timestamps in question are those displayed in directory listings, then
+you need to check your TimesGMT configuration.  Otherwise,
+depending on the logs at which you are looking, the timestamps will be correct until the user logs in.  After that, the timestamps are wrong.  This
+is one clue.  The other clue is that these wrong timestamps go away when
+the DefaultRoot directive is removed from the proftpd.conf file. The answer turns out to be the chroot(2) system call, which proftpd uses to restrict users to certain directories, usually
+their home directory.  There are two configuration directives which tell proftpd to use the chroot(2) system call: <Anonymous>
+  DefaultRoot The system libc library is responsible for generating times,
+based on timezone settings and such.  The GNU libc library (called glibc for short), used on all Linux systems changed in later
+versions, and now makes some assumptions.  Specifically, glibc assumes the location of the system timezone files.  But once a process
+has been chrooted, those assumptions break.  The fallback behavior of glibc , when it cannot find the system timezone files, is to
+use GMT. The good news is that the above behavior does not happen if the TZ environment variable is set explicitly, to the required
+timezone.  That is, if glibc needs to detect the timezone and
+it finds that TZ is set, then glibc will use that TZ setting, rather than falling back to GMT. Affected Library Functions Once a process has chrooted, the following libc function
+calls will have possibly-bad side effects, with regard to timezone detection: localtime(3) , ctime(3) , and mktime(3) .
+As documented in the man pages for these functions, each of them will
+set the tzname global variable to the "current"
+timezone.  This "current" timezone is what changes, once the
+process has become chrooted.  (For more information on the tzname global variable, read the tzset(3) man page.) Solutions Recent releases of ProFTPD attempt to work around these issues by
+preserving the tzname global variable after calling localtime(3) , and by automatting setting the TZ environment variable, is not already set, before calling chroot(2) .
+These measures are defensive at best, though. The best way to deal with this issue, which is especially prominent on systems
+running glibc-2.3 or later, is to set the TZ environment variable explicitly, before starting proftpd .  This
+can be done in an init script for proftpd , for
+example. You can also use the SetEnv configuration directive within the proftpd.conf file to set the TZ environment variable, e.g. : # Set the TZ environment variable to be Pacific Standard Time (PST)
+  SetEnv TZ PST Obviously you will need to set the timezone to whatever is appropriate for
+your site.  For example, some systems expect different values for the TZ environment variable, e.g. : SetEnv TZ :/etc/localtime Note : Using a filesystem location such as ":/etc/localtime" for the TZ environment variable can still result in log timestamp issues, e.g. when the MFMT / MFF FTP commands are used.
+The best solution is to always specify the timezone name, rather than a file,
+whenever possible. These are provided as examples ; please consult your system documentation
+for the proper syntax to use for the TZ value. Frequently Asked Questions Question : Why is the timestamp on my newly uploaded file wrong? Answer : If by "wrong" you mean "different from
+the timestamp of that file on my client machine", then that is the expected
+behavior. The modification timestamp on a file is not part of the data uploaded
+over the data connection when uploading a file.  Timestamps like that are metadata for that file, not part of the bytes of the file itself.
+FTP does not supporting sending of timestamps as part of the upload transfer
+process.  See below for a common follow-up question. Question : Does ProFTPD support changing the timestamp on a file using the MDTM command?  That's what my client does. Answer : No. Why not?  For several reasons: The MDTM command is not one of the commands
+      mandated by RFC 959 . Some FTP clients use MDTM for retrieving the
+      modification time, others try to use it to set the modification
+      time, and still others do both. Among those FTP clients that do use MDTM , there is no
+      consistent format of the timestamp used. In short, it is a royal mess.  ProFTPD supports MDTM for
+retrieving the modification time, in GMT.  Period. If you want to set the modification time, you can use the MFMT command supported by the mod_facts module,
+or the mod_site_misc module's SITE UTIME command. Question : I thought that the TimesGMT directive was affected the timestamps that proftpd uses? Answer : No.  The TimesGMT directive only affects the timestamps as
+displayed to FTP clients in directory listings ; it does not affect the timestamps used in log files. © Copyright 2017 The ProFTPD Project All Rights Reserved

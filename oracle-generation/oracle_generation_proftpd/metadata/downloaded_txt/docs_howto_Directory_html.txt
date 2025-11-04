@@ -1,0 +1,155 @@
+ProFTPD: Configuring a <Directory> ProFTPD: Configuring a <Directory> Use of the <Directory> configuration directive is, in
+general, straightforward.  However, there are a few caveats of which to
+be aware. First, it is not necessary to nest <Directory> sections,
+like: <Directory /path/to/dir>
+    <Directory /path/to/dir/subdir>
+      ...
+    </Directory>
+  </Directory> The daemon will not let one do this, in fact.  The daemon will determine
+automatically the relations of <Directory> paths, depending
+on the path given and surrounding configuration section. Always use the normal, absolute path for a <Directory> section, regardless of whether that directory will eventually be accessed
+during a session which has been chroot 'd, as for <Anonymous> or DefaultRoot ed sessions.
+There are two allowed exceptions to the rule of using absolute paths:
+if the path has a ~ prefix, or if the <Directory> occurs within a <Anonymous> section.  In the latter case, the path may be relative ( i.e. does
+not need to start with a / ), in which case the path will be
+relative to the directory to which anonymous sessions are restricted. If the name of the directory contains spaces, you should enclose the entire
+directory name in quotations, e.g. : <Directory "/path/to/My Directory"> Any configuration directives in a <Directory> section
+will apply to that directory and to all of the contents of that directory
+recursively .  Thus if you use: <Directory /path/to/dir>
+    Umask 022
+  </Directory> Then that Umask value will be used within the
+"/path/to/dir/subdir/" directory as well. As noted in the documentation, use of a /* suffix on a path
+will change the effect of a <Directory> section
+slightly.  For example: <Directory /path/to/dir> applies the section's configuration directives to the dir directory and its contents, while: <Directory /path/to/dir/*> applies the section's configuration directives only to the contents of dir , not to the directory itself.  This is a small
+distinction, but it can often cause misconfigurations.  In general, unless
+you know what you're doing, it's best not to use a /* suffix. Also, a * within a path, such as: <Directory /path/to/*/dir> will only match that single directory level, and will not match multiple
+directory levels.  This means that the above <Directory> will match: /path/to/ a/ dir
+  /path/to/ b/ dir because * will match the a/ and b/ ,
+as they are on the same level in the path as * .  However, the
+following paths will not match: /path/to/ some/other/ dir
+  /path/to/ some/other/level/ dir since * does not expand to some/other/ or /some/other/level/ ; they cover multiple levels. There is another case about which the administrator should know: for the
+purposes of handling the APPE , RETR , RNTO , STOR , and STOU FTP commands, the
+daemon will match a <Directory> path with the filename
+appended. As above, in most cases this will not matter much.  However,
+consider the case where the administrator specifically wants to use the
+trailing /* , as when she wants a particular <Limit> to apply to all subdirectories of a given directory,
+but not to that directory itself.  For example, the administrators wishes to
+block anonymous uploads everywhere except for subdirectories of upload/ : <Anonymous ~ftp>
+    User ftp
+    Group ftp
+
+    UserAlias anonymous ftp
+
+    <Limit WRITE>
+      DenyAll
+    </Limit>
+
+    <Directory upload/*>
+      <Limit STOR>
+        AllowAll
+      </Limit>
+    </Directory>
+  </Anonymous> This configuration looks like it should work, allowing files to be
+uploaded only to subdirectories of upload/ , but not to the upload/ directory itself.  As described above, though, the
+daemon will append the filename being uploaded via STOR to the
+path used when looking up <Directory> , meaning that upload/ filename will match upload/* , and
+allow files to be uploaded into upload/ .  In this particular case,
+then, what is wanted is to use this <Directory> pattern: <Directory upload/*/*>
+      <Limit STOR>
+        AllowAll
+      </Limit>
+    </Directory> which will achieve the desired effect of allowing uploads only in
+subdirectories of the given directory, upload/ . Also, it is good to keep in mind the similarity between a <Directory> section and a .ftpaccess file.  In some cases, using .ftpaccess files might be more
+convenient.  The AllowOverride configuration directive (which first appeared in the 1.2.7rc1 release) provides
+fine-grained control over when .ftpaccess files will be honored. The fact that <Directory> sections can be used to
+refer to specific files , in addition to directories, is not obvious.
+However, there are some cases where it can be useful to use this feature.
+One proftpd user used this feature in the following way: the DirFakeMode directive was used to make all files look read-only (mostly so that FTP
+mirroring tools would create a read-only mirror of the site).  However, a
+particular file on the site needed have execute permissions,
+even in the FTP mirrored site.  A <Directory> section
+was used just for this one file, e.g. : # Make all files look read-only to clients, regardless of the actual
+  # permissions on the filesystem
+  DirFakeMode 0444
+
+  <Anonymous /var/ftpd>
+
+    # However, for this script, we need it to look like it is executable, too
+    <Directory /var/ftpd/bin/script>
+      DirFakeMode 0555
+    </Directory>
+
+  </Anonymous> Frequently Asked Questions Question : What happens if I configure two <Directory> sections for the exact same path? Answer : If you use explicit paths, then the config
+parser will choke on the duplicate <Directory> sections.
+For example, if you tried: <Directory /path/to/dir>
+    <Limit ALL>
+      DenyAll
+    </Limit>
+  </Directory>
+
+  <Directory /path/to/dir>
+    <Limit ALL>
+      AllowAll
+    </Limit>
+
+    <Limit WRITE>
+      DenyAll
+    </Limit>
+  </Directory> When starting proftpd , you would see something like: - Fatal: <Directory>: <Directory> section already configured for '/path/to/dir' on line 39 of '/etc/ftpd/proftpd.conf' But what if you have the two <Directory> sections, but
+one of the sections uses a wildcard character which would still match the
+same path?  For example: <Directory /path/to/dir>
+    <Limit ALL>
+      DenyAll
+    </Limit>
+  </Directory>
+
+  <Directory /path/*/dir>
+    <Limit ALL>
+      AllowAll
+    </Limit>
+
+    <Limit WRITE>
+      DenyAll
+    </Limit>
+  </Directory> This time, the config parser would not choke; proftpd would start
+up normally.  When it came time to look up the <Directory> section to use, e.g. for uploading to "/path/to/dir/test.txt",
+the matching <Directory> section which appears later in
+the config file wins.  In the above example, the upload to
+"/path/to/dir/test.txt" would be denied (because the wildcard-using <Directory> section appears later, and it has a <Limit WRITE> section denying writes). However, if you simply reversed the order of the above <Directory> sections and tried to upload to
+"/path/to/subdir/test.txt", e.g. : <Directory /path/*/dir>
+    <Limit ALL>
+      AllowAll
+    </Limit>
+
+    <Limit WRITE>
+      DenyAll
+    </Limit>
+  </Directory>
+
+  <Directory /path/to/dir>
+    <Limit ALL>
+      DenyAll
+    </Limit>
+  </Directory> the upload would succeed, since the non-wildcard-using <Directory> section appeared later in the config. Question : How can I prevent a specific directory from
+being renamed?  I am currently trying: <Directory /dir/*>
+    <Limit CWD XCWD RNFR RNTO>
+      AllowAll
+    </Limit>
+
+    <Limit ALL>
+      DenyAll
+    </Limit>
+  </Directory>
+
+  <Directory /dir/subdir>
+    <Limit WRITE>
+      DenyAll
+    </Limit>
+  </Directory> to keep "/dir/subdir" from being renamed, but it doesn't work! Answer : The trick is to block the RNFR command within the <Directory> section for that
+specific directory, i.e. : <Directory /dir/subdir>
+    <Limit RNFR WRITE>
+      DenyAll
+    </Limit>
+  </Directory> The reason the original config did not work as expected is that proftpd , when handling the RNTO command ( e.g. " RNTO subdir2 "), would not match the <Directory /dir/subdir> section for the path "/dir/subdir2",
+but instead matches the <Directory /dir/*> section. Renaming of files via FTP is done by first sending the RNFR command (for the old filename), then sending RNTO (with the
+new filename).  By placing RNFR in the <Directory /dir/subdir> section's <Limit> list, we make sure that the RNFR does match the <Directory /dir/subdir> section, and is thus denied. © Copyright 2017 The ProFTPD Project All Rights Reserved

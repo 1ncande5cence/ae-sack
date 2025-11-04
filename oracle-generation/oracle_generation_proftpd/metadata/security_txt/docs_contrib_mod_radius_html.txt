@@ -1,0 +1,140 @@
+ProFTPD module mod_radius ProFTPD module mod_radius This module is contained in the mod_radius.c file for
+ProFTPD 1.3. x , and is not compiled by default.  Installation
+instructions are discussed here . This module is used to authenticate users using the RADIUS protocol.  It can also be used to do logging via RADIUS accounting
+packets.  A more in-depth discussion of the usage of this
+module follows the configuration directive documentation. The most current version of mod_radius is distributed with the
+ProFTPD source code. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Thanks 2002-06-26 : Thanks to Josh Wilsdon <josh at wizard.ca>
+for correcting a bad assumption in the code that caused data corruption under
+some circumstances. 2002-12-18 : Many thanks to Steffen Clausjuergens <stcl at clausjuergens.de> for helping to track down several bugs with accounting packets. 2003-03-20 : Many thanks to Boris Kovalenko <boris at tagnet.ru > for testing many versions of the VSA code. Directives RadiusAcctServer RadiusAuthServer RadiusEngine RadiusGroupInfo RadiusLog RadiusNASIdentifier RadiusOptions RadiusQuotaInfo RadiusRealm RadiusUserInfo RadiusVendor RadiusAcctServer Syntax: RadiusAcctServer server[:port] shared-secret [timeout] Default: None Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.2.5rc2 and later The RadiusAcctServer is used to specify a RADIUS server to be
+used for accounting.  The server parameter may be either an
+IP address or a DNS hostname.  If not specified, the port used will be
+the IANA-registered 1813.  The optional timeout parameter is used
+to tell mod_radius how long to wait for a response from the
+server; it defaults to 30 seconds. Multiple RadiusAcctServer s may be configured; each will be
+tried, in order of appearance in the configuration file, until
+that server times out or mod_radius receives a response. If no RadiusAcctServer s are configured, mod_radius will not use RADIUS for accounting. See also: RadiusAuthServer RadiusAuthServer Syntax: RadiusAuthServer server[:port] shared-secret [timeout] Default: None Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.2.5rc2 and later The RadiusAuthServer is used to specify a RADIUS server to be
+used for authentication.  The server parameter may be either an
+IP address or a DNS hostname.  If not specified, the port used will be
+the IANA-registered 1812.  The optional timeout parameter is used
+to tell mod_radius how long to wait for a response from the
+server; it defaults to 30 seconds. Multiple RadiusAuthServer s may be configured; each will be
+tried, in order of appearance in the configuration file, until
+that server times out or mod_radius receives a response. If no RadiusAuthServer s are configured, mod_radius will not use RADIUS for authentication. See also: RadiusAcctServer RadiusEngine Syntax: RadiusEngine on|off Default: None Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.2.5rc2 and later The RadiusEngine directive enables or disables the module's
+runtime RADIUS engine.  If it is set to off this module does no
+RADIUS authentication or accounting at all. Use this directive to disable the
+module instead of commenting out all mod_radius directives. RadiusGroupInfo Syntax: RadiusGroupInfo primary-group-name suppl-group-names suppl-group-ids Default: None Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.2.9rc1 and later The RadiusGroupInfo directive is used to configure group membership
+information used for every user authenticated via RADIUS.  The primary-group-name parameter is used to configure the name that
+matches the user's GID (which can be configured via the RadiusUserInfo directive).  The suppl-group-names and suppl-group-ids parameters are used to specify supplemental group
+membership for each user; the number of names and IDs must match if these
+parameters, each a comma-delimited list, are used.  As many of ProFTPD's
+directives can operate based on group names, these textual group names may
+be important. In order to support RADIUS servers that may use custom attributes in their Access-Accept response packets to supply user information back
+to the RADIUS client ( mod_radius in this case), this directive
+allows the following syntax for some of its parameters: $( attribute-id : default-value ) where the enclosing $() signals that the parameter is to
+be supplied by the RADIUS server, attribute-id is the
+Vendor Specific Attribute (VSA) ID for which to search in the response packet,
+and default-value is the value to use in case the requested
+attribute is not present in the response packet.  See the RadiusVendor directive description for more information about
+VSAs. See Also: RadiusUserInfo , RadiusVendor RadiusLog Syntax: RadiusLog file|"none" Default: None Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.2.5rc2 and later The RadiusLog directive is used to specify a log file for mod_radius reporting and debugging, and can be done a per-server
+basis.  The file parameter must be the full path to the file to use for
+logging.  Note that this path must not be to a world-writeable
+directory and, unless AllowLogSymlinks is explicitly set to on (generally a bad idea), the path must not be a symbolic
+link. If file is "none", no logging will be done at all; this
+setting can be used to override a RadiusLog setting inherited from
+a <Global> context. RadiusNASIdentifier Syntax: RadiusNASIdentifier id Default: RadiusNASIdentifier ftp Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.3.1rc2 and later The RadiusNASIdentifier directive configures an NAS identifier string that will be in the constructed RADIUS packets.
+By default, the NAS identifier is "ftp" for FTP sessions, and
+"ssh2" for SFTP/SCP sessions (via the mod_sftp module). Example: RadiusNASIdentifier customID RadiusOptions Syntax: RadiusOptions opt1 ... Default: None Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.3.6rc1 and later The RadiusOptions directive is used to configure various optional
+behavior of mod_radius . For example: RadiusOptions RequireMAC IgnoreReplyMessage The currently implemented options are: IgnoreClass Some RADIUS servers will send the Class attribute in their Access-Accept response, containing a value that should be
+    sent in every accounting requesting.  To tell mod_radius to
+    ignore/not send this Class attribute, use this option. Note that this option first appeared in proftpd-1.3.6rc1 . IgnoreReplyMessage Some RADIUS servers will send the Reply-Message attribute in
+    their Access-Accept and Access-Reject responses,
+    containing messages that should be displayed to the connecting user.
+    To tell mod_radius to ignore/not display these Reply-Message attributes, use this option. Note that this option first appeared in proftpd-1.3.6rc1 . IgnoreIdleTimeout Some RADIUS servers will send the Idle-Timeout attribute in
+    their Access-Accept response, containing a timeout value to
+    be used for idle sessions.  To tell mod_radius to ignore/not
+    use this Idle-Timeout value, use this option. Note that this option first appeared in proftpd-1.3.6rc1 . IgnoreSessionTimeout Some RADIUS servers will send the Session-Timeout attribute in
+    their Access-Accept response, containing a timeout value to
+    be used for maximum session durations.  To tell mod_radius to
+    ignore/not use this Session-Timeout value, use this option. Note that this option first appeared in proftpd-1.3.6rc1 . RequireMAC Some RADIUS servers will send the Message-Authenticator attribute in their Access-Accept and Access-Reject responses, used for protecting against spoof attacks.  Some RADIUS servers,
+    though, do not use this attribute.  To be very secure, and to tell mod_radius to require the use of this attribute, use
+    this option. Note that this option first appeared in proftpd-1.3.6rc1 . RadiusQuotaInfo Syntax: RadiusQuotaInfo per-sess limit-type bytes-in bytes-out bytes-xfer files-in files-out files-xfer Default: None Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.3.0rc1 and later The RadiusQuotaInfo directive is used to configure quota
+information used for every user.  This information will be used,
+in conjunction with the mod_quotatab_radius module, for
+provisioning per-user quota information via RADIUS. In order to support RADIUS servers that may use custom attributes in their Access-Accept response packets to supply user information back
+to the RADIUS client ( mod_radius in this case), this directive
+allows the following syntax for some of its parameters: $( attribute-id : default-value ) where the enclosing $() signals that the parameter is to
+be supplied by the RADIUS server, attribute-id is the
+Vendor Specific Attribute (VSA) ID for which to search in the response packet,
+and default-value is the value to use in case the requested
+attribute is not present in the response packet.  See the RadiusVendor directive description for more information about
+VSAs. The RadiusQuotaInfo directive can be used to configure unchanging
+numbers, rather than custom attributes, if need be. An example configuration might look like: <IfModule mod_quotatab_radius.c>
+    QuotaLimitTable radius:
+    QuotaTallyTable file:/home/tj/proftpd/devel/build/cvs/etc/ftpquota.tallytab
+
+    # mod_radius attributes
+    RadiusEngine on
+    RadiusAuthServer localhost:1812 testing123 5
+    RadiusLog /var/ftpd/log/radius.log
+
+    # This sets unchanging quota limit values, rather than using custom attributes 
+    # from a RADIUS server
+    RadiusQuotaInfo false soft 3.0 2.0 1.0 7 8 9
+
+  </IfModule> See Also: RadiusVendor RadiusRealm Syntax: RadiusRealm realm Default: None Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.2.5rc2 and later The RadiusRealm directive configures a realm string
+that will be added to the username in the constructed RADIUS packets. Example: RadiusRealm .castaglia.org RadiusUserInfo Syntax: RadiusUserInfo uid gid home shell Default: None Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.2.5rc2 and later The RadiusUserInfo directive is used to configure login
+information used for every user authenticated via RADIUS.  Group membership
+information can be configured by using the RadiusGroupInfo directive. In order to support RADIUS servers that may use custom attributes in their Access-Accept response packets to supply user information back
+to the RADIUS client ( mod_radius in this case), this directive
+allows the following syntax for some of its parameters: $( attribute-id : default-value ) where the enclosing $() signals that the parameter is to
+be supplied by the RADIUS server, attribute-id is the
+Vendor Specific Attribute (VSA) ID for which to search in the response packet,
+and default-value is the value to use in case the requested
+attribute is not present in the response packet.  See the RadiusVendor directive description for more information about
+VSAs. If RadiusUserInfo is not used, mod_radius will
+perform pure "yes/no" authentication only, in the style of PAM.
+The information that would have been configured via this directive will
+be pulled from other sources ( e.g. /etc/passwd , AuthUserFile s, MySQL tables, etc). See Also: RadiusGroupInfo , RadiusVendor RadiusVendor Syntax: RadiusVendor name id Default: RadiusVendor Unix 4 Context: server config, <VirtualHost> , <Global> Module: mod_radius Compatibility: 1.2.9rc1 and later The RadiusVendor directive is used to configure the vendor name
+and ID for which mod_radius will search when it looks for
+vendor-specific attributes in RADIUS response packets. Earlier versions of mod_radius could be configured to look up
+custom RADIUS attributes by normal RADIUS attribute type IDs.  However,
+those normal IDs can only be from 0 to 255, putting a limit on the number
+of such custom attributes.  Fortunately, the RADIUS RFCs define a specific
+attribute ID, 26, for vendor-specific attributes.  The values for such
+attributes contains an ID for the specific vendor, and then the vendor-specific
+attribute.  The vendor IDs come from the IANA's enterprise numbers hierarchy: http://www.iana.org/assignments/enterprise-numbers By default, mod_radius will look for a vendor ID of 4 (Unix);
+this configuration directive is used to tell mod_radius to
+expect a different vendor. Usage Strong authentication is in demand for Internet services.  For many, this
+means using the RADIUS ( R emote A uthentication D ial- I n U ser S ervice) protocol. However, there are caveats to using RADIUS for authentication.  RADIUS
+packets are sent in the clear, which means that they can easily be sniffed.
+First, do not have your authenticating RADIUS servers exposed
+to the Internet; keep them protected within your LAN.  Second, it is highly recommended to use separate RADIUS servers for each of your
+services. RADIUS Authentication The RADIUS protocol can be used for answering the question "Should this
+user be allowed to login?"  However, the "yes/no" answer is not
+everything that proftpd needs to log a user in; the server also
+requires the UID and GID to use for the authenticated user, home directory,
+and shell.  This information is usually not available from the RADIUS servers,
+which means that using RADIUS to provide all the necessary login information
+can be problematic.  The RadiusUserInfo directive is meant to be
+used to address this issue, to provide the missing information. In those cases where the RADIUS servers can provide that additional
+login information, via custom attributes, the RadiusUserInfo directive can also be used obtain that information as well. RADIUS Accounting While RADIUS is primarily used for authentication, the protocol also allows
+for accounting of user activities.  The mod_radius module
+makes use of this ability, using RADIUS accounting packets to transmit the
+following data: Acct-Authentic : How the user was authenticated ( e.g. locally, or via RADIUS) Acct-Session-Id : The process ID of the FTP session Acct-Session-Time : The duration of the FTP session, in seconds Acct-Input-Octets : The number of bytes uploaded (includes
+    appending to files) Acct-Output-Octets : The number of bytes downloaded Acct-Terminate-Cause : The reason the session ended Event-Timestamp : The number of seconds since the Unix epoch Merely configuring a RadiusAcctServer enables the module's
+accounting capabilities. Common Attributes The following RADIUS attributes are sent with every RADIUS packet generated
+by mod_radius : User-Name : The name of the logging-in user NAS-Identifier : "ftp" (or "ssh2" for SFTP/SCP sessions) NAS-IP-Address or NAS-IPv6-Address : IP address of server NAS-Port : Port of server NAS-Port-Type : Always Virtual . Calling-Station-Id : IP address of connecting client Message-Authenticator : MAC of request, per RFC 3579 Installation The mod_radius module is distributed with ProFTPD.  Simply follow
+the normal steps for using third-party modules in ProFTPD: $ ./configure --enable-openssl --with-modules=mod_radius To build mod_radius as a DSO module: $ ./configure --enable-dso --enable-openssl --with-shared=mod_radius Then follow the usual steps: $ make 
+  $ make install Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_radius as a shared
+module: $ prxs -c -i -d mod_radius.c Logging The mod_radius module supports different forms of logging.  The
+main module logging is done via the RadiusLog directive.  For
+debugging purposes, the module also uses trace logging , via the module-specific log channels: radius Thus for trace logging, to aid in debugging, you would use the following in
+your proftpd.conf : TraceLog /path/to/radius-trace.log
+  Trace radius:20 This trace logging can generate large files; it is intended for debugging
+use only, and should be removed from any production configuration. Frequently Asked Questions Question : Why is ProFTPD trying to open UDP sockets
+that are blocked by my SELinux policies? Answer : The RADIUS protocol uses UDP, and thus using
+the mod_radius module means that ProFTPD will open UDP sockets.
+In terms of SELinux policies, RADIUS is very similar to NIS in its use of
+UDP, and thus to allow these RADIUS UDP sockets, you can use: $ setsebool -P nis_enabled 1 © Copyright 2000-2021 TJ Saunders All Rights Reserved

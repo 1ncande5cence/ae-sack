@@ -1,0 +1,21 @@
+ProFTPD module mod_load ProFTPD module mod_load This module is contained in the mod_load.h and mod_load.c files for ProFTPD 1.2. x , and is not compiled by
+default.  Installation instructions are discussed here .  There are also some interesting notes
+on the usage of this module. The code for determining load average on a given system is hairy, to say the
+least.  Unfortunately, it is necessary to do it this way, as there is no
+standard method for extracting such information from the kernel.  This module
+uses code from GNU's make application, which should function
+properly.  If not, please contact the author as soon as possible. The most current version of mod_load is distributed with the
+ProFTPD source code. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives MaxLoad MaxLoad Syntax: MaxLoad number|"none" [message] Default: None Context: server config, <VirtualHost> , <Global> Module: mod_load Compatibility: 1.2.2 and later The MaxLoad directive configures the server to refuse to accept
+connections if the system load is at or above the configured number.  An
+optional message can be specified, which will be displayed to clients who have
+been rejected.  The rejection is also logged. The number can also be "none", which is used to override any
+inherited load limits, as from a <Global> context. The system load is the average number of processes ready to run during the
+last minute; this number varies from system to system. Example: # Reject connections to our busy server
+  MaxLoad 10.0 "Server busy, seek elsewhere" Usage The mod_load module is very straightforward, providing only
+the single configuration directive. Display Variables The following variables are provided by mod_load , and
+can be used in any Display file e.g. DisplayConnect and DisplayLogin . %{mod_load.curr_load}
+  %{mod_load.max_load} Installation To install mod_load , follow the usual steps for using third-party
+modules in ProFTPD: $ ./configure --with-modules=mod_load
+  $ make
+  $ make install © Copyright 2000-2005 TJ Saunders All Rights Reserved

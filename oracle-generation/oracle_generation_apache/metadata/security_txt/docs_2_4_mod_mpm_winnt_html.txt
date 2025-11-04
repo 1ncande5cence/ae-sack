@@ -1,0 +1,28 @@
+mpm_winnt - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache MPM winnt Available Languages: de | en | fr | ja Description: Multi-Processing Module optimized for Windows NT. Status: MPM ModuleÂ Identifier: mpm_winnt_module SourceÂ File: mpm_winnt.c Summary This Multi-Processing Module (MPM) is the default for the
+    Windows NT operating systems. It uses a single control process
+    which launches a single child process which in turn creates
+    threads to handle requests Capacity is configured using the ThreadsPerChild directive,
+    which sets the maximum number of concurrent client connections. By default, this MPM uses advanced Windows APIs for accepting
+    new client connections.  In some configurations, third-party products
+    may interfere with this implementation, with the following messages
+    written to the web server log: Child: Encountered too many AcceptEx faults accepting client connections. winnt_mpm: falling back to 'AcceptFilter none'. The MPM falls back to a safer implementation, but some client requests
+    were not processed correctly.  In order to avoid this error, use AcceptFilter with accept filter none . AcceptFilter http none
+AcceptFilter https none In Apache httpd 2.0 and 2.2, Win32DisableAcceptEx was used for this purpose. The WinNT MPM differs from the Unix MPMs such as worker and event
+    in several areas: When a child process is exiting due to shutdown, restart, or MaxConnectionsPerChild ,
+      active requests in the exiting process have TimeOut seconds to finish before
+      processing is aborted.  Alternate types of restart and shutdown are not
+      implemented. New child processes read the configuration files instead of
+      inheriting the configuration from the parent.  The behavior will
+      be the same as on Unix if the child process is created at startup
+      or restart, but if a child process is created because the prior
+      one crashed or reached MaxConnectionsPerChild ,
+      any pending changes to the configuration will become active in the
+      child at that point, and the parent and child will be using a
+      different configuration.  If planned configuration changes have been
+      partially implemented and the current configuration cannot be
+      parsed, the replacement child process cannot start up and the server 
+      will halt.  Because of this behavior, configuration files should not
+      be changed until the time of a server restart. The monitor and fatal_exception hooks
+      are not currently implemented. AcceptFilter is implemented in the MPM
+      and has a different type of control over handling of new connections.
+      (Refer to the AcceptFilter documentation for details.) Directives AcceptFilter CoreDumpDirectory Listen ListenBacklog MaxConnectionsPerChild MaxMemFree PidFile ReceiveBufferSize ScoreBoardFile SendBufferSize ThreadLimit ThreadsPerChild ThreadStackSize Bugfix checklist httpd changelog Known issues Report a bug See also Using Apache HTTP Server on Microsoft Windows Comments Available Languages: de | en | fr | ja Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

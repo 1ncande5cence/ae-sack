@@ -1,0 +1,82 @@
+[
+    {
+        "feature": "Access Control via Allow/Deny Directives",
+        "explain": "Proftpd allows administrators to control which users or hosts can access the server using Allow, Deny, and Order directives. This enables fine-grained access control based on IP addresses, hostnames, or user accounts."
+    },
+    {
+        "feature": "Chroot (DefaultRoot) Support",
+        "explain": "Proftpd can restrict users to their home directories or specified directories using the DefaultRoot directive, preventing them from accessing files outside their designated area (chroot jail)."
+    },
+    {
+        "feature": "TLS/SSL Encryption (mod_tls)",
+        "explain": "Proftpd supports encrypted connections using TLS/SSL via the mod_tls module, protecting data in transit, including credentials and file contents."
+    },
+    {
+        "feature": "SFTP/SSH Support (mod_sftp)",
+        "explain": "With the mod_sftp module, Proftpd can provide secure file transfers over SSH, offering an alternative to traditional FTP with strong encryption and authentication."
+    },
+    {
+        "feature": "Strong Authentication Methods",
+        "explain": "Proftpd supports various authentication backends, including system accounts, LDAP, SQL databases, and PAM, allowing for secure and flexible user authentication."
+    },
+    {
+        "feature": "Command Execution Control (mod_exec, mod_wrap2)",
+        "explain": "Proftpd can restrict or control the execution of system commands by users, and with modules like mod_exec and mod_wrap2, administrators can define which commands are allowed or denied."
+    },
+    {
+        "feature": "Security Plugins and Modules",
+        "explain": "Proftpd has a modular architecture, allowing the use of security-focused modules such as mod_ban (for banning abusive users), mod_wrap2 (TCP wrappers), and mod_ifsession (conditional configuration based on session properties)."
+    },
+    {
+        "feature": "Input Validation and Command Filtering",
+        "explain": "Proftpd validates user input and FTP commands to prevent injection attacks and malformed requests. It can also filter or restrict certain FTP commands for additional security."
+    },
+    {
+        "feature": "Logging and Auditing",
+        "explain": "Proftpd provides extensive logging capabilities, including transfer logs, authentication logs, and detailed session logs, which are essential for auditing and detecting suspicious activity."
+    },
+    {
+        "feature": "Rate Limiting (mod_facl, mod_ban)",
+        "explain": "Modules like mod_facl and mod_ban can be used to limit the rate of connections or actions from users or IPs, helping to mitigate brute-force attacks and abuse."
+    },
+    {
+        "feature": "File and Directory Permissions Enforcement",
+        "explain": "Proftpd enforces Unix file and directory permissions, ensuring users can only access files they are authorized to."
+    },
+    {
+        "feature": "SQL Database Protection (mod_sql)",
+        "explain": "When using SQL-based authentication or storage, Proftpd's mod_sql module supports secure connections to databases and can be configured to use least-privilege database accounts."
+    },
+    {
+        "feature": "Anonymous Access Restrictions",
+        "explain": "Proftpd allows fine-grained control over anonymous FTP access, including upload/download permissions, directory visibility, and bandwidth limits."
+    },
+    {
+        "feature": "Session Limits and Timeouts",
+        "explain": "Administrators can configure session limits, idle timeouts, and maximum connections per user or IP, reducing the risk of resource exhaustion and denial-of-service attacks."
+    },
+    {
+        "feature": "Hidden Files and Directories (mod_hidefiles)",
+        "explain": "The mod_hidefiles module allows administrators to hide files or directories from users based on patterns or permissions, reducing information disclosure."
+    },
+    {
+        "feature": "TCP Wrappers Support",
+        "explain": "Proftpd can integrate with TCP Wrappers to provide host-based access control, allowing or denying connections based on IP address or hostname."
+    },
+    {
+        "feature": "Virtual User Support",
+        "explain": "Proftpd supports virtual users, allowing administrators to create isolated user accounts that do not correspond to system users, reducing the risk of privilege escalation."
+    },
+    {
+        "feature": "Resource Limits (mod_rlimit)",
+        "explain": "The mod_rlimit module allows administrators to set resource limits (such as CPU and memory usage) for Proftpd processes, helping to prevent abuse and denial-of-service."
+    },
+    {
+        "feature": "Blacklist/Whitelist Functionality (mod_ban)",
+        "explain": "The mod_ban module enables blacklisting or whitelisting of users or IP addresses based on configurable rules, helping to block malicious actors."
+    },
+    {
+        "feature": "Automatic Banning of Abusive Users (mod_ban)",
+        "explain": "Proftpd can automatically ban users or IPs that exhibit abusive behavior, such as repeated failed login attempts, using the mod_ban module."
+    }
+]

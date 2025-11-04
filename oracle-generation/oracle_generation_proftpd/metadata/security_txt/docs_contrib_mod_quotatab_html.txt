@@ -1,0 +1,176 @@
+ProFTPD module mod_quotatab ProFTPD module mod_quotatab This module is contained in the mod_quotatab.c , mod_quotatab.h , and in its submodule source files, for
+ProFTPD 1.2. x /1.3. x , and is not compiled by default.
+Installation instructions can be found here . This module is designed to impose quotas, both byte- and file-based, on
+FTP accounts, based on user, group, class, or for all accounts.  It is based
+on the ideas contained in Eric Estabrook's mod_quota ; however,
+this module has been written from scratch to implement quotas in a very
+different manner.  A more detailed explanation of the usage of this module follows the directive explanations. The most current version of mod_quotatab 's submodules supports
+storage of quota table information in various formats: mod_quotatab_file for file-based quota tables mod_quotatab_ldap for LDAP-based quota limit tables mod_quotatab_radius for RADIUS-based quota tables mod_quotatab_sql for SQL-based quota tables The most current version of mod_quotatab is distributed with the
+ProFTPD source code. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Thanks 2002-01-12 : Thanks to SupaFly <ntlfy at ntlworld.com> for
+helping debug an issue with a missing tally table. 2002-03-30 : Thanks to Kai Langheim <kl at q-nic.de> for
+pointing out several small bugs affecting users with no quota entries. 2003-01-24 : Thanks to Arne Blankerts <Blankerts at tow.de>
+for noting small bug with the file upload counter being incorrectly incremented
+for overwritten files. Directives QuotaDefault QuotaDirectoryTally QuotaDisplayUnits QuotaEngine QuotaExcludeFilter QuotaLimitTable QuotaLock QuotaLog QuotaOptions QuotaShowQuotas QuotaTallyTable SITE Commands SITE QUOTA QuotaDefault Syntax: QuotaDefault quota-type per-session limit-type bytes-avail-in bytes-avail-out bytes-avail-xfer files-avail-in files-avail-out files-avail-xfer Default: None Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.3.5rc1 and later The QuotaDefault directive configures a "default" quota limit,
+to be used when a limit is not found for the current user ( e.g. a limit
+has not yet been configured for the user via one of the mod_quotatab backends).
+Since this "default" needs to provide all of the limit information required
+by mod_quotatab , there are quite a few required parameters: quota-type per-session limit-type bytes-avail-in bytes-avail-out bytes-avail-xfer files-avail-in files-avail-out files-avail-xfer The meaning of these parameters is discussed in more detail here . For example, you might use: QuotaDefault user false hard 10485760 0 0 0 0 0 QuotaDirectoryTally Syntax: QuotaDirectoryTally on|off Default: QuotaDirectoryTally off Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.2.5rc2 and later The QuotaDirectoryTally directive configures mod_quotatab to take directory operations ( e.g. creating
+a directory, removing a directory) into account when tallying. QuotaDisplayUnits Syntax: QuotaDisplayUnits "b"|"Kb"|"Mb"|"Gb" Default: None Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.2.5rc2 and later This directive configures how the user's current byte quota values will be
+reported to them.  Note that this directive does not affect how the quota
+values are stored in the quota table, only their presentation to the user. "b" causes quotas to be displayed in bytes; "Kb" , kilobytes; "Mb" , megabytes; and "Gb" , gigabytes. Example: # display quota information in megabytes
+  QuotaDisplayUnits Mb QuotaEngine Syntax: QuotaEngine on|off Default: None Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.2.5rc2 and later The QuotaEngine directive enables or disables the module's runtime
+quota engine.  If it is set to off this module does no runtime
+processing at all.  Use this directive to disable the module instead of
+commenting out all mod_quotatab directives. QuotaExcludeFilter Syntax: QuotaExcludeFilter regex|"none" Default: None Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.3.1rc1 and later The QuotaExcludeFilter directive configures a regular expression
+filter that is applied to every file handled by mod_quotatab ;
+this includes files that are scanned if: QuotaOptions ScanOnLogin is in effect.  Any file which matches the configured regular expression is
+ignored by mod_quotatab , and will not affect the tally updates. Note that the regular expression is applied to the absolute path of
+the file being handled.  This allows for a regular expression which can
+exclude particular directories, or just certain filenames. QuotaLimitTable Syntax: QuotaLimitTable source-type:source-info Default: None Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.2.5rc2 and later This directive configures the information necessary for the module to locate
+and use the table containing the quota limit , the maximum number
+of bytes and/or files defined for use by specific users, groups, classes, etc , and is required for mod_quotatab to function.
+Note that "groups" here refers to the groups of which the user
+is a member, the same groups as used for filesystem permissions;
+"classes" refers to connection classes . Please consult the relevant submodule documentation
+for details on that module's syntax for this configuration directive. See also: QuotaTallyTable QuotaLock Syntax: QuotaLock file Default: None Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.2.9rc1 and later The QuotaLock directive sets the filename for a synchronization
+lockfile which mod_quotatab needs when communicating with
+some submodules, such as for SQL-based tables, which have trouble providing
+the needed synchronization/locking semantics.  Use of QuotaLock is recommended, but not required. If QuotaLock is used, it is strongly advised that the
+configured lock file not be on an NFS (or any other network) filesystem. QuotaLog Syntax: QuotaLog file|"none" Default: None Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.2.5rc2 and later The QuotaLog directive is used to specify a log file for mod_quotatab reporting, and can be done a per-server basis.
+The file parameter must be the full path to the file to use for
+logging.  Note that this path must not be to a world-writeable
+directory and, unless AllowLogSymlinks is explicitly set to on (generally a bad idea), the path must not be a symbolic
+link. If file is "none", no logging will be done at all; this
+setting can be used to override a QuotaLog setting inherited from
+a <Global> context. QuotaOptions Syntax: QuotaOptions opt1 ... Default: None Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.3.1rc1 and later The QuotaOptions directive is used to configure various optional
+behavior of mod_quotatab . Example: QuotaOptions ScanOnLogin The currently implemented options are: ScanOnLogin If configured, this causes mod_quotatab to recursively
+    scan the user's home directory when the user logs in, and to update
+    the tally entry for that user, if any, with the number of bytes and
+    files found. Note that these scans will cause a longer
+    login time for the user, depending on the size of their home directory. Note that this scanning will only happen if the configured
+    limits for the user have either a bytes-in value greater than zero or
+    a files-in value greater than zero.  (These are the only two limits
+    related to upload, hence why ScanOnLogin only goes into
+    effect based on them.) QuotaShowQuotas Syntax: QuotaShowQuotas on|off Default: on Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.2.5rc2 and later The QuotaShowQuotas directive can be used to enable/disable mod_quotatab 's response to a SITE QUOTA request.
+For some sites, revealing the current quota information may be considered
+an unnecessary, perhaps even detrimental, information leak; other sites
+may consider this a definite feature. QuotaTallyTable Syntax: QuotaTallyTable source-type:source-info Default: None Context: server config, <VirtualHost> , <Global> Module: mod_quotatab Compatibility: 1.2.5rc2 and later This directive configures the information necessary for the module to locate
+and use the table containing the quota tally , or the current byte/file
+counts for users, groups, classes, etc , and is required for mod_quotatab to function.  Note that "groups" here
+refers to the groups of which the user is a member, the same groups as used
+for filesystem permissions; "classes" refers to connection classes . Please consult the relevant submodule documentation
+for details on that module's syntax for this configuration directive. See also: QuotaLimitTable SITE QUOTA The SITE QUOTA command will display the quota, both the limit
+and the current tally, to the client.  This SITE command accepts
+no parameters, and can only be used once the client has successfully logged
+in. Example: ftp> quote SITE QUOTA
+200-The current quota for this session are [current/limit]:
+ Name: tj
+ Quota Type: User
+ Per Session: True
+ Limit Type: Hard
+   Uploaded Kb:         unlimited
+   Downloaded Kb:       unlimited
+   Transferred Kb:      unlimited
+   Uploaded files:      1/1
+   Downloaded files:    unlimited
+   Transferred files:   unlimited
+200 Please contact root@familiar.castaglia.org if these entries are inaccurate
+ftp> Use of this SITE command can be controlled via <Limit> , e.g. : <Limit SITE_QUOTA>
+    AllowUser tj
+    DenyAll
+  </Limit> Like many SITE commands, the FTP client will probably not
+recognize or support SITE QUOTA .  Hopefully the client does have the ability to send arbitrary commands to the server, as the common ftp(1) client does via quote . The email address displayed in the SITE QUOTA output can be
+configured via the ServerAdmin directive. Usage To use mod_quotatab 's functionality, you must first define the
+tables that together contain the quota information. There are two such quota tables: one table, called the limit table for
+providing quota information about the absolute byte/file limits for
+users, groups, and classes, and a separate table, called the tally table for maintaining the current tally , or number of bytes/files used, for
+those same users, groups, and classes.  (Note that "groups" here
+refers to the groups of which the user is a member, the same groups as used
+for filesystem permissions; "classes" refers to connection classes .) This separation of information
+allows for a configuration such as using LDAP to efficiently distribute the
+limit information, and local SQL databases for efficiently storing the tally.
+The limit table is considered a read-only table, and is only accessed at the
+start of session in order to determine what the session limits should be.  The
+tally table is accessed in read-write mode, and is updated after the relevant
+FTP commands have been processed. This module was not explicitly designed for easy interaction with other
+applications, but rather for other criteria: Efficient lookups and updates No need for ~/.quota files No need of requirement for root privileges to access quotas Easy support for an abstraction layer for storing quota information in
+      other formats Support for a SITE command that allows users to view their current quotas This module maintains its quotas based solely on FTP commands - it does not
+enforce quotas based on files that may have been added, deleted, or moved
+via shell access or any mechanism other than through the proftpd server. When a client logs in, assuming QuotaEngine is on , mod_quotatab will check the limit table for the record most
+appropriate for that client.  This check first examines the table for records
+of type user that match the client's login name. If no such matching records are found, it checks for records of type group that match any of the user's groups (both primary and
+supplemental).  If there are multiple group -type limits
+available and applicable to the user's groups, which one is used?  The mod_quotatab module first checks for a quota limit for the
+user's primary group.  If there is a group limit for
+the user's primary group, that limit is used.  Otherwise, the supplemental
+groups for the user are checked, in the order returned by the authenticating
+module ( e.g. mod_auth_unix , mod_sql , mod_ldap , etc ). If no such matching group quotas are found, the mod_quotatab will check for records of type class that belong to the class (if enabled) from which the client is connecting.
+The order of classes matched is the order in which the classes are defined
+in the proftpd.conf file. If still no matching records are found, the table will be searched for a
+record of type all ; if absent, the module will assume that no
+quotas apply to the client. Note that there is only one type of limit in effect at a given
+time; mod_quotatab does not combine multiple
+user/group/class/all limits for the same client.  The module was designed
+such that only one limit (and its corresponding tally) would be enforced/used
+for a given session.  In the case of multiple applicable group or class type quotas, only the matching quota limit and
+tally will be used and updated.  Currently, there is no support for multiple
+simultaneous (or "layered") limits/tallies. Once the limits for the current session have been established, mod_quotatab examines the tally table to see what the current
+numbers in the matching tally record are.  Should the client have an
+applicable limit record but no matching tally record, the module will
+initialize a new record in the tally table.  If the limit record specifies
+that quotas are per-session, mod_quotatab will ignore any
+existing tally records, and will not update the tallies. For the purposes of tracking the number of uploaded bytes/files,
+the tally will be adjusted accordingly upon use of the following FTP commands: APPE (bytes only), DELE , STOR , and STOU .  The number of bytes used for the calculation will be
+determined from the difference in file size of the file in question. For the purposes of tracking the number of downloaded bytes/files,
+the tally will be adjusted accordingly upon use of the following FTP commands: RETR .  The number of bytes used for the calculation will be
+determined from the number of bytes sent to the client. For the purposes of tracking the number of transferred bytes/files,
+the tally will be adjusted accordingly upon use of the following FTP commands: APPE (bytes only), DELE , RETR , STOR , and STOU .  The number of bytes used for
+the calculation will be determined from the number of bytes sent to the
+client.  This type of limit allows for byte/file limits to be set that
+encompass both uploads and downloads. Note that if all three types of quotas are set (upload, download, and
+transfer), any quota reached will cause denial of FTP commands.  This means
+that a high upload quota will never be reached if a low transfer quota is
+in effect.  This holds true for bytes and files quota.  For example, if
+a user has a limited number of both bytes and files to be uploaded in their
+limit record, the first limit reached (bytes or files) is the effective
+limit. Caveat emptor . For any quota limit that is set as "unlimited", mod_quotatab will not keep the tally.  Many site administrators
+might want this ability, for accounting purposes.  However, that ability is
+outside of the intended design of this module; other logging modules are
+much better suited for accounting purposes ( e.g. mod_sql 's SQLLog directive). Quota Limit Enforcement A "hard" limit type means that a user's tally will never be allowed to exceed the limit; any file uploaded that exceeds the user's
+quota limit will be deleted, and the tally will not be incremented.  A
+"soft" limit type, on the other hand, is a little less strict,
+for it will allow a user to exceed the quota limit by one file only.  For
+example, assume a user's tally is close their limit.  That user uploads
+a large file, one that pushes the tally up over the quota limit.  If their
+limit type is "hard", the large file will be deleted once uploaded,
+and a message returned to the client informing them of this.  If the user's
+limit type is "soft", the large file will be allowed, but any
+other uploads are denied (until the user deletes some files, and brings
+their tally back down below the quota limit). Note that the enforcement of "hard" limits, by deleting the
+uploaded file, can cause unpleasant surprises for users (and site
+administrators).  In order to not lose large or important files because
+of hard limits, I recommend using the HiddenStores directive with your mod_quotatab configuration.  If HiddenStores is
+enabled, then when the hard upload limit is exceeded, it will be the temporary HiddenStores file, and not the destination/target file,
+that will be deleted.  This way, the quota-exceeding upload will fail, but
+users should not be surprised with unexpectedly deleted files. Quota Internals If any developers wish to make use of mod_quotatab 's quota
+information, or to develop a new submodule, there is developer documentation
+available here . Display Variables The following variables are provided by mod_quotatab , and
+can be used in any Display file ( e.g. DisplayLogin ) other than DisplayConnect .  The
+values for the variables are not known when the client connects to the
+daemon, hence why the variables are not useful in a DisplayConnect file. %{mod_quotatab.limit.bytes_in}
+  %{mod_quotatab.limit.bytes_out}
+  %{mod_quotatab.limit.bytes_xfer}
+  %{mod_quotatab.limit.files_in}
+  %{mod_quotatab.limit.files_out}
+  %{mod_quotatab.limit.files_xfer}
+  %{mod_quotatab.tally.bytes_in}
+  %{mod_quotatab.tally.bytes_out}
+  %{mod_quotatab.tally.bytes_xfer}
+  %{mod_quotatab.tally.files_in}
+  %{mod_quotatab.tally.files_out}
+  %{mod_quotatab.tally.files_xfer} Note that the values for the various byte variables honor any QuotaDisplayUnits setting. Installation Follow the usual steps for using third-party modules in ProFTPD: $ ./configure --with-modules= mod_quotatab:... $ make
+  $ make install where the list of modules, including mod_quotatab , will depend on
+the types of quota tables you wish to support. For using file-based quota tables, include the mod_quotatab_file submodule, e.g. : --with-modules=mod_quotatab:mod_quotatab_file or: --enable-dso --with-shared=mod_quotatab:mod_quotatab_file For using LDAP-based quota limit tables, include mod_quotatab_ldap in addition to either mod_quotatab_file or mod_quotatab_sql : --with-modules=mod_quotatab:mod_quotatab_file:mod_quotatab_ldap or: --enable-dso --with-shared=mod_quotatab:mod_quotatab_file:mod_quotatab_ldap Note that file- or SQL-based tally tables are needed since mod_quotatab_ldap cannot handle tally tables, only limit tables. mod_quotatab_ldap also requires a correct installation of the mod_ldap module. For using SQL-based quota tables, include the mod_quotatab_sql submodule, e.g. : --with-modules=mod_quotatab:mod_quotatab_sql or: --enable-dso --with-shared=mod_quotatab:mod_quotatab_sql And, if you wish to support file- and SQL-based quota tables: --with-modules=mod_quotatab:mod_quotatab_file:mod_quotatab_sql or: --enable-dso --with-shared=mod_quotatab:mod_quotatab_file:mod_quotatab_sql Note that SQL tables require that a correct installation of mod_sql (and any of its backend modules) also be used.
+Consult the mod_sql documentation for installation instructions
+for that module. © Copyright 2000-2021 The ProFTPD Project All Rights Reserved

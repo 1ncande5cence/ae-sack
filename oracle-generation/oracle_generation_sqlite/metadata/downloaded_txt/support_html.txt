@@ -1,0 +1,14 @@
+SQLite Support Options Small. Fast. Reliable. Choose any three. Home Menu About Documentation Download License Support Purchase Search About Documentation Download Support Purchase Public Forum Connect with SQLite developers and other SQLite users on the SQLite Forum .  This is the preferred
+way to get free help with SQLite. There was formerly a mailing list devoted to discussions
+about SQLite, but as of 2020-03-12, the mailing list is deprecated.
+Please use the SQLite Forum instead.
+Historical mailing lists posts are preserved at www.mail-archive.com Paid Professional Support If you would like professional support for SQLite
+or if you want custom modifications performed by the
+original author of SQLite, these services are available for a modest fee.
+For additional information contact: D. Richard Hipp Hwaci - Applied Software Research 704.948.4565 drh@hwaci.com More Info Proprietary SQLite Extensions The core SQLite library found on this website is in the public domain .  But there also exist
+proprietary, licensed extensions to SQLite. The SQLite Encryption Extension (SEE) will read and write database files encrypted using
+128-bit or 256-bit AES. The SQLite Compressed and Encrypted Read-Only Database (CEROD) extension will read a database file that is both compressed
+and encrypted. The ZIPVFS extension will both read and write database files that are both compressed and optionally
+encrypted using application-supplied compression and encryption routines. The Test Harness #3 (TH3) is an alternative set of test
+vectors for SQLite that verify the operation of SQLite in an
+as-deployed configuration on embedded platforms with 100% branch test coverage .

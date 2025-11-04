@@ -1,0 +1,81 @@
+ProFTPD: Virtual Users ProFTPD: Virtual Users The core proftpd daemon access all user information via
+an Auth API.  This API hides all of the details of where user information
+is stored, how to retrieve it, etc from the core engine and modules.
+This abstraction allows for multiple simultaneous different authentication
+layers or mechanisms to be configured.  It is also because of this
+abstraction that proftpd does not "know" the difference
+between a system user and a virtual user; all users are the same. Frequently Asked Questions Question : What makes a user "virtual", then? Answer : A virtual user is, quite simply, a user that
+is not defined in the system /etc/passwd file.  This file
+associates a user name, given by the system administrator, to a user ID
+(commonly shortened to UID) and a group ID (GID), among other details.  The
+Unix kernel does not deal with users in terms of their user names; it
+only "knows" about UIDs and GIDs.  This means that an application
+like proftpd can look up the IDs to use for a given user name
+however it sees fit.  Using /etc/passwd is not strictly required. Defining users outside of /etc/passwd means that system utilities
+like ls and chown do not work as expected.  When
+first setting up virtual users, most system administrators will experience
+this as permissions problems.  Virtual users will not be able to login, or
+they can login but not upload or download files.  Or when the administrator
+lists the files uploaded by virtual users, those files will have the wrong
+owner names. The permissions problems are almost always caused by ID mismatch.  That is,
+the UID and/or GID of the virtual user will not match the UID and/or GID
+owner of their home directory (or whichever directory is having problems).
+The key here is to change the ownership of the virtual user's directories
+using chown and IDs , rather than names.  The chown utility can set ownership by ID just as easily as by
+name.  Most chown examples show setting ownership by name,
+but that means chown would look up the IDs for that name via /etc/passwd , which, as noted above, will not work for virtual
+users. By default, ls lists the names of file owners by looking up those
+names in /etc/passwd .  This is why listing files of virtual
+users will often show incorrect names; ls has no knowledge
+of virtual user names.  When working with files created by virtual users, use ls -n so that you can see the IDs, not the names, associated with
+those files.  You will then need to manually make sure those IDs are the
+correct ones for the file. Remember that it is the Unix kernel, and not ProFTPD , which enforces
+the normal Unix access rules to files for a process such as a ProFTPD session
+process.  All that ProFTPD does is select the user and group IDs to set
+for the process, based on the authentication.  ProFTPD never overrides the normal Unix filesystem permissions. Question : Which IDs should I use for my virtual users? Answer : It does not matter.  The only UID and GID
+which are special are UID 0 (zero) and GID 0 (zero).  These IDs are used
+for user root and group root ; do not assign
+these IDs to your virtual users unless you absolutely trust those users. Other than that, you are free to use any IDs you like.  It is generally
+a good idea to use IDs for your virtual users that are not already in use
+in /etc/passwd , in order to keep the privileges of your
+system users separate from the privileges of your virtual users; privileges
+are determined by IDs.  However, in some cases (such as using ProFTPD
+for FTP access to websites), you may want all of your virtual users to
+run as the web server user, e.g. user "www" or user
+"apache".  Use the IDs that make the most sense for your site
+needs. One related question often asked is "Can I have my virtual users have
+the same IDs?"  Yes, you can.  This means that all of those virtual
+users would have the exact same privileges.  If you use this approach,
+make sure those virtual users are all confined to separate home (or web site)
+directories by using: DefaultRoot ~ in your proftpd.conf .  This means that even though those
+virtual users would all have the same privileges, they would be unable to see
+and affect each others' files since they would all be separated in different
+directories. Question : If virtual users are not defined in the system /etc/passwd file, then where are they defined? Answer : There are several other locations where
+user information can be stored, e.g. AuthUserFiles ,
+LDAP directories, SQL databases, and RADIUS servers.  Note that virtual
+users are not defined in the proftpd.conf file directly. One of the simplest virtual user authentication mechanisms is the AuthUserFile , which is a flat text file in the same format as
+the system /etc/passwd file.  For more information on the
+details, see the AuthFiles howto.
+The AuthUserFile configuration directive is handled by the mod_auth_file module, whose documentation can be found here . Once you have created your AuthUserFile and AuthGroupFile with the ftpasswd tool, you configure
+your proftpd to use those files by adding the following directives
+to your proftpd.conf : AuthUserFile /path/to/ftpd.passwd
+  AuthGroupFile /path/to/ftpd.group The ftpasswd tool is a Perl script, distributed with the
+ProFTPD source code, under the contrib/ directory.  A copy
+can also be found on GitHub . Another very popular authentication mechanism used for virtual users is a SQL
+database such as MySQL or Postgres.  This mechanism is supported by ProFTPD's mod_sql module; more information on using mod_sql can be found in the SQL howto, and the mod_sql documentation . Some sites still experience permissions issues, even though everything appears
+to be configured properly.  If this happens, define an SQLLogFile in your proftpd.conf : SQLLogFile /path/to/mod_sql.log This log file will show which IDs the mod_sql module is
+assigning to users/groups looked up by proftpd .  If the IDs
+are not what you have in your SQL tables, then you need to use the
+following directives: SQLMinUserUID , SQLMinUserGID , and SQLMinUserID .  The mod_sql module contains some default limits
+on the range of IDs it returns; the above directives are used to tweak those
+default limits. User documentation for the mod_ldap module (for virtual users via
+LDAP directories) and mod_radius module (for virtual users via
+RADIUS servers) is not yet complete. Important : proftpd will use all authentication
+mechanisms by default .  This is why a user that does not appear
+in an AuthUserFile , but is defined in the
+system /etc/passwd file, can login by default.  Use the AuthOrder configuration directive to change this.  This
+directive is explained in more detail in the Authentication howto. Question : But I've seen examples that use the <Anonymous> section for virtual users.  Why don't you mention this? Answer :  The <Anonymous> context
+should never be used to define a virtual user.  This type of
+configuration is a crude hack, leftover from ProFTPD's early days.  Using
+an AuthUserFile is better supported, better documented, more
+flexible, and more in line with ProFTPD's design philosophy. Question : What about using PAM for virtual users? Answer : Please read the Authentication howto. © Copyright 2017-2023 The ProFTPD Project All Rights Reserved

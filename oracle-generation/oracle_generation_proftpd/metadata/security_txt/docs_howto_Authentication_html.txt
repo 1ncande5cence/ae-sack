@@ -1,0 +1,121 @@
+ProFTPD: Logins and Authentication ProFTPD: Logins and Authentication Logging into proftpd and being successfully authenticated by
+the server involves a lot of different modules and different checks.  This
+document aims to discuss the sort of checks and configuration involved, and
+hopefully provide a better idea of how proftpd authenticates users. PAM PAM, which stands for P luggable A uthentication M odules,
+is an API intended to make it easy to replace the old Unix-style DES password
+hashes stored in /etc/passwd with a flexible system that allows
+system administrators to use MD5 checksums, SQL tables, LDAP servers,
+RADIUS servers, etc in place of that password check.  However, what
+PAM does not provide is the rest of the user account information in /etc/passwd , i.e. the user's UID and GID, home directory,
+and shell.  This means that PAM cannot be used as a drop-in replacement
+for user information stored in /etc/passwd . NSS ( N ame S ervice S witch) modules, supported by
+some operating systems, are a complementary API to PAM which can be used to
+supply the rest of this user information. proftpd uses the normal libc functions for looking up user information, and those libc functions typically read /etc/passwd .  NSS is
+an abstraction layer within some libc implementations that causes
+those functions to read other sources rather than /etc/passwd .
+Regardless of NSS support, proftpd has support for
+" virtual " users via its authentication modules . When configuring proftpd , the configure script
+will automatically try to determine whether your operating system supports PAM.
+If it does, the mod_auth_pam module will automatically be compiled
+into your proftpd .  If you explicitly do not want PAM support,
+you can use the --disable-auth-pam configure option to disable
+this automatic detection.  The point of using PAM is that it can provide an
+extra authentication step during a login.  By "authentication", I
+mean that PAM answers a yes/no question: "Is this user who they say they
+are?".  PAM modules are configured either in /etc/pam.conf or /etc/pam.d/ , depending on your operating system.  However,
+many of the PAM modules provided by vendors are not designed to work well
+with some of the authentication modules supported by proftpd .  If PAM is not a necessity for you, and you plan to
+use one of the authentication modules (other than mod_auth_unix ),
+then you need do nothing.  By default, proftpd uses PAM as an additional check during logins, but if that check fails, the login may still succeed.
+If you do need the PAM check to be authoritative, then you need to
+use the AuthOrder directive, e.g. : AuthOrder mod_auth_pam.c* ... To disable use of PAM entirely, use: <IfModule mod_auth_pam.c>
+    AuthPAM off
+  </IfModule> Configuration Directives There are several configuration directives that can cause login problems.
+The most common one is RequireValidShell , so common that it is a FAQ .
+If proftpd does not actually use the shell configured for
+a user, why does it check to see if the shell is valid by looking in /etc/shells ?  Certain other FTP servers ( e.g. wu-ftpd , pure-ftpd ) do check for invalid shells and
+deny logins based on this criterion; proftpd follows this pattern
+so as not to surprise too many system administrators.  Use of invalid shells
+is a common sysadmin trick for denying shell-based login access ( e.g. ssh logins); many sites use other means, however, and so use of
+the RequireValidShell directive is also frequently seen. Another reason why a client cannot login might be if the login user is root (or has a UID of zero, and hence has root privileges).
+Logging in as root is dangerous, and should be avoided if
+possible.  If you do find it absolutely necessary to login as root , please use SSL/TLS , or at least tunnel your FTP connection using SSH.  The RootLogin configuration directive is needed
+in your proftpd.conf in order for proftpd to
+explicitly allow root logins. One uncommon obstacle that you might encounter to allowing a user to login is
+the possibility that that user is listed in an /etc/ftpusers file.  This is another legacy check, courtesy of wu-ftpd .
+Any user that is listed in /etc/ftpusers is not allowed
+to login via FTP.  A little backwards from what might be expected from the
+file name, I agree. proftpd was made to similarly honor any /etc/ftpusers file by default in order to ease the pain for sites
+migrating from wu-ftpd to proftpd . Disabling proftpd 's check for this file is as simple as using the UseFtpUsers configuration directive, like so: UseFtpUsers off in your proftpd.conf file. The PersistentPasswd configuration directive can
+be necessary in some environments, particularly those that use NIS/YP,
+NSS modules, or (in the case of Mac OSX) the netinfo service.
+In order to be able to lookup and map UIDs and GIDs to names, as when
+listing directories and files, proftpd tries to keep the /etc/passwd file open.  This is particularly relevant if the DefaultRoot directive is in effect, for once chroot ed, proftpd cannot open /etc/passwd .  However, services
+such as NIS, NSS, and netinfo function very differently while
+providing a file-like interface, and they do not function properly if proftpd keeps them open.  Using: PersistentPasswd off in your proftpd.conf should cause name lookups to work
+properly if you use NIS, NSS, or netinfo . If you feel your logins are slow, then you might be encountering another FAQ .
+The timeouts when performing RFC931 ident lookups, and
+DNS reverse resolutions, add a noticeable delay to a login. Anonymous Logins Anonymous logins are allowed by defining an <Anonymous> section, or context , in your proftpd.conf .  No <Anonymous> contexts mean that proftpd will
+not allow anonymous logins.  As the documentation describes, proftpd knows to treat a given login name (given to the server by
+the client via the USER FTP command) by seeing if the login
+name is the same as the User name in an <Anonymous> context.  For example: <Anonymous /var/ftp/anon/dave>
+    User dave
+    Group ftpanon
+    ...
+  </Anonymous> would cause any client logging in as dave to be treated as an
+anonymous login, and to be handled using the <Anonymous> context above.  This structure allows for multiple login names to be treated
+as anonymous logins, and for each anonymous login to have its own specific
+anonymous configuration.  Some administrators use <Anonymous> contexts to define "virtual" users directly in their proftpd.conf , but this practice is discouraged .  Virtual
+user accounts are discussed next. Resolving ~ The DefaultRoot directive is commonly used to restrict or
+" jail " users into specific directories,
+usually their individual home directories.  This is done via: DefaultRoot ~ where the tilde ( ~ ) is expanded to the home directory of the
+logging in user.  Now, when proftpd is resolving the tilde,
+it switches to the privileges of the logging-in user and attempts to resolve
+the home directory.  This ensures that the user will, once restricted to
+that directory, will have the ability to see files and move around.  So
+if using the tilde does not appear to be working in your configuration,
+double-check that the permissions on the home directory of the user in
+question at least allow that user to change into the directory (which requires
+execute permission on the home directory).  If proftpd finds
+that the permissions are too restrictive, an error message like: chroot("~"): No such file or directory will be logged. Virtual Users One question that often arises is "How do I create a proftpd user?" proftpd uses your system's /etc/passwd file by
+default, and so proftpd users are the same as your system users.
+"Virtual" users, sometimes described as FTP-only user accounts, are
+users that can login to proftpd , but who are separate from the
+normal system users, and who do not have entries in /etc/passwd . proftpd does not care how or where user information is defined.
+The daemon is designed with an abstraction layer on top of user information
+sources, and that abstraction is responsible for supplying that data that is required for every user: a name, a UID, a GID, a home directory, and a
+shell.  A user's shell will not be used except in RequireValidShell checks, but it must still present.  The code
+that is responsible for supplying this data, reading it from whatever storage
+format is supported, lies in proftpd 's various configurable
+authentication modules. Authentication Modules proftpd uses authentication modules for accessing user account
+information.  These modules implement an API that that daemon uses to
+lookup account information by name or by ID, to authenticate a user using
+the provided password, and to resolve names to IDs or IDs to names.  The
+following authentication modules are all provided with proftpd : mod_auth_unix Handles normal authentication via /etc/passwd , /etc/group mod_auth_file Handles the AuthUserFile and AuthGroupFile directives, for storing user account information in other files mod_ldap Handles user account information stored in LDAP directories mod_radius Handles user account information provided by RADIUS servers mod_sql Handles user account information stored in SQL tables Note that mod_auth_pam is not on this list because it cannot
+provide the necessary user account information.  It can be used to supplement
+other auth modules by adding its PAM checks, however. Since proftpd supports multiple authentication modules at the
+same time, how does it know which authentication module to use?  What if you
+want to tell proftpd which modules to check, and in which order?
+What if you want some authentication modules to be used in one <VirtualHost> , and different authentication modules in
+another? By default, proftpd will ask every configured authentication
+module about a given user, until it finds an authentication module that knows
+about that user, or until an authentication module signals an unrecoverable
+error.  The order in which these modules are asked depends on the order of
+modules in the --with-modules option used when configuring proftpd . Some modules can be figured to not "play nice" and allow other
+authentication modules a chance at providing user information.  That is, some
+modules can be "authoritative", and if that module does not know
+about the user, it will signal an error and prevent proftpd from asking other modules. mod_auth_pam 's AuthPAMAuthoritative directive, and the * syntax
+in the SQLAuthenticate directive of mod_sql , are
+examples of this authoritativeness.  In general, it is best to avoid using
+such mechanisms, and to use the AuthOrder configuration directive instead. The following illustrates a situation where AuthOrder is
+useful.  The default build of proftpd has two authentication
+modules included: mod_auth_file and mod_auth_unix . proftpd will consult both modules when authenticating a
+user: first mod_auth_file , then mod_auth_unix .
+( Note : versions of proftpd before 1.2.8rc1 would only
+support either AuthUserFile or /etc/passwd , but not
+both at the same time.)  If any authentication module can authenticate a user,
+then authentication succeeds. This holds true of other authentication modules
+like mod_ldap , mod_sql , mod_radius , etc . However, if you only want proftpd to use your AuthUserFile and no other authentication modules, then you would
+use the AuthOrder directive like this: AuthOrder mod_auth_file.c Or, if you use mod_sql and wanted proftpd to check
+your SQL tables first, and then default to system users: AuthOrder mod_sql.c mod_auth_unix.c Note that the mod_auth.c module should never be used in an AuthOrder directive. Frequently Asked Questions Question : How can I configure proftpd to
+log/show the password typed by the user? Answer :  You cannot.  Period.  The proftpd code goes out of its way to ensure that the password is never logged. © Copyright 2017 The ProFTPD Project All Rights Reserved

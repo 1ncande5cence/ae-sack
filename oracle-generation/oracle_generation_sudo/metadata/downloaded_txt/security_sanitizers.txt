@@ -1,0 +1,20 @@
+Sanitizers and Sudo | Sudo Sanitizers and Sudo Sudo’s build system has native support for compiling with Sanitizers when using the
+gcc or clang compilers.  It is recommended that you use the configure
+options described below rather than trying to adjust the CC , CFLAGS or LDFLAGS Makefile options.  Failure to do so may
+result in memory leak false positives. Building sudo with sanitizer support To build sudo with sanitizer support you must use the --enable-sanitizer configure option.  This will add the -fsanitize and -fno-omit-frame-pointer compiler options in the correct places.
+It will also enable NO_LEAKS in config.h , which prevents some
+memory from being reported as leaked at exit time. To avoid a potential crash in the crypt() C library function when
+ASAN is enabled, it may be necessary to statically link the sudoers
+policy module into the main sudo binary.  Otherwise, you may see a
+crash from ASAN when trying to read a NULL address (this is not a
+bug in sudo). For example: $ ./configure --enable-static-sudoers --disable-shared-libutil \
+    --enable-sanitizer By default, --enable-sanitizer will enable both Address
+Sanitizer (ASAN)
+and Undefined Behavior
+Sanitizer (UBSan).  To enabled a specific sanitizer, pass it as argument to --enable-sanitizer .  For example, to only enable ASAN: $ ./configure --enable-static-sudoers --disable-shared-libutil \
+    --enable-sanitizer=address Running sudo’s test suite with sanitizers Sudo’s test suite is run regularly with both ASAN and UBSan enabled.
+You can run it yourself via: $ make check There should be no memory leaks or crashes reported. Running sudo with sanitizers A sudo binary built with sanitizer support should only be run in a
+test environment.  Due to some sanitizers’ unchecked use of environment
+variables, it is trivial to exploit a set-user-ID root executable
+such as sudo. A sanitizer-enabled sudo binary should run normally and not report
+memory leaks on exit.

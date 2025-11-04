@@ -1,0 +1,11 @@
+mod_allowmethods - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_allowmethods Available Languages: en | fr Description: Easily restrict what HTTP methods can be used on the server Status: Experimental ModuleÂ Identifier: allowmethods_module SourceÂ File: mod_allowmethods.c Compatibility: Available in Apache 2.3 and later Summary This module makes it easy to restrict what HTTP methods can be
+used on a server. The most common configuration would be: <Location "/">
+   AllowMethods GET POST OPTIONS
+</Location> Directives AllowMethods Bugfix checklist httpd changelog Known issues Report a bug See also Comments AllowMethods Directive Description: Restrict access to the listed HTTP methods Syntax: AllowMethods reset| HTTP-method [ HTTP-method ]... Default: AllowMethods reset Context: directory Status: Experimental Module: mod_allowmethods The HTTP-methods are case sensitive and are generally, as per
+RFC, given in upper case. The GET and HEAD methods are treated as
+equivalent. The reset keyword can be used to
+turn off mod_allowmethods in a deeper nested context: <Location "/svn">
+   AllowMethods reset
+</Location> Caution The TRACE method cannot be denied by this module;
+  use TraceEnable instead. mod_allowmethods was written to replace the rather
+kludgy implementation of Limit and LimitExcept . Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

@@ -1,0 +1,65 @@
+ProFTPD: Classes ProFTPD: Classes What are Classes? When configuring proftpd , it is sometimes nice, or even necessary,
+to tag or label a client as belonging to some group, based on that client's
+IP address or DNS hostname.  A "class" is the name for such
+connection-based groupings in ProFTPD terms.  A class is defined to have
+a name , and as having certain criteria such as IP addresses, IP
+subnets/masks, and DNS hostnames.  A client that connects to the daemon
+that has matching characteristics is then labeled as belonging to that class. Note that a connecting client can belong to only one class;
+see the description below for how the winning class is selected for a session
+from among multiple possible matches. How are Classes Defined? To define a class, use a <Class> section in your proftpd.conf : <Class internal>
+    From 192.168.0.0/16
+  </Class> This defines a class named "internal"; any client connecting from
+192.168.0.0/16 will belong to this class.  And if you wanted to define a
+class for all clients not connecting from 192.168.0.0/16 address space: <Class external>
+    From !192.168.0.0/16
+  </Class> A more complicated class might include matching DNS names as well: <Class test>
+    From 1.2.3.4
+    From proxy.*.com
+    From my.example.com
+    From 5.6.7.8
+  </Class> This "test" class will then be used for a client with any of the
+defined characteristics. Note that if your class rules use only DNS names, and proftpd is unable to resolve the IP address of a client to a DNS name, that
+class may not be matched as you might expect.  This can be seen in
+the server debugging output, at level 10, as something like: comparing DNS name '1.2.3.4' to pattern 'proxy.*.com' Here you see the 1.2.3.4 IP address, where a DNS name should be.  In order
+for DNS name based class rules to function properly, both a) DNS resolution
+is needed ( i.e. UseReverseDNS must be on , which
+is the default), and b) the IP address of a connecting client must be
+resolvable to a DNS name. What if there are multiple classes defined, and the classes overlap, e.g. two classes both have: From *.example.com Which one will be used for the connecting client?  This will depend on the
+order in which classes are defined in the proftpd.conf file.
+When searching the list of classes for the one that matches the client, proftpd checks each class in the order in which they are defined.
+The first class definition (in order of appearance in proftpd.conf ) that matches is used. How do you define a class that includes all clients from a certain
+domain except one specific host in that domain?  To define a class with
+these sorts of characteristics, use the Satisfy configuration
+directive: <Class foo>
+    From *.example.com
+    From !bad.example.com
+    Satisfy all
+  </Class> Using Satisfy The Satisfy directive, when used within a <Class> section, indicates whether any of the From rules in the section need to match, or whether all of
+the From rules in the section need to match.  The default Satisfy setting for a <Class> section is
+"any". To illustrate, the following class definition will never match: <Class impossible>
+    From 127.0.0.1
+    From !127.0.0.1
+    Satisfy all
+  </Class> It is impossible to both an address and not match that same address,
+but that is what is demanded by the "Satisfy all" setting in the above
+class definition. Now, where the use of "Satisfy all" comes in handy is when you have a general
+rule with exceptions: <Class customers>
+    From .domain.com
+    From !host1.domain.com !host2.domain.com
+    Satisfy all
+  </Class> Specifically, the use of "Satisfy all" is necessary when you have multiple not matches ( i.e. using the ! prefix), all of which need to be evaluated. How are Classes Used? By itself, a class does nothing.  It is merely a way to define a set of clients
+and to give that set a name.  Once that name is defined, though, it can be
+use as part of your configuration.  There are a limited number of configuration
+directives that make use of classes directly: AllowClass DenyClass DisplayGoAway MaxClientsPerClass The AllowClass and DenyClass directives are the
+main directives to use, for example in <Limit> sections: <Limit ALL>
+    AllowClass internal
+    DenyAll
+  </Limit> The mod_ifsession module also makes use of classes with its <IfClass> configuration section.  Using classes and mod_ifsession , you can
+write a proftpd.conf that has specific configurations for specific
+classes of clients.  Here's an example snippet demonstrating use of <IfClass> : <IfClass internal>
+    MaxClients 100
+  </IfClass>
+
+  <IfClass !internal>
+    MaxClients 25
+  </IfClass> This allows clients from class "internal" to see an effective MaxClients limit of 100 simultaneous clients, and clients not in class "internal" to see an effective limit of only 25. © Copyright 2017 The ProFTPD Project All Rights Reserved

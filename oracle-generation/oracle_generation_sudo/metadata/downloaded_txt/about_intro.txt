@@ -1,0 +1,28 @@
+A Short Introduction | Sudo A Short Introduction Sudo (su “do”) allows a system administrator to delegate authority
+to give certain users (or groups of users) the ability to run some
+(or all) commands as root or another user while providing an audit
+trail of the commands and their arguments.  Sudo operates on a
+per-command basis, it is not a replacement for the shell. Its
+features include: The ability to restrict the commands a user may run
+on a per-host basis. Logging of commands run, providing a clear audit trail of who
+did what. When used in tandem with the system log daemon (usually
+syslogd) or sudo’s own log server ( sudo_logsrvd ), sudo can
+log all commands to a central host (as well as on the local
+host).  It is also possible to configure sudo to log the user’s
+keystrokes and the output of the commands that are run. A “ticketing” system that allows a user to run commands for a
+period of time without the need to repeatedly authenticate.  When
+a user invokes sudo and enters their password, they are granted
+a ticket for 5 minutes (this timeout is configurable).  Each
+subsequent sudo command updates the ticket for another 5
+minutes.  This avoids the problem of leaving a root shell where
+others can physically get to your keyboard.  There is also an
+easy way for a user to remove their ticket file, useful for
+placing in a .logout file. The security policy, the sudoers file, can be configured in
+such a way that the same sudoers file may be used on multiple
+machines.  This allows for central administration while keeping
+the flexibility to define a user’s privileges on a per-host
+basis. Please see the samples sudoers file below for a real-world
+example. To get a good idea of what sudo can do, you really need
+to take a look at a sample sudoers file.
+The sudoers manual explains the
+syntax in detail. There is also a nice slide show on how to use sudo in a large, heterogeneous environment by Alek Komarnitsky .

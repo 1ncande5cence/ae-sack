@@ -1,0 +1,38 @@
+[
+    {
+        "feature": "No Network or File System Access by Default",
+        "explain": "D8 does not provide built-in APIs for network or file system access, which limits the ability of scripts to interact with the host system or external resources, reducing the attack surface."
+    },
+    {
+        "feature": "Isolated Execution Contexts",
+        "explain": "Each script or snippet executed in D8 runs in its own V8 context, which helps prevent interference between scripts and limits the scope of potential attacks."
+    },
+    {
+        "feature": "No System Command Execution APIs",
+        "explain": "D8 does not expose any APIs for executing system commands (such as shell commands), preventing scripts from directly interacting with the operating system."
+    },
+    {
+        "feature": "Heap and Stack Protection",
+        "explain": "V8 includes mitigations such as heap sandboxing and stack overflow detection, which help prevent certain classes of memory corruption and exploitation."
+    },
+    {
+        "feature": "Restricted Native Module Loading",
+        "explain": "D8 does not support loading arbitrary native modules or dynamic libraries, which limits the risk of loading malicious code."
+    },
+    {
+        "feature": "Input Validation for Shell Commands",
+        "explain": "D8's shell commands (such as 'read', 'print', etc.) perform basic input validation to prevent malformed input from causing unexpected behavior."
+    },
+    {
+        "feature": "No Built-in Database Access",
+        "explain": "D8 does not provide any built-in APIs for database access, which prevents scripts from directly interacting with databases and potentially leaking or corrupting data."
+    },
+    {
+        "feature": "Limited Exposure of Host Environment",
+        "explain": "D8 exposes only a minimal set of host functions to the JavaScript environment, reducing the risk of privilege escalation or unauthorized access to host resources."
+    },
+    {
+        "feature": "Sandboxed JavaScript Execution",
+        "explain": "JavaScript code executed in D8 is sandboxed within the V8 engine, which enforces language-level restrictions and prevents direct access to the underlying system."
+    }
+]

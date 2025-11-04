@@ -1,0 +1,4 @@
+Module ngx_http_empty_gif_module The NGINX Team wants to hear from you. Take the 2025 NGINX User Survey . Module ngx_http_empty_gif_module Example Configuration Directives empty_gif The ngx_http_empty_gif_module module emits
+single-pixel transparent GIF. Example Configuration location = /_.gif {
+    empty_gif;
+} Directives Syntax: empty_gif ; Default: — Context: location Turns on module processing in a surrounding location.

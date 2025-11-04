@@ -1,0 +1,36 @@
+ProFTPD module mod_site_misc ProFTPD module mod_site_misc The mod_site_misc module implements miscellaneous SITE commands, such as: SITE MKDIR SITE RMDIR SITE SYMLINK SITE UTIME This module is contained in the contrib/mod_site_misc.c file for
+ProFTPD 1.2. x /1.3. x , and is not compiled by default.
+Installation instructions are discussed here . Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives SiteMiscEngine Thanks 2003-02-14 : Thanks to Kamil Burzynski (K.Burzynski at adbglobal.com) for providing SITE MKDIR and SITE RMDIR code 2003-10-27 : Thanks to Peter Hatch (pete at parcplace.net) for providing SITE SYMLINK code SITE Commands SITE MKDIR SITE RMDIR SITE SYMLINK SITE UTIME SiteMiscEngine Syntax: SiteMiscEngine on|off Default: on Context: server config, <VirtualHost> , <Global> Module: mod_site_misc Compatibility: 1.3.3c and later The SiteMiscEngine directive enables or disables the module's
+runtime support for the SITE commands.  If set to off ,
+this module will not support these SITE commands.  Use this
+directive to disable the module. SITE MKDIR This SITE command allows the creation of a full directory
+path, similar to mkdir -p /path/to/dir .  It is primarily for
+convenience, instead of having to use a loop of MKD and CWD commands; the normal MKD FTP command only
+creates a single directory at a time. The syntax for SITE MKDIR is: SITE MKDIR path Use of this SITE command can be controlled via <Limit> sections, e.g. : <Limit SITE_MKDIR>
+    AllowUser alex
+    DenyAll
+  </Limit> SITE RMDIR This SITE command allows the deletion of a full directory
+path, similar to rm -fr /path/to/dir .  It recursively deletes all
+of the files and directories under the given path.  This command is
+primarily for convenience, instead of having to use a loop of NLST , DELE , and CWD commands; the normal DELE FTP command only deletes a single file at a time, and the normal RMD command does not handle removing directories that are not
+empty. The syntax for SITE RMDIR is: SITE RMDIR path Use of this SITE command can be controlled via <Limit> sections, e.g. : <Limit SITE_RMDIR>
+    AllowUser alex
+    DenyAll
+  </Limit> SITE SYMLINK This SITE command allows the creation of symbolic links, similar
+to ln -s . The syntax for SITE SYMLINK is: SITE SYMLINK source destination Use of this SITE command can be controlled via <Limit> sections, e.g. : <Limit SITE_SYMLINK>
+    AllowUser alex
+    DenyAll
+  </Limit> SITE UTIME This SITE command allows for setting the access and modification
+timestamps on files, similar to the touch /path/to/file command.
+This allows sites to have the often-requested ability to set the modification
+time on uploaded files. The syntax for SITE UTIME is: SITE UTIME YYYYMMDDhhmm[ss] path For example: SITE UTIME 200402240836 file.txt
+  SITE UTIME 20040224083655 file.txt to 8:36 AM, Febrary 24, 2004 (or 8:36:55 AM, Febrary 24, 2004, respectively). Another variant syntax is also supported: SITE UTIME path YYYYMMDDhhmm[ss] YYYYMMDDhhmm[ss] YYYYMMDDhhmm[ss] UTC For example: SITE UTIME file.txt 20040224083655 20040224083655 20040224083655 UTC The timestamp specified is treated as being in GMT/UTC, rather than in the
+local timezone. Use of this SITE command can be controlled via <Limit> sections, e.g. : <Limit SITE_UTIME>
+    AllowUser alex
+    DenyAll
+  </Limit> Installation The mod_site_misc module is distributed with ProFTPD.  Simply
+follow the normal steps for using third-party modules in proftpd: $ ./configure --with-modules=mod_site_misc To build mod_site_misc as a DSO module: $ ./configure --enable-dso --with-shared=mod_site_misc Then follow the usual steps: $ make 
+  $ make install Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_site_misc as a
+shared module: $ prxs -c -i -d mod_site_misc.c © Copyright 2004-2017 TJ Saunders All Rights Reserved

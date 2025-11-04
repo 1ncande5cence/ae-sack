@@ -1,0 +1,18 @@
+mod_logio - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_logio Available Languages: en | fr | ja | ko | tr Description: Logging of input and output bytes per request Status: Extension ModuleÂ Identifier: logio_module SourceÂ File: mod_logio.c Summary This module provides the logging of input and output number of
+    bytes received/sent per request. The numbers reflect the actual bytes
+    as received on the network, which then takes into account the
+    headers and bodies of requests and responses. The counting is done
+    before SSL/TLS on input and after SSL/TLS on output, so the numbers
+    will correctly reflect any changes made by encryption. This module requires mod_log_config . When KeepAlive connections are used with SSL, the overhead of the SSL
+    handshake is reflected in the byte count of the first request on the
+    connection.  When per-directory SSL renegotiation occurs, the bytes are associated
+    with the request that triggered the renegotiation. Topics Custom Log Formats Directives LogIOTrackTTFB Bugfix checklist httpd changelog Known issues Report a bug See also mod_log_config Apache Log Files Comments Custom Log Formats This module adds three new logging directives. The characteristics of the
+    request itself are logged by placing " % " directives in
+    the format string, which are replaced in the log file by the values as
+    follows: Format String Description %I Bytes received, including request and headers, cannot be
+        zero. %O Bytes sent, including headers, cannot be zero. %S Bytes transferred (received and sent), including request and headers,
+        cannot be zero. This is the combination of %I and %O. Available in Apache 2.4.7 and later %^FB Delay in microseconds between when the request arrived and the
+        first byte of the response headers are written.  Only available if LogIOTrackTTFB is set to ON. Available in Apache 2.4.13 and later Usually, the functionality is used like this: Combined I/O log format: "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\"
+      \"%{User-agent}i\" %I %O" LogIOTrackTTFB Directive Description: Enable tracking of time to first byte (TTFB) Syntax: LogIOTrackTTFB ON|OFF Default: LogIOTrackTTFB OFF Context: server config, virtual host, directory, .htaccess Override: All Status: Extension Module: mod_logio Compatibility: Apache HTTP Server 2.4.13 and later This directive configures whether this module tracks the delay
+    between the request being read and the first byte of the response
+    headers being written.  The resulting value may be logged with the %^FB format. Available Languages: en | fr | ja | ko | tr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

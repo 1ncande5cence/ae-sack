@@ -1,0 +1,42 @@
+[
+    {
+        "feature": "Privilege Separation (Dumpcap Utility)",
+        "explain": "Wireshark uses a separate utility called 'dumpcap' to capture packets. Dumpcap can be run with elevated privileges to access network interfaces, while the main Wireshark GUI runs with normal user privileges. This separation reduces the risk of privilege escalation and limits the impact of potential vulnerabilities in the GUI."
+    },
+    {
+        "feature": "Input Validation and Dissector Hardening",
+        "explain": "Wireshark performs input validation on captured and imported packet data. Its protocol dissectors are regularly audited and updated to handle malformed or malicious packets, reducing the risk of buffer overflows, crashes, or code execution from crafted network traffic."
+    },
+    {
+        "feature": "Disabling Lua Scripting by Default",
+        "explain": "Wireshark supports Lua scripting for custom dissectors and automation, but Lua scripting can be disabled at build time or via configuration. This prevents the execution of potentially unsafe scripts, reducing the attack surface."
+    },
+    {
+        "feature": "Access Control for Capture Interfaces",
+        "explain": "Wireshark restricts access to network interfaces for packet capture. Only users with appropriate system privileges (such as membership in a specific group) can capture live traffic, preventing unauthorized access to sensitive network data."
+    },
+    {
+        "feature": "Secure Update Mechanism",
+        "explain": "Wireshark provides digital signatures for its installers and binaries, allowing users to verify the authenticity and integrity of the software before installation, protecting against tampered or malicious versions."
+    },
+    {
+        "feature": "Crash Reporting and Logging",
+        "explain": "Wireshark includes logging and crash reporting features that help developers identify and fix security vulnerabilities. Logs can also be used by administrators to monitor for suspicious activity or misuse."
+    },
+    {
+        "feature": "No Built-in Remote Command Execution",
+        "explain": "Wireshark does not provide features for remote command execution or remote administration, reducing the risk of remote exploitation or unauthorized control."
+    },
+    {
+        "feature": "Encrypted Capture File Support",
+        "explain": "Wireshark supports reading and writing encrypted capture files (such as pcapng with password protection), helping to protect sensitive captured data at rest."
+    },
+    {
+        "feature": "Plugin Isolation and Management",
+        "explain": "Wireshark allows users to manage and disable plugins, reducing the risk of loading untrusted or vulnerable code. Plugins are loaded from specific directories, and users can control which plugins are enabled."
+    },
+    {
+        "feature": "Support for Decrypting Encrypted Protocols (with User Keys)",
+        "explain": "While not a direct security feature, Wireshark allows users to provide decryption keys for certain encrypted protocols (like TLS), but does not store or transmit these keys, helping to protect sensitive credentials."
+    }
+]

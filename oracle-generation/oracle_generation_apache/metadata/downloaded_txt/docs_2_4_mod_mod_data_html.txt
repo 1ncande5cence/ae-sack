@@ -1,0 +1,11 @@
+mod_data - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_data Available Languages: en | fr Description: Convert response body into an RFC2397 data URL Status: Extension ModuleÂ Identifier: data_module SourceÂ File: mod_data.c Compatibility: Available in Apache 2.3 and later Summary This module provides the ability to convert a response into
+    an RFC2397 data URL . Data URLs can be embedded inline within web pages using something
+    like the mod_include module, to remove the need for
+    clients to make separate connections to fetch what may potentially be
+    many small images. Data URLs may also be included into pages generated
+    by scripting languages such as PHP. An example of a data URL data:image/gif;base64,R0lGODdhMAAwAPAAAAAAAP///ywAAAAAMAAw AAAC8IyPqcvt3wCcDkiLc7C0qwyGHhSWpjQu5yqmCYsapyuvUUlvONmOZtfzgFz ByTB10QgxOR0TqBQejhRNzOfkVJ+5YiUqrXF5Y5lKh/DeuNcP5yLWGsEbtLiOSp a/TPg7JpJHxyendzWTBfX0cxOnKPjgBzi4diinWGdkF8kjdfnycQZXZeYGejmJl ZeGl9i2icVqaNVailT6F5iJ90m6mvuTS4OK05M0vDk0Q4XUtwvKOzrcd3iq9uis F81M1OIcR7lEewwcLp7tuNNkM3uNna3F2JQFo97Vriy/Xl4/f1cf5VWzXyym7PH hhx4dbgYKAAA7 The filter takes no parameters, and can be added to the filter stack
+    using the SetOutputFilter directive,
+    or any of the directives supported by the mod_filter module. Configuring the filter <Location "/data/images">
+    SetOutputFilter DATA
+</Location> Directives This module provides no
+            directives. Bugfix checklist httpd changelog Known issues Report a bug See also Filters Comments Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

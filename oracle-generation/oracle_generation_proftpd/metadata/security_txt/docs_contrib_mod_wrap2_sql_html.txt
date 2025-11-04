@@ -1,0 +1,75 @@
+ProFTPD module mod_wrap2_sql ProFTPD module mod_wrap2_sql This submodule provides the SQL database "driver" for storing
+IP/DNS-based access control information in SQL tables. This mod_wrap2 submodule is contained in the mod_wrap2_sql.c file, and is not compiled by default.  See the mod_wrap2 installation instructions. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. SQL Access Tables The mod_wrap2_sql module supports the "sql" string
+for the source-type parameter of the WrapUserTables , WrapGroupTables ,
+and WrapTables ,
+configuration directives. If the "sql" source-type is used,
+then the source-info parameter must be as described below.  Note
+that support for SQL-based access tables requires the use of mod_sql . mod_wrap2_sql requires two to four SQL-related configuration
+directives: SQLConnectInfo , and two, possibly four, SQLNamedQuery directives.  The SQLConnectInfo is
+necessary to allow the module to connect to the SQL database.  The other
+directives define the SQL queries that will be used by mod_wrap2 for its retrieval operations involving access data. When using SQL tables and mod_sql , the access tables should appear
+in the database named by the SQLConnectInfo directive, which
+will probably also contain the authentication information tables.  This way
+your proftpd -specific tables are kept together.  Also, it is
+probably better to use a connection policy of PERSESSION, otherwise there will
+be more overhead associated with each new connection made to the database for
+each transaction. One SQLNamedQuery is needed to SELECT access
+information from the allow table, and one to SELECT access
+information from the deny table.  These queries should return a list of words,
+where each word is a host name, host address, pattern, or wildcard (see here for how these things are
+defined).  Failure to define either of these SQLNamedQuery directives will cause an error during mod_wrap2_sql 's operation. Optionally, other SQLNamedQuery directives can be defined
+to look up access options from
+the allow and deny tables. For SQL tables, the format for the WrapUserTables , WrapGroupTables , and WrapTables directives is: WrapTables sql:/ allow- SQLNamedQuery [/ allow-options- SQLNamedQuery ] \
+    sql: deny- SQLNamedQuery [/ deny-options- SQLNamedQuery ] where the allow-options- SQLNamedQuery and deny-options- SQLNamedQuery portions of the string are
+optional. SQL Access Tables Example Here are example SQLNamedQuery directives to help demonstrate
+how the mod_sql hooks are used by mod_wrap2_sql .
+These example SQL statements assume the existence of two tables: a wrapallow table that defines allowed clients, and a wrapdeny table that defines the denied clients. SQLNamedQuery get-allowed-clients SELECT "allowed FROM wrapallow WHERE name = '%{0}'"
+  SQLNamedQuery get-denied-clients SELECT "denied FROM wrapdeny WHERE name = '%{0}'"
+  ...
+  SQLNamedQuery get-all-allowed-clients SELECT "allowed FROM wrapallow"
+  SQLNamedQuery get-all-denied-clients SELET "denied FROM wrapdeny" These define the SQL statements to return the required list of words. The %{0} meta sequence will be substituted with the name being looked
+up ( e.g. user name for WrapUserTables , primary group name
+for WrapGroupTables , or the empty string for WrapTables ). If the administrator wants to make use of access options, then queries for
+those options would need to be similarly defined: SQLNamedQuery get-allowed-options SELECT "options FROM wrapallow WHERE name = '%{0}'"
+  SQLNamedQuery get-denied-options SELECT "options FROM wrapdeny WHERE name = '%{0}'" Now, using the above defined queries, the table configuration directives would
+be: # Access tables for users (with options)
+  WrapUserTables user1,user2 sql:/get-allowed-clients/get-allowed-options \
+    sql:/get-denied-clients/get-denied-options
+
+  # Access tables for groups (with options).  Note that this directive
+  # uses the same SELECT queries used for looking up users.  If group
+  # access information is in a different table, then separate group-specific
+  # SQLNamedQuery directives will need to be used.
+  WrapGroupTables group1,group2 sql:/get-allowed-clients/get-allowed-options \
+    sql:/get-denied-clients/get-denied-options
+
+  # Access tables for everyone else (without options).  Note that these
+  # query names are different, since these tables are global, not
+  # per-user/group.
+  WrapTables sql:/get-all-allowed-clients sql:/get-all-denied-clients One thing to keep in mind, however, is that the %{0} part of an
+SQL query will only be expanded with the client's USER argument
+for WrapUserTables queries.  For WrapGroupTables queries, that %{0} will be expanded to contain the primary group
+name of the connecting client's USER .  For WrapTables queries, an empty string is used.  This means that the same query cannot
+often be easily reused. Example Schema Here are some example table schema for SQL-based access tables: Per-User/Group Allow Table CREATE TABLE wrapallow (
+    name VARCHAR(64) PRIMARY KEY,
+    allowed VARCHAR(255) NOT NULL,
+    options VARCHAR(255)
+  ); Per-User/Group Deny Table CREATE TABLE wrapdeny (
+    name VARCHAR(64) PRIMARY KEY,
+    denied VARCHAR(255) NOT NULL,
+    options VARCHAR(255)
+  ); Per-IP Allow Table CREATE TABLE wrapallowip (
+    allowed VARCHAR(128) PRIMARY KEY
+  ); The idea here is that the allowed column would contain the IP
+  address of the client to be allowed; one row per IP address.  The SQLNamedQuery for this would then be: SQLNamedQuery get-allowed-client-ip SELECT "allowed FROM wrapallowip WHERE allowed = '%a'" Yes, this looks odd, to be returning the value that is used for the lookup,
+  but this interface is necessary due to the mod_wrap2 engine. Per-IP Deny Table CREATE TABLE wrapdenyip (
+    denied VARCHAR(128) PRIMARY KEY
+  ); The idea here is that the denied column would contain the IP
+  address of the client to be denied; one row per IP address.  The SQLNamedQuery for this would then be: SQLNamedQuery get-denied-client-ip SELECT "denied FROM wrapdenyip WHERE denied = '%a'" Yes, this looks odd, to be returning the value that is used for the lookup,
+  but this interface is necessary due to the mod_wrap2 engine. When constructing the client and options lists to return to mod_wrap2 's access control engine, mod_wrap2_sql will
+parse each returned row separately, handling both comma- and space-limited
+names in a row, into client list items.  This means that the administrator can
+store multiple client and option tokens in multiple rows, as in the above
+schema, or the administrator can choose to store all of the clients and/or
+options in a single row, in an appropriately formatted string. © Copyright 2000-2017 TJ Saunders All Rights Reserved

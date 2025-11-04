@@ -1,0 +1,99 @@
+ProFTPD: Symlinks and chroot() DefaultRoot , Symlinks and chroot() Restricting Users' Directories One of the most common questions for new users of ProFTPD is "How do I
+restrict my users to only certain directories?" or, phrased another
+way, "How can I put my users in a chroot jail?"  As a common
+question, it definitely has a place in the FAQ .
+Many users, I fear, do not read the FAQ carefully, and so miss that section.
+The answer is ProFTPD's DefaultRoot configuration
+directive, which accomplishes this functionality by using the chroot(2) function. This configuration directive may appear in the <VirtualHost> , <Global> , and the "server config" (meaning
+not in any <VirtualHost> or <Global> sections) configuration contexts.  The most common configuration requested
+is to restrict users to their home directories, which can be done simply
+by adding the following line to your proftpd.conf : DefaultRoot ~ The ~ (tilde) is a Unix-ism that is expanded to the logging-in
+user's home directory.  For slightly more complex setups, administrators
+may want to restrict only a subset of their users into home directories
+(or some other directory), but leave some privileged users unrestricted.
+For example, say you have your privileged users all as members of a group
+called ftp-special .  The DefaultRoot 's optional
+second parameter, a group-expression , can then be used, like so: DefaultRoot ~ !ftp-special This says to chroot() every user who is not a member of
+group ftp-special to their respective home directory, and: DefaultRoot /path/to/dir group1,group2 will chroot() users who are members of both group1 and group2 into /path/to/dir .  More complex group-expressions can be used
+as needed. Note that the execute bit ( --x ) must be on in order to chroot() a user into that directory.  This bit is also needed
+for a user to be able to chdir into that directory. Symlinks There have been many questions on the ProFTPD user mailing list about why
+symlinked directories are not visible to chroot ed users (this
+includes <Anonymous> users as well as users restricted using DefaultRoot . This document is intended to clarify the issues and
+discuss some ways of achieving what is commonly desired. These issues are not specific to ProFTPD, but rather to the workings of a
+Unix system.  First, a brief review of how links work, and why chroot(2) poses such a problem.  Then a look at ways around
+the issue. How Links Work There are two types of links in Unix: hard and symbolic. A hard link is a file that is, for all intents and purposes, the file to which it is linked.  The difference between a hardlink and the linked
+file is one of placement in the filesystem.  Editing the hardlink edits the
+linked file.  One limitation of hard links is that linked files cannot reside
+on different filesystems.  This means that if /var and /home are two different mount points in /etc/fstab (or /etc/vfstab ), then a file in /var/tmp cannot be
+hardlinked with a file in /home : # pwd /var/tmp # ln /home/tj/tmp/tmpfile tmplink ln: cannot create hard link `tmplink' to `/home/tj/tmp/tmpfile': Invalid cross-device link A symbolic link (also referred to as a "symlink") is a file
+whose contents contain the name of the file to which the symbolic link
+points.  For example: lrwxrwxrwx   1 root     root           11 Mar  2  2000 rmt -> /sbin/rmt The file rmt contains the nine characters /sbin/rmt .
+The reason symbolic links fail when chroot(2) is used to
+change the position of the root ( / )of the filesystem is that,
+once / is moved, the pointed-to file path changes.  If, for
+example, if chroot(2) is used to change the filesystem root
+to /ftp , then the symlink above would be actually be pointing
+to /ftp/sbin/rmt .  Chances that that link, if chroot(2) is used, now points to a path that does not exist.
+Symbolic links that point to nonexistent files are known as dangling symbolic links.  Note that symbolic links to files underneath the new
+root, such as symlinks to a file in the same directory: # pwd /var/ftp # ls -l -rw-r--r--   1 root     root            0 Jan 16 11:50 tmpfile
+  lrwxrwxrwx   1 root     root            7 Jan 16 11:50 tmplink -> tmpfile will be unaffected; only paths that point outside/above the new root will be
+affected. Link Creation Tricks Knowing the above, it is now possible to demonstrate how some symlinks can work within a chrooted session, depending on how you create them. Here is an example to demonstrate this point.  Assume the following
+directory structure: /path/to/ftp/
+  /path/to/ftp/folders/
+  /path/to/ftp/folders/incoming/
+  /path/to/ftp/incoming --> /path/to/ftp/folders/incoming/ ( symlink ) And assume that you have the following in your proftpd.conf : DefaultRoot /path/to/ftp/ If the symlink is created using: # ln -s /path/to/ftp/folders/incoming /path/to/ftp/incoming then that symlink will not work in the chrooted session; the path you
+gave ("/path/to/ftp/folders/incoming") is an absolute path, and will not exist
+after the chroot. Instead, if you create the symlink using: # cd /path/to/ftp
+  # ln -s folders/incoming incoming then that symlink should work within the chroot; the key is to use relative
+paths which do not go above your DefaultRoot directory . If your symlink does need to go above the DefaultRoot directory, then you need to use one of the other tricks described below. Filesystem Tricks A typical scenario is one where " DefaultRoot ~ " is
+used to restrict users to their home directories, and where the administrator
+would like to have a shared upload directory, say /var/ftp/incoming , in each user's home directory.  Symbolic
+links would normally be used to provide an arrangement like this.  As
+mentioned above, though, when chroot(2) is used (which is what
+the DefaultRoot directive does), symlinks that point outside the
+new root (the user's home directory in this case) will not work.  To get
+around this apparent limitation, it is possible on modern operating systems to
+mount directories at several locations in the filesystem. To have an exact duplicate of the /var/ftp/incoming directory available in /home/bob/incoming and /home/dave/incoming , use one of these commands: Linux (as of the 2.4.0 kernel): mount --bind /var/ftp/incoming /home/bob/incoming
+  mount --bind /var/ftp/incoming /home/dave/incoming or, alternatively: mount -o bind /var/ftp/incoming /home/bob/incoming
+  mount -o bind /var/ftp/incoming /home/dave/incoming BSD (as of 4.4BSD): mount_null /var/ftp/incoming /home/bob/incoming
+  mount_null /var/ftp/incoming /home/dave/incoming Solaris: mount -F lofs /var/ftp/incoming /home/bob/incoming
+  mount -F lofs /var/ftp/incoming /home/dave/incoming The same technique can be used for <Anonymous> directories,
+which also operate in a chroot() ed environment.  Also, it
+should be possible to mount specific files this way, in addition to
+directories, should you need to (a directory is just another file in Unix). As usual, more information can be found by consulting the man pages for
+the appropriate command for your platform.  The commands for other flavors
+of Unix will be added as needed. In order to have these tricks persist, to survive a system reboot, the /etc/fstab (or /etc/vfstab ) file may need to have
+these mounts added.  Consult your local fstab(5) (or vfstab(4) for Solaris) man pages for more information. Chroots and Remote Filesystems If the chroot directories for your users happen to reside on an NFS
+partition, then you need to make sure that root privileges are not blocked ( e.g. often referred to as "root squash") by the NFS
+mount.  Otherwise, the chroot will fail. Frequently Asked Questions Question : I am using the DefaultRoot directive, but my logins are failing.  The debug logging shows the following: USER user : Login successful.
+  Preparing to chroot to directory '/home/users/ user ' user chroot("/home/users/ user "): Permission denied
+  error: unable to set default root directory I am starting proftpd with root privileges, so why is the chroot() failing with "Permission denied"? Answer : The above situation can happen in cases
+where even root privileges are insufficient.  There have been reports of
+this happening for security-hardened systems ( e.g. SELinux, OpenWall, etc ); it can also happen when NFS is involved. If the DefaultRoot directory in question is mounted via NFS, make
+sure that the NFS configuration mounts the directory with root privileges.  The chroot(2) system call requires root privileges; a
+no-root-privs mounted NFS directory does not allow the chroot(2) to succeed. Similarly, instead of "Permission denied", you might see "No such file or
+directory": user chroot("~"): No such file or directory The reasons for this error are explained here . Question : Is it possible to configure DefaultRoot for all users except some special users, which will have a different root directory? Answer : Yes, this is possible.  ProFTPD supports
+having multiple DefaultRoot directives in the proftpd.conf at the
+same time; proftpd checks all of them in the order they appear .  The first one which matches the logging-in
+user is applied. To illustrate, here's an example.  Keep in mind that the optional parameters to
+the DefaultRoot directive are group names, not user
+names. DefaultRoot /path/to/admin/dir admin-group
+  DefaultRoot /path/to/special/dir special-group
+  DefaultRoot ~ # everyone else If the logging-in user is a member of group 'admin-group', then proftpd will chroot to the /path/to/admin/dir directory.  If the logging-in user is not a member of group 'admin-group' but is a member of group 'special-group', then /path/to/special/dir is used for the chroot.  And if the user
+is not a member of either of these groups, then the normal home directory is
+used for the chroot.  It's always a good idea of have a "applies to everyone" DefaultRoot directive in your proftpd.conf, at the end of the list of DefaultRoot s, as a catch-all. Question : Does DefaultRoot work properly if
+the path/home directory is a symlink? Answer : Yes. Note that some sites consider this a security risk; if that home directory
+can be deleted by remote users, and replaced with a symlink of their own
+creation ( e.g. via SSH or some other webapp), this can be a problem.
+To help mitigate situations like this, you can use the AllowChrootSymlinks directive: # Do not follow symlinks when chrooting
+  AllowChrootSymlinks off As stated in the documentation, using AllowChrootSymlinks does not prevent this problem entirely; it simply means that proftpd cannot be used to get around the restrictions. Question : I have configured DefaultRoot in my proftpd.conf, but my clients still see the root directory.  Is it a bug? Answer .  Usually not. First, make sure that you have restarted proftpd , so that the
+config changes you made ( e.g. adding/modifying your DefaultRoot settings) are picked up by the running daemon. Second, make sure that you have cleared any client cache.  Many FTP clients
+(especially browsers) will cache the directory listings that they have obtained
+from an FTP server.  Thus once you have restarted proftpd and
+you still see the root filesystem displayed by your client, you need to make
+sure that that client is actually getting that listing from the FTP server,
+rather than showing you a stale/cached copy.  The command-line ftp(1) client is good for testing this situation, as it is very
+simplistic and does not cache such things. Last, double-check the proftpd debug logging .
+It could be that proftpd is not using the configuration like you
+assume it is.  Maybe a different config file is being used than the one you
+edited, or maybe the DefaultRoot directive is not in a <Global> section and you are using <VirtualHost> sections, etc . © Copyright 2017 The ProFTPD Project All Rights Reserved

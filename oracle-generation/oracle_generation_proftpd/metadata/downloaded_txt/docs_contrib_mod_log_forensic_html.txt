@@ -1,0 +1,90 @@
+ProFTPD module mod_log_forensic ProFTPD module mod_log_forensic The mod_log_forensic module "captures" log messages generated
+by proftpd , for all sorts of log destinations, even if those
+log messages would otherwise not be written out , and buffers them
+in memory.  When certain criteria are met ( e.g. failed logins,
+segfaults, etc ), the mod_log_forensic module will flush
+the buffered log messages out to a file.  Installation instructions are
+discussed here . The most current version of mod_log_forensic is distributed with
+the ProFTPD source code. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives ForensicLogBufferSize ForensicLogCapture ForensicLogCriteria ForensicLogEngine ForensicLogFile ForensicLogBufferSize Syntax: ForensicLogBufferSize count Default: 1024 Context: server config, <VirtualHost> , <Global> Module: mod_log_forensic Compatibility: 1.3.4rc3 and later The ForensicLogBufferSize directives configures the count of log messages that mod_log_forensic will buffer.  It is
+effectively the count of the last count log messages you wish to
+see logged, when one of the ForensicLogCriteria are met. ForensicLogCapture Syntax: ForensicLogCapture log-type1 ... Default: Unspec TransferLog syslog SystemLog ExtendedLog TraceLog Context: server config, <VirtualHost> , <Global> Module: mod_log_forensic Compatibility: 1.3.4rc3 and later The ForensicLogCapture directive configures which log types
+the mod_log_forensic module "captures" for later writing. By
+default, mod_log_forensic captures messages for all log types. The supported log types are: Unspec This "type" covers any unspecified/unknown log, e.g. module-specific
+    log files such as SFTPLog , SQLLogFile , TLSLog , etc . TransferLog syslog SystemLog ExtendedLog TraceLog ForensicLogCriteria Syntax: ForensicLogCriteria criterion1 ... Default: FailedLogin UntimelyDeath Context: server config, <VirtualHost> , <Global> Module: mod_log_forensic Compatibility: 1.3.4rc3 and later The ForensicLogCriteria directive configures the criteria
+which determine when mod_log_forensic will flush its buffered
+log messages out to the configured ForensicLogFile .  Multiple
+criteria can be specified. The currently supported criteria are: FailedLogin The buffered log messages will be written to the ForensicLogFile if the login fails for any reason. UntimelyDeath If a session dies prematurely, e.g. due to a segfault or other
+    internal error, the buffered log messages will be written to the ForensicLogFile . ModuleConfig If a session dies due to a module-specific policy, the buffered log
+    messages will be written to the ForensicLogFile . ForensicLogEngine Syntax: ForensicLogEngine on|off Default: off Context: server config, <VirtualHost> , <Global> Module: mod_log_forensic Compatibility: 1.3.4rc3 and later The ForensicLogEngine directive enables or disables the mod_log_forensic module. ForensicLogFile Syntax: ForensicLogFile file Default: None Context: server config, <VirtualHost> , <Global> Module: mod_log_forensic Compatibility: 1.3.4rc3 and later The ForensicLogFile directive configures a file used for logging
+by mod_log_forensic .  The configured file must be an
+absolute path. Note that this directive is required for mod_log_forensic to function properly. Installation The mod_log_forensic module is distributed with ProFTPD.  For
+including mod_log_forensic as a statically linked module, use: $ ./configure --with-modules=mod_log_forensic ... Alternatively, mod_log_forensic can be built as a DSO module: $ ./configure --enable-dso --with-shared=mod_log_forensic ... Then follow the usual steps: $ make
+  $ make install Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_log_forensic as a
+shared module: $ prxs -c -i -d mod_log_forensic.c Usage Example mod_log_forensic configuration: <IfModule mod_log_forensic.c>
+    ForensicLogEngine on
+    ForensicLogFile /path/to/forensic.log
+  </IfModule> For a failed login, the configured ForensicLogFile will
+contain a block of log lines, e.g. : -----BEGIN FAILED LOGIN FORENSICS-----
+  Client-Address: 127.0.0.1
+  Server-Address: ::ffff:127.0.0.1:5376
+  Elapsed: 1245
+  Protocol: ftp
+  User: tj
+  UID: 501
+  GID: 501
+  Raw-Bytes-In: 46
+  Raw-Bytes-Out: 158
+  Total-Bytes-In: 0
+  Total-Bytes-Out: 0
+  Total-Files-In: 0
+  Total-Files-Out: 0
+
+  ...
+  [syslog:7, PID 16044] dispatching CMD command 'PASS (hidden)' to mod_auth
+  [syslog:7, PID 16044] retrieved UID 1000 for user 'tj'
+  [syslog:7, PID 16044] retrieved group IDs: 1000, 0, 4, 20, 24, 46, 108, 109, 110
+  [syslog:7, PID 16044] retrieved group names: tj, root, adm, dialout, cdrom, plugdev, lpadmin, sambashare, admin
+  [syslog:7, PID 16044] ROOT PRIVS at mod_auth_pam.c:312
+  [syslog:7, PID 16044] RELINQUISH PRIVS at mod_auth_pam.c:482
+  [syslog:7, PID 16044] ROOT PRIVS at mod_auth_unix.c:467
+  [syslog:7, PID 16044] RELINQUISH PRIVS at mod_auth_unix.c:548
+  [SystemLog:5] familiar proftpd[15509] localhost (localhost[127.0.0.1]): USER tj (Login failed): Incorrect password.
+  [syslog:7, PID 16044] dispatching POST_CMD_ERR command 'PASS (hidden)' to mod_delay
+  [syslog:7, PID 16044] dispatching LOG_CMD_ERR command 'PASS (hidden)' to mod_log
+  -----END FAILED LOGIN FORENSICS----- For sessions which suffer an "untimely death", the begin/end markers in the ForensicLogFile are: -----BEGIN UNTIMELY DEATH FORENSICS-----
+  Client-Address: 127.0.0.1
+  Server-Address: ::ffff:127.0.0.1:5376
+  Elapsed: 1245
+  Protocol: ftp
+  User: tj
+  UID: 501
+  GID: 501
+  Raw-Bytes-In: 46
+  Raw-Bytes-Out: 158
+  Total-Bytes-In: 0
+  Total-Bytes-Out: 0
+  Total-Files-In: 0
+  Total-Files-Out: 0
+
+  ...
+  -----END UNTIMELY DEATH FORENSICS----- Advantages What's the big deal with this module?  What advantage does it provide
+over the normal proftpd logging?  The advantage is that with mod_log_forensic , you do not have to configure ProFTPD to use
+verbose logging ( i.e. high DebugLevel and/or Trace levels).  If ProFTPD generated a log message internally but that log message was filtered, then that log message would not
+normally be written to disk -- but mod_log_forensic buffers
+that log message anyway . To see this, simply use the following in your proftpd.conf : TraceLog /path/to/ftpd/trace.log
+  Trace DEFAULT:0
+
+  <IfModule mod_log_forensic.c>
+    ForensicLogEngine on
+    ForensicLogFile /path/to/ftpd/forensic.log
+  </IfModule> This configured proftpd for trace logging, but turns the
+trace logging levels down to zero so that normally, nothing would be written
+in the configured TraceLog file. Now attempt to log into proftpd , deliberately using a wrong/bad
+password (or unknown user).  The mod_log_forensic module will
+write out all of the trace logging messages
+(and the other SystemLog /syslog messages) to the ForensicLogFile , even though the debug level is at the default
+level of zero, and the trace levels are all zero.  Thus you get the verbose
+logging needed to help diagnose failed logins and such, without having
+the verbose logging enabled all of the time. © Copyright 2011-2013 TJ Saunders All Rights Reserved

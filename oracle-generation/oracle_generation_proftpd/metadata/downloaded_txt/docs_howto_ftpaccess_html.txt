@@ -1,0 +1,19 @@
+ProFTPD: .ftpaccess Files ProFTPD: .ftpaccess Files A .ftpaccess file is meant to function like Apache's .htaccess file: a file that acts as free-floating section of the
+server's configuration file.  If a .ftpaccess file is present in
+a directory in which ProFTPD performs some action, ProFTPD will parse that .ftpaccess file as a configuration file, and act accordingly.
+Note that only some configuration directives are allowed in the .ftpaccess section, though. The advantage of having this capability is that users can customize how the
+server treats directories that are under the user's control, by using files
+placed in those directories, instead of allowing the user to modify the main
+server configuration file itself.  The disadvantage is that a user is
+capable of possibly overriding a configuration value that was set in the main
+configuration file for a specific purpose. ProFTPD treats a directory that contains a .ftpaccess file
+exactly as if the configuration directives in that file had been placed in
+a <Directory> section in the main proftpd.conf file.  For example, if there is a /home/users/bob directory on
+your system, and in that directory there was a .ftpaccess file
+that contained: DirFakeUser on ~
+  DirFakeGroup on ~
+  Umask 0077 it would be treated exactly as if: <Directory /home/users/bob>
+    DirFakeUser on ~
+    DirFakeGroup on ~
+    Umask 0077
+  </Directory> was written into proftpd.conf . The AllowOverride directive can be used to disable ProFTPD's support for .ftpaccess files. © Copyright 2017 The ProFTPD Project All Rights Reserved

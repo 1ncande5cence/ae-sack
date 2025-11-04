@@ -1,0 +1,11 @@
+mod_authz_user - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_authz_user Available Languages: en | fr | ja | ko Description: User Authorization Status: Base ModuleÂ Identifier: authz_user_module SourceÂ File: mod_authz_user.c Compatibility: Available in Apache 2.1 and later Summary This module provides authorization capabilities so that
+    authenticated users can be allowed or denied access to portions
+    of the web site. mod_authz_user grants
+    access if the authenticated user is listed in a Require user directive. Alternatively Require valid-user can be used to
+    grant access to all successfully authenticated users. Topics The Require Directives Directives This module provides no
+            directives. Bugfix checklist httpd changelog Known issues Report a bug See also Require Comments The Require Directives Apache's Require directives are used during the authorization phase to ensure that
+    a user is allowed to access a resource.  mod_authz_user extends the
+    authorization types with user and valid-user . Since v2.4.8, expressions are supported
+    within the user require directives. Require user This directive specifies a list of users that are allowed to gain
+    access. Require user john paul george ringo Require valid-user When this directive is specified, any successfully authenticated
+    user will be allowed to gain access. Require valid-user Available Languages: en | fr | ja | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

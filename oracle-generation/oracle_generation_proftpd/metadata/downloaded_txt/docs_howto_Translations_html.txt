@@ -1,0 +1,19 @@
+ProFTPD: Translations ProFTPD: Translations Translations ProFTPD has support for translating the messages sent to clients in the
+FTP responses.  To enable use of these translations in your proftpd , you must compile proftpd using the --enable-nls configure option.  This causes the mod_lang module to be compiled into your proftpd . ProFTPD uses the gettext code package for translation support. Adding a New Translation To add a new language translation to proftpd , first check to see
+if the language in question already has a translation.  ProFTPD's translations
+are kept, in the source distribution, under the locale/ directory, e.g. : $ ls /path/to/proftpd- version /locale/*.po To create a new translation, you first initialize a .po file
+for your translation using the template PO file ( proftpd.pot ): $ cd proftpd- version /locale/
+  $ msginit -i proftpd.pot -o lang .po -l lang Then you simply use an editor to edit the generated lang .po file, adding in the translated versions of the English messages.  There are
+some good editors out there which greatly aid in editing .po files: POEditor KBabel Testing a Translation Once you think your .po file is ready, you should run some
+quick checks to make sure.  First, compare your .po file against
+the template .pot file to see if you translated all of the
+messages in the template.  This is accomplished using the msgcmp command: $ cd proftpd- version /locale/
+  $ msgcmp lang .po proftpd.pot Finally, compile your .po file into the machine-specific .mo file; this is what the gettext library uses
+in the running code: $ msgfmt --check-format lang .po -o lang .mo The --check-format option checks that your .po is
+properly formatted, and can be compiled without errors. Submitting Translations Once your .po file has been tested and looks ready, simply
+open a feature request at: http://bugs.proftpd.org/ to request that the new translation be added to ProFTPD.  Upload your .po file as an attachment to the opened feature request. Keeping Translations Updated Note that as ProFTPD is developed, new messages may be added to the template .pot file, or existing messages may be changed slightly.
+It is important to keep ProFTPD's translations up-to-date.  You can help
+by periodically checking the existing translations: $ cd proftpd- version /locale/
+  $ make check If you see that a language translation is out of date and you can help,
+simply update the .po file that language, and open a bug request
+and attach the diff, or send the diff to the ProFTPD developers mailing list. © Copyright 2017 The ProFTPD Project All Rights Reserved

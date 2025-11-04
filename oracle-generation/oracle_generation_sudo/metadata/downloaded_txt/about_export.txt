@@ -1,0 +1,17 @@
+Export Controls | Sudo Export Controls Use of encryption Prior to version 1.9.0, Sudo did not include support for encrypting
+data and was not subject to any export controls. However, starting
+with version 1.9.0, Sudo supports encrypted connections between the sudo_logsrvd daemon and the sudoers plugin.  Specifically, TLS
+1.2 or higher is used which supports strong encryption. The actual
+encryption algorithms used depend on the Sudo configuration as well
+as the version of OpenSSL or LibreSSL sudo is linked with (sudo
+does not include an implementation of any encryption algorithms
+itself).  Some users may need to know whether Sudo is covered under
+U.S. export restrictions, specifically the Export Administration Regulations (EAR) and if so, what its Export Control Classification Number (ECCN)
+might be. ECCN for Sudo By the terms of Section 734.7(a)(4) of the EAR ,
+Sudo is considered to be published software.
+To the best of my knowledge, this means that Sudo falls under ECCN
+5D002.c.1 and, as published software, qualifies for License Exemption TSU (Technology and Software - Unrestricted) .
+As such, there are no U.S. export restrictions that prohibit you
+from downloading Sudo. Further reading Frank Hecker has written a detailed explanation of Mozilla’s ECCN .
+It also applies to other open source software, including Sudo. The University of Nevada, Reno has an easy to
+understand description of how export controls affect Open Source software .

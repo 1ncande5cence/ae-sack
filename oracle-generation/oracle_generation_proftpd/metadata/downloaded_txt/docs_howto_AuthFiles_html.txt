@@ -1,0 +1,79 @@
+ProFTPD: Using AuthUserFiles ProFTPD: Using AuthUserFile s The FTP protocol is old, stemming from the days of Telnet, before security
+came to be the relevant issue it is today.  One of the protocol's biggest flaws,
+in today's security-conscious world, is the transmission of passwords "in
+the clear", unencrypted, easily visible to network sniffers.  There
+are several ways of attempting to deal with this flaw. ProFTPD allows for the definition of "virtual" users: users who
+do not have accounts on the host machine, whose account information is defined
+in other sources.  The passwords for these users are then specific only to
+FTP access, and thus do not expose shell access ( ssh , hopefully) to
+unauthorized users.  These alternative account information sources include SQL
+tables (via mod_sql ), LDAP servers (via mod_ldap ),
+CDB files (via mod_auth_cdb ), and other system files (via
+the AuthUserFile and AuthGroupFile configuration directives).  The proftpd server can be configured
+to use multiple account information sources simultaneously as well,
+allowing for flexible support of a range of environments. This document focuses on the use of the AuthUserFile and AuthGroupFile directives.  Several questions often arise
+about the use of these directives.  In general, the answers to those questions
+apply to other authentication/account sources, too. Formats Any configured AuthUserFile is used in addition to /etc/passwd , not instead of it (prior to 1.2.8rc1, however,
+an AuthUserFile was used instead of /etc/passwd );
+similarly for AuthGroupFile and /etc/group .  The AuthOrder directive can be used if you want proftpd to use only the AuthUserFile .
+The format of an AuthUserFile is the same as /etc/passwd ( man passwd(5) ), and the format of an AuthGroupFile is the same as /etc/group ( man
+group(5) ).  There is an ftpasswd script available that can be used to create and update
+these files. It is important to note here that not all flavors of Unix use these formats;
+one notable exception is FreeBSD.  With FreeBSD, user account information is
+stored in binary database files as opposed to ASCII files.  The C library on
+this platform also lacks the functions necessary for making the AuthUserFile and AuthGroupFile directives work
+properly.  In this case, proftpd uses an internal implementation
+of the missing functions to read AuthUserFile s and AuthGroupFile s.  This internal implementation requires that AuthUserFile s have the traditional passwd(5) format: username:password:uid:gid:gecos:homedir:shell and that AuthGroupFile s have this format: groupname:grouppasswd:gid:member1,member2,...member N The ftpasswd script
+mentioned creates files in these required formats. Choice of IDs The choice of IDs for your users is important; the operating system does not
+deal with user processes in terms of their user names, it knows only of the
+numeric identity of a process.  In general, it is best if each user has
+a unique positive user ID (negative IDs are an ugly hack, and proftpd will complain if they are used). However, in some mass-hosting environments such as ISPs, the number of users
+is greater than the number of IDs available.  In these cases, you can give
+each user the same ID; additional steps should then be taken to make sure
+that each user is isolated from affecting other users' files.  These additional
+steps are to make sure each user has a unique home directory, and then
+to restrict each user to their respective home directories by having DefaultRoot ~ in your proftpd.conf . Shadow passwords There really is no need for an AuthShadowFile directive.  The
+purpose of a shadow file is separate sensitive information
+( e.g. passwords) from other account information
+(username/ UID / GID , etc ).  Programs like /bin/ls often reference the passwd file in order to display
+user/group names rather than numbers; these programs do not really need that
+sensitive information.  Rather than relying on programs like /bin/ls to ignore the sensitive information, libraries were
+developed to split the information into /etc/passwd , /etc/shadow (and similarly for /etc/group , but very
+few administrators use group passwords anymore).  Some operating systems, most
+notably FreeBSD, though, chose a different form of information separation.
+Since FreeBSD maintains account information in binary database files, the
+shadow libraries mentioned above are not used.  Instead, FreeBSD returns the
+sensitive information to the calling program only if it has sufficient
+( i.e. superuser) privileges. When proftpd uses an AuthUserFile , it is looking for
+all of the account information, including the password.  And since AuthUserFile s are specific to proftpd , there is no
+need to split any passwords out of an AuthUserFile into an AuthShadowFile .  As the documentation states, an AuthUserFile need not reside inside a chroot() filesystem, which means that users can be effectively isolated from having
+access to that AuthUserFile .  At that point, the only
+consideration is making sure that the permissions on the AuthUserFile are sufficient for the server to have access, but
+no other users. Permissions As the AuthUserFile and AuthGroupFile files are
+meant to be drop-in replacements for their system cousins, there are a few
+caveats. /etc/passwd and /etc/group are normally
+world-readable on modern Unix systems.  This allows programs like /bin/ls to map system ID numbers to more legible names; sensitive
+information in the /etc/passwd and /etc/group is normally stored elsewhere, in restricted shadow files.  The proftpd server thus assumes that it will not need special
+privileges to read an AuthUserFile or an AuthGroupFile .  The process will access any AuthUserFile s and AuthGroupFile s with the credentials
+of the user and group configured via the User and Group directives.  The files may contain sensitive information, so
+they should not have as open of permissions as /etc/passwd and /etc/group .  The most paranoid setting will have
+user-read-only permissions for those files, and have the files be owned by the
+user configured for the relevant server via the User directive.
+Hopefully the server administrator has created a new account on the system just
+for the ftpd daemon. ID-to-name mapping A consequence of which to be aware when using an AuthUserFile is the difference between that AuthUserFile 's mapping of
+system IDs to names, and the mapping in /etc/passwd .  This
+may catch some system administrators unawares when they go to check the
+ownership of files uploaded by some user whose account is defined in an AuthUserFile , and find those files being reported as being
+owned by different users and/or groups by /bin/ls .  Keep in
+mind that /bin/ls is using /etc/passwd , not
+the AuthUserFile .  This issue crops up with any alternative
+account information source, not just AuthUserFile s. If you are using the same UID/GID for your users, e.g. in a mass
+hosting environment, one trick you might like to do is make all of the files,
+as listed by the server, appear to be owned by the logged in user.  This is
+done using the DirFakeUser and DirFakeGroup directives, like this: # make listed files appear to be owned by the logged-in user
+  DirFakeUser on ~
+  DirFakeGroup on ~ As noted in the documentation, these directives are purely cosmetic, and in
+no way change the real ownership of files.  This may cause some confusion on
+the client side in some cases, if the user sees a file that is reported to be
+owned by them, and the permissions on the file show user access is allowed, and
+yet the client is unable to access the file. HideNoAccess can help in situations like this. © Copyright 2017-2022 The ProFTPD Project All Rights Reserved

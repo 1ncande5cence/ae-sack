@@ -1,0 +1,22 @@
+mod_proxy_http2 - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_proxy_http2 Available Languages: en | fr Description: HTTP/2 support module for mod_proxy Status: Extension ModuleÂ Identifier: proxy_http2_module SourceÂ File: mod_proxy_http2.c Compatibility: Available in httpd 2.4.19 and later Summary mod_proxy_http2 supports HTTP/2 only, it does not provide any downgrades to HTTP/1.1. This means that the backend
+    needs to support HTTP/2 because HTTP/1.1 will not be used instead. This module requires the service of mod_proxy , so in order to get the ability of
+    handling HTTP/2 proxy requests, mod_proxy and mod_proxy_http2 need to be both loaded by the server. mod_proxy_http2 works with incoming fronted requests
+    using HTTP/1.1 or HTTP/2. In both cases, requests proxied
+    to the same backend are sent over a single TCP connection
+    whenever possible (namely when the connection can be re-used). Caveat: there will be no attempt to consolidate multiple HTTP/1.1 
+    frontend requests (configured to be proxied to the same backend)
+    into HTTP/2 streams belonging to the same HTTP/2 request.
+    Each HTTP/1.1 frontend request will be proxied to the backend using
+    a separate HTTP/2 request (trying to re-use the same TCP connection
+    if possible). This module relies on libnghttp2 to provide the core http/2 engine. Warning This module is experimental. Its behaviors, directives, and 
+       defaults are subject to more change from release to 
+       release relative to other standard modules. Users are encouraged to 
+       consult the "CHANGES" file for potential updates. Warning Do not enable proxying until you have secured your server . Open proxy
+      servers are dangerous both to your network and to the Internet at
+      large. Topics Basic Examples Request notes Directives This module provides no
+            directives. Bugfix checklist httpd changelog Known issues Report a bug See also mod_http2 mod_proxy mod_proxy_connect Comments Basic Examples The examples below demonstrate how to configure HTTP/2 for
+    backend connections for a reverse proxy. HTTP/2 (TLS) ProxyPass "/app" "h2://app.example.com"
+ProxyPassReverse "/app" "https://app.example.com" HTTP/2 (cleartext) ProxyPass "/app" "h2c://app.example.com"
+ProxyPassReverse "/app" "http://app.example.com" The schemes to configure above in ProxyPassReverse for reverse proxying h2 (or h2c ) protocols are the usual https (resp. http ) as expected/used by
+      the user agent. Request notes mod_proxy_http creates the following request notes for
+        logging using the %{VARNAME}n format in LogFormat or ErrorLogFormat : proxy-source-port The local port used for the connection to the backend server. proxy-status The HTTP/2 status received from the backend server. Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

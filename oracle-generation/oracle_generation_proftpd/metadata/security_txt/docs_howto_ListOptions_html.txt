@@ -1,0 +1,25 @@
+ProFTPD: Directory Lists and ListOptions Directory Lists and ListOptions The ListOptions directive of ProFTPD can be used to control how directory listings are
+generated.  Directory listings are sent in response to the LIST and NLST FTP commands. The ListOptions directive supports the following options: -1 List one file per line -A List all files except "." and ".." -a List all files including those whose names start with "." -B Force printing of non-printable filename characters as \ xxx , where xxx is the octal value of the character -C List entries by columns -c Sort by file status change time when -t is also used -d List directory entries instead of directory contents -F Append file type indicator (one of "*", "/", "=", "@" or "|") to names -h Print file sizes in human-readable format ( e.g. 1K, 234M, 2G) -L List files pointed to by symlinks -l Use a long listing format -n List numeric UIDs/GIDs instead of user/group names -R List subdirectories recursively -r Sort filenames in reverse order -S Sort by file size -t Sort by file modification time -U Do not sort; list entries in directory order -u Sort by file access time when -t is also used Although not strictly supported by the FTP RFCs, many FTP clients send these
+options with the LIST and NLST commands, and many
+FTP servers honor them.  The ListOptions directive configures
+default options to be used, in addition to any sent by the client.  For
+example, to show all files except the "hidden" files for clients,
+you could use: ListOptions -a Another use of ListOptions is to prevent certain options
+from being used.  The -R option, for recursively listing
+all subdirectories, can use a lot of system resources, especially on very
+large and/or very deep directory structures, as proftpd scans
+all of the files.  For this reason, some sites may wish to prevent the -R option from being used. ListOptions supports
+this with use of the "+" character.  Options are enabled using the
+"-" character, thus they are disabled using "+"--think
+of the "+" as cancelling out the "-".  For example: ListOptions +R strict would disable all use of the -R option. Where did the strict come from in the example above? ListOptions configures a set of default options, but if a client
+sends its own directory options, proftpd will use the client's
+options instead.  To ignore the client options and use only the ListOptions configured, one uses the "strict" keyword.
+That is why the +R example above required
+"strict"--it causes proftpd to ignore any -R option the client might send. What if you wanted to enable some options and disable others in the same ListOptions directive?  You would surround your options in quotation marks, like so: ListOptions "-a +R" strict If you are not using the --enable-nls configure option, and you want to see non-printable characters in filenames when listing
+directories, you should use: ListOptions -B The following keywords are supported, in addition to "strict": maxfiles Sets a maximum limit on the number of files listed in one directory listing maxdirs Sets a maximum limit on the number of directories listed in one directory listing maxdepth Sets a maximum recursion depth, if the -R option is allowed LISTOnly Applies the ListOptions only to LIST commands (and not NLST or STAT commands) NLSTOnly Applies the ListOptions only to NLST commands (and not LIST or STAT commands) NoErrorIfAbsent Causes a 226 response code to be returned for LIST/NLST commands for files which do not exist, rather than 450 SortedNLST Causes the NLST results to be sorted by name These keywords were added for finer-grained control over directory listings.
+They make it possible to allow recursive listings and yet still apply limits,
+to keep the recursion from taking too long: ListOptions -a maxfiles 2000 maxdepth 3 This configures the -a option by default, and limits the maximum
+files in the generated listing to 2000.  If the client uses the -R option, proftpd will not recurse into directories more than 3
+levels deep when generating the listing. Or perhaps you want the one-file-per-line format, but only for NLST commands and not LIST commands.  You
+would thus use something like: ListOptions "-1" strict NLSTOnly Note that <Limit> sections can be
+used to block the LIST and NLST commands altogether. © Copyright 2017 The ProFTPD Project All Rights Reserved

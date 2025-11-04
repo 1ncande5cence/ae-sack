@@ -1,0 +1,38 @@
+ProFTPD: ECCN ProFTPD ECCN What is an ECCN? ECCN stands for E xport C ontrol C lassification N umber; see: http://en.wikipedia.org/wiki/Export_Control_Classification_Number These numbers are assigned through the US Export Administration Regulations
+( EAR ), part of
+the US Bureau of Industry and Security
+( BIS ), which is a branch of the US
+Department of Commerce.  The EAR describe the export rules and restrictions on
+a wide range of commodities, technologies, and software.  This document is no
+substitute for understanding those regulations; the ProFTPD Project cannot
+anticipate how they might apply to third party distributions or for specific
+export decisions made by those parties.  End-user, end-use and country of
+ultimate destination may affect export licensing requirements. ProFTPD ECCN According to the current regulations
+and descriptions , the ProFTPD Project software products fall into the
+category of "publicly available" encryption software and source code, and
+are thus classified as ECCN 5D002 . Products classified as ECCN 5D002 are exported by the ProFTPD Project under
+the License Exception TSU in EAR 740.13(e), which applies to software
+containing or designed for use with encryption software that is publicly
+available as open source.  License exception TSU further provides that: Posting encryption source code and corresponding object code on the Internet
+  (e.g., FTP or World Wide Web site) where it may be downloaded by anyone
+  neither establishes "knowledge" of a prohibited export or reexport for
+  purposes of this paragraph, nor triggers any "red flags" necessitating the
+  affirmative duty to inquire... Note that exporters other than the ProFTPD Project within the US may or may not
+be eligible for exception TSU, and it is each specific exporter's
+responsibility to understand and comply with all export regulations applicable
+within their jurisdiction. Cryptographic Components The ProFTPD Project source code distributions include cryptographic software.
+The country in which you currently reside may have restrictions on the import,
+possession, use, and/or re-export to another country, of encryption software. BEFORE using any encryption software, please check your country's laws,
+regulations and policies concerning the import, possession, or use, and
+re-export of encryption software, to see if this is permitted. See http://www.wassenaar.org/ for more
+information. The U.S. Government Department of Commerce, Bureau of Industry and Security
+(BIS), has classified this software as Export Commodity Control Number (ECCN)
+5D002, which includes information security software using or performing
+cryptographic functions with asymmetric algorithms. The form and manner of this
+ProFTPD Project distribution makes it eligible for export under the License
+Exception ENC Technology Software Unrestricted (TSU) exception (see the BIS
+Export Administration Regulations, Section 740.13e) for source code. The following lists the modules, included in the source distributions,
+which explicitly include/use cryptographic code: mod_sftp mod_sql_passwd mod_tls References See: http://www.bis.doc.gov/news/2010/fr_01072011.pdf which effectively removes ECCN 5D002 from the EAR, effective January 7,
+2011. A similar question came up for Mozilla; this blog post (now a bit dated)
+explains things further: http://hecker.org/mozilla/eccn The Apache Software Foundation (ASF) page on this topic is also quite
+relevant: http://www.apache.org/licenses/exports/ And the text of EAR Section 740, for those interested: http://www.bis.doc.gov/policiesandregulations/ear/740.pdf © Copyright 2017 The ProFTPD Project All Rights Reserved

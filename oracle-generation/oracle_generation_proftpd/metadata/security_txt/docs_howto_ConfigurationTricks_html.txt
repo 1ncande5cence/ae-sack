@@ -1,0 +1,156 @@
+ProFTPD: Configuration Tricks ProFTPD: Configuration Tricks Proficient users of proftpd , and site administrators who
+require fancy configurations, usually make use of a handful of useful
+tricks when it comes to configuring their FTP server.  These tricks can
+help to make your proftpd.conf smaller, clearer, and easier to
+maintain. Configuration File Variables One juicy tidbit of configuration knowledge is the little known %u variable.  It will be substituted, during the handling of
+an FTP session, with the name of the user who logged in. The %u variable can be appear in the proftpd.conf like so: DefaultRoot /home/%u Now, the above may not seem that useful, not much of an improvement over
+using the tilde ( ~ ) symbol, for restricting users to their
+home directories.  But what if you wanted to restrict users to the public_ftp/ subdirectory, within their home directories?
+Using the tilde character cannot achieve that.  Instead, you might use: DefaultRoot /home/%u/public_ftp This is also useful for setting up configurations for specific directories
+in all users' home directories, e.g. : <Directory /home/%u/public_ftp>
+    ...
+  </Directory> This %u variable can appear in the following configuration
+directives: DefaultChdir DefaultRoot <Directory> Simple Per-User Directory Hashing Some sites find that they might have large number of users (on the order of
+hundreds to thousands), each with their own home directory.  You might start
+off using a directory layout such as /home/ user / for each
+user, but this quickly leads to such a large number of subdirectories in the /home/ .  With that number of entries, simple commands like ls(1) may never complete, or take minutes to hours. To reduce the number of entries within a given directory, such large sites
+often look to use some form of directory hashing .  The simplest form
+is to change from e.g. /home/ user / to /home/ u / us / user / .  For example, if you had user "bobsmith",
+the home directory would be /home/b/bo/bobsmith . The question then is: can proftpd be configured to use a
+directory hashing scheme like this, without having to change the home directory
+attribute for those thousands of users (which might be stored in an LDAP
+directory used by applications as well)?  Answer: yes.  The %u variable above supports way to handle simple directory hashing. To use it, you would use something like the following in your proftpd.conf : DefaultRoot /home/%u[0]/%u where the %u variable is the user name, and %u[ index ] can be used to reference the letters in the user
+name, at that index position.  The above configuration would
+use a single level of directory hashing, resulting in e.g. /home/b/bobsmith .  If your directory hashing gets more complex,
+using more levels, you can still use this syntax: DefaultRoot /home/%u[0]/%u[0]%u[1]/%u[0]%u[1]%u[2]/%u which would result in /home/b/bo/bob/bobsmith . Of course, more complex hashing schemes can be used, but proftpd does not currently implement them. Environment Variables Did you know that you can also substitute environment variables into your proftpd.conf as well?  It's true!  ProFTPD started supporting
+using environment variables in configuration files in the 1.2.10rc1 release.
+To use the environment variable, simply use: %{env: ENV_VAR_NAME } Unlike the %u variable, you can use environment variables
+anywhere within your proftpd.conf file. For example, you might use something like this if you wanted to control
+the default IP address on which proftpd listens using
+an environment variable: DefaultAddress %{env:PR_DEFAULT_ADDR} Then whatever value the PR_DEFAULT_ADDR environment variable
+has, when starting proftpd , will be substituted in.  Using: PR_DEFAULT_ADDR='127.0.0.1' /usr/local/sbin/proftpd ... would mean that, effectively, the configuration would be: DefaultAddress 127.0.0.1 "What happens if the environment variable is not set?" you ask.  Good question.
+Then the configuration file parser will substitute in an empty string, and proftpd will probably fail to start, citing a configuration
+error. Have you ever wanted functionality like Apache's ServerRoot , where
+you specify the root directory for all of your server-related files in one
+place, and then all the other config files relative to that root, so that
+relocating the entire server configuration is much easier?  ProFTPD does not
+have a ServerRoot directive, but using environment
+variables, we can achieve the same thing! At the top of your proftpd.conf , use the SetEnv directive,
+like so: # Must be set toward start/top of config
+  SetEnv SERVER_ROOT /path/to/proftpd/config/root Now, for the any other config file that should be relative to that location,
+use that environment variable, e.g. : PidFile %{env:SERVER_ROOT}/var/run/proftpd.pid
+  SystemLog %{env:SERVER_ROOT}/log/proftpd.log If you want to tell proftpd that your config files are now all
+located elsewhere (say for a custom installation), you only need to change
+a single configuration line: the setting of your SERVER_ROOT environment variable. Conditional Configuration Files Another common request or desire to make large sections of your configuration
+conditional.  Maybe you only want some directives to apply to certain
+users, or maybe you want to ship a proftpd.conf that can be
+used by people with different modules loaded ( e.g. for distributing
+a common proftpd.conf ). Or maybe you simply want some sections
+of your configuration file to be used based on something else entirely. The most common conditional you will probably see in various proftpd.conf files is: <IfModule moduleName >
+    ...
+  </IfModule> This is way of making the configuration directives within that section only
+in effect if the specified module is present.  It may not seem like much,
+but this is quite useful.  (I have a single proftpd.conf with
+more than 20 such sections, for use while I develop new modules.) I have seen one clever sysadmin use the above conditional section in conjunction
+with DSO modules in their proftpd.conf like so: <IfModule mod_dso.c>
+    # If mod_dso is present, we know we can dynamically load DSO modules
+
+    <IfModule !mod_sql.c>
+      # If mod_sql is not yet loaded, load it!
+      LoadModule mod_sql.c
+    </IfModule>
+
+    <IfModule !mod_sql_mysql.c>
+      # If mod_sql_mysql is not yet loaded, load it!
+      LoadModule mod_sql_mysql.c
+    </IfModule>
+    
+  </IfModule> You can see how, with the above, you can use provide the same proftpd.conf to sites which use shared modules as well as those
+which use static modules. Users who wish to have entire sections of configuration only apply to specific
+users, or groups, or even classes of clients really
+should be aware of the mod_ifsession module,
+and its very handy <IfUser> , <IfGroup> ,
+and <IfClass> sections. And, for those admins who want even more control over large sections of
+their proftpd.conf on a conditional basis, there is: <IfDefine value >
+    ...
+  </IfDefine> The enclosed section of the configuration file will be parsed only if value is defined.  For multiple directives, this trick is better
+than using multiple environment variables; the latter is better for single
+parameters. "But how you define value ?", you say.  There are two ways of
+defining the values that <IfDefine> looks for: using
+the -D command-line option, or by using the Define directive. Let us assume that your proftpd.conf contains a section like: <IfDefine USE_SQL>
+    LoadModule mod_sql.c
+    LoadModule mod_sql_mysql.c
+  </IfDefine> You can then make sure your proftpd loads those modules by
+starting it using -D , i.e. : /usr/local/sbin/proftpd -DUSE_SQL ... Or, if later you decide that you don't want to use -D anymore,
+you can simply add a Define to the proftpd.conf : Define USE_SQL
+
+  ...
+
+  <IfDefine USE_SQL>
+    LoadModule mod_sql.c
+    LoadModule mod_sql_mysql.c
+  </IfDefine> If you are really ambitious, you can use devious combinations of Define , environment variables, <IfModule> and <IfDefine> sections in your configuration file to achieve
+some terse but powerful files. As a demonstration, here is an example making use of environment variables, Define , and <IfDefine> .  First, set an
+environment variable, e.g. (assuming Bourne shell syntax): $ USE_BANS=TRUE
+  $ export USE_BANS Now start proftpd using the -D command-line option to set a define based
+on the value of that environment variable: $ ./proftpd -DUSE_BANS=$USE_BANS ... And in the proftpd.conf , you might have something like: <IfDefine USE_BANS=TRUE>
+    ..
+  </IfDefine> in which case, the directives within that conditional section would be
+in effect when proftpd was started.  On the other hand, to disable those
+configuration directives before starting proftpd, all that you need to do
+now is change the environment variable value: $ USE_BANS=FALSE
+  $ export USE_BANS That <IfDefine> section will no longer be in effect
+when proftpd is started. Multiple Daemons on Same Host What if you wanted to run multiple instances of proftpd on the
+same host?  This is actually a prudent idea, for running one production proftpd while running a different, possibly newer proftpd for testing, side-by-side.  Is it possible?  Of course! Different proftpd daemons can coexist on the same machine,
+but they cannot all use the same configuration file.  There is a small list
+of directives that need to have different parameters for each proftpd instance, i.e. : PidFile ScoreboardFile ServerLog SystemLog Failure to assign different PidFile s and ScoreboardFile s for each proftpd will cause the
+multiple instances to overwrite each other's files, and inevitably cause
+problems.  Keeping separate log files ( ServerLog , SystemLog , etc ) for each daemon is simply a good idea. What about the PassivePorts directive?  Do the different proftpd instances each need their own range?  No.
+When a passive data transfer is requested, proftpd will choose a
+random port from within a PassivePorts range, but not before
+then .  If the port happens to be in use, proftpd will try
+another random port within the range, and so on, until the range is exhausted.
+Thus multiple proftpd instances should be able to share the same PassivePorts range without issue (assuming it is a decently wide
+range). There is one final setting which can cause problems: Port .
+An actual incident can help illustrate the issue: I tried to setup another instance of proftpd.  I copied my existing config
+  file and changed the port information.  My production FTP server runs on port
+  1979.  In the test config file I specified 1980.  I started the testing
+  instance on the command line by executing the following command:
+
+    ./proftpd -d 5 -n -c /etc/proftpd/proftpd.test.conf
+
+  The testing instance started up without any problems. Unfortunately, when a
+  client connected it gave the error message that the server is already bound
+  to port 1979.  This is very strange, as the client connected successfully to
+  port 1980 in the first instance.  How did the test server get the port
+  information of the other production server? In reality, the test server did not "get" the port information from the
+production instance.  Instead, this admin was encountering the "L-1" issue.
+The FTP RFCs state that for active data transfers, the source port of the TCP connection (the source port of the TCP connection from the
+server to the client) must be L-1 , where L is the control
+port number. So if your control port (configured by the Port directive in proftpd.conf ) is 1980, then the source port that proftpd has to use, for any active data transfers ( e.g. for clients which use the PORT or EPRT commands), is
+1979.  If that port 1979 is already in use by another daemon (such as another proftpd instance as its control port), you have a collision,
+and will likely see the "Address already in use" error message. In the case, the test server should work if the following was used: Port 1981 i.e. a port number that is the existing proftpd 's port
+number plus two (or more). Using the above configuration tricks, the same proftpd.conf file could be used by both the production and the test daemons,
+using something like: # These directives need to differ depending on whether the test server
+  # or the production server is reading this configuration.
+  <IfDefine TEST>
+    Port 2121
+    PidFile /var/ftpd/proftpd.test.pid
+    ScoreboardFile /var/ftpd/proftpd.test.scoreboard
+  </IfDefine>
+
+  <IfDefine !TEST>
+    Port 2123
+    PidFile /var/ftpd/proftpd.pid
+    ScoreboardFile /var/ftpd/proftpd.scoreboard
+  </IfDefine> Then, starting proftpd with the proper command-line invocation e.g. : /usr/local/sbin/proftpd -DTEST ... will use the test server configuration.  Omitting the -D option on the command-line will cause proftpd to use the
+production configuration. Reducing FTP Traffic Impact on Host System Some sites run proftpd on a system which is used to host other
+services as well ( e.g. Apache, a file server, etc ).  These
+sites might notice that when many FTP downloads or uploads are happening,
+the other services start to be impacted: slower/stuttering web pages or
+streaming video/music, for example. Wouldn't it be nice if you could somehow tell proftpd to use
+a lower priority, i.e. in the manner of the nice(1) command, for such data transfers?  Fortunately, you can do exactly this using
+the TransferPriority directive.  For example, a good default configuration to use is: # Use a low process priority during all data transfers
+  TransferPriority APPE,RETR,STOR,STOU low One user reporting always having stuttering streaming video when FTP data
+transfers were happening.  After using the TransferPriority directive, that user saw no more video stream stuttering while still
+approaching full LAN network speed for the FTP data transfer. © Copyright 2017 The ProFTPD Project All Rights Reserved

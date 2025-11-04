@@ -1,0 +1,60 @@
+mod_authz_host - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_authz_host Available Languages: en | fr Description: Group authorizations based on host (name or IP
+address) Status: Base ModuleÂ Identifier: authz_host_module SourceÂ File: mod_authz_host.c Compatibility: The forward-dns provider was added in 2.4.19 Summary The authorization providers implemented by mod_authz_host are
+    registered using the Require directive. The directive can be referenced within a <Directory> , <Files> ,
+    or <Location> section
+    as well as .htaccess files to control access to particular parts of the server.
+    Access can be controlled based on the client hostname or IP address. In general, access restriction directives apply to all
+    access methods ( GET , PUT , POST , etc). This is the desired behavior in most
+    cases. However, it is possible to restrict some methods, while
+    leaving other methods unrestricted, by enclosing the directives
+    in a <Limit> section. Topics The Require Directives Directives This module provides no
+            directives. Bugfix checklist httpd changelog Known issues Report a bug See also Authentication, Authorization,
+    and Access Control Require Comments The Require Directives Apache's Require directive is used during the authorization phase to ensure that a user is allowed or
+    denied access to a resource.  mod_authz_host extends the
+    authorization types with ip , host , forward-dns and local .
+    Other authorization types may also be
+    used but may require that additional authorization modules be loaded. These authorization providers affect which hosts can
+    access an area of the server. Access can be controlled by
+    hostname, IP Address, or IP Address range. Since v2.4.8, expressions are supported
+    within the host require directives. Require ip The ip provider allows access to the server
+    to be controlled based on the IP address of the remote client.
+    When Require ip ip-address is specified,
+    then the request is allowed access if the IP address matches. A full IP address: Require ip 10.1.2.3
+Require ip 192.168.1.104 192.168.1.205 An IP address of a host allowed access A partial IP address: Require ip 10.1
+Require ip 10 172.20 192.168.2 The first 1 to 3 bytes of an IP address, for subnet
+    restriction. A network/netmask pair: Require ip 10.1.0.0/255.255.0.0 A network a.b.c.d, and a netmask w.x.y.z. For more
+    fine-grained subnet restriction. A network/nnn CIDR specification: Require ip 10.1.0.0/16 Similar to the previous case, except the netmask consists of
+    nnn high-order 1 bits. Note that the last three examples above match exactly the
+    same set of hosts. IPv6 addresses and IPv6 subnets can be specified as shown
+    below: Require ip 2001:db8::a00:20ff:fea7:ccea
+Require ip 2001:db8:1:1::a
+Require ip 2001:db8:2:1::/64
+Require ip 2001:db8:3::/48 Note: As the IP addresses are parsed on startup, expressions are
+    not evaluated at request time. Require host The host provider allows access to the server
+    to be controlled based on the host name of the remote client.
+    When Require host host-name is specified,
+    then the request is allowed access if the host name matches. A (partial) domain-name Require host example.org
+Require host .net example.edu Hosts whose names match, or end in, this string are allowed
+    access. Only complete components are matched, so the above
+    example will match foo.example.org but it will not
+    match fooexample.org . This configuration will cause
+    Apache to perform a double reverse DNS lookup on the client IP
+    address, regardless of the setting of the HostnameLookups directive.  It will do
+    a reverse DNS lookup on the IP address to find the associated
+    hostname, and then do a forward lookup on the hostname to assure
+    that it matches the original IP address.  Only if the forward
+    and reverse DNS are consistent and the hostname matches will
+    access be allowed. Require forward-dns The forward-dns provider allows access to the server
+    to be controlled based on simple host names.  When Require forward-dns host-name is specified,
+    all IP addresses corresponding to host-name are allowed access. In contrast to the host provider, this provider does not
+    rely on reverse DNS lookups: it simply queries the DNS for the host name
+    and allows a client if its IP matches.  As a consequence, it will only
+    work with complete host names that can be resolved in DNS, not partial domain names.  
+    However, as the reverse DNS is not used, and DNS lookups occur at request processing
+    time (instead of startup), it will work with clients which use a dynamic DNS service. Require forward-dns dynamic.example.org A client the IP of which is resolved from the name dynamic.example.org will be granted access. The forward-dns provider was added in 2.4.19. Require local The local provider allows access to the server if any
+    of the following conditions is true: the client address matches 127.0.0.0/8 the client address is ::1 both the client and the server address of the connection are
+        the same This allows a convenient way to match connections that originate from
+    the local host: Require local Security Note If you are proxying content to your server, you need to be aware
+    that the client address will be the address of your proxy server,
+    not the address of the client, and so using the Require directive in this context may not do what you mean. See mod_remoteip for one possible solution to this
+    problem. Available Languages: en | fr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

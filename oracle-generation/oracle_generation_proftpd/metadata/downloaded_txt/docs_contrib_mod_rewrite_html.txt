@@ -1,0 +1,305 @@
+ProFTPD module mod_rewrite ProFTPD module mod_rewrite This module is contained in the mod_rewrite.c file for ProFTPD
+1.3. x , and is not compiled by default.  Installation instructions are
+discussed here . The most current version of mod_rewrite is distributed with the
+ProFTPD source code. A discussion of the usage of this module follows. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Directives RewriteCondition RewriteEngine RewriteLock RewriteLog RewriteMap RewriteMaxReplace RewriteRule RewriteCondition Syntax: RewriteCondition condition pattern [flags] Default: None Context: server config, <VirtualHost> , <Global> , <Anonymous> , <Directory> Module: mod_rewrite Compatibility: 1.2.6rc1 and later The RewriteCondition directive defines a rule condition. Precede a RewriteRule directive with one or more RewriteCondition directives. The following rewriting rule is only
+used if its pattern matches the current state of the FTP command and if these additional conditions apply too. Condition is a string which can contain the following expanded
+constructs in addition to plain text: RewriteRule backreferences These are backreferences of the form: $N (0 <= N <= 9) which provide access to the grouped parts
+    (parentheses!) of the pattern from the corresponding RewriteRule directive (the one following the current bunch of RewriteCondition directives).  Note that $0 will
+    refer back to the entire original string being matched. Use an extra $ character to escape a sequence which looks like a RewriteRule backreference, e.g. $$N . RewriteCondition backreferences These are backreferences of the form: %N (0 <= N <= 9) which provide access to the grouped parts
+    (parentheses!) of the pattern from the previous RewriteCondition attached to this RewriteRule . Use an extra % character to escape a sequence which looks like a RewriteCondition backreference, e.g. %%N . RewriteMap expansions: These are expansions of the form: ${map-name:lookup-key|default-value} See the documentation for RewriteMap for more details. Variable substitutions: These are substitutions of the form: %a Client IP address %c Name of Class for current session %f Filename %F Transfer path, as seen by the client (only useful for upload/download commands) %g Primary group of authenticated user %G Supplemental groups of authenticated user %h Client DNS name %m FTP command %p Port of server handling the session %u Name of authenticated user %U Name of user sent by client via USER %v ServerName of server handling the session %{TIME_YEAR} Current local year in YYYY format %{TIME_MON} Current local month in MM format %{TIME_DAY} Current local day in DD format %{TIME_WDAY} Current local day of week (Sunday is 0) %{TIME_HOUR} Current local hour in HH format %{TIME_MIN} Current local minute in mm format %{TIME_SEC} Current local second in ss format %{TIME} Current local time in YYYYMMDDHHmmss format Environment Variable substitutions: These are substitutions of the form: %{ENV: variable-name } If the variable-name environment variable is not present,
+    it will be substituted with the empty string. Pattern is the condition pattern, i.e. , a regular expression
+which is applied to the current instance of the condition , i.e. , condition is evaluated and then matched against pattern .  You can prefix the pattern string with a '!'
+character (exclamation mark) to specify a non-matching pattern. The pattern can also be one of these special variants: < pattern (is lexically lower) Treats the pattern as a plain string and compares it lexically
+      to condition . True if condition is lexically lower
+      than pattern > pattern (is lexically greater) Treats the pattern as a plain string and compares it lexically
+      to condition . True if condition is lexically greater
+      than pattern = pattern (is lexically equal) Treats the pattern as a plain string and compares it lexically
+      to condition . True if condition is lexically equal to pattern , i.e. the two strings are exactly equal
+      (character by character). If pattern is just "" (two
+      quotation marks) this compares condition to the empty string -d (is directory) Treats the condition as a pathname and tests if it exists and
+      is a directory -f (is regular file) Treats the condition as a pathname and tests if it exists and
+      is a regular file -s (is regular file with size) Treats the condition as a pathname and tests if it exists and
+      is a regular file with size greater than zero -l (is symbolic link) Treats the condition as a pathname and tests if it exists and
+      is a symbolic link Notice: All of these variants can also be prefixed by an exclamation mark
+('!') to negate their meaning. Flags , if present, modify how this RewriteCondition is
+evaluated.  Supported flags are: nocase|NC ( n o c ase) This makes the pattern case-insensitive, i.e. there is
+      no difference between 'A-Z' and 'a-z' when pattern is matched
+      against the condition ornext|OR ( or next condition) Use this to combine rule conditions with a logical OR instead of the implicit AND . Typical example: RewriteCondition %h  ^host1.*  [OR]
+    RewriteCondition %h  ^host2.*  [OR]
+    RewriteCondition %h  ^host3.*
+    RewriteRule ...some special stuff for any of these hosts... Without this flag you would have to write the condition/rule combination
+     three times. RewriteEngine Syntax: RewriteEngine on|off Default: off Context: server config, <VirtualHost> , <Global> Module: mod_rewrite Compatibility: 1.2.6rc1 and later The RewriteEngine directive enables or disables the module's
+runtime rewriting engine.  If it is set to off this module does no
+parsing or rewriting at all. Use this directive to disable the module instead
+of commenting out all mod_rewrite directives. RewriteLock Syntax: RewriteLock file Default: None Context: server config, <VirtualHost> , <Global> Module: mod_rewrite Compatibility: 1.2.6rc1 and later The RewriteLock directive sets the filename for a synchronization
+lockfile which mod_rewrite needs to communicate with RewriteMap s of type fifo . Set file to a local
+absolute path (not on a NFS-mounted device) when you want to use a rewriting
+FIFO. It is not required for other types of rewriting maps. RewriteLog Syntax: RewriteLog file|"none" Default: None Context: server config, <VirtualHost> , <Global> Module: mod_rewrite Compatibility: 1.2.6rc1 and later The RewriteLog directive is used to specify a log file for mod_rewrite reporting and debugging, and can be done a per-server
+basis.  The file parameter must be the full path to the file to use for
+logging.  Note that this path must not be to a world-writeable
+directory and, unless AllowLogSymlinks is explicitly set to on (generally a bad idea), the path must not be a symbolic
+link.  In general, this directive should only be used for debugging
+your mod_rewrite configuration, and should be removed once
+debugging is completed; do not use this directive in a production
+configuration . If file is "none", no logging will be done at all; this
+setting can be used to override a RewriteLog setting inherited from
+a <Global> context. RewriteMap Syntax: RewriteMap map-name map-type:map-source Default: None Context: server config, <VirtualHost> , <Global> Module: mod_rewrite Compatibility: 1.2.6rc1 and later The RewriteMap directive defines a rewriting map which
+can be used inside rule substitution strings by the mapping-functions to
+insert/substitute fields through a key lookup. The source of this lookup can
+be of various types. The map-name is the name of the map and will be used to specify a
+mapping-function for the substitution strings of a rewriting rule via one of
+the following constructs: ${ map-name : lookup-key } ${ map-name : lookup-key | default-value } When such a construct occurs the map map-name is consulted and the
+key lookup-key is resolved. If the key is found, the map-function
+construct is substituted by subst-value . If the key is not found
+then it is substituted by default-value or by the empty string if no default-value was specified. The following combinations for map-type and map-src can be
+used: Standard Plain Text map-type : txt , map-src : Unix filesystem
+    path to valid regular file. This is the standard rewriting map feature where the map-src is
+    a plain ASCII file containing either blank lines, comment lines (starting
+    with a '#' character) or pairs like the following - one per line. matching-key subst-value Example: # --------------------------------------------
+    # usermap.txt -- map for rewriting user names
+    # --------------------------------------------
+
+    Dave.Admin      dave       # The Uber-admin
+    root            anonymous  # no one should be logging in as root anyway And, to configure this map to be used: RewriteMap real-to-user txt:/path/to/file/usermap.txt FIFO/Named Pipe map-type : fifo , map-src : Unix filesystem
+    path to valid FIFO. For this rewriting map, map-src is a FIFO ( a.k.a. named
+    pipe). To create it, you can use the mkfifo(1) command.
+
+    An external program that opens the FIFO for reading and writing must be started before proftpd is started.  This program
+    can communicate with the rewriting engine via the FIFO. For each mapping
+    lookup, it can read the key to lookup as a newline-terminated string from
+    the FIFO. It then has to write back to the FIFO the looked-up value as a
+    newline-terminated string, or just simply newline character (denoting an
+    empty string) if there is no corresponding value for the given key). An example program which will implement a 1:1 mapping ( i.e. ,
+    key == value) could be: #!/usr/bin/perl
+    use strict;
+
+    use File::Basename qw(basename);
+    use Getopt::Long;
+    use IO::Handle;
+    use IO::Select;
+
+    my $default_delay = 0.5;
+    my $program = basename($0);
+    my %opts = ();
+
+    GetOptions(\%opts, 'delay=f', 'fifo=s', 'help', 'verbose');
+
+    usage() if $opts{'help'};
+
+    my $delay = $opts{'delay'} ? $opts{'delay'} : $default_delay;
+
+    die "$program: missing required --fifo parameter\n" unless $opts{'fifo'};
+    my $fifo = $opts{'fifo'};
+
+    my $verbose = $opts{'verbose'} ? 1 : 0;
+
+    open(my $fifo_fh, "+> $fifo") or die "$program: unable to open $fifo: $!\n";
+
+    # Instantiate a Select object for knowing when to read from and write to
+    # the FIFO.
+    my $sel = IO::Select->new();
+
+    while (1) {
+
+      # Blocking select() for reading.
+      $sel->add($fifo_fh);
+
+      print STDERR "$program: selecting for reading\n" if $verbose;
+      my ($rfh) = $sel->can_read();
+
+      my $key = <$rfh>;
+      print STDERR "$program: read '$key'\n" if $verbose;
+
+      # Lookup a value for the given key.
+      my $value = lookup_value($key);
+
+      # Clear the Select object's filehandles.
+      $sel->remove();
+
+      print $fifo_fh "$value\n" if $verbose;
+      $fifo_fh->flush();
+
+      print STDERR "$program: wrote '$value'\n" if $verbose;
+
+      # Wait for the buffer's byte to be cleared before reading again.
+      wait_fifo($fifo_fh);
+    }
+
+    close($fifo_fh);
+    print STDOUT "$program: done\n" if $verbose;
+
+    exit 0;
+
+    # --------------------------------------------------------------------------
+    sub lookup_value {
+      my ($key) = @_;
+
+      # NOTE: do something to obtain a value for the given key here.
+      chomp(my $value = $key);
+
+      return $value;
+    }
+
+    # --------------------------------------------------------------------------
+    sub usage {
+      print STDOUT <<END_OF_USAGE;
+
+    usage: $program [options]
+
+      --delay         Configure the buffer check delay.
+                      The default is $default_delay seconds.
+
+      --fifo          Configure the path to the FIFO.  Required.
+
+      --help          Displays this message.
+
+      --verbose       Enables verbose output while $program runs.
+
+    END_OF_USAGE
+
+      exit 0;
+    }
+
+    # --------------------------------------------------------------------------
+    sub wait_fifo {
+      my ($fh) = @_;
+
+      # Now we get tricky.  Use ioctl(2) to poll the number of bytes to
+      # be read from the FIFO filehandle.  When the number drops to zero,
+      # it means that the data we just wrote has been read from the buffer
+      # by some other process, so we can go back to the top of this loop.
+      # Otherwise, if this program loops faster than the reader/writer on
+      # the other end of the FIFO, we'd end up reading the data we just
+      # wrote.  Quite annoying, actually.
+      #
+      # Note: this value must be manually extracted from the system header files
+      # using the following program:
+      #
+      # -------- fionread.c -------------------
+      #  #include <sys/ioctl.h>
+      #
+      #  int main(int argc, char *argv[]) {
+      #   printf("%#08x\n", FIONREAD);
+      #   return 0;
+      # }
+      # ---------------------------------------
+      #
+      # > cc -o fionread fionread.c
+      # > ./fionread
+
+      my $FIONREAD = 0x00541b;
+
+      my $size = pack('L', 0);
+      ioctl($fh, $FIONREAD, $size) or die "$program: unable to use ioctl: $!\n";
+      $size = unpack('L', $size);
+
+      while ($size != 0) {
+        print STDERR "$program: waiting for buffer to be read\n" if $verbose;
+        select(undef, undef, undef, $delay);
+
+        $size = pack('L', 0);
+        ioctl($fh, $FIONREAD, $size) or die "$program: unable to use ioctl: $!\n";
+        $size = unpack('L', $size);
+      }
+    } To make use of this example script, simply implement your lookup code
+    in the lookup_value() subroutine. Be very careful with
+    such scripts, though: "Keep it simple, stupid" (KISS), because if this program
+        hangs it will hang proftpd when the rule occurs.
+        Well, keep it as simple as possible... Avoid one common mistake: avoid buffered I/O if possible. This can
+        cause a deadloop.  If necessary, be sure to flush the filehandle
+        before reading, and after writing. Use the RewriteLock directive to define a lockfile mod_rewrite can use to synchronize the communication to
+        the FIFO program. By default no such synchronization takes place. Internal Function map-type : int , map-src : Internal mod_rewrite function. Here the map-src is a mod_rewrite built-in function.
+    Currently you cannot create your own, but the following functions already
+    exist: idnatrans : Translates text in the lookup up key into IDNA text. replaceall : Replace all occurrences, in the looked up key, of one string with
+        another string toupper : Converts the looked up key to all upper case. tolower : Converts the looked up key to all lower case. unescape : Translates hex encodings ( i.e. "URL encoding"; see RFC2396 , Section 2.4.1), in the looked up
+        key back to special characters. utf8trans : Translates UTF-8 encodings in the lookup up key into Latin-1
+        characters. The RewriteMap directive can occur more than once. For each
+mapping-function use one RewriteMap directive to declare its
+rewriting map name. Note: For plain text files the looked-up keys are cached
+in-core until the mtime of the text map file changes or the
+server does a restart. This way you can have map-functions in rules which are
+used for every request.  This is no problem, because the
+parsing of the text files only happens once! RewriteMaxReplace Syntax: RewriteMaxReplace count Default: 8 Context: server config, <VirtualHost> , <Global> Module: mod_rewrite Compatibility: 1.3.5rc1 and later The RewriteMaxReplace directive is used to increase the number
+of replacements/substitutions that mod_rewrite will perform,
+when rewriting commands.  By default, mod_rewrite will only
+replace up to 8 occurrences of a pattern in the input string; if there are more
+than 8 replacement occurrences, then the input string will be unchanged.
+If your input strings happen to have more than 8 occurrences to be replaced,
+you can use the RewriteMaxReplace to increase that limit. For example, to increase the limit to 32 occurrences to be replaced, use: RewriteMaxReplace 32 RewriteRule Syntax: RewriteRule pattern substitution [flags] Default: None Context: server config, <VirtualHost> , <Global> , <Anonymous> , <Directory> Module: mod_rewrite Compatibility: 1.2.6rc1 and later The RewriteRule directive is the real rewriting workhorse. The
+configuration directive can occur more than once. Each directive defines a
+single rewriting rule. The order of definition of these rules is important,
+because this order is used when applying the rules at run-time. Note that each RewriteRule must be preceded by
+one (or more) RewriteCondition directive. Pattern can be POSIX regular expression which gets applied to the
+current FTP command argument(s). Some hints about the syntax of regular expressions: Text: . Any single character [chars] Character class: one of chars [^chars] Character class: none of chars text1|text2 Alternative: text1 or text2 Quantifiers: ? 0 or 1 of the preceding text * 0 or N of the preceding text (N > 0) + 1 or N of the preceding text (N > 1) Grouping: (text) Grouping of text
+              (either to set the borders of an alternative or
+              for making backreferences where the Nth group can 
+              be used on the RHS of a RewriteRule with $N) Anchors: ^ Start of line anchor $ End of line anchor Escaping: \char Escape that particular char
+              (for instance to specify the chars ".[]()" etc.) For more information about regular expressions have a look at your local regex(3) manpage. If you are interested in more detailed
+information about regular expressions and their variants (POSIX regex, Perl
+regex, etc. ) have a look at the following dedicated book on this topic: Mastering Regular Expressions Jeffrey E.F. Friedl Nutshell Handbook Series O'Reilly & Associates, Inc. 1997 ISBN 1-56592-257-3 Additionally in mod_rewrite the NOT character ('!') is a possible
+pattern prefix. This gives you the ability to negate a pattern; to say, for
+instance: "if the current argument(s) does NOT match this pattern".
+This can be used for exceptional cases, where it is easier to match the
+negative pattern, or as a last default rule. Notice : When using the NOT character to negate a pattern you cannot
+have grouped wildcard parts in the pattern. This is impossible because when
+the pattern does NOT match, there are no contents for the groups. In
+consequence, if negated patterns are used, you cannot use $N in the
+substitution string. Substitution of a rewriting rule is the string which is substituted for
+(or replaces) the original argument(s) for which pattern matched.
+Beside plain text you can use: $N backreferences to the RewriteRule pattern %N backreferences to the last matched RewriteCondition pattern variables as in RewriteCondition test strings map function calls ( ${map-name:lookup-key|default-value} ) environment variable substitutions ( %{ENV: variable-name } ) Backreferences are $ N ( N =0..9) identifiers which will be replaced
+by the contents of the N th group of the matched pattern . The
+variables are the same as for the condition of a RewriteCondition directive, with
+two additions: %P process ID %t Unix time since the epoch, in seconds The map functions come from the RewriteMap directive and are explained
+there.  These four types of variables are expanded in the order of the above
+list. All of the rewriting rules are applied to substitution . The command
+argument(s) is completely replaced by the substitution . Flags , if present, modify how this RewriteRule is
+evaluated.  Supported flags are: nocase|NC ( n o c ase) This makes the pattern case-insensitive, i.e. there is
+      no difference between 'A-Z' and 'a-z' when pattern is matched
+      against the command arguments Usage The mod_rewrite 's regular expressions are POSIX extended regular
+expressions, not Perl regular expressions.  This can catch the
+unsuspecting admin unawares, especially if they are used to Perl. When processing a RewriteRule , the mod_rewrite engine will first execute the RewriteRule 's regular expression
+against the command parameters.  If that expression fails, the RewriteRule is skipped.  Any RewriteCondition s that
+are attached to the rule are processed only if the rule's expression matches
+first. One of the consequences is that the rewritten path may run afoul of any
+configured AllowFilter , DenyFilter , PathAllowFilter , or PathDenyFilter directives,
+causing unexpected or unwanted transfers.  Please keep this in mind when
+configuring RewriteRule s. Some metas are not available at certain times (e.g. %U/%u for USER/PASS
+commands, etc)... Examples The following example configuration shows how to configure mod_rewrite so that all files uploaded to the server will have
+all-uppercase filenames: <IfModule mod_rewrite.c>
+    RewriteEngine on
+
+    # Have a log for double-checking any errors
+    RewriteLog /var/log/ftpd/rewrite.log
+
+    # Define a map that uses the internal "toupper" function
+    RewriteMap uppercase int:toupper
+
+    # Make the file names used by STOR be in all uppercase
+    RewriteCondition %m STOR
+
+    # Apply the map to the command parameters
+    RewriteRule ^(.*) ${uppercase:$1}
+
+  </IfModule> This example shows how to convert all spaces in uploaded file names to
+underscores: <IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteLog /var/log/ftpd/rewrite.log
+
+    # Define a map that uses the internal "replaceall" function
+    RewriteMap replace int:replaceall
+
+    # We only want to use this rule on STOR commands
+    RewriteCondition %m STOR
+
+    # Apply the map to the command parameters
+    RewriteRule ^(.*) "${replace:/$1/ /_}"
+
+  </IfModule> Installation To install mod_rewrite , follow the usual steps for using
+third-party modules in ProFTPD: $ ./configure --with-modules=mod_rewrite To build mod_rewrite as a DSO module: $ ./configure --enable-dso --with-shared=mod_rewrite Then follow the usual steps: $ make 
+  $ make install Alternatively, if your proftpd was compiled with DSO support, you
+can use the prxs tool to build mod_rewrite as a shared
+module: $ prxs -c -i -d mod_rewrite.c Logging The mod_rewrite module supports trace logging , via the module-specific log channels: rewrite Thus for trace logging, to aid in debugging, you would use the following in
+your proftpd.conf : TraceLog /path/to/ftpd/trace.log
+  Trace rewrite:20 This trace logging can generate large files; it is intended for debugging use
+only, and should be removed from any production configuration. © Copyright 2000-2023 TJ Saunders All Rights Reserved

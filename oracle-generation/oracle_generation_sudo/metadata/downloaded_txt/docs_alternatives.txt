@@ -1,0 +1,12 @@
+Sudo Alternatives | Sudo Sudo Alternatives Of course, Sudo isn’t the only game in town. I won’t comment
+on these other options as I haven’t spent much time working
+with them (and I’d probably be a bit biased). If you would like to
+add to this list, please send mail to sudo@sudo.ws . Open Source Sudo Alternatives sudo-rs is a safety oriented and memory safe implementation of sudo and
+su written in Rust. The OpenBSD doas command is similar to sudo and has been ported to other
+systems . RootAsRole is a memory-safe and security-oriented alternative to the sudo
+and su commands that leverages Linux capabilities and the RBAC
+(Role-Based Access Control) model. vsys GNU userv super priv calife ssu su1 op (originally shipped with ConvexOS, this is a free version based on Tom Christiansen’s paper) System-specific Sudo Alternatives The Solaris pfexec command can be used to run commands with
+extra privileges, as determined by the security profile. AIX has support for Role-Based Access Control (RBAC) that can be used to assign fine-grained privileges to a user. HP-UX has a restricted version of the sam system
+administration tool that allows non-root users to perform specific
+tasks. Commercial Alternatives Privilege Manager for Unix Safeguard for Sudo which supports
+a centrally administered sudoers file, I/O logging, and a management console. Privilege Management for Unix and Linux (formerly Power Broker) CaclMgr Core Privileged Access Manager (BoKS) CyberArk On-Demand Privileges Manager Delinea DirectAuthorize includes a dzdo command that functions similarly to sudo . They also include a sudo migration tool. Sudo-like utilities for Windows Sudo for Windows Privilege Manager for Windows gsudo sudowin suDown

@@ -1,0 +1,1 @@
+Reporting security bugs · V8 Reporting security bugs V8 fully uses Chromium’s Security process . In order to report a V8 security bug please follow these steps: Check Chromium’s guidelines for security bugs File a new bug and add the component “Blink>JavaScript”.

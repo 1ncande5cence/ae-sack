@@ -1,0 +1,368 @@
+ProFTPD: SQL and mod_sql ProFTPD: SQL and mod_sql Compiling with mod_sql To compile proftpd with the mod_sql SQL module, you
+will need to have the libraries and header files of a SQL database installed;
+the mysql.h and libmysqlclient.a files for MySQL,
+the libpq-fe.h and libpq.a files for Postgres. mod_sql is the module that provides a generic interface between
+the proftpd daemon and the underlying SQL database(s); mod_sql relies on backend modules to handle the database-specific
+operations.  For MySQL database, the backend module is mod_sql_mysql ; mod_sql_postgres is to be used when
+dealing with Postgres databases.  Then, to build a proftpd daemon to use mod_sql , use the --with-modules option
+of the configure script, specifying both mod_sql and
+the backed module, e.g. : $ ./configure --with-modules=mod_sql:mod_sql_mysql Sometimes the necessary header and library files for building in SQL support
+are in non-standard locations; the configure script needs to be
+told about these non-standard locations so that it can find the necessary files,
+and build the daemon properly.  The --with-includes option (for
+header file locations) and --with-libraries option (for library
+file locations) are used for informing configure of such things.
+For example, if you had installed MySQL using a prefix of /usr/local/mysql , so that the path the header file was: /usr/local/mysql/include/mysql/mysql.h and the path the library was: /usr/local/mysql/lib/mysql/libmysqlclient.a then, the above configure line would be changed to look like: $ ./configure \
+    --with-modules=mod_sql:mod_sql_mysql \
+    --with-includes=/usr/local/mysql/include/mysql \
+    --with-libraries=/usr/local/mysql/lib/mysql The same options can be used similarly for specifying Postgres file locations.
+( NOTE: Postgres 7.2 or higher should be used; earlier versions of Postgres
+lacked a string-escaping function that allowed for an SQL injection
+vulnerability.  Use the mod_sql_postgres from proftpd 1.2.9rc1
+or later in conjunction with a newer Postgres library to fix the bug. ) mod_sql is capable of using OpenSSL for different ways of
+encrypting passwords stored in database tables.  The configure options for building an OpenSSL-capable mod_sql might look
+something like this: $ CFLAGS=-DHAVE_OPENSSL LIBS=-lcrypto ./configure \
+    --with-modules=mod_sql:mod_sql_mysql \
+    --with-includes=/usr/local/mysql/include/mysql:/usr/local/openssl/include \
+    --with-libraries=/usr/local/mysql/lib/mysql:/usr/local/openssl/lib Note that this example assumes that you have installed OpenSSL using a prefix
+of /usr/local/openssl . Configuring mod_sql Now that a proftpd daemon has been compiled for SQL support,
+you can begin the task of configuring it so that mod_sql can
+access your SQL database tables.  At a very minimum, mod_sql assumes that it has access to a table with two columns, one for user names, the
+other for passwords.  For more complete functionality, tables providing
+full user and group information are needed.  The full information that can
+be provided is described below. User Information Table 1 Column Type Required? Duplicates? Null? Purpose userid text yes no no user's login passwd text yes yes no user's password uid number yes no 2 yes user's UID gid number no yes yes user's GID home 3 text no yes yes user's home shell 4 text no yes yes user's shell Notes : The user table MUST exist. Nothing in proftpd or mod_sql prevents you
+    from using duplicate UIDs, from given multiple users the same UID.  Hower,
+    this is should be done only if you are certain you know what you are
+    doing . See the SQLDefaultHomedir and SQLUserInfo configuration directives. See the RequireValidShell configuration directive. Group Information Table 1 Column Type Required? Null? Purpose groupname text yes no group's name gid number yes no group's GID members 2 text yes yes group's members Notes : mod_sql will normally concatenate all matching group rows;
+    you can have multiple rows for each group with only one member per group,
+    or have a single row with multiple groups, or a mixing of the two.  However,
+    if you use the fast option for groupset of the SQLAuthenticate directive, you may not have multiple rows per group. Multiple members per group are formatted as comma-separated names
+    (no contained whitespace) in the text for this column. The two SQL statements below should work for any ANSI SQL compliant databases,
+and are known to work for MySQL and PostgreSQL.  They both fully specify the
+tables as described above, with reasonable defaults for field length and data
+type.  More stringent definitions are suggested: if you plan on keeping home
+directory or shell information in the database, those fields could be defined
+as NOT NULL , or even UNIQUE for home directory.
+Similarly, if you plan on being able to use the groupsetfast argument
+to the SQLAuthenticate directive, you should create both the groupname and gid fields as UNIQUE . To create a user table: CREATE TABLE `users` (
+    userid VARCHAR(30) NOT NULL UNIQUE,
+    passwd VARCHAR(80) NOT NULL,
+    uid INTEGER UNIQUE,
+    gid INTEGER,
+    homedir VARCHAR(255),
+    shell VARCHAR(255)
+  );
+
+  CREATE INDEX users_userid_idx ON users (userid); ( Note : if you plan to reuse the same UID for multiple users, then you
+will need to remove the UNIQUE from the uid column
+description).  To create a group table: CREATE TABLE `groups` (
+    groupname VARCHAR(30) NOT NULL,
+    gid INTEGER NOT NULL,
+    members VARCHAR(255)
+  );
+
+  CREATE INDEX groups_gid_idx ON groups (gid); The key configuration directives for mod_sql are: SQLConnectInfo for setting the information for connecting to the database server SQLAuthenticate for controlling how the module will perform its authentication lookups SQLAuthTypes for defining which authentication methods to use SQLUserInfo for modifying the names of the columns using which the module will lookup values from the user table SQLGroupInfo for modifying the names of the columns using which the module will lookup values from the group table Recipes Using SQLNamedConnectInfo What is SQLNamedConnectInfo , and how can I use it?  The SQLNamedConnectInfo directive appeared in proftpd-1.3.4rc2 (see Bug#3262 ); it allows logging to
+SQL tables in a database separate from e.g. your user database.  Using SQLNamedQuery and SQLLog , you tell mod_sql to log information to your database.  And now, with SQLNamedConnectInfo , you can tell mod_sql to log
+information to multiple different databases. The following illustrates how SQLNamedConnectInfo can be used.
+We have two databases, a "userdb" containing the tables with our user
+data, and a "logdb" database containing various logging tables.  First, in the users table schema in the userdb database, let's
+include a users.last_accessed column, indicating when that
+user last logged in successfully: CREATE TABLE users (
+    userid VARCHAR(30) NOT NULL UNIQUE,
+    passwd VARCHAR(80) NOT NULL,
+    uid INTEGER UNIQUE,
+    gid INTEGER,
+    homedir VARCHAR(255),
+    shell VARCHAR(255),
+    last_accessed DATETIME
+  ); In the logdb database, let's define a table that we will use for
+separately logging all successful logins: CREATE TABLE login_history (
+    user VARCHAR NOT NULL,
+    client_ip VARCHAR NOT NULL,
+    server_ip VARCHAR NOT NULL,
+    protocol VARCHAR NOT NULL,
+    when DATETIME
+  ); With these tables defined in their databases, we can now configure mod_sql to use the users table for authenticating
+users.  In addition, when a user logs in successfully, update the users.last_accessed column and add a row to the login_history table in the separate logging database: <IfModule mod_sql.c>
+    AuthOrder mod_sql.c
+
+    # We need our "default" connection to the userdb database
+    SQLConnectInfo userdb@dbhost:3306 user pass
+
+    # Now that we have a default connection, we can create another connection, named "logdb" and using the "mysql" backend, to the logdb database
+    SQLNamedConnectInfo logdb mysql logdb@dbhost:3306 user pass
+
+    # Point mod_sql at our users/groups tables
+    SQLUserInfo users ...
+    SQLGroupInfo groups ...
+
+    # Update the users.last_accessed column on successful login in the userdb SQLNamedQuery last_accessed UPDATE "last_accessed = NOW() WHERE userid='%u'" users
+    SQLLog PASS last_accessed
+
+    # Add a row to the login_history table on successful login in the logdb SQLNamedQuery log_sess FREEFORM "INSERT INTO login_history (user, client_ip, server_ip, protocol, when) VALUES ('%u', '%a', '%V', '%{protocol}', NOW())" logdb SQLLog PASS log_sess IGNORE_ERRORS
+  </IfModule> Notice how the "log_sess" SQLNamedQuery has "logdb" at the end of the directive, after the SQL to be run?  That tells mod_sql that,
+when running that SQLNamedQuery , use the connection named "logdb". Another interesting point in the example above is the use of the IGNORE_ERRORS modifier, when we call the "log_sess" SQLNamedQuery .  Why is that used?  Here, it means that if the logdb database is not
+available, or if there is any other problem when inserting the row into the login_history table, that mod_sql should ignore
+that error and keep processing the connection. Question : Why does the SQLNamedConnectInfo documentation say that " SQLNamedConnectInfo directives will only
+be honored if a SQLConnectInfo directive is configured"? Answer : The mod_sql module requires
+a SQLConnectInfo directive in order to define the "default"
+named connection.  This will be the database connection that mod_sql uses for queries, unless explicitly told to use
+some other named connection.  And if there is no SQLConnectInfo directive present, then mod_sql won't even bother to look for SQLNamedConnectInfo directives, since the "default" connection
+must be present in order to use any other named connection. Using SQLUserPrimaryKey and SQLGroupPrimaryKey What is a primary key in mod_sql , and how can I use it?  To
+answer this question, let's look at a common database layout for a proftpd site.  You have a ftp_users table
+containing the user information ( i.e. username/password, UID, GID, etc ).  You have a ftp_sessions logging table that
+records all client sessions, keyed to the user that logged in.  And you have
+another logging table, ftp_transfers , that tracks the files
+that are transferred in and out by clients; the entries in this table, too,
+are keyed to the logged-in user. Good schema design principles suggest that which this schema, the ftp_sessions and ftp_transfers tables should have
+foreign key constraints on columns in the ftp_users table, to
+enforce the fact that entries in the ftp_sessions and ftp_transfers tables must be related to a row in the ftp_users table.  And for efficient database storage, you want
+the foreign key constraint to use a small column.  But there's a problem.
+The obvious choice of primary key for an ftp_user row would
+be the UID, a numeric value. But you reuse UIDs for your users;
+this means that a single UID does not uniquely identify a user.
+In fact, the only unique identifier you have in ftp_users is
+the actual username, a string.  And some of your usernames are quite large. To demonstrate this more clearly, let's look at the mod_sql configuration that would be used to add rows to the ftp_sessions table: # Insert a row on successful login (i.e. successful PASS)
+  SQLLog PASS start-session IGNORE_ERRORS
+
+  SQLNamedQuery start-session FREEFORM "INSERT INTO ftp_sessions (userid, session_id, ...) VALUES ('%u', '%{env:UNIQUE_ID}', ...)" Instead of userid (which is a VARCHAR(255) ), you
+would prefer to use the ftp_users.id column value, which you
+added to your ftp_users table specifically to use as a primary
+key.  How to do you tell mod_sql to use that as the primary key
+for the logged-in user? The SQLUserPrimaryKey and SQLGroupPrimaryKey directives appeared in proftpd-1.3.5rc3 (see Bug#3864 ) for just this reason;
+they configure the columns that mod_sql to retrieve/use as
+primary keys.  When these directives were present, whenever mod_sql does a successful lookup of a user by name (or
+of a group by name ), mod_sql will then run another query, i.e. : SELECT column-name FROM user/group-table WHERE name = user/group-name And to support the case where the tables/columns are customised, these new
+directives would of course support custom queries: SQLUserPrimaryKey custom:/ named-query SQLGroupPrimaryKey custom:/ named-query So that you could do: SQLNamedQuery get-user-key SELECT "id FROM ftp_users WHERE userid = '%U'"
+  SQLUserPrimaryKey custom:/get-user-key
+
+  SQLNamedQuery get-group-key SELECT "id FROM ftp_groups WHERE groupname = '%g'"
+  SQLGroupPrimaryKey custom:/get-group-key Now that mod_sql can look up the value for the primary key for
+the user/group, we need to then be able to use that value in other
+queries.  For this, you would use the "notes" SQLLog variable: %{note:sql.user-primary-key}
+  %{note:sql.group-primary-key} Putting this altogether, the above mod_sql configuration for
+adding rows to the ftp_sessions table, using ftp_users.id as the primary key, becomes: # Tell mod_sql to use the ftp_users table for user data
+  SQLUserInfo ftp_users ...
+
+  # Use ftp_users.id as the user primary key
+  SQLUserPrimaryKey id
+
+  # Insert a row on successful login (i.e. successful PASS)
+  SQLLog PASS start-session IGNORE_ERRORS
+
+  SQLNamedQuery start-session FREEFORM "INSERT INTO ftp_sessions (userid, session_id, ...) VALUES (%{note:sql.user-primary-key}, '%{env:UNIQUE_ID}', ...)" Question : Why use new configuration directives, rather
+than changing the existing SQLUserInfo / SQLGroupInfo directives to include a primary key column? Answer : New directives were added for this functionality
+for two reasons: 1) not every site needs/uses primary keys and
+foreign key constraints in their schema, and 2) we wanted to make
+sure that existing configurations/schema did not break and behave unexpectedly
+( i.e. to preserve backward compatibility). Frequently Asked Questions Whenever questions arise about problems using mod_sql , the first
+place to look will be the server debugging output and in a SQLLogFile . mod_sql is very verbose with its debugging information,
+and you can see everything it is doing.  However, there are times when there
+is too much information in the debugging output, and you are unsure of how to
+remedy the problem.  These are some of the frequent questions. Question : Why is proftpd only looking in
+my SQL tables when a user logs in? Answer : You probably configured mod_sql to be "authoritative" in your SQLAuthenticate setting by
+using the * option.  Conversely, if you actually want proftpd to only authenticate SQL-defined users, the * "authoritative" suffix is what you would want to use. Question : Why does my SQL user not use the UID/GID I
+configured for her in my SQL table? Answer : More than likely, you gave this user a UID
+that is below the default SQLMinUserUID (999), or a GID that is
+below the default SQLMinUserGID (999).  Use the SQLMinUserUID , SQLMinUserGID , and/or SQLMinID configuration directives to set these limits lower as needed. This problem also presents itself in terms of queries using UID/GID of 65533, e.g. when you see queries like this against your database: SELECT groupname FROM ftp_groups WHERE (gid = 65533) LIMIT 1 If the UID/GID retrieved from the database is below the minimum UID/GID,
+then mod_sql will use the default UID/GID value, which is 65533.
+These defaults can be changed using SQLDefaultUID and SQLDefaultGID . Question : Do I have to configure a real shell for my
+SQL-defined users? Answer : No. The proftpd daemon only checks
+the shell for a user in order to provide compatibility with other FTP daemons,
+which do the same check; proftpd itself does not spawn the shell.
+See the RequireValidShell configuration directive for turning this check off. Question : How come my SQLLog QUIT is not
+run if the session aborts or dies? Answer : Not all FTP clients are polite and issue the QUIT before the session ends.  Perhaps their session is timed out,
+or dropped due to network problems.  Use EXIT as the FTP command
+in your SQLLog directive, rather than QUIT , as
+mentioned in the SQLLog documentation. Question : How can I make mod_sql go
+faster? Answer : There are a couple of things you might try.
+First, if using a version of mod_sql from ProFTPD-1.2.7rc1 or
+later, make use of the SQLNegativeCache configuration directive. Other forms of this question are "Why does mod_sql iterate
+through every user in the database?", or "Why is mod_sql so slow during logins?"  Here's the reason: mod_sql is
+designed to handle all authentication functions that the daemon throws at it.
+This includes the functions that iterate through all users
+( setpwent() , getpwent() , endpwent() ) and
+the functions that iterate through all groups ( setgrent() , getgrent() , endgrent() ). When you see mod_sql iterating through all groups or users, it is
+doing so because it has been asked to do so by the daemon.  Since there is no
+good way to keep an open query around without adding more to the various
+backend modules than we already have, mod_sql pre-caches all
+users when setpwent() is called, and pre-caches all groups when setgrent() is called.  This allows the getpwent() and getgrent() calls to be simple, at the cost of more time during
+login. In simple situations, these functions are never called.  When you start
+limiting access to directories, files, or various FTP commands based on user or
+group, that is when the daemon needs to iterate through the users and groups to
+check permissions.  A basic FTP server, including virtual and anonymous
+servers, will never make the (potentially, very) expensive user iteration
+calls, but may iterate through all groups. The SQLAuthenticate directive provides a method to tune mod_sql ; by default, mod_sql will handle the various
+* pwent() and * grent() calls. When SQLAuthenticate is told not to handle userset or groupset , mod_sql simply passes the request on to
+whatever authentication handlers exist in the system.  Keep in mind that
+using SQLAuthenticate in this way means that the proftpd daemon is not using the same information to
+authenticate the user as it is to control the user's actions during their
+session. For those of you who have used mod_sql in the past, these lookups
+should probably be set to off .  Versions of mod_sql prior
+to 3.2.0 (or thereabouts) did not handle the {set|get|end}{pw|gr}ent functions at all, so by setting these
+lookups to off , you lose no functionality.  Those of you new to mod_sql should to consider your needs: is the cost of iterating
+through every user stored in the database worth the ability to limit access
+based on users/groups from the database?  If not, you will need to re-evaluate
+the way you are using the database, and where you should be storing your
+user/group information. Question : When I use an SQLAuthTypes that
+includes "OpenSSL", what do the values in the database need to
+look like? Answer : The value that mod_sql expects
+is the base64-encoded value of the digested password string.  To get a list
+of the message digest algorithms supported by your OpenSSL installation, you
+can execute the following command: $ openssl list-message-digest-commands To generate the string to put into the SQL tables, using MD5 as the digest
+algorithm and "password" as the password: $ /bin/echo "{md5}"`/bin/echo -n "password" | openssl dgst -binary -md5 | openssl enc -base64` The "{md5}" prefix is necessary, so that mod_sql knows
+what digest algorithm was used. Here's a quick and dirty example of generating database-ready strings using
+every digest algorithm supported by the installed OpenSSL: $ for c in `openssl list-message-digest-commands`; do
+    /bin/echo "{$c}"`/bin/echo -n "password" | openssl dgst -binary -$c | openssl enc -base64`
+  done which generates: {md2}8DiBqIxuORNfDsxg79YJuQ==
+  {md4}ip0JPxT4cB3xdzKyuxgsdA==
+  {md5}X03MO1qnZdYdgyfeuILPmQ==
+  {mdc2}HA0SCu32vhW+exItsGK4lQ==
+  {rmd160}LAjo9YhHUKe5n28vNC/GONsl/zE=
+  {sha}gAclaL6zshAjJesgP20P+S9c744=
+  {sha1}W6ph5Mm5Pz8GgiULbPgzG37mj9g= Note : the {digest} prefix syntax is only needed for
+passwords that will be handled as OpenSSL-style passwords.  This prefix
+is not needed for any of the other SQLAuthType types. There are a lot of PHP applications which might want to generate passwords
+suitable for use with mod_sql .  For example, to generate
+a base64-encoded MD5 password with PHP, which can then be read by mod_sql , use the following PHP code: // $password contains the cleartext password before
+  $password = "{md5}".base64_encode(pack("H*", md5($password)));
+
+  // $password now contains the encrypted, encoded password Or if you're using Python, you might try the following: password = "{md5}" + base64.b64encode(md5.new("password").digest()) If this prefixed format is not sufficient for your needs, you can also
+use the mod_sql_passwd module, which knows how to handle "raw" MD5, SHA1, and other encoding schemes. Question : I've upgraded to MySQL 5.7, and now I am unable
+to login using my MySQL users.  The SQLLogFile shows something like
+this: mod_sql/4.3[9097]: checking password using SQLAuthType 'Backend'
+  mod_sql/4.3[9097]: entering     mysql cmd_checkauth
+  mod_sql/4.3[9097]: MySQL client library used MySQL SHA256 password format, and Backend SQLAuthType cannot succeed; consider using MD5/SHA1/SHA256 SQLAuthType using mod_sql_passwd
+  mod_sql/4.3[9097]: MySQL server used MySQL 4.1 password format for PASSWORD() value
+  mod_sql/4.3[9097]: password mismatch and my mod_sql configuration has not changed; it uses: SQLAuthTypes Backend Is this a bug? Answer : The short answer is that no, it is not a bug.
+But it is a regression caused by changes in the MySQL API, and the only
+fix is to change the password values stored in your MySQL tables. First, the background.  The "Backend" SQLAuthType is only implemented by mod_sql_mysql , for MySQL databases; Postgres,
+SQLite, et al do not have an equivalent.  And in MySQL, the "Backend" SQLAuthType is there specifically for the use case where an admin
+uses MySQL's PASSWORD() function to generate the hashed value
+stored in the users table for ProFTPD users.  The way that the
+"Backend" SQLAuthType is implemented is that mod_sql_mysql gets the hashed value stored in the row from the
+MySQL server, and then mod_sql_mysql uses a function in the libmysqlclient library to try to generate the same hash (using the
+password from the client); it then compares the two hashes to see if they match. MySQL has had issues with its PASSWORD() generated format over the years.  They initially generated a 16 byte string,
+but this was deemed insecure in MySQL 4.1, and changed to a 41 byte string.
+But even that 41 byte string was found to be vulnerable to e.g. rainbow table attacks,
+and thus the format was changed again to be much longer, to use SHA256, and (importantly for us) to always include a randomly generated
+salt .  (It is this salt which mitigates the rainbow table attack scenario.)
+This sequence of events means that a MySQL database table used by mod_sql_mysql might contain a PASSWORD() -generated
+hashed value that is in the pre-4.1 format (16 bytes), the 4.1 format
+(41 bytes), and/or the sha256 format. For the pre-4.1 and 4.1 hashed value formats, the MySQL PASSWORD() function and the libmysqlclient library functions used by mod_sql_mysql would generate the same hashed value for the same password , and thus worked as expected. But for sha256
+hashed value formats, PASSWORD() and the libmysqlcient library functions will not generate the same hashed value for
+the same password.  Why not?  Each time those functions are called, they internally generate and use a random salt value; there is no way to
+explicitly provide the salt value to the function.  This means that the
+sha256 hashed value will be different, each time.  If PASSWORD() is used to generate an sha256 formatted hashed value in
+the database table using password "test", and if the libmysqlclient library function is called to generate an sha256
+formatted hashed using password "test", those functions will generate different hashed values.  Calling those functions again will
+generate different hashes, each and every time; this means that they cannot be compared/matched. If sha256 hashed values are different each time, how can MySQL use them to
+authenticate?  The process used for authenticating the client
+(the database client, mod_sql_mysql , not the FTP client connecting
+to ProFTPD) is all internal to MySQL, and is slightly different; it assumes
+that the client being authenticated is defined in the mysql.users system table, and only there.  That internal support does not extend to any other table which might have used the PASSWORD() function for its columns.  (This is why that PASSWORD() function is slated for deprecation , as of MySQL 5.7, and later removal.)
+This means that you can use sha256 formatted hashed values for authenticating mod_sql_mysql , but not for authenticating the
+ProFTPD users stored in the MySQL database tables. Why is it only recently (as of late 2016) that users are encountering this
+issue?  MySQL 5.5 (the default MySQL version for Debian/Ubuntu for a while) did
+not support the sha256 formatted hashed values, only the pre-4.1 and 4.1
+formatted hashed values.  So no issue with the "Backend" SQLAuthType there.  The introduction/use of sha256 formatted
+hashed values started in MySQL 5.6. But ProFTPD users using MySQL 5.6 did not encounter this problem, either.  Why
+not?  Turns out that the libmysqlclient library in 5.6 had a
+couple of different functions for making hashed values (of different
+formats).  The mod_sql_mysql module would try all of those
+different functions, for backward compatibility.  And it worked, as one of the
+older libmysqlclient library functions (the make_scrambled_password() function, specifically) would generate the 4.1 formatted hash value, which would match the values stored
+for ProFTPD users in the users table successfully. However, in MySQL 5.7, those older libmysqlclient library
+functions were removed (they had been deprecated for a while anyway),
+so now, the only libmysqlclient library function for
+generating hashed values is the sha256 one.  And that, as mentioned above,
+uses an internally-generated random salt each time, and its output is not
+consistent/repeatable.  And that means that starting with MySQL 5.7, the
+"Backend" SQLAuthType will no longer work.  As mentioned by the
+log message in the SQLLogFile . The alternatives are to use different SQLAuthTypes ;
+this will require that you change the users.passwd value
+for your ProFTPD users.  First, make sure that the mod_sql_passwd module is compiled/loaded into your
+ProFTPD.  If you are building from source: $ ./configure --enable-dso --with-shared=mod_sql:mod_sql_mysql:mod_sql_passwd ...
+  $ make
+  $ make install And in your proftpd.conf : # Make sure that mod_sql_passwd is loaded, if available
+  LoadModule mod_sql_passwd.c
+
+  <IfModule mod_sql.c>
+    SQLBackend mysql
+
+    <IfModule !mod_sql_passwd.c>
+      # If mod_sql_passwd is not available, then consider using the OpenSSL
+      # SQLAuthType
+      SQLAuthTypes OpenSSL Backend
+    </IfModule>
+
+    <IfModule mod_sql_passwd.c>
+      # If mod_sql_passwd is available, try other SQLAuthTypes, too
+      SQLPasswordEngine on
+
+      # MySQL uses lowercase hex-encoded strings for MD5() et al
+      SQLPasswordEncoding hex
+
+      SQLAuthTypes SHA256 SHA1 MD5 Backend
+    </IfModule>
+  </IfModule> When populating the users.passwd field for your users, you can
+use MD5 passwords: mysql> UPDATE users SET passwd = MD5('password') WHERE userid = 'myuser'; or SHA1 passwords: mysql> UPDATE users SET passwd = SHA1('password') WHERE userid = 'myuser'; or SHA256 passwords: mysql> UPDATE users SET passwd = SHA2('password', 256) WHERE userid = 'myuser'; And the SQLAuthTypes configuration will try all of those
+types.  The "Plaintext" and "Empty" SQLAuthTypes should never
+be used except for debugging/development; they are too insecure
+for production systems. Question : I see the following SSL-related error message
+in my SQLLogFile recently; what happened? mod_sql/4.3[30]: unrecoverable backend error
+  mod_sql/4.3[30]: error: '2026'
+  mod_sql/4.3[30]: message: 'SSL connection error: unable to use random device' Answer : This mostly likely occurs for MySQL connections,
+but can occur for any database connection that uses TLS.  And
+specifically, it can happen when the DefaultRoot directive is
+used to chroot the sessions. Newer database client libraries, such as for MySQL, now automatically try
+to use SSL/TLS for connecting to the database server whenever possible.  When
+a session is chrooted , however, any SSL/TLS reconnects or
+renegotiations can fail with the above "unable to use random device" error.
+Why?  The SSL/TLS library in use, such as OpenSSL, needs a source of randomness
+for its cryptographic needs; it usually uses a device such as /dev/random or /dev/urandom , provided by most Unix
+platforms.  However, the chroot means that those devices are
+no longer accessible from within the chrooted filesystem. To prevent this, you can disable use of SSL/TLS (not preferable), or use
+something like SQLKeepAlive to
+help ensure that your database connections stay alive, and thus avoid
+reconnects. Question : Why do I see "error deleting scoreboard entry: Invalid argument"? Answer : This log message almost always denotes use
+of mod_sql , and a problem in the mod_sql configuration.  To debug the problem, define an SQLLogFile (making sure the path is not in a world-writable directory), to which mod_sql will write debugging information. Question : I am trying to compile proftpd with MySQL support, and get the following error when I run make .  Why? /usr/bin/ld: cannot find -lz
+  collect2: ld returned 1 exit status
+  make: *** [proftpd] Error 1 Answer : This error means that the linker cannot find
+the libz library.  For many systems, this library is provided by
+the zlib package; you may need to install this zlib package.
+The libz library is required by the MySQL client libraries. Question : I was able to compile proftpd with mod_sql without problems, but now when I try to start proftpd , I get the following error.  Why? proftpd: error while loading shared libraries: libpq.so.5: cannot open shared object file: No such file or directory Answer :  Errors about "loading shared libraries",
+especially when they happen when starting proftpd , come from
+the dynamic/shared library loader.  The linker was able to find that library
+at compile time, but not at run time.  If you were to look for the specified
+library, you would see it.  So why can't the shared library loader find it? Updating the directories searched automatically by the shared library loader
+is a platform-specific task.  On Linux, for example, you will need to
+edit your /etc/ld.so.conf file to include the directory containing
+the SQL client libraries; then run /sbin/ldconfig in order
+update the shared library loader cache file.  Once the shared library loader
+has been updated, proftpd should start without problems. Question : What is the difference between the userset and usersetfast SQLAuthenticate options,
+and when would I use them? Answer : It depends, of course. First, the use of these options is only relevant when the session
+is chrooted, either via the DefaultRoot directive or because
+it is an <Anonymous> login.  (Why?  When chrooting a
+session, proftpd calls the setpwent() function in
+order to "reset" or "rewind" the user info database; this ensures that
+all of the info in the user info database is accessible in the chrooted
+session.) The userset SQLAuthenticate option says that the
+info for all users should be looked up and cached when setpwent() is called.  Specifically, the list of names for every
+user in the database (and just the names!) is looked up.  For each
+user name, a SELECT query (using the SQLUserInfo configuration)
+is used to retrieve all of the details for that user. The usersetfast SQLAuthenticate option goes even further,
+Rather than having a SELECT per user name, usersetfast says to lookup all the info for all the users when setpwent() is called,
+in a single SELECT query (again, based on the SQLUserInfo configuration). Knowing the above, the choice of when to use userset or usersetfast becomes one of efficiency.  Some efficiency (in terms
+of ID-to-name lookups during the session) can be gained by using userset , since the info for all users is cached (using a SELECT query
+per user).  Even more efficiency is gained by using usersetfast to
+lookup the info for all users using a single SELECT query.  In both cases, the
+price you pay for the efficiency is increased memory usage in the session
+process, of course; the info for all users will be held in memory in
+the process for every session. The above holds true for the groupset and groupsetfast SQLAuthenticate options as well. Question : How do I configure mod_sql so
+that it will use encrypted connections ( e.g. SSL/TLS) to the
+backend database server? Answer : This sort of configuration depends on the
+backend database server you are using. If you are using MySQL, then you can configure this in the "[client]" section
+of your my.cnf configuration file. If you are using Postgres, then this will happen automatically, by default,
+as long as your libpq Postgres client library has been
+compiled with SSL support. © Copyright 2017-2023 The ProFTPD Project All Rights Reserved

@@ -1,0 +1,24 @@
+Sudo Plugins | Sudo Sudo Plugins Starting with version 1.8.0, sudo supports a modular framework that supports
+third-party policy and I/O logging plugins. In this framework,
+when a user runs sudo , the front-end queries a policy
+plugin to determine whether or not the command is to be allowed.
+If it is allowed, the policy plugin returns a description of how
+to run the command along with the argument vector and environment
+to pass to the execve() system call. While the command
+is being run, the I/O plugin, if any, is passed all input to and
+output from the command. This makes it possible for third parties to extend sudo without
+replacing it. Extending sudo, rather than replacing it outright,
+has the advantage of allowing users to maintain their existing work
+flow while providing extra features that enterprise users want. Below is a list of known third-party sudo plugins.
+If you have developed a plugin and would like to be added to this
+list, please send mail to sudo@sudo.ws . Privilege Manager for Sudo The first available third party plugin is Privilege Manager for Sudo ,
+which brings advanced features from the Privilege Manager for Unix product to sudo. These features include a central policy server,
+centralized management of sudo and the sudoers policy file, centralized
+reporting on sudoers access rights and activities, as well as
+keystroke logging of activities performed through sudo. Privilege
+Manager makes administering sudo across the entire enterprise easy,
+intuitive and consistent–eliminating the box-by-box management of
+sudo that is the source of so much inefficiency and inconsistency. sudo_pair sudo_pair is an I/O plugin for sudo that can be used to require that another
+party approve commands before they are allowed to run. The running
+command’s output is mirrored on the approver’s screen and the command
+can be terminated by the approver at any point.

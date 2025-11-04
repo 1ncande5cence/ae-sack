@@ -1,0 +1,111 @@
+Regular Expressions Tutorial Found at: http://publish.ez.no/article/articleprint/11/ Regular Expressions Explained Author: Jan Borsodi Publishing date: 30.10.2000 18:02 This article will give you an introduction to the world of regular
+expressions . I'll start off with explaining what regular expressions are
+and introduce their syntax, then some examples with varying complexity. Concept A regular expression is a text pattern consisting of a combination of
+alphanumeric characters and special characters known as metacharacters. A
+close relative is in fact the wildcard expression which are often used
+in file management. The pattern is used to match against text strings. The
+result of a match is either successful or not, however when a match is
+successful not all of the pattern must match, this is explained later in the
+article. You'll find that regular expressions are used in three different ways:
+Regular text match, search and replace and splitting. The latter is basically
+the same as the reverse match i.e. everything the regular
+expression did not match. Regular expressions are often simply called regexps or RE, but for
+consistency I'll be referring to it with its full name. Due to the versatility of the regular expression it is widely used in
+text processing and parsing. UNIX users are probably familiar with them through
+the use of the programs, grep , sed , awk and ed .
+Text editors such as (X)Emacs and vi also use them heavily.
+Probably the most known use of regular expressions are in the
+programming language Perl; you'll find that Perl sports the most advanced regular expression implementation to this day. Usage Now you're probably wondering why you should bother to learn regular
+expressions . Well if you're a normal computer user your benefits from
+using them are somewhat small, however if you're either a developer or a system
+administrator you'll find that knowing regular expressions will make
+your (professional) life so much better. Developers can use them to parse text files, fix up code and other wonders.
+System administrators can use them to search through logs, automate boring
+tasks and sniff the network traffic for unauthorized activity. Actually I would go so far as to say it's a crime for a System Administrator
+not to have any knowledge of regular expressions . Quantifiers The contents of an expression are, as explained earlier, a combination of
+alphanumeric characters and metacharacters. An alphanumeric character is either
+a letter from the alphabet: abc or a number: 123 Actually in the world of regular expressions any character which is not a
+metacharacter will match itself (often called literal characters), however a
+lot of the time you're mostly concerned with the alphanumeric characters. A
+very special character is the backslash \ , as this turns any
+metacharacters into literal characters, and alphanumeric characters into a
+sort of metacharacter or sequence. The metacharacters are: \ | ( ) [  {  ^ $ * + ? . < > With that said normal characters don't sound too interesting so let's jump to
+our very first metacharacters. The punctuation mark, or dot, . needs explaining first since it often
+leads to confusion. This character will not, as many might think, match the
+punctuation in a line. It is instead a special metacharacter which matches any
+character. Using this where you wanted to find the end of the line, or the
+decimal in a floating number, will lead to strange results. As explained above,
+you need to backslashify it to get the literal meaning. For instance take this
+expression: 1.23 will match the number 1.23 in a text as you might have guessed, but it will also match these next lines: 1x23 1 23 1-23 to make the expression only match the floating number we change it to: 1\.23 Remember this, it's very important. Now with that said we can get the show
+going. Two heavily recurring metacharacters are: * and + They are called quantifiers and tell the engine to look for several occurrences
+of a character; the quantifier always precedes the character at hand. The * character matches zero or more occurrences of the
+character in a row, the + character is similar but matches one or more . So if you decided to find words which had the character c in it you might be tempted to write: c* What might come as a surprise to you is that you will find an enormous amount
+of matches, even words with no c in them will match.
+"How is this so?" you ask. Well, the answer is simple. Recall that the * character matches zero or more characters, and
+that's exactly what you matched, zero characters. You see, in regular expressions you have the possibility to match what
+is called the empty string , which is simply a string with zero size.
+This empty string can actually be found in all texts. For instance the word: go contains three empty strings. They are contained at the position right before
+the g , in between the g and the o and after the o . And an empty string
+contains exactly one empty string. At first this might seem like a
+really silly thing to do, but you'll learn later on how this is used in more
+complex expressions. So with this knowledge we might want to change our expression to: c+ and voila we get only words with c in them. The next metacharacter you'll learn is: ? This simply tells the engine to either match the character or not (zero or
+one). For instance the expression: cows? will match any of these lines: cow cows These three metacharacters are simply a specialized scenario for the more
+generalized quantifier: {n,m} the n and m are respectively the
+minimum and maximum size for the quantifier. For instance: {1,5} means match one or up to five characters. You can also skip m to allow for infinite match: {1,} which matches one or more characters. This is exactly what the + character does. So now you see the connection, * is equal to {0,} , + is equal to {1,} and ? is equal to {0,1} . The last thing you can do with the quantifier is to also skip the comma: {5} which means to match 5 characters, no more, no less. Assertions The next type of metacharacters is assertions. These will match if a given
+assertion is true. The first pair of assertions are: ^ and $ which match the beginning of the line, and the end of the line, respectively.
+Note that some regular expression implementations allows you to change
+their behavior so that they will instead match the beginning of the text and
+the end of the text. These assertions always match a zero length string, or in
+other words, they match a position. For instance, if you wrote this expression: ^The it would match any line which began with the word The . The next assertion characters match at the beginning and end of a word; they
+are: < and > they come in handy when you want to match a word precisely. For instance: cow would match any of the following words: cow coward cowage cowboy cowl A small change to the expression: <cow> and you'll only match the word cow in the text. One last thing to be said is that all literal characters are in fact assertions
+themselves. The difference between them and the ones above is that literal
+characters have a size. So for cleanliness sake we only use the word
+"assertions" for those that are zero-width. Groups and Alternation One thing you might have noticed when we explained quantifiers is that they
+only worked on the character to the left. Since this pretty much limits our
+expressions I'll explain other uses for quantifiers. Quantifiers can also be
+used on metacharacters; using them on assertions is silly since assertions are
+zero-width and matching one, two, three or more of them doesn't do any good.
+However the grouping and sequence metacharacters are perfect for being
+quantified. Let's first start with grouping. You can form groups, or subexpressions as they are frequently called, by using
+the begin and end parenthesis characters: ( and ) The ( starts the subexpression and the ) ends it. It is also possible to have one or more subexpressions inside a
+subexpressions. The subexpression will match if the contents match. So mixing
+this with quantifiers and assertions you can do: ( ?ho)+ which matches all of the following lines: ho ho ho ho ho ho hohoho Another use for subexpressions are to extract a portion of the match if it
+matches. This is often used in conjunction with sequences, which are discussed
+later. You can also use the result of a subexpression for what is called a back
+reference. A back reference is given by using a backslashified digit, a single
+non-zero digit. This leaves you with nine back references (0 through 9).  The
+back reference matches whatever the corresponding subexpression actually
+matched (except that { article_contents_1 } matches a null
+character). To find the number of the subexpression, count the open parentheses
+from the left. The uses for back references are somewhat limited, especially since you only
+have nine of them, but on some rare occasion you might need it. Note some regular expression implementations can use multi-digit numbers as long
+as they don't start with a 0. Next are alternations, which allow you to match on any of many words. The
+alternation character is: | A sample usage is: Bill|Linus|Steve|Larry would match either Bill, Linus, Steve or Larry.  Mixing this with subexpressions
+and quantifiers we can do: cow(ard|age|boy|l)? which matches any of the following words but no others: cow coward cowage cowboy cowl I mentioned earlier in the article that not all of the expression must match
+for the match to be successful. This can happen when you're using
+subexpressions together with alternations. For example: ((Donald|Dolly) Duck)|(Scrooge McDuck) As you see only the left or right top subexpression will match, not both. This
+is sometimes handy when you want to run a complex pattern in one subexpression
+and if it fails try another one. Sequences Last we have sequences, which define sequences of characters which can match.
+Sometimes you don't want to match a word directly but rather something that
+resembles one. The sequence characters are: [ and ] Any characters put inside the sequence brackets are treated as literal
+characters, even metacharacters. The only special characters are - which denotes character ranges, and ^ which is used to negate a sequence. The sequence is somewhat similar to
+alternation; the similarity is that only one of the items listed will match.
+For instance: [a-z] will match any lowercase characters which are in the English alphabet (a to z).
+Another common sequence is: [a-zA-Z0-9] Which matches any lowercase or capital characters in the English alphabet as
+well as numbers. Sequences are also mixed with quantifiers and assertions to
+produce more elaborate searches.  Example: <[a-zA-Z]+> matches all whole words. This will match: cow Linus regular expression but will not match: 200 x-files C++ Now if you wanted to find anything but words, the expression: [^a-zA-Z0-9]+ would find any sequences of characters which do not contain the English
+alphabet or any numbers. Some implementations of regular expressions allow you to use shorthand
+versions for commonly used sequences, they are: \d , a digit ( [0-9] ) \D , a non-digit ( [^0-9] ) \w , a word (alphanumeric) ( [a-zA-Z0-9] ) \W , a non-word ( [^a-zA-Z0-9] ) \s , a whitespace ( [ \t\n\r\f] ) \S , a non-whitespace ( [^ \t\n\r\f] ) Wildcards For people who have some knowledge with wildcards (also known as file globs or file globbing ), I'll give a brief explanation on how
+to convert them to regular expressions . After reading this article, you
+probably have seen the similarities with wildcards.  For instance: *.jpg matches any text which end with .jpg . You can also specify
+brackets with characters, as in: *.[ch]pp matches any text which ends in .cpp or .hpp . Altogether very similar to regular expressions. The * means match zero or more of anything in wildcards. As
+we learned, we do this is regular expression with the punctuation mark and the * quantifier. This gives: .* Also remember to convert any punctuation marks from wildcards to be
+backslashified. The ? means match any character but do match something . This is exactly what the punctuation mark does. Square brackets can be used untouched since they have the same meaning going
+from wildcards to regular expressions. These leaves us with: Replace any * characters with .* Replace any ? characters with . Leave square brackets as they are. Replace any characters which are metacharacters with a backslashified
+      version. Examples *.jpg would be converted to: .*\.jpg ez*.[ch]pp would convert to: ez.*\.[ch]pp or alternatively: ez.*\.(cpp|hpp) Example Regular Expressions To really get to know regular expressions I've left some commonly used
+expressions on this page. Study them, experiment and try to understand exactly
+what they are doing. Email validity: will only match email addresses which are valid, such as
+"user@host.com": [a-z0-9_-]+(\.[a-z0-9_-]+)*@[a-z0-9_-]+(\.[a-z0-9_-]+)+ Email validity #2: matches email addresses with a name in front, like "John
+Doe <user@host.com>": ("?[a-zA-Z]+"?[ \t]*)+\<[a-z0-9_-]+(\.[a-z0-9_-]+)*@[a-z0-9_-]+(\.[a-z0-9_-]+)+\> Protocol validity: matches web based protocols such as "htpp://",
+"ftp://" or "https://": [a-z]+:// C/C++ includes: matches valid include statements in C/C++ files: ^#include[ \t]+[<"][^>"]+[">] C++ end of line comments: //.+$ C/C++ span line comments (it has one flaw, can you spot it?): /\*[^*]*\*/ Floating point numbers: matches simple floating point numbers of the kind 1.2
+and 0.5: -?[0-9]+\.[0-9]+ Hexadecimal numbers: matches C/C++ style hex numbers, e.g. 0xcafebabe : 0x[0-9a-fA-F]+

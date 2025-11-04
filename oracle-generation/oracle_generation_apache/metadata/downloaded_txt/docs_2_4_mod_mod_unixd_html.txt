@@ -1,0 +1,34 @@
+mod_unixd - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_unixd Available Languages: en | fr | tr Description: Basic (required) security for Unix-family platforms. Status: Base ModuleÂ Identifier: unixd_module SourceÂ File: mod_unixd.c Directives ChrootDir Group Suexec User Bugfix checklist httpd changelog Known issues Report a bug See also suEXEC support Comments ChrootDir Directive Description: Directory for apache to run chroot(8) after startup. Syntax: ChrootDir /path/to/directory Default: none Context: server config Status: Base Module: mod_unixd Compatibility: Available in Apache 2.2.10 and later This directive tells the server to chroot(8) to the
+    specified directory after startup, but before accepting requests
+    over the 'net. Note that running the server under chroot is not simple,
+    and requires additional setup, particularly if you are running
+    scripts such as CGI or PHP.  Please make sure you are properly
+    familiar with the operation of chroot before attempting to use
+    this feature. Group Directive Description: Group under which the server will answer
+requests Syntax: Group unix-group Default: Group #-1 Context: server config Status: Base Module: mod_unixd The Group directive sets the group under
+    which the server will answer requests. In order to use this
+    directive, the server must be run initially as root . If
+    you start the server as a non-root user, it will fail to change to the
+    specified group, and will instead continue to run as the group of the
+    original user. Unix-group is one of: A group name Refers to the given group by name. # followed by a group number. Refers to a group by its number. Example Group www-group It is recommended that you set up a new group specifically for
+    running the server. Some admins use user nobody ,
+    but this is not always possible or desirable. Security Don't set Group (or User ) to root unless
+      you know exactly what you are doing, and what the dangers are. See also VHostGroup SuexecUserGroup Suexec Directive Description: Enable or disable the suEXEC feature Syntax: Suexec On|Off Default: On if suexec binary exists with proper owner and mode,
+Off otherwise Context: server config Status: Base Module: mod_unixd When On, startup will fail if the suexec binary doesn't exist
+    or has an invalid owner or file mode. When Off, suEXEC will be disabled even if the suexec binary exists
+    and has a valid owner and file mode. User Directive Description: The userid under which the server will answer
+requests Syntax: User unix-userid Default: User #-1 Context: server config Status: Base Module: mod_unixd The User directive sets the user ID as
+    which the server will answer requests. In order to use this
+    directive, the server must be run initially as root .
+    If you start the server as a non-root user, it will fail to change
+    to the lesser privileged user, and will instead continue to run as
+    that original user. If you do start the server as root ,
+    then it is normal for the parent process to remain running as root. Unix-userid is one of: A username Refers to the given user by name. # followed by a user number. Refers to a user by its number. The user should have no privileges that result in it being
+    able to access files that are not intended to be visible to the
+    outside world, and similarly, the user should not be able to
+    execute code that is not meant for HTTP requests. It is
+    recommended that you set up a new user and group specifically for
+    running the server. Some admins use user nobody , but
+    this is not always desirable, since the nobody user
+    can have other uses on the system. Security Don't set User (or Group ) to root unless
+      you know exactly what you are doing, and what the dangers are. See also VHostUser SuexecUserGroup Available Languages: en | fr | tr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

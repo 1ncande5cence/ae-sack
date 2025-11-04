@@ -1,0 +1,28 @@
+mod_cgid - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_cgid Available Languages: en | fr | ja | ko Description: Execution of CGI scripts using an
+    external CGI daemon Status: Base ModuleÂ Identifier: cgid_module SourceÂ File: mod_cgid.c Compatibility: Unix threaded MPMs only Summary Except for the optimizations and the additional ScriptSock directive noted below, mod_cgid behaves similarly to mod_cgi . See the mod_cgi summary for additional details
+    about Apache and CGI. On certain unix operating systems, forking a process from a
+    multi-threaded server is a very expensive operation because the
+    new process will replicate all the threads of the parent
+    process. In order to avoid incurring this expense on each CGI
+    invocation, mod_cgid creates an external daemon that is
+    responsible for forking child processes to run CGI scripts. The
+    main server communicates with this daemon using a unix domain
+    socket. This module is used by default instead of mod_cgi whenever a multi-threaded MPM
+    is selected during the compilation process. At the user level,
+    this module is identical in configuration and operation to mod_cgi . The only exception is the
+    additional directive ScriptSock which gives the
+    name of the socket to use for communication with the cgi
+    daemon. Directives CGIDScriptTimeout ScriptLog ScriptLogBuffer ScriptLogLength ScriptSock Bugfix checklist httpd changelog Known issues Report a bug See also mod_cgi Running CGI programs under different
+    user IDs Comments CGIDScriptTimeout Directive Description: The length of time to wait for more output from the
+CGI program Syntax: CGIDScriptTimeout time [s|ms] Default: value of Timeout directive when 
+unset or set to 0 Context: server config, virtual host, directory, .htaccess Status: Base Module: mod_cgid Compatibility: Available in httpd 2.4.10 and later; in prior releases no timeout was applied This directive limits the length of time to wait for more output from
+    the CGI program.  If the time is exceeded, the request and CGI are 
+    terminated. Example CGIDScriptTimeout 20 ScriptSock Directive Description: The filename prefix of the socket to use for communication with
+the cgi daemon Syntax: ScriptSock file-path Default: ScriptSock cgisock Context: server config Status: Base Module: mod_cgid This directive sets the filename prefix of the socket to use for
+    communication with the CGI daemon, an extension corresponding to
+    the process ID of the server will be appended. The socket will be opened
+    using the permissions of the user who starts Apache (usually
+    root). To maintain the security of communications with CGI
+    scripts, it is important that no other user has permission to
+    write in the directory where the socket is located. If file-path is not an absolute path, the location specified
+    will be relative to the value of DefaultRuntimeDir . Example ScriptSock /var/run/cgid.sock Available Languages: en | fr | ja | ko Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

@@ -1,0 +1,108 @@
+ProFTPD module mod_quotatab_sql ProFTPD module mod_quotatab_sql This mod_quotatab submodule is contained in the mod_quotatab_sql.c , and is found in the contrib/ area of the ProFTPD source distribution.  See the mod_quotatab installation instructions. This submodule provides the SQL database "driver" for storing quota
+table information in SQL tables. Author Please contact TJ Saunders <tj at castaglia.org> with any
+questions, concerns, or suggestions regarding this module. Thanks 2002-04-01 : Thanks to Tomasz Konefal <tomk at compt.com> for his great feedback and support in developing this module. 2002-04-03 : Thanks to Noah <sitz at onastick.net> for suggesting the better form of the UPDATE query. 2004-01-20 : Thanks to Alex Ursu <alex.ursu at wapda.com> for supplying SQL Server FREEFORM query syntax. SQL Quota Tables The mod_quotatab_sql module supports the "sql" string
+for the source-type parameter of the QuotaLimitTable and QuotaTallyTable configuration directives. If the "sql" source-type is used,
+then the source-info parameter must be as described below.  Note
+that support for SQL-based quota tables requires the use of mod_sql . mod_quotatab_sql requires five SQL-related configuration
+directives: SQLConnectInfo , and four SQLNamedQuery directives.  The SQLConnectInfo is needed to allow the module to
+connect to the SQL database.  The other four directives define the SQL queries
+that will be used by mod_quotatab for its storage/retrieval
+operations involving quota data. When using SQL tables and mod_sql , the quota tables should appear
+in the database named by the SQLConnectInfo directive, which
+will probably also contain the authentication information tables.  This way
+your proftpd -specific tables are kept together.  Also, it is
+probably better to use a connection policy of PERSESSION, otherwise there will
+be more overhead associated with each new connection made to the database for
+each transaction; mod_quotatab makes a lot of reads and writes to
+its tables, each of which will require mod_quotatab_sql to use a database connection. One SQLNamedQuery is needed to SELECT quota
+information from the limit table.  The defined SQL statement for this must return ten values, in the following order: name quota type quotas per session quota limit type upload limit in bytes download limit in bytes transfer limit in bytes upload limit in files download limit in files transfer limit in files A similar SQLNamedQuery is needed to SELECT quota
+information from the tally table; the SQL statement defined for this must return eight values, in the following order: name quota type upload tally in bytes download tally in bytes transfer tally in bytes upload tally in files download tally in files transfer tally in files The remaining two SQLNamedQuery directives are used to define the
+necessary UPDATE and INSERT operations on the
+tally table.  Failure to define any of the four required SQLNamedQuery directives will cause an error during mod_quotatab_sql 's operation. For SQL tables, the format for the QuotaLimitTable directive
+is: QuotaLimitTable sql:/ SELECT-SQLNamedQuery And, for the QuotaTallyTable directive: QuotaTallyTable sql:/ SELECT-SQLNamedQuery / UPDATE-SQLNamedQuery / INSERT-SQLNamedQuery Also note that SQL-based tally tables have an issue with proper synchronization
+of updates, especially when multiple sessions involving the same tally
+are ocurring.  In order to prevent the tally table from becoming out of
+sync, you are strongly encouraged to define a QuotaLock file. SQL Quota Tables Example Here are example SQLNamedQuery directives to help demonstrate
+how the mod_sql hooks are used by mod_quotatab .
+These example SQL statements assume the existence of two tables: a quotalimits table that defines limit records, and a quotatallies table that holds the current tally records.  Note
+that these queries would appear all on a single line in your proftpd.conf . SQLNamedQuery get-quota-limit SELECT "name, quota_type, per_session, limit_type, bytes_in_avail, \
+    bytes_out_avail, bytes_xfer_avail, files_in_avail, files_out_avail, files_xfer_avail FROM quotalimits \
+    WHERE name = '%{0}' AND quota_type = '%{1}'" This defines the SQL statement to return the required limit column values, in
+the necessary order.  The %{0} and %{1} meta
+sequences will be substituted with the name being looked up ( e.g. user
+name, primary group name, class name (if in effect), or the empty string) and
+the corresponding quota type ( e.g. "user", "group",
+"class", or "all"), respectively. SQLNamedQuery get-quota-tally SELECT "name, quota_type, bytes_in_used, bytes_out_used, \
+    bytes_xfer_used, files_in_used, files_out_used, files_xfer_used FROM quotatallies \
+    WHERE name = '%{0}' AND quota_type = '%{1}'" Very similar to the above example, the SQL statement defined here is for
+the tally table, rather than the limit table.  The meta sequences will
+be substituted with the same values as above. SQLNamedQuery update-quota-tally UPDATE "bytes_in_used = bytes_in_used + %{0}, \
+    bytes_out_used = bytes_out_used + %{1}, bytes_xfer_used = bytes_xfer_used + %{2}, \
+    files_in_used = files_in_used + %{3}, files_out_used = files_out_used + %{4}, \
+    files_xfer_used = files_xfer_used + %{5} \
+    WHERE name = '%{6}' AND quota_type = '%{7}'" quotatallies This SQL statement is used to update the tally table with the current tally
+values for the session.  The meta sequences will be substituted with the
+"deltas", the difference in the known versus current tallies.
+The reason for forming the UPDATE query this way is to provide as atomic
+an update operation as possible; this query will update the current values
+in the table at the time of the update, in order that any race condition
+between a SELECT and an UPDATE query on that information be reduced to
+as small a window as possible. SQLNamedQuery insert-quota-tally INSERT "%{0}, %{1}, %{2}, %{3}, %{4}, %{5}, %{6}, %{7}" quotatallies This last SQL statement is used to create a new tally record, in the
+event that a limit record is found for the current session but no matching
+tally record is found.  The meta sequences will be substituted with:
+name, quota type, upload tally in bytes, download tally in bytes, transfer
+tally in bytes, upload tally in files, download tally in files, and transfer
+tally in files, in that order.  These values are initialized to zero for
+newly-created tally records by default. Note : SQL Server uses a slightly different INSERT syntax.  This means
+that if you are using mod_quotatab_sql in conjunction with the mod_sql_tds module to speak to a SQL Server, your INSERT
+query may need to look like: SQLNamedQuery insert-quota-tally FREEFORM \
+    "INSERT INTO quotatallies VALUES ('%{0}','%{1}','%{2}','%{3}','%{4}','%{5}','%{6}','%{7}')" Now, using the above defined queries, the table configuration directives would
+be: QuotaLock /var/run/ftpd/tally.lock
+  QuotaLimitTable sql:/get-quota-limit
+  QuotaTallyTable sql:/get-quota-tally/update-quota-tally/insert-quota-tally Example Schema Here are some example table schema for SQL-based quota tables: Limit table MySQL example : CREATE TABLE quotalimits (
+      name VARCHAR(30),
+      quota_type ENUM("user", "group", "class", "all") NOT NULL,
+      per_session ENUM("false", "true") NOT NULL,
+      limit_type ENUM("soft", "hard") NOT NULL,
+      bytes_in_avail FLOAT NOT NULL,
+      bytes_out_avail FLOAT NOT NULL,
+      bytes_xfer_avail FLOAT NOT NULL,
+      files_in_avail INT UNSIGNED NOT NULL,
+      files_out_avail INT UNSIGNED NOT NULL,
+      files_xfer_avail INT UNSIGNED NOT NULL
+    ); Postgres example : CREATE TABLE quotalimits (
+       name VARCHAR(32) NOT NULL,
+       quota_type VARCHAR(8) NOT NULL
+         CHECK (quota_type IN ('user', 'group', 'class', 'all')),
+       per_session BOOLEAN NOT NULL,
+       limit_type VARCHAR(4) NOT NULL
+         CHECK (limit_type IN ('soft', 'hard')),
+       bytes_in_avail FLOAT NOT NULL,
+       bytes_out_avail FLOAT NOT NULL,
+       bytes_xfer_avail FLOAT NOT NULL,
+       files_in_avail INT8 NOT NULL,
+       files_out_avail INT8 NOT NULL,
+       files_xfer_avail INT8 NOT NULL
+    ); Tally table MySQL example : CREATE TABLE quotatallies (
+      name VARCHAR(30) NOT NULL,
+      quota_type ENUM("user", "group", "class", "all") NOT NULL,
+      bytes_in_used FLOAT NOT NULL,
+      bytes_out_used FLOAT NOT NULL,
+      bytes_xfer_used FLOAT NOT NULL,
+      files_in_used INT UNSIGNED NOT NULL,
+      files_out_used INT UNSIGNED NOT NULL,
+      files_xfer_used INT UNSIGNED NOT NULL
+    ); Postgres example : CREATE TABLE quotatallies (
+      name VARCHAR(32) NOT NULL,
+      quota_type VARCHAR(8) NOT NULL
+        CHECK (quota_type IN ('user','group','class','all')),
+      bytes_in_used FLOAT NOT NULL,
+      bytes_out_used FLOAT NOT NULL,
+      bytes_xfer_used FLOAT NOT NULL,
+      files_in_used INT8 NOT NULL,
+      files_out_used INT8 NOT NULL,
+      files_xfer_used INT8 NOT NULL
+    ); mod_quotatab_sql treats any number zero or less for a bytes limit as "unlimited".  Similarly, it treats a value of zero for any of the files limit s as "unlimited".
+"Unlimited" values are ignored, in that any limit that is
+"unlimited" is not used in any of mod_quotatab 's
+calculations. NULL values should be avoided whenever possible. © Copyright 2000-2017 TJ Saunders All Rights Reserved

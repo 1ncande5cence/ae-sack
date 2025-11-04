@@ -1,0 +1,40 @@
+mod_log_forensic - Apache HTTP Server Version 2.4 Modules | Directives | FAQ | Glossary | Sitemap Apache HTTP Server Version 2.4 Apache > HTTP Server > Documentation > Version 2.4 > Modules Apache Module mod_log_forensic Available Languages: en | fr | ja | tr Description: Forensic Logging of the requests made to the server Status: Extension ModuleÂ Identifier: log_forensic_module SourceÂ File: mod_log_forensic.c Compatibility: mod_unique_id is no longer required since
+version 2.1 Summary This module provides for forensic logging of client
+    requests. Logging is done before and after processing a request, so the
+    forensic log contains two log lines for each request.
+    The forensic logger is very strict, which means: The format is fixed. You cannot modify the logging format at
+    runtime. If it cannot write its data, the child process
+    exits immediately and may dump core (depending on your CoreDumpDirectory configuration). The check_forensic script, which can be found in the
+    distribution's support directory, may be helpful in evaluating the
+    forensic log output. Topics Forensic Log Format Security Considerations Directives ForensicLog Bugfix checklist httpd changelog Known issues Report a bug See also Apache Log Files mod_log_config Comments Forensic Log Format Each request is logged two times. The first time is before it's
+    processed further (that is, after receiving the headers). The second log
+    entry is written after the request processing at the same time
+    where normal logging occurs. In order to identify each request, a unique request ID is assigned.
+    This forensic ID can be cross logged in the normal transfer log using the %{forensic-id}n format string. If you're using mod_unique_id , its generated ID will be used. The first line logs the forensic ID, the request line and all received
+    headers, separated by pipe characters ( | ). A sample line
+    looks like the following (all on one line): +yQtJf8CoAB4AAFNXBIEAAAAA|GET /manual/de/images/down.gif
+        HTTP/1.1|Host:localhost%3a8080|User-Agent:Mozilla/5.0 (X11;
+        U; Linux i686; en-US; rv%3a1.6) Gecko/20040216
+        Firefox/0.8|Accept:image/png, etc... The plus character at the beginning indicates that this is the first log
+    line of this request. The second line just contains a minus character and
+    the ID again: -yQtJf8CoAB4AAFNXBIEAAAAA The check_forensic script takes as its argument the name
+    of the logfile. It looks for those + / - ID pairs
+    and complains if a request was not completed. Security Considerations See the security tips document for details on why your security could be compromised
+    if the directory where logfiles are stored is writable by
+    anyone other than the user that starts the server. The log files may contain sensitive data such as the contents of Authorization: headers (which can contain passwords), so
+    they should not be readable by anyone except the user that starts the
+    server. ForensicLog Directive Description: Sets filename of the forensic log Syntax: ForensicLog filename | pipe Context: server config, virtual host Status: Extension Module: mod_log_forensic The ForensicLog directive is used to
+    log requests to the server for forensic analysis. Each log entry
+    is assigned a unique ID which can be associated with the request
+    using the normal CustomLog directive. mod_log_forensic creates a token called forensic-id , which can be added to the transfer log
+    using the %{forensic-id}n format string. The argument, which specifies the location to which
+    the logs will be written, can take one of the following two
+    types of values: filename A filename, relative to the ServerRoot . pipe The pipe character " | ", followed by the path
+      to a program to receive the log information on its standard
+      input. The program name can be specified relative to the ServerRoot directive. Security: If a program is used, then it will be run as the user who
+      started httpd . This will be root if the server was
+      started by root; be sure that the program is secure or switches to a
+      less privileged user. Note When entering a file path on non-Unix platforms, care should be taken
+        to make sure that only forward slashes are used even though the platform
+        may allow the use of back slashes. In general it is a good idea to always
+        use forward slashes throughout the configuration files. Available Languages: en | fr | ja | tr Comments Notice: This is not a Q&A section. Comments placed here should be pointed towards suggestions on improving the documentation or server, and may be removed by our moderators if they are either implemented or considered invalid/off-topic. Questions on how to manage the Apache HTTP Server should be directed at either our IRC channel, #httpd, on Libera.chat, or sent to our mailing lists . Copyright 2025 The Apache Software Foundation. Licensed under the Apache License, Version 2.0 . Modules | Directives | FAQ | Glossary | Sitemap

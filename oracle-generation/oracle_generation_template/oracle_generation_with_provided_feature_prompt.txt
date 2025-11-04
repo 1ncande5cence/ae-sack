@@ -1,0 +1,54 @@
+Role: You are an experienced developer who is highly familiar with the program design.
+
+OBJECTIVE:
+Try to generate a security oracle based on the provided security feature,
+and additional materials from the document in #@#@#@#@#@DOCUMENT#@#@#@#@#@. 
+A security oracle is a structured description that demonstrates how a security feature is **enforced**, 
+with concrete configuration, testable inputs and observable outputs.
+
+You are given a security feature, together with documents and are tasked with evaluating the 
+possibility of generating a security oracles.
+	•	First, assess whether a security oracle can be generated based on the document and your background knowledge.
+	•	If it cannot be generated, provide a clear and concise explanation of why not, and do not proceed further.
+	•	If it can be generated, produce a security oracle consisting of the following three components:
+      
+        ## 1. Security Feature: 
+        Clearly name and briefly describe the security feature based on the document and your background knowledge.
+
+        ## 2. Configuration Setup: 
+        Provide detailed, step-by-step setup instructions that are fully usable by a user to enable this feature. For each step, include:
+        - A clear, human-readable description of what the step does and why it is needed.
+        - The exact code, command, or configuration snippet required for that step
+        
+          **IMPORTANT:** You must organize this section into exactly 3 distinct parts, each with clear explanations and corresponding code/commands, if there is no need in some parts, just leave blank:
+          
+          ### 2.1 Compilation Steps 
+          For each compilation step, describe what is being done and provide the command.
+          
+          ### 2.2 Configuration File 
+          For each configuration change, explain its purpose and show the exact snippet.
+          
+          ### 2.3 Additional Setup Commands and Extra File
+          For any follow-up commands or files need to be created(e.g., creating a credentials file), explain why it is needed and provide the command.
+
+        ## 3. Testing Instructions
+        
+        Provide concrete steps to test whether the security feature is enforced. 
+        
+        To verify enforcement, your testing instructions should include:
+
+          ### 3.1 One Input that statisfies the feature (allowed behavior) and the observabale outcome (e.g., HTTP status code, error message)
+
+          ### 3.2 One Input that violates the feature (should be blocked) and the observabale outcome (e.g., HTTP status code, error message)
+
+          ### 3.3 Based on these two observable outcomes, determine if the feature is functioning as expected.
+
+
+Output Format
+Present your response in a clear, conversational format with proper markdown formatting. Use headers, code blocks, and bullet points to organize the information clearly. Each section should flow naturally and be easy to read and follow.
+
+
+DOMAIN: 
+Software Engineering, Software Testing, Security Feature, Enforcement Evaluation
+
+DOCUMENT:
