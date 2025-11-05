@@ -8,11 +8,47 @@ Otherwise, we use minimal test cases that exercise basic program functionality.
 For the same program, the indirect call triggered through different oracles can be merged together to represent
 the sub-ground truth indirect call targets. As different oracle input targets at different features of the programs.
 
-As discussed above, we take two ways to collect icall targets, reviewers can select any of them to reproduce the process of
+As discussed above, for each target programs, we take one of the two ways to collect icall targets, you can test on any target programs reproduce the process of
 target collector.
 
+Detailed collection method:
+
+Nginx - minimal test cases
+SQLite3 - official test suites
+ProFTPD - minimal test cases
+Sudo - minimal test cases
+Apache - minimal test cases
+Wireshark - minimal test cases
+V8 - minimal test cases
+
+General theory of indirect call target collection:
+1. After instrumentation, when dynamic running the target program and trigger indirect call, indirect call pairs (ID and target address) will be recored in /log/address_log,
+2. Different input will trigger different address_log, we collect these address_log and store in log/subgt-extract/ folder, during substitution, the attack engine will leverage the address_log in log/subgt-extract as sub-ground truth
+3. For different oracles of the same programs, it is able to merge the result together and serve as the ground truth for this program to increase the sub-ground truth, so, we have merging scripts that can turn address_log of each oracle in to a json file, then merge these json file to generate the sub-ground truth json file for the program. 
+
+
+the json file in /ae-sack/subgt/ folder is the result after the above process, with input to reproduce them in the /ae-sack/script/{target_program}/{target_oracle}/subgt_collection.md. 
+
+For example, to collect sub-ground truth targets for Nginx, you should do the following 
+
+1. go to each programs location and follow subgt_collection.md to run the program with one or two input, and put the address_log in the corresponding folder
+2. use /ae-sack/tools/address_to_json.py to conver these address_log into json file
+3. use /ae-sack/tools/merge_json.py to merge the json files from each oracle in nginx into one json file
+4. use /ae-sack/tools/subgt_addresslog_gen.py to conver the final json file in to address_log in log/subgt-extract/ folder
+
+Since the process involves many human operations like use test cases, collect indirect call targets and merge results. 
+We design two simple experiment so that you can quickly know the process and confirm the result.
+For collection method using minimal test cases, we select nginx/n1_auth oracle, 
+as the targets collected from this oracle can already reproduce all the attack we find for this oracles, 
+therefore reduce the effort to merge other oracles in nginx.
+
+For collection method using official test suites, we describe the method we use for SQLite3.
+
+
+
+
 1) use minimal test cases 
-For rest of the programs, we use minimal test cases that exercise basic program functionality,
+For most of the tested programs (except SQLite3), we use minimal test cases that exercise basic program functionality,
 we use subgt_collection.md in each oracle to represent how to collect the targets.
 
 Here is an example about how to collect the indirect call targets and use it as sub-ground truth
