@@ -1,0 +1,19 @@
+# Script for Proftpd user-privilege P3
+
+# -------------------- do substitution --------------------------------------
+# in ./bin_oracle3_user_priv folder
+# terminal 1
+# python3 ftpreq_STOR.py
+
+# terminal 2
+# export AFL_NO_AFFINITY=1
+# export SACK=/ae-sack
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /target/proftpd/proftpd-priv/bin_oracle3_user_priv/proftpd.conf -d 5 -X
+
+# when substitution finish, stop the python script
+
+# -------------------- result analysis --------------------------------------
+
+# use analyze.sh at the ./bin_oracle3_user_priv folder
+
+# the result is in the result.*/ folder report_satisfied.txt

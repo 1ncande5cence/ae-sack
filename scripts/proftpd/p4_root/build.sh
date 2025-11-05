@@ -65,4 +65,4 @@ mkdir oracle
 
 # use analyze.sh at the bin_auth_required folder
 
-# the result is in the result.*/ folder report_unique.txt
+# the result is in the result.*/ folder report_satisfied.txt

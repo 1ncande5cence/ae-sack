@@ -67,6 +67,6 @@ mkdir oracle
 
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the bin_safemode folder
+# use analyze.sh at the ./bin folder
 
-# the result is in the result.*/ folder report_unique.txt
+# the result is in the result.*/ folder report_satisfied.txt

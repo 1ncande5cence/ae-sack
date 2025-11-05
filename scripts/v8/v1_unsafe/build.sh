@@ -64,5 +64,5 @@ objdump -d ./d8.fuzz | grep ">:" > ./log/func_map
 
 # use analyze.sh at the bin_safemode folder
 
-# the result is in the result.*/ folder report_unique.txt
+# the result is in the result.*/ folder report_satisfied.txt
 
