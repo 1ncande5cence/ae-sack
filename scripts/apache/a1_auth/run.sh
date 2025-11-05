@@ -1,5 +1,10 @@
 # Script for Apache authentication A1
 
+# -------------------- copy necessary configuration ------------------------------------
+
+# export SACK=/ae-sack
+# cp $SACK/scripts/apache/a1_auth/httpd.conf /usr/local/apache2/conf/
+# cp $SACK/scripts/apache/a1_auth/httpd.conf /usr/local/apache2/conf.bak/
 
 # -------------------- first dry-run to collect target ------------------------------------
 

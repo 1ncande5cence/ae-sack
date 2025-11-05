@@ -1,5 +1,12 @@
 # Script for Apache WAF A2
 
+# -------------------- copy necessary configuration ------------------------------------
+
+# export SACK=/ae-sack
+# cp $SACK/scripts/apache/a2_waf/httpd.conf /usr/local/apache2/conf/
+# cp $SACK/scripts/apache/a2_waf/httpd.conf /usr/local/apache2/conf.bak/
+
+
 # -------------------- first dry-run to collect target ------------------------------------
 
 # ./httpd.fuzz -X -d /usr/local/apache2

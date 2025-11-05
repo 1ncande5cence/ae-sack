@@ -1,5 +1,12 @@
 # Script for Apache blocking A5
 
+# -------------------- copy necessary configuration ------------------------------------
+
+# export SACK=/ae-sack
+# cp $SACK/scripts/apache/a5_block/httpd.conf /usr/local/apache2/conf/
+# cp $SACK/scripts/apache/a5_block/httpd.conf /usr/local/apache2/conf.bak/
+
+
 # -------------------- first dry-run to collect target ------------------------------------
 
 # ./httpd.fuzz -X -d /usr/local/apache2

@@ -8,6 +8,7 @@
 # terminal 2
 # export AFL_NO_AFFINITY=1
 # export SACK=/ae-sack
+# cp $SACK/scripts/proftpd/p2_limit/proftpd.conf /tmp/
 # $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /tmp/proftpd.conf -d 5 -X
 
 # when substitution finish, stop the python script
