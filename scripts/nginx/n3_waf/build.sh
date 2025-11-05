@@ -35,7 +35,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 
 
 # -------------------- do substitution --------------------------------------
-# in bin/sbin/ folder
+# in ./bin/sbin/ folder
 
 # terminal 1 
 # python3 send_request_waf.py
@@ -48,6 +48,6 @@ python3 subgt_addresslog_gen.py ./subgt.json
 
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the bin/sbin/ folder
+# use analyze.sh at the ./bin/sbin/ folder
 
-# the result is in the result.*/ folder report_unique.txt
+# the result is in the result.*/ folder report_satisfied.txt

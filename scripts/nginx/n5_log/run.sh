@@ -1,0 +1,21 @@
+# Script for Nginx logging N5
+
+# -------------------- build project with wllvm --------------------------------
+
+# in ./bin/sbin/ folder
+
+# terminal 1 
+# python3 send_request_log.py
+
+# terminal 2
+# export AFL_NO_AFFINITY=1
+# export SACK=/ae-sack
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
+
+# when substitution finish, stop the python script
+
+# -------------------- result analysis --------------------------------------
+
+# use analyze.sh at the ./bin/sbin/ folder
+
+# the result is in the result.*/ folder report_satisfied.txt

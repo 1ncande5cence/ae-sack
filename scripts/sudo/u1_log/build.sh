@@ -57,6 +57,6 @@ mv log/address_log log/subgt-extract/success_log
 
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the bin/sbin/ folder
+# use analyze.sh at the ./bin/sbin/ folder
 
-# the result is in the result.*/ folder report_unique.txt
+# the result is in the result.*/ folder report_satisfied.txt

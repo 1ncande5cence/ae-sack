@@ -52,6 +52,6 @@ cp $SACK/scripts/wireshark/w1_malform/benign.pcap .
 
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the bin/sbin/ folder
+# use analyze.sh at the ./bin/sbin/ folder
 
-# the result is in the result.*/ folder report_unique.txt
+# the result is in the result.*/ folder report_satisfied.txt

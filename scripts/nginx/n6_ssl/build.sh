@@ -34,7 +34,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 
 
 # -------------------- do substitution --------------------------------------
-# in bin/sbin/ folder
+# in ./bin/sbin/ folder
 
 # terminal 1 
 # python3 send_request_https.py
@@ -44,6 +44,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 # export SACK=/ae-sack
 # $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
+# when substitution finish, stop the python script
 # terminal 3
 # ngrep -W byline -d lo -t '' 'port 80 or port 443' >log/sniff_log
 

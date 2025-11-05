@@ -36,12 +36,13 @@ Run or follow the following commands in the corresponding runtime folder.
    This is optional because our docker image already pre-build the target programs.
 
 2. **Run the Attack Engine**  
-   Follow the script `run.sh` to start the attack engine, we don't make it executable script because some programs rely on the interaction with the request sender and the sequence is important.
+   Follow the instruction and the desired location in `run.sh` to start the attack engine, we don't make it an executable script because some programs rely on the interaction with the request sender and the sequence is important.
    ```bash
    /ae-sack/scripts/{target_program}/{target_oracle}/run.sh
    ```
 
-3. **Collect and Analyze Results**  
+3. **Collect and Analyze Results**
+   Follow the instruction about the location to use `analyze.sh` in `run.sh`, use it at the correct location.  
    ```bash
    /ae-sack/scripts/{target_program}/{target_oracle}/analyze.sh
    ```

@@ -33,7 +33,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 # -------------------- corpus is copied through copy_tools.sh ------------------------------------
 
 # -------------------- do substitution --------------------------------------
-# in bin/sbin/ folder
+# in ./bin/sbin/ folder
 
 # terminal 1 
 # python3 send_request_log.py
@@ -43,8 +43,9 @@ python3 subgt_addresslog_gen.py ./subgt.json
 # export SACK=/ae-sack
 # $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
+# when substitution finish, stop the python script
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the bin/sbin/ folder
+# use analyze.sh at the ./bin/sbin/ folder
 
-# the result is in the result.*/ folder report_unique.txt
+# the result is in the result.*/ folder report_satisfied.txt
