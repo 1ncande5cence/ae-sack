@@ -54,19 +54,8 @@ endif
 # Menu target (override MAP_SIZE var; do NOT append a new -DMAP_SIZE)
 .PHONY: choose
 choose:
-	@echo "Select build profile (MAP_SIZE):"
-	@echo "1) Default (MAP_SIZE=65536)"
-	@echo "2) Large   (MAP_SIZE=172000) [Wireshark, Chrome]"
-	@read choice; \
-	if [ $$choice -eq 1 ]; then \
 	  $(MAKE) clean; \
 	  $(MAKE) all MAP_SIZE=65536; \
-	elif [ $$choice -eq 2 ]; then \
-	  $(MAKE) clean; \
-	  $(MAKE) all MAP_SIZE=172000; \
-	else \
-	  echo "Invalid choice"; \
-	fi
 
 all: test_deps $(PROGS) test_build all_done
 

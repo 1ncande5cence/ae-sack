@@ -19,19 +19,9 @@ MAP_SIZE   ?= 65536
 # Menu target
 .PHONY: choose
 choose:
-	@echo "Select build profile:"
-	@echo "1) Default / Small (MAX_BRANCH=65536, MAP_SIZE=65536)"
-	@echo "2) Large   (MAX_BRANCH=172000, MAP_SIZE=172000) [Wireshark, Chrome]"
-	@read choice; \
-	if [ $$choice -eq 1 ]; then \
 	  $(MAKE) clean; \
 	  $(MAKE) all CFLAGS="$(CFLAGS) -DMAP_SIZE=65536"; \
-	elif [ $$choice -eq 2 ]; then \
-	  $(MAKE) clean; \
-	  $(MAKE) all CFLAGS="$(CFLAGS) -DMAP_SIZE=172000"; \
-	else \
-	  echo "Invalid choice"; \
-	fi
+
 
 PROGNAME    = afl
 VERSION     = $(shell grep '^\#define VERSION ' config.h | cut -d '"' -f2)
