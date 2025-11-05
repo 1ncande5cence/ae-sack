@@ -393,7 +393,7 @@ bool AFLCoverage::runOnModule(Module &M) {
           //Function * calledF = CI->getCalledFunction();
           if (calledF==nullptr) { 
             // HY: mute print
-            errs() <<"Found invoke indirect call" << "\n";
+            //errs() <<"Found invoke indirect call" << "\n";
             IRBuilder<> builder(II);
 
             /* Debug Code */
@@ -406,7 +406,7 @@ bool AFLCoverage::runOnModule(Module &M) {
                     // Your code when "asm" is found in the instruction
                     // Do something here
                     errs() << "Found asm in the instruction\n";
-                    errs() << "Inst:" << InstrStr << "\n";
+                    //errs() << "Inst:" << InstrStr << "\n";
                     continue;
                 }
               
@@ -462,7 +462,7 @@ bool AFLCoverage::runOnModule(Module &M) {
                     // Your code when "asm" is found in the instruction
                     // Do something here
                     errs() << "Found asm in the instruction\n";
-                    errs() << "Inst:" << InstrStr << "\n";
+                    //errs() << "Inst:" << InstrStr << "\n";
                     continue;
               }
               // errs() << "Found icall\n";
@@ -536,8 +536,8 @@ bool AFLCoverage::runOnModule(Module &M) {
               if (pattern.match(StringRef(InstrStr))) {
                     // Your code when "asm" is found in the instruction
                     // Do something here
-                    errs() << "(icall recording) Unknown calltype in the instruction, continue\n";
-                    errs() << "Inst:" << InstrStr << "\n";
+                    //errs() << "(icall recording) Unknown calltype in the instruction, continue\n";
+                    //errs() << "Inst:" << InstrStr << "\n";
                     continue;
                 }
 
@@ -598,8 +598,8 @@ bool AFLCoverage::runOnModule(Module &M) {
               if (pattern.match(StringRef(InstrStr))) {
                     // Your code when "asm" is found in the instruction
                     // Do something here
-                    errs() << "(icall load instrument) Unknown calltype in the instruction, continue\n";
-                    errs() << "Inst:" << InstrStr << "\n";
+                    //errs() << "(icall load instrument) Unknown calltype in the instruction, continue\n";
+                    //errs() << "Inst:" << InstrStr << "\n";
                     continue;
                 }
 
@@ -607,7 +607,7 @@ bool AFLCoverage::runOnModule(Module &M) {
               std::string InstrStr2;
               llvm::raw_string_ostream OS2(InstrStr2);
               CI->print(OS2);  // or I.print(OS) – both are fine here
-              errs() << "Indirect call instruction: " << OS2.str() << "\n";
+              //errs() << "Indirect call instruction: " << OS2.str() << "\n";
               
               // Check if the called value is loaded from a pointer
               Value *calledValue = CI->getCalledOperand();
@@ -616,12 +616,12 @@ bool AFLCoverage::runOnModule(Module &M) {
               ValueSet loadset;
               find_LoadInst(calledValue, &loadset);
               
-              if (!loadset.empty()) {
-                  errs() << "loadset size: " << loadset.size() << "\n";
-              }
-              else {
-                  errs() << "loadset ICALL LoadInst Not Found\n";
-              }
+              // if (!loadset.empty()) {
+              //     errs() << "loadset size: " << loadset.size() << "\n";
+              // }
+              // else {
+              //     errs() << "loadset ICALL LoadInst Not Found\n";
+              // }
 
               for (auto ldInst : loadset) {
 
@@ -667,7 +667,9 @@ bool AFLCoverage::runOnModule(Module &M) {
                       }
                   }
                   else
-                    errs() << "ICALL LoadInst Not Found\n";
+                    {
+                      //errs() << "ICALL LoadInst Not Found\n";
+                    }
               }
           }
         
