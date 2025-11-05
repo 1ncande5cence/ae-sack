@@ -1,0 +1,5054 @@
+[
+  {
+    "line": "shell.c:9981",
+    "id": "26",
+    "targets": [
+      "unixOpen"
+    ]
+  },
+  {
+    "line": "shell.c:9987",
+    "id": "27",
+    "targets": [
+      "unixOpen"
+    ]
+  },
+  {
+    "line": "shell.c:9989",
+    "id": "28",
+    "targets": [
+      "unixFileSize"
+    ]
+  },
+  {
+    "line": "shell.c:10032",
+    "id": "31",
+    "targets": [
+      "unixDelete"
+    ]
+  },
+  {
+    "line": "shell.c:10044",
+    "id": "32",
+    "targets": [
+      "unixAccess"
+    ]
+  },
+  {
+    "line": "shell.c:10052",
+    "id": "33",
+    "targets": [
+      "unixFullPathname"
+    ]
+  },
+  {
+    "line": "shell.c:9952",
+    "id": "46",
+    "targets": [
+      "unixRead"
+    ]
+  },
+  {
+    "line": "shell.c:9905",
+    "id": "47",
+    "targets": [
+      "unixRead",
+      "apndRead"
+    ]
+  },
+  {
+    "line": "shell.c:9932",
+    "id": "48",
+    "targets": [
+      "unixRead"
+    ]
+  },
+  {
+    "line": "shell.c:9686",
+    "id": "49",
+    "targets": [
+      "unixClose"
+    ]
+  },
+  {
+    "line": "shell.c:9700",
+    "id": "50",
+    "targets": [
+      "unixRead"
+    ]
+  },
+  {
+    "line": "shell.c:9749",
+    "id": "51",
+    "targets": [
+      "unixWrite"
+    ]
+  },
+  {
+    "line": "shell.c:9769",
+    "id": "53",
+    "targets": [
+      "unixSync"
+    ]
+  },
+  {
+    "line": "shell.c:9787",
+    "id": "54",
+    "targets": [
+      "unixLock"
+    ]
+  },
+  {
+    "line": "shell.c:9795",
+    "id": "55",
+    "targets": [
+      "unixUnlock"
+    ]
+  },
+  {
+    "line": "shell.c:9814",
+    "id": "57",
+    "targets": [
+      "unixFileControl"
+    ]
+  },
+  {
+    "line": "shell.c:9834",
+    "id": "59",
+    "targets": [
+      "unixDeviceCharacteristics"
+    ]
+  },
+  {
+    "line": "shell.c:9724",
+    "id": "66",
+    "targets": [
+      "unixWrite"
+    ]
+  },
+  {
+    "line": "shell.c:19290",
+    "id": "102",
+    "targets": [
+      "recoverSqlCb"
+    ]
+  },
+  {
+    "line": "shell.c:20717",
+    "id": "104",
+    "targets": [
+      "unixRead"
+    ]
+  },
+  {
+    "line": "shell.c:20771",
+    "id": "105",
+    "targets": [
+      "unixFileSize"
+    ]
+  },
+  {
+    "line": "shell.c:20862",
+    "id": "113",
+    "targets": [
+      "unixFileSize"
+    ]
+  },
+  {
+    "line": "shell.c:20867",
+    "id": "115",
+    "targets": [
+      "unixLock"
+    ]
+  },
+  {
+    "line": "shell.c:20872",
+    "id": "117",
+    "targets": [
+      "unixUnlock"
+    ]
+  },
+  {
+    "line": "shell.c:20882",
+    "id": "121",
+    "targets": [
+      "unixFileControl"
+    ]
+  },
+  {
+    "line": "shell.c:20892",
+    "id": "125",
+    "targets": [
+      "unixDeviceCharacteristics"
+    ]
+  },
+  {
+    "line": "shell.c:20682",
+    "id": "135",
+    "targets": [
+      "unixRead"
+    ]
+  },
+  {
+    "line": "shell.c:29137",
+    "id": "136",
+    "targets": [
+      "csv_read_one_field"
+    ]
+  },
+  {
+    "line": "shell.c:29147",
+    "id": "137",
+    "targets": [
+      "csv_read_one_field"
+    ]
+  },
+  {
+    "line": "shell.c:29253",
+    "id": "138",
+    "targets": [
+      "ascii_read_one_field",
+      "csv_read_one_field"
+    ]
+  },
+  {
+    "line": "shell.c:29284",
+    "id": "139",
+    "targets": [
+      "csv_read_one_field"
+    ]
+  },
+  {
+    "line": "shell.c:25966",
+    "id": "142",
+    "targets": [
+      "fclose",
+      "pclose"
+    ]
+  },
+  {
+    "line": "shell.c:26260",
+    "id": "143",
+    "targets": [
+      "tryToCloneData"
+    ]
+  },
+  {
+    "line": "sqlite3.c:29276",
+    "id": "N/A",
+    "targets": [
+      "pthreadMutexEnter",
+      "wrMutexEnter",
+      "counterMutexEnter"
+    ]
+  },
+  {
+    "line": "sqlite3.c:29302",
+    "id": "N/A",
+    "targets": [
+      "pthreadMutexLeave",
+      "stmtrandFunc",
+      "wrMutexLeave",
+      "counterMutexLeave"
+    ]
+  },
+  {
+    "line": "sqlite3.c:32694",
+    "id": "N/A",
+    "targets": [
+      "shellLog",
+      "xLogcallback"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30866",
+    "id": "N/A",
+    "targets": [
+      "sqlite3MemFree",
+      "totypeAtoF",
+      "wrMemFree"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30813",
+    "id": "N/A",
+    "targets": [
+      "sqlite3MemSize",
+      "tointegerFunc",
+      "wrMemSize"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30847",
+    "id": "N/A",
+    "targets": [
+      "sqlite3MemSize"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30703",
+    "id": "N/A",
+    "targets": [
+      "sqlite3MemRoundup",
+      "stmtrandFunc",
+      "torealFunc",
+      "wrMemRoundup"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30723",
+    "id": "N/A",
+    "targets": [
+      "sqlite3MemMalloc",
+      "stmtrandFunc",
+      "totypeAtoF",
+      "torealFunc",
+      "faultsimMalloc",
+      "wrMemMalloc"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30990",
+    "id": "N/A",
+    "targets": [
+      "sqlite3MemRoundup",
+      "tointegerFunc",
+      "totypeDoubleToInt"
+    ]
+  },
+  {
+    "line": "sqlite3.c:31007",
+    "id": "N/A",
+    "targets": [
+      "sqlite3MemRealloc",
+      "sqlite3ExprCanBeNull",
+      "lookupName",
+      "faultsimRealloc"
+    ]
+  },
+  {
+    "line": "sqlite3.c:83213",
+    "id": "N/A",
+    "targets": [
+      "sqlite3_free",
+      "free_test_auxdata",
+      "sqlite3RCStrUnref",
+      "zipfileFree"
+    ]
+  },
+  {
+    "line": "sqlite3.c:83492",
+    "id": "N/A",
+    "targets": [
+      "sqlite3_free",
+      "sqlite3VdbeFrameMemDel",
+      "sqlite3RCStrUnref",
+      "statAccumDestructor",
+      "sqlite3RowSetDelete",
+      "sqlite3VdbeValueListFree",
+      "carrayBindDel",
+      "destructor",
+      "sqlite3NoopDestructor",
+      "zipfileFree"
+    ]
+  },
+  {
+    "line": "sqlite3.c:83439",
+    "id": "N/A",
+    "targets": [
+      "countFinalize",
+      "minMaxFinalize",
+      "avgFinalize",
+      "groupConcatFinalize",
+      "totalFinalize",
+      "md5finalize",
+      "row_numberValueFunc",
+      "t1CountFinalize",
+      "sumFinalize",
+      "jsonArrayFinal",
+      "decimalSumFinalize",
+      "legacyCountFinalize",
+      "jsonObjectFinal",
+      "percentFinal",
+      "ntileValueFunc",
+      "rankValueFunc",
+      "cume_distValueFunc",
+      "dense_rankValueFunc",
+      "percent_rankValueFunc",
+      "last_valueFinalizeFunc",
+      "nth_valueFinalizeFunc",
+      "first_valueFinalizeFunc",
+      "testWindowFinal",
+      "sumintFinal",
+      "zipfileFinal"
+    ]
+  },
+  {
+    "line": "sqlite3.c:24337",
+    "id": "161",
+    "targets": [
+      "sqlite3MemRoundup"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30852",
+    "id": "N/A",
+    "targets": [
+      "sqlite3MemSize"
+    ]
+  },
+  {
+    "line": "sqlite3.c:156577",
+    "id": "N/A",
+    "targets": [
+      "expertDisconnect",
+      "pragmaVtabDisconnect",
+      "fsdirDisconnect",
+      "dbdataDisconnect",
+      "dbpageDisconnect",
+      "zipfileDisconnect",
+      "completionDisconnect",
+      "seriesDisconnect",
+      "bytecodevtabDisconnect",
+      "stmtDisconnect",
+      "jsonEachDisconnect",
+      "fts3tokDisconnectMethod",
+      "statDisconnect",
+      "sqlite3VdbeAddOp4Int",
+      "echoDisconnect",
+      "tclDisconnect",
+      "wholenumberDisconnect",
+      "carrayDisconnect",
+      "closureDisconnect",
+      "csvtabDisconnect",
+      "fuzzerDisconnect",
+      "explainDisconnect",
+      "intarrayDestroy",
+      "spellfix1Disconnect",
+      "unionDisconnect",
+      "schemaDestroy",
+      "tclvarDisconnect",
+      "fstreeDisconnect",
+      "qpvtabDisconnect",
+      "fsdirDisconnect.2437"
+    ]
+  },
+  {
+    "line": "sqlite3.c:156529",
+    "id": "N/A",
+    "targets": [
+      "hashDestroy",
+      "sqlite3GenerateConstraintChecks",
+      "moduleDestroy",
+      "intarrayFree"
+    ]
+  },
+  {
+    "line": "sqlite3.c:55162",
+    "id": "N/A",
+    "targets": [
+      "pcache1Pagecount",
+      "testpcachePagecount"
+    ]
+  },
+  {
+    "line": "sqlite3.c:29256",
+    "id": "N/A",
+    "targets": [
+      "pthreadMutexAlloc",
+      "wrMutexAlloc",
+      "counterMutexAlloc"
+    ]
+  },
+  {
+    "line": "sqlite3.c:29211",
+    "id": "N/A",
+    "targets": [
+      "pthreadMutexInit",
+      "sqlite3VdbeAddOp4Int",
+      "wrMutexInit",
+      "counterMutexInit"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30616",
+    "id": "N/A",
+    "targets": [
+      "sqlite3MemInit",
+      "wrMemInit"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54621",
+    "id": "N/A",
+    "targets": [
+      "pcache1Init",
+      "wrPCacheInit",
+      "testpcacheInit"
+    ]
+  },
+  {
+    "line": "sqlite3.c:29265",
+    "id": "N/A",
+    "targets": [
+      "pthreadMutexFree",
+      "wrMutexFree",
+      "counterMutexFree"
+    ]
+  },
+  {
+    "line": "sqlite3.c:29247",
+    "id": "N/A",
+    "targets": [
+      "pthreadMutexAlloc",
+      "counterMutexAlloc"
+    ]
+  },
+  {
+    "line": "sqlite3.c:45002",
+    "id": "N/A",
+    "targets": [
+      "unlink"
+    ]
+  },
+  {
+    "line": "sqlite3.c:45058",
+    "id": "N/A",
+    "targets": [
+      "stat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:45184",
+    "id": "N/A",
+    "targets": [
+      "_fini",
+      "getcwd"
+    ]
+  },
+  {
+    "line": "sqlite3.c:45291",
+    "id": "191",
+    "targets": [
+      "read"
+    ]
+  },
+  {
+    "line": "sqlite3.c:42258",
+    "id": "N/A",
+    "targets": [
+      "openDirectory"
+    ]
+  },
+  {
+    "line": "sqlite3.c:42328",
+    "id": "N/A",
+    "targets": [
+      "fstat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:39202",
+    "id": "N/A",
+    "targets": [
+      "posixOpen",
+      "ts_open"
+    ]
+  },
+  {
+    "line": "sqlite3.c:39223",
+    "id": "N/A",
+    "targets": [
+      "fstat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:39817",
+    "id": "N/A",
+    "targets": [
+      "close"
+    ]
+  },
+  {
+    "line": "sqlite3.c:39988",
+    "id": "N/A",
+    "targets": [
+      "stat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26535",
+    "id": "N/A",
+    "targets": [
+      "unixRandomness",
+      "cksmRandomness",
+      "tvfsRandomness",
+      "multiplexRandomness"
+    ]
+  },
+  {
+    "line": "sqlite3.c:41919",
+    "id": "N/A",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:41790",
+    "id": "N/A",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:45114",
+    "id": "N/A",
+    "targets": [
+      "lstat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:44560",
+    "id": "N/A",
+    "targets": [
+      "stat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:39082",
+    "id": "N/A",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:44303",
+    "id": "N/A",
+    "targets": [
+      "posixIoFinderImpl",
+      "nolockIoFinderImpl",
+      "dotlockIoFinderImpl"
+    ]
+  },
+  {
+    "line": "sqlite3.c:39906",
+    "id": "N/A",
+    "targets": [
+      "fstat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:40010",
+    "id": "N/A",
+    "targets": [
+      "fstat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:40158",
+    "id": "N/A",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:44597",
+    "id": "N/A",
+    "targets": [
+      "stat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:131698",
+    "id": "N/A",
+    "targets": [
+      "xCeil",
+      "xFloor",
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:89426",
+    "id": "N/A",
+    "targets": [
+      "nocaseCollatingFunc",
+      "binCollFunc",
+      "rtrimCollFunc",
+      "tclSqlCollate",
+      "decimalCollFunc",
+      "test_collate_func",
+      "alignmentCollFunc"
+    ]
+  },
+  {
+    "line": "sqlite3.c:137162",
+    "id": "N/A",
+    "targets": [
+      "sqlite3InitCallback",
+      "countNonzeros",
+      "callback",
+      "dump_callback",
+      "analysisLoader",
+      "exec_printf_cb",
+      "execFuncCallback",
+      "sqlite3_get_table_cb"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26349",
+    "id": "N/A",
+    "targets": [
+      "memjrnlWrite",
+      "unixWrite",
+      "apndWrite",
+      "cksmWrite",
+      "memdbWrite",
+      "cfWrite",
+      "multiplexWrite",
+      "tvfsWrite",
+      "devsymWrite",
+      "quotaWrite"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26422",
+    "id": "N/A",
+    "targets": [
+      "unixDeviceCharacteristics",
+      "apndDeviceCharacteristics",
+      "recoverVfsDeviceCharacteristics",
+      "memdbDeviceCharacteristics",
+      "cksmDeviceCharacteristics",
+      "cfDeviceCharacteristics",
+      "multiplexDeviceCharacteristics",
+      "tvfsDeviceCharacteristics",
+      "devsymDeviceCharacteristics",
+      "quotaDeviceCharacteristics"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26484",
+    "id": "N/A",
+    "targets": [
+      "unixOpen",
+      "apndOpen",
+      "memdbOpen",
+      "cksmOpen",
+      "cfOpen",
+      "multiplexOpen",
+      "tvfsOpen",
+      "devsymOpen",
+      "quotaOpen"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26339",
+    "id": "N/A",
+    "targets": [
+      "memjrnlClose",
+      "unixClose",
+      "nolockClose",
+      "apndClose",
+      "memdbClose",
+      "cksmClose",
+      "cfClose",
+      "multiplexClose",
+      "tvfsClose",
+      "devsymClose",
+      "dotlockClose",
+      "quotaClose"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26410",
+    "id": "N/A",
+    "targets": [
+      "unixFileControl",
+      "apndFileControl",
+      "recoverVfsFileControl",
+      "memdbFileControl",
+      "cksmFileControl",
+      "cfFileControl",
+      "multiplexFileControl",
+      "tvfsFileControl",
+      "devsymFileControl",
+      "quotaFileControl"
+    ]
+  },
+  {
+    "line": "sqlite3.c:62932",
+    "id": "N/A",
+    "targets": [
+      "getPageNormal",
+      "getPageError",
+      "getPageMMap"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54741",
+    "id": "N/A",
+    "targets": [
+      "pcache1Fetch",
+      "testpcacheFetch"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54582",
+    "id": "N/A",
+    "targets": [
+      "pcache1Unpin",
+      "testpcacheUnpin"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26352",
+    "id": "N/A",
+    "targets": [
+      "memjrnlTruncate",
+      "unixTruncate",
+      "apndTruncate",
+      "cksmTruncate",
+      "cfTruncate",
+      "multiplexTruncate",
+      "tvfsTruncate",
+      "memdbTruncate",
+      "quotaTruncate",
+      "devsymTruncate"
+    ]
+  },
+  {
+    "line": "sqlite3.c:59681",
+    "id": "N/A",
+    "targets": [
+      "pageReinit"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26345",
+    "id": "N/A",
+    "targets": [
+      "unixRead",
+      "apndRead",
+      "recoverVfsRead",
+      "memdbRead",
+      "memjrnlRead",
+      "cksmRead",
+      "cfRead",
+      "multiplexRead",
+      "tvfsRead",
+      "devsymRead",
+      "quotaRead"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26360",
+    "id": "N/A",
+    "targets": [
+      "unixFileSize",
+      "apndFileSize",
+      "recoverVfsFileSize",
+      "memjrnlFileSize",
+      "memdbFileSize",
+      "cksmFileSize",
+      "cfFileSize",
+      "multiplexFileSize",
+      "tvfsFileSize",
+      "devsymFileSize",
+      "quotaFileSize"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54677",
+    "id": "N/A",
+    "targets": [
+      "pcache1Create",
+      "testpcacheCreate"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54682",
+    "id": "N/A",
+    "targets": [
+      "pcache1Cachesize",
+      "testpcacheCachesize"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54684",
+    "id": "N/A",
+    "targets": [
+      "pcache1Destroy",
+      "testpcacheDestroy"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26413",
+    "id": "N/A",
+    "targets": [
+      "unixFileControl",
+      "apndFileControl",
+      "memdbFileControl",
+      "cksmFileControl",
+      "cfFileControl",
+      "multiplexFileControl",
+      "tvfsFileControl",
+      "devsymFileControl",
+      "quotaFileControl"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26369",
+    "id": "N/A",
+    "targets": [
+      "unixUnlock",
+      "apndUnlock",
+      "recoverVfsUnlock",
+      "memdbUnlock",
+      "cksmUnlock",
+      "cfUnlock",
+      "multiplexUnlock",
+      "tvfsUnlock",
+      "devsymUnlock",
+      "nolockUnlock",
+      "dotlockUnlock",
+      "quotaUnlock"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26500",
+    "id": "N/A",
+    "targets": [
+      "unixAccess",
+      "apndAccess",
+      "memdbAccess",
+      "cksmAccess",
+      "cfAccess",
+      "multiplexAccess",
+      "tvfsAccess",
+      "devsymAccess"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26491",
+    "id": "N/A",
+    "targets": [
+      "apndDelete",
+      "unixDelete",
+      "cksmDelete",
+      "cfDelete",
+      "multiplexDelete",
+      "tvfsDelete",
+      "devsymDelete",
+      "quotaDelete"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26356",
+    "id": "N/A",
+    "targets": [
+      "unixSync",
+      "apndSync",
+      "cksmSync",
+      "memdbSync",
+      "cfSync",
+      "multiplexSync",
+      "tvfsSync",
+      "devsymSync",
+      "quotaSync"
+    ]
+  },
+  {
+    "line": "sqlite3.c:55029",
+    "id": "N/A",
+    "targets": [
+      "pcache1Fetch"
+    ]
+  },
+  {
+    "line": "sqlite3.c:55036",
+    "id": "N/A",
+    "targets": [
+      "pcache1Truncate",
+      "testpcacheTruncate"
+    ]
+  },
+  {
+    "line": "sqlite3.c:58028",
+    "id": "N/A",
+    "targets": [
+      "unixDeviceCharacteristics",
+      "cksmDeviceCharacteristics",
+      "memdbDeviceCharacteristics",
+      "cfDeviceCharacteristics",
+      "tvfsDeviceCharacteristics",
+      "multiplexDeviceCharacteristics"
+    ]
+  },
+  {
+    "line": "sqlite3.c:72051",
+    "id": "N/A",
+    "targets": [
+      "btreeParseCellPtr",
+      "btreeParseCellPtrIndex"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26365",
+    "id": "N/A",
+    "targets": [
+      "unixLock",
+      "apndLock",
+      "recoverVfsLock",
+      "memdbLock",
+      "cksmLock",
+      "cfLock",
+      "multiplexLock",
+      "tvfsLock",
+      "devsymLock",
+      "dotlockLock",
+      "nolockLock",
+      "quotaLock"
+    ]
+  },
+  {
+    "line": "sqlite3.c:87755",
+    "id": "N/A",
+    "targets": [
+      "pragmaVtabClose",
+      "fsdirClose",
+      "dbpageClose",
+      "dbdataClose",
+      "seriesClose",
+      "echoClose",
+      "wholenumberClose",
+      "jsonEachClose",
+      "tclClose",
+      "carrayClose",
+      "closureClose",
+      "csvtabClose",
+      "statClose",
+      "fuzzerClose",
+      "explainClose",
+      "intarrayClose",
+      "spellfix1Close",
+      "stmtClose",
+      "unionClose",
+      "schemaClose",
+      "tclvarClose",
+      "fstreeClose",
+      "qpvtabClose",
+      "zipfileClose",
+      "fsdirClose.2439"
+    ]
+  },
+  {
+    "line": "sqlite3.c:73616",
+    "id": "N/A",
+    "targets": [
+      "sqlite3SchemaClear"
+    ]
+  },
+  {
+    "line": "sqlite3.c:55046",
+    "id": "N/A",
+    "targets": [
+      "pcache1Destroy",
+      "testpcacheDestroy"
+    ]
+  },
+  {
+    "line": "sqlite3.c:143188",
+    "id": "N/A",
+    "targets": [
+      "sqlite3ExprDeleteGeneric",
+      "agginfoFree",
+      "whereIndexedExprCleanup",
+      "sqlite3DbFree",
+      "sqlite3WithDeleteGeneric",
+      "sqlite3DeleteTableGeneric",
+      "sqlite3ExprListDeleteGeneric",
+      "sqlite3DeleteReturning",
+      "sqlite3SelectDeleteGeneric"
+    ]
+  },
+  {
+    "line": "sqlite3.c:106876",
+    "id": "N/A",
+    "targets": [
+      "sqlite3ExprWalkNoop",
+      "resolveExprStep",
+      "exprNodeIsConstant",
+      "propagateConstantExprRewrite",
+      "analyzeAggregate",
+      "exprIdxCover",
+      "fixExprCb",
+      "renameTableExprCb",
+      "exprNodeIsDeterministic",
+      "exprRefToSrcList",
+      "recomputeColumnsUsedExpr",
+      "agginfoPersistExprCb",
+      "exprColumnFlagUnion",
+      "impliesNotNullRow",
+      "whereIsCoveringIndexWalkCallback",
+      "resolveRemoveWindowsCb",
+      "gatherSelectWindowsCallback",
+      "selectWindowRewriteExprCb",
+      "sqlite3WindowExtraAggFuncDepth",
+      "havingToWhereExprCb",
+      "exprNodeIsConstantOrGroupBy",
+      "renameUnmapExprCb",
+      "markImmutableExprStep",
+      "renameQuotefixExprCb",
+      "renameColumnExprCb",
+      "checkConstraintExprNode",
+      "aggregateIdxEprRefToColCallback",
+      "exprNodeCanReturnSubtype",
+      "renumberCursorsCb",
+      "disallowAggregatesInOrderByCb",
+      "incrAggDepth",
+      "sqlite3ReturningSubqueryVarSelect"
+    ]
+  },
+  {
+    "line": "sqlite3.c:107018",
+    "id": "N/A",
+    "targets": [
+      "selectExpander",
+      "resolveSelectStep",
+      "sqlite3SelectWalkNoop",
+      "fixSelectCb",
+      "sqlite3SelectWalkFail",
+      "convertCompoundSelectToSubquery",
+      "gatherSelectWindowsSelectCallback",
+      "selectWindowRewriteSelectCb",
+      "sqlite3WalkerDepthIncrease",
+      "selectRefEnter",
+      "renameTableSelectCb",
+      "renameUnmapSelectCb",
+      "renameColumnSelectCb",
+      "exprSelectWalkTableConstant",
+      "sqlite3ReturningSubqueryCorrelated"
+    ]
+  },
+  {
+    "line": "sqlite3.c:107026",
+    "id": "N/A",
+    "targets": [
+      "sqlite3SelectPopWith",
+      "selectAddSubqueryTypeInfo",
+      "sqlite3WalkWinDefnDummyCallback",
+      "sqlite3WalkerDepthDecrease",
+      "selectRefLeave"
+    ]
+  },
+  {
+    "line": "sqlite3.c:121911",
+    "id": "N/A",
+    "targets": [
+      "idxAuthCallback",
+      "safeModeAuth",
+      "auth_callback"
+    ]
+  },
+  {
+    "line": "sqlite3.c:121800",
+    "id": "N/A",
+    "targets": [
+      "idxAuthCallback",
+      "auth_callback"
+    ]
+  },
+  {
+    "line": "sqlite3.c:156975",
+    "id": "N/A",
+    "targets": [
+      "pragmaVtabConnect",
+      "expertConnect",
+      "fsdirConnect",
+      "dbdataConnect",
+      "dbpageConnect",
+      "zipfileConnect",
+      "completionConnect",
+      "seriesConnect",
+      "bytecodevtabConnect",
+      "stmtConnect",
+      "jsonEachConnect",
+      "fts3auxConnectMethod",
+      "fts3tokConnectMethod",
+      "statConnect",
+      "echoCreate",
+      "echoConnect",
+      "tclConnect",
+      "wholenumberConnect",
+      "carrayConnect",
+      "closureConnect",
+      "csvtabCreate",
+      "fuzzerConnect",
+      "explainConnect",
+      "intarrayCreate",
+      "spellfix1Create",
+      "spellfix1Connect",
+      "unionConnect",
+      "schemaCreate",
+      "tclvarConnect",
+      "fstreeConnect",
+      "qpvtabConnect",
+      "fsdirConnect.2435"
+    ]
+  },
+  {
+    "line": "sqlite3.c:55180",
+    "id": "N/A",
+    "targets": [
+      "pcache1Cachesize",
+      "testpcacheCachesize"
+    ]
+  },
+  {
+    "line": "sqlite3.c:115198",
+    "id": "N/A",
+    "targets": [
+      "sqlite3ExprIfFalse",
+      "sqlite3ExprIfTrue"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26510",
+    "id": "N/A",
+    "targets": [
+      "unixFullPathname",
+      "apndFullPathname",
+      "memdbFullPathname",
+      "cksmFullPathname",
+      "cfFullPathname",
+      "multiplexFullPathname",
+      "tvfsFullPathname",
+      "devsymFullPathname"
+    ]
+  },
+  {
+    "line": "sqlite3.c:182290",
+    "id": "N/A",
+    "targets": [
+      "sqlite3_free",
+      "cf2Destroy",
+      "editDist3ConfigDelete",
+      "testWindowDestroy"
+    ]
+  },
+  {
+    "line": "sqlite3.c:164843",
+    "id": "N/A",
+    "targets": [
+      "pragmaVtabBestIndex",
+      "expertBestIndex",
+      "fsdirBestIndex",
+      "dbdataBestIndex",
+      "dbpageBestIndex",
+      "seriesBestIndex",
+      "echoBestIndex",
+      "wholenumberBestIndex",
+      "jsonEachBestIndex",
+      "tclBestIndex",
+      "carrayBestIndex",
+      "closureBestIndex",
+      "csvtabBestIndex",
+      "statBestIndex",
+      "fuzzerBestIndex",
+      "explainBestIndex",
+      "intarrayBestIndex",
+      "spellfix1BestIndex",
+      "stmtBestIndex",
+      "unionBestIndex",
+      "schemaBestIndex",
+      "tclvarBestIndex",
+      "fstreeBestIndex",
+      "qpvtabBestIndex",
+      "zipfileBestIndex",
+      "fsdirBestIndex.2436"
+    ]
+  },
+  {
+    "line": "sqlite3.c:76737",
+    "id": "N/A",
+    "targets": [
+      "vdbeRecordCompareString",
+      "vdbeRecordCompareInt",
+      "sqlite3VdbeRecordCompare"
+    ]
+  },
+  {
+    "line": "sqlite3.c:76568",
+    "id": "N/A",
+    "targets": [
+      "vdbeRecordCompareInt",
+      "sqlite3VdbeRecordCompare",
+      "vdbeRecordCompareString"
+    ]
+  },
+  {
+    "line": "sqlite3.c:99508",
+    "id": "N/A",
+    "targets": [
+      "seriesRowid",
+      "tclRowid",
+      "dbpageRowid",
+      "csvtabRowid",
+      "jsonEachRowid",
+      "pragmaVtabRowid",
+      "spellfix1Rowid",
+      "unionRowid",
+      "carrayRowid",
+      "echoRowid",
+      "schemaRowid"
+    ]
+  },
+  {
+    "line": "sqlite3.c:101172",
+    "id": "N/A",
+    "targets": [
+      "countStep",
+      "minmaxStep",
+      "sumStep",
+      "groupConcatStep",
+      "md5step",
+      "row_numberStepFunc",
+      "t1CountStep",
+      "jsonArrayStep",
+      "decimalSumStep",
+      "legacyCountStep",
+      "jsonObjectStep",
+      "percentStep",
+      "ntileStepFunc",
+      "rankStepFunc",
+      "cume_distStepFunc",
+      "dense_rankStepFunc",
+      "percent_rankStepFunc",
+      "last_valueStepFunc",
+      "nth_valueStepFunc",
+      "first_valueStepFunc",
+      "testWindowStep",
+      "sumintStep",
+      "zipfileStep"
+    ]
+  },
+  {
+    "line": "sqlite3.c:101616",
+    "id": "N/A",
+    "targets": [
+      "pragmaVtabOpen",
+      "fsdirOpen",
+      "dbdataOpen",
+      "dbpageOpen",
+      "seriesOpen",
+      "echoOpen",
+      "wholenumberOpen",
+      "jsonEachOpenEach",
+      "tclOpen",
+      "carrayOpen",
+      "closureOpen",
+      "csvtabOpen",
+      "statOpen",
+      "fuzzerOpen",
+      "explainOpen",
+      "intarrayOpen",
+      "jsonEachOpenTree",
+      "spellfix1Open",
+      "stmtOpen",
+      "unionOpen",
+      "schemaOpen",
+      "tclvarOpen",
+      "fstreeOpen",
+      "qpvtabOpen",
+      "zipfileOpen",
+      "fsdirOpen.2438"
+    ]
+  },
+  {
+    "line": "sqlite3.c:101765",
+    "id": "N/A",
+    "targets": [
+      "pragmaVtabFilter",
+      "fsdirFilter",
+      "dbdataFilter",
+      "dbpageFilter",
+      "seriesFilter",
+      "echoFilter",
+      "wholenumberFilter",
+      "jsonEachFilter",
+      "tclFilter",
+      "carrayFilter",
+      "closureFilter",
+      "csvtabFilter",
+      "statFilter",
+      "fuzzerFilter",
+      "explainFilter",
+      "intarrayFilter",
+      "spellfix1Filter",
+      "stmtFilter",
+      "unionFilter",
+      "schemaFilter",
+      "tclvarFilter",
+      "fstreeFilter",
+      "qpvtabFilter",
+      "zipfileFilter",
+      "fsdirFilter.2440"
+    ]
+  },
+  {
+    "line": "sqlite3.c:101768",
+    "id": "N/A",
+    "targets": [
+      "pragmaVtabEof",
+      "fsdirEof",
+      "dbpageEof",
+      "dbdataEof",
+      "seriesEof",
+      "echoEof",
+      "wholenumberEof",
+      "jsonEachEof",
+      "tclEof",
+      "carrayEof",
+      "closureEof",
+      "csvtabEof",
+      "statEof",
+      "fuzzerEof",
+      "explainEof",
+      "intarrayEof",
+      "spellfix1Eof",
+      "stmtEof",
+      "unionEof",
+      "schemaEof",
+      "tclvarEof",
+      "fstreeEof",
+      "qpvtabEof",
+      "zipfileEof",
+      "fsdirEof.2442"
+    ]
+  },
+  {
+    "line": "sqlite3.c:101825",
+    "id": "N/A",
+    "targets": [
+      "pragmaVtabColumn",
+      "fsdirColumn",
+      "dbpageColumn",
+      "dbdataColumn",
+      "seriesColumn",
+      "echoColumn",
+      "wholenumberColumn",
+      "jsonEachColumn",
+      "tclColumn",
+      "carrayColumn",
+      "closureColumn",
+      "csvtabColumn",
+      "statColumn",
+      "fuzzerColumn",
+      "explainColumn",
+      "intarrayColumn",
+      "spellfix1Column",
+      "stmtColumn",
+      "unionColumn",
+      "schemaColumn",
+      "tclvarColumn",
+      "fstreeColumn",
+      "qpvtabColumn",
+      "zipfileColumn",
+      "fsdirColumn.2443"
+    ]
+  },
+  {
+    "line": "sqlite3.c:101869",
+    "id": "N/A",
+    "targets": [
+      "pragmaVtabNext",
+      "fsdirNext",
+      "dbdataNext",
+      "seriesNext",
+      "echoNext",
+      "wholenumberNext",
+      "jsonEachNext",
+      "tclNext",
+      "carrayNext",
+      "closureNext",
+      "csvtabNext",
+      "dbpageNext",
+      "statNext",
+      "fuzzerNext",
+      "explainNext",
+      "intarrayNext",
+      "spellfix1Next",
+      "stmtNext",
+      "unionNext",
+      "schemaNext",
+      "tclvarNext",
+      "fstreeNext",
+      "qpvtabNext",
+      "zipfileNext",
+      "fsdirNext.2441"
+    ]
+  },
+  {
+    "line": "sqlite3.c:101872",
+    "id": "N/A",
+    "targets": [
+      "pragmaVtabEof",
+      "fsdirEof",
+      "dbdataEof",
+      "seriesEof",
+      "echoEof",
+      "wholenumberEof",
+      "jsonEachEof",
+      "tclEof",
+      "carrayEof",
+      "closureEof",
+      "csvtabEof",
+      "dbpageEof",
+      "statEof",
+      "fuzzerEof",
+      "explainEof",
+      "intarrayEof",
+      "spellfix1Eof",
+      "stmtEof",
+      "unionEof",
+      "schemaEof",
+      "tclvarEof",
+      "fstreeEof",
+      "qpvtabEof",
+      "zipfileEof",
+      "fsdirEof.2442"
+    ]
+  },
+  {
+    "line": "sqlite3.c:102115",
+    "id": "N/A",
+    "targets": [
+      "substrFunc",
+      "likeFunc",
+      "renameTableFunc",
+      "renameTableTest",
+      "lsModeFunc",
+      "lengthFunc",
+      "sqlarCompressFunc",
+      "attachFunc",
+      "recoverGetPage",
+      "quoteFunc",
+      "recoverEscapeCrlf",
+      "recoverReadI32",
+      "minmaxFunc",
+      "readfileFunc",
+      "shellModuleSchema",
+      "lowerFunc",
+      "shellAddSchemaName",
+      "errlogFunc",
+      "decimalMulFunc",
+      "ieee754func",
+      "base64",
+      "base85",
+      "sha3QueryFunc",
+      "hexFunc",
+      "printfFunc",
+      "logFunc",
+      "ceilingFunc",
+      "shellFkeyCollateClause",
+      "sqlarUncompressFunc",
+      "writefileFunc",
+      "randomBlob",
+      "statInit",
+      "idxRemFunc",
+      "statPush",
+      "statGet",
+      "trimFunc",
+      "intckParseCreateIndexFunc",
+      "absFunc",
+      "charFunc",
+      "replaceFunc",
+      "detachFunc",
+      "typeofFunc",
+      "jsonRemoveFunc",
+      "tclSqlFunc",
+      "renameColumnFunc",
+      "renameQuotefixFunc",
+      "dropColumnFunc",
+      "randStr",
+      "zeroblobFunc",
+      "randomFunc",
+      "is_base85",
+      "t1_ifnullFunc",
+      "upperFunc",
+      "testFunc",
+      "test_error",
+      "changes",
+      "nullifFunc",
+      "compileoptionusedFunc",
+      "last_insert_rowid",
+      "compileoptiongetFunc",
+      "juliandayFunc",
+      "datetimeFunc",
+      "strftimeFunc",
+      "dateFunc",
+      "timeFunc",
+      "ctimestampFunc",
+      "unixepochFunc",
+      "loadExt",
+      "decimalFunc",
+      "decimalCmpFunc",
+      "decimalAddFunc",
+      "ieee754func_from_blob",
+      "ctimeFunc",
+      "cdateFunc",
+      "sqlite3InvalidFunction",
+      "roundFunc",
+      "test_function_utf8",
+      "test_function_utf16le",
+      "test_function_utf16be",
+      "test_eval",
+      "shellDtostr",
+      "decimalSubFunc",
+      "bytelengthFunc",
+      "versionFunc",
+      "test_destructor",
+      "test_destructor_count",
+      "test_auxdata",
+      "test_isolation",
+      "tStep",
+      "unicodeFunc",
+      "test_frombind",
+      "tointegerFunc",
+      "torealFunc",
+      "instrFunc",
+      "nondeterministicFunction",
+      "math1Func",
+      "math2Func",
+      "piFunc",
+      "signFunc",
+      "concatFunc",
+      "concatwsFunc",
+      "jsonExtractFunc",
+      "jsonSetFunc",
+      "intrealFunction",
+      "jsonArrayFunc",
+      "jsonObjectFunc",
+      "jsonReplaceFunc",
+      "jsonTypeFunc",
+      "jsonValidFunc",
+      "jsonErrorFunc",
+      "jsonQuoteFunc",
+      "jsonPatchFunc",
+      "jsonArrayLengthFunc",
+      "subtypeFunc",
+      "randJsonFunc",
+      "jsonPrettyFunc",
+      "total_changes",
+      "sqrFunc",
+      "cubeFunc",
+      "sourceidFunc",
+      "hex8Func",
+      "hex16Func",
+      "sqlEvalFunc",
+      "sqlite3ExecFunc",
+      "multiplexControlFunc",
+      "prefixLengthFunc",
+      "ptrChngFunction",
+      "re_sql_func",
+      "nextCharFunc",
+      "scriptCodeSqlFunc",
+      "editDist3SqlFunc",
+      "stmtrandFunc",
+      "test_getsubtype",
+      "test_setsubtype",
+      "inttoptrFunc",
+      "rememberFunc",
+      "timediffFunc",
+      "testHexToUtf16be",
+      "testHexToUtf16le",
+      "tkt2213Function",
+      "addTextTypeFunction",
+      "addIntTypeFunction",
+      "addRealTypeFunction",
+      "unhexFunc",
+      "overloadedGlobFunction",
+      "test_zeroblob",
+      "zipfileFunctionCds"
+    ]
+  },
+  {
+    "line": "sqlite3.c:102319",
+    "id": "N/A",
+    "targets": [
+      "sql_trace_callback",
+      "DbTraceV2Handler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:80197",
+    "id": "N/A",
+    "targets": [
+      "btreeParseCellPtr",
+      "btreeParseCellPtrIndex"
+    ]
+  },
+  {
+    "line": "sqlite3.c:80478",
+    "id": "N/A",
+    "targets": [
+      "cellSizePtrTableLeaf",
+      "cellSizePtrIdxLeaf"
+    ]
+  },
+  {
+    "line": "sqlite3.c:80522",
+    "id": "N/A",
+    "targets": [
+      "btreeParseCellPtr",
+      "btreeParseCellPtrIndex"
+    ]
+  },
+  {
+    "line": "sqlite3.c:104504",
+    "id": "N/A",
+    "targets": [
+      "vdbeSorterCompare",
+      "vdbeSorterCompareInt",
+      "vdbeSorterCompareText"
+    ]
+  },
+  {
+    "line": "sqlite3.c:78611",
+    "id": "N/A",
+    "targets": [
+      "cellSizePtrTableLeaf"
+    ]
+  },
+  {
+    "line": "sqlite3.c:78938",
+    "id": "N/A",
+    "targets": [
+      "cellSizePtrNoPayload",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:79136",
+    "id": "N/A",
+    "targets": [
+      "cellSizePtrTableLeaf",
+      "cellSizePtrNoPayload",
+      "cellSizePtrIdxLeaf",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:79428",
+    "id": "N/A",
+    "targets": [
+      "btreeParseCellPtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:72365",
+    "id": "N/A",
+    "targets": [
+      "cellSizePtrTableLeaf",
+      "cellSizePtrNoPayload",
+      "cellSizePtrIdxLeaf",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:78191",
+    "id": "N/A",
+    "targets": [
+      "cellSizePtrTableLeaf",
+      "cellSizePtrIdxLeaf",
+      "cellSizePtrNoPayload",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:78207",
+    "id": "N/A",
+    "targets": [
+      "cellSizePtrTableLeaf",
+      "cellSizePtrNoPayload",
+      "cellSizePtrIdxLeaf",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:80818",
+    "id": "N/A",
+    "targets": [
+      "btreeParseCellPtr",
+      "btreeParseCellPtrIndex",
+      "btreeParseCellPtrNoPayload"
+    ]
+  },
+  {
+    "line": "sqlite3.c:184627",
+    "id": "N/A",
+    "targets": [
+      "sqlite3Fts3Init",
+      "sqlite3RtreeInit",
+      "sqlite3DbpageRegister",
+      "sqlite3DbstatRegister",
+      "sqlite3TestExtInit",
+      "sqlite3JsonTableFunctions",
+      "sqlite3StmtVtabInit",
+      "sqlite3VdbeBytecodeVtabInit"
+    ]
+  },
+  {
+    "line": "sqlite3.c:195871",
+    "id": "407",
+    "targets": [
+      "fts3StrHash"
+    ]
+  },
+  {
+    "line": "sqlite3.c:197531",
+    "id": "408",
+    "targets": [
+      "simpleCreate"
+    ]
+  },
+  {
+    "line": "sqlite3.c:197564",
+    "id": "410",
+    "targets": [
+      "simpleDestroy"
+    ]
+  },
+  {
+    "line": "sqlite3.c:195824",
+    "id": "414",
+    "targets": [
+      "fts3StrHash"
+    ]
+  },
+  {
+    "line": "sqlite3.c:195767",
+    "id": "415",
+    "targets": [
+      "fts3StrCompare"
+    ]
+  },
+  {
+    "line": "src/test1.c:7622",
+    "id": "0",
+    "targets": [
+      "DbObjCmdAdaptor"
+    ]
+  },
+  {
+    "line": "src/test1.c:5694",
+    "id": "1",
+    "targets": [
+      "sqlite3_column_text",
+      "sqlite3_column_name",
+      "sqlite3_column_decltype"
+    ]
+  },
+  {
+    "line": "src/test1.c:5790",
+    "id": "2",
+    "targets": [
+      "sqlite3_column_bytes",
+      "sqlite3_column_bytes16",
+      "sqlite3_column_int"
+    ]
+  },
+  {
+    "line": "src/test1.c:5749",
+    "id": "3",
+    "targets": [
+      "sqlite3_column_name16",
+      "sqlite3_column_decltype16",
+      "sqlite3_column_text16"
+    ]
+  },
+  {
+    "line": "src/test1.c:8205",
+    "id": "4",
+    "targets": [
+      "sqlite3_wholenumber_init",
+      "sqlite3_appendvfs_init",
+      "sqlite3_basexx_init",
+      "sqlite3_series_init",
+      "sqlite3_eval_init",
+      "sqlite3_carray_init",
+      "sqlite3_closure_init",
+      "sqlite3_csv_init",
+      "sqlite3_decimal_init",
+      "sqlite3_ieee_init",
+      "sqlite3_fileio_init",
+      "sqlite3_totype_init",
+      "sqlite3_fuzzer_init",
+      "sqlite3_explain_init",
+      "sqlite3_randomjson_init",
+      "sqlite3_percentile_init",
+      "sqlite3_prefixes_init",
+      "sqlite3_regexp_init",
+      "sqlite3_spellfix_init",
+      "sqlite3_nextchar_init",
+      "sqlite3_stmtrand_init",
+      "sqlite3_unionvtab_init",
+      "sqlite3_remember_init",
+      "sqlite3_qpvtab_init",
+      "sqlite3_zipfile_init"
+    ]
+  },
+  {
+    "line": "src/test1.c:2875",
+    "id": "6",
+    "targets": [
+      "unixDeviceCharacteristics",
+      "tvfsDeviceCharacteristics"
+    ]
+  },
+  {
+    "line": "src/test4.c:89",
+    "id": "8",
+    "targets": [
+      "do_compile",
+      "do_step",
+      "do_finalize"
+    ]
+  },
+  {
+    "line": "src/test6.c:663",
+    "id": "9",
+    "targets": [
+      "unixDelete"
+    ]
+  },
+  {
+    "line": "src/test6.c:672",
+    "id": "10",
+    "targets": [
+      "unixAccess"
+    ]
+  },
+  {
+    "line": "src/test6.c:681",
+    "id": "11",
+    "targets": [
+      "unixFullPathname"
+    ]
+  },
+  {
+    "line": "src/test6.c:568",
+    "id": "20",
+    "targets": [
+      "unixShmMap"
+    ]
+  },
+  {
+    "line": "src/test6.c:550",
+    "id": "21",
+    "targets": [
+      "unixShmLock"
+    ]
+  },
+  {
+    "line": "src/test6.c:554",
+    "id": "22",
+    "targets": [
+      "unixShmBarrier"
+    ]
+  },
+  {
+    "line": "src/test_devsym.c:204",
+    "id": "25",
+    "targets": [
+      "unixShmMap"
+    ]
+  },
+  {
+    "line": "src/test_devsym.c:194",
+    "id": "26",
+    "targets": [
+      "apndWriteMark",
+      "unixShmLock"
+    ]
+  },
+  {
+    "line": "src/test_devsym.c:208",
+    "id": "27",
+    "targets": [
+      "apndWriteMark",
+      "unixShmBarrier"
+    ]
+  },
+  {
+    "line": "src/test_devsym.c:212",
+    "id": "28",
+    "targets": [
+      "init_api_ptr",
+      "unixShmUnmap"
+    ]
+  },
+  {
+    "line": "src/test_init.c:61",
+    "id": "29",
+    "targets": [
+      "faultsimMalloc"
+    ]
+  },
+  {
+    "line": "src/test_init.c:62",
+    "id": "30",
+    "targets": [
+      "sqlite3MemFree"
+    ]
+  },
+  {
+    "line": "src/test_init.c:63",
+    "id": "31",
+    "targets": [
+      "fromBase64"
+    ]
+  },
+  {
+    "line": "src/test_init.c:64",
+    "id": "32",
+    "targets": [
+      "fromBase64",
+      "sqlite3MemSize"
+    ]
+  },
+  {
+    "line": "src/test_init.c:65",
+    "id": "33",
+    "targets": [
+      "skipNonB64",
+      "sqlite3MemRoundup"
+    ]
+  },
+  {
+    "line": "src/test_init.c:50",
+    "id": "34",
+    "targets": [
+      "sqlite3MemInit"
+    ]
+  },
+  {
+    "line": "src/test_init.c:58",
+    "id": "35",
+    "targets": [
+      "sqlite3MemShutdown"
+    ]
+  },
+  {
+    "line": "src/test_init.c:114",
+    "id": "36",
+    "targets": [
+      "pcache1Init"
+    ]
+  },
+  {
+    "line": "src/test_init.c:122",
+    "id": "37",
+    "targets": [
+      "pcache1Shutdown"
+    ]
+  },
+  {
+    "line": "src/test_init.c:73",
+    "id": "46",
+    "targets": [
+      "fromBase85",
+      "pthreadMutexInit"
+    ]
+  },
+  {
+    "line": "src/test_init.c:81",
+    "id": "47",
+    "targets": [
+      "fromBase85",
+      "test_mprintf_n",
+      "pthreadMutexEnd"
+    ]
+  },
+  {
+    "line": "src/test_init.c:86",
+    "id": "48",
+    "targets": [
+      "fromBase85",
+      "pthreadMutexAlloc"
+    ]
+  },
+  {
+    "line": "src/test_init.c:89",
+    "id": "49",
+    "targets": [
+      "closureAvlBalance",
+      "pthreadMutexFree"
+    ]
+  },
+  {
+    "line": "src/test_init.c:92",
+    "id": "50",
+    "targets": [
+      "fromBase85",
+      "pthreadMutexEnter"
+    ]
+  },
+  {
+    "line": "src/test_init.c:95",
+    "id": "51",
+    "targets": [
+      "fromBase85"
+    ]
+  },
+  {
+    "line": "src/test_init.c:98",
+    "id": "52",
+    "targets": [
+      "pthreadMutexLeave"
+    ]
+  },
+  {
+    "line": "src/test_init.c:101",
+    "id": "53",
+    "targets": [
+      "allBase85",
+      "pthreadMutexHeld"
+    ]
+  },
+  {
+    "line": "src/test_init.c:104",
+    "id": "54",
+    "targets": [
+      "closureAvlBalance"
+    ]
+  },
+  {
+    "line": "src/test_intarray.c:66",
+    "id": "55",
+    "targets": [
+      "closureValueOfKey",
+      "sqlite3_free"
+    ]
+  },
+  {
+    "line": "src/test_journal.c:777",
+    "id": "57",
+    "targets": [
+      "sqlite3_carray_bind"
+    ]
+  },
+  {
+    "line": "src/test_journal.c:793",
+    "id": "59",
+    "targets": [
+      "carrayConnect"
+    ]
+  },
+  {
+    "line": "src/test_malloc.c:93",
+    "id": "65",
+    "targets": [
+      "sqlite3MemMalloc"
+    ]
+  },
+  {
+    "line": "src/test_malloc.c:106",
+    "id": "66",
+    "targets": [
+      "fromBase85",
+      "sqlite3MemRealloc"
+    ]
+  },
+  {
+    "line": "src/test_md5.c:331",
+    "id": "67",
+    "targets": [
+      "MD5DigestToBase16"
+    ]
+  },
+  {
+    "line": "src/test_md5.c:384",
+    "id": "68",
+    "targets": [
+      "MD5DigestToBase16"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:545",
+    "id": "69",
+    "targets": [
+      "unixFileSize"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:558",
+    "id": "70",
+    "targets": [
+      "unixAccess"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:579",
+    "id": "72",
+    "targets": [
+      "unixAccess"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:618",
+    "id": "73",
+    "targets": [
+      "unixDelete"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:633",
+    "id": "74",
+    "targets": [
+      "unixAccess"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:643",
+    "id": "76",
+    "targets": [
+      "unixAccess"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:657",
+    "id": "78",
+    "targets": [
+      "unixAccess"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:660",
+    "id": "79",
+    "targets": [
+      "unixFullPathname"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:675",
+    "id": "84",
+    "targets": [
+      "unixRandomness"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:685",
+    "id": "87",
+    "targets": [
+      "unixGetLastError"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:728",
+    "id": "89",
+    "targets": [
+      "unixRead"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:739",
+    "id": "90",
+    "targets": [
+      "unixRead"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:773",
+    "id": "91",
+    "targets": [
+      "unixWrite"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:784",
+    "id": "92",
+    "targets": [
+      "unixWrite"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:822",
+    "id": "94",
+    "targets": [
+      "unixTruncate"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:829",
+    "id": "95",
+    "targets": [
+      "unixTruncate"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:847",
+    "id": "96",
+    "targets": [
+      "unixSync"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:867",
+    "id": "97",
+    "targets": [
+      "unixFileSize"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:887",
+    "id": "98",
+    "targets": [
+      "unixLock"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:899",
+    "id": "99",
+    "targets": [
+      "unixUnlock"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:911",
+    "id": "100",
+    "targets": [
+      "unixCheckReservedLock"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:1045",
+    "id": "101",
+    "targets": [
+      "unixFileControl"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:1062",
+    "id": "102",
+    "targets": [
+      "recoverGetVarint"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:1074",
+    "id": "103",
+    "targets": [
+      "unixDeviceCharacteristics"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:1092",
+    "id": "104",
+    "targets": [
+      "fromBase85",
+      "unixShmMap"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:1109",
+    "id": "105",
+    "targets": [
+      "init_api_ptr",
+      "unixShmLock"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:1121",
+    "id": "106",
+    "targets": [
+      "unixShmBarrier"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:1132",
+    "id": "107",
+    "targets": [
+      "unixShmUnmap"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:322",
+    "id": "108",
+    "targets": [
+      "unixAccess"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:339",
+    "id": "109",
+    "targets": [
+      "unixOpen"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:368",
+    "id": "110",
+    "targets": [
+      "unixFileSize"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:438",
+    "id": "111",
+    "targets": [
+      "nolockClose",
+      "unixClose"
+    ]
+  },
+  {
+    "line": "src/test_multiplex.c:440",
+    "id": "112",
+    "targets": [
+      "unixDelete"
+    ]
+  },
+  {
+    "line": "src/test_mutex.c:69",
+    "id": "113",
+    "targets": [
+      "init_api_ptr",
+      "pthreadMutexInit"
+    ]
+  },
+  {
+    "line": "src/test_mutex.c:79",
+    "id": "114",
+    "targets": [
+      "pthreadMutexEnd"
+    ]
+  },
+  {
+    "line": "src/test_mutex.c:93",
+    "id": "115",
+    "targets": [
+      "closureAvlBalance",
+      "pthreadMutexAlloc"
+    ]
+  },
+  {
+    "line": "src/test_mutex.c:115",
+    "id": "116",
+    "targets": [
+      "pthreadMutexFree"
+    ]
+  },
+  {
+    "line": "src/test_mutex.c:129",
+    "id": "117",
+    "targets": [
+      "closureValueOfKey",
+      "pthreadMutexEnter"
+    ]
+  },
+  {
+    "line": "src/test_mutex.c:141",
+    "id": "118",
+    "targets": [
+      "pthreadMutexTry"
+    ]
+  },
+  {
+    "line": "src/test_mutex.c:148",
+    "id": "119",
+    "targets": [
+      "pthreadMutexLeave"
+    ]
+  },
+  {
+    "line": "src/test_mutex.c:53",
+    "id": "120",
+    "targets": [
+      "pthreadMutexHeld"
+    ]
+  },
+  {
+    "line": "src/test_mutex.c:58",
+    "id": "121",
+    "targets": [
+      "sqlite3_carray_bind",
+      "pthreadMutexNotheld"
+    ]
+  },
+  {
+    "line": "src/test_onefile.c:646",
+    "id": "125",
+    "targets": [
+      "carrayConnect"
+    ]
+  },
+  {
+    "line": "src/test_onefile.c:796",
+    "id": "135",
+    "targets": [
+      "fromBase85"
+    ]
+  },
+  {
+    "line": "src/test_onefile.c:805",
+    "id": "136",
+    "targets": [
+      "recoverMalloc"
+    ]
+  },
+  {
+    "line": "src/test_onefile.c:813",
+    "id": "137",
+    "targets": [
+      "recoverMalloc"
+    ]
+  },
+  {
+    "line": "src/test_onefile.c:390",
+    "id": "138",
+    "targets": [
+      "recoverLostAndFoundInsert",
+      "recoverMalloc"
+    ]
+  },
+  {
+    "line": "src/test_onefile.c:416",
+    "id": "139",
+    "targets": [
+      "recoverMalloc"
+    ]
+  },
+  {
+    "line": "src/test_onefile.c:471",
+    "id": "142",
+    "targets": [
+      "0x403620",
+      "0x403390"
+    ]
+  },
+  {
+    "line": "src/test_onefile.c:514",
+    "id": "143",
+    "targets": [
+      "recoverGetVarint"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:499",
+    "id": "145",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:694",
+    "id": "146",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:633",
+    "id": "147",
+    "targets": [
+      "dbdataValue"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:263",
+    "id": "148",
+    "targets": [
+      "sqlite3_decimal_init"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:302",
+    "id": "150",
+    "targets": [
+      "decimalSumStep"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:316",
+    "id": "151",
+    "targets": [
+      "decimalSumStep"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:344",
+    "id": "153",
+    "targets": [
+      "decimalSumStep"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:358",
+    "id": "154",
+    "targets": [
+      "sqlite3_decimal_init"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:372",
+    "id": "155",
+    "targets": [
+      "decimalSumStep"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:386",
+    "id": "156",
+    "targets": [
+      "decimalSumStep"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:412",
+    "id": "158",
+    "targets": [
+      "intckSaveKey"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:426",
+    "id": "159",
+    "targets": [
+      "intckSaveKey",
+      "sqlite3AlterBeginAddColumn",
+      "nextCharFunc"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:453",
+    "id": "160",
+    "targets": [
+      "makeDirectory",
+      "decimal_result_sci",
+      "fuzzerBestIndex",
+      "writeFile"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:437",
+    "id": "161",
+    "targets": [
+      "decimalSumStep"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:462",
+    "id": "162",
+    "targets": [
+      "decimalSumStep"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:471",
+    "id": "163",
+    "targets": [
+      "test_stop_thread",
+      "sqlite3_table_column_metadata",
+      "test_mmap_warm",
+      "tclFunction",
+      "sqlite3IndexedByLookup",
+      "testFunc",
+      "test_collate_func",
+      "file_control_sizehint_test",
+      "lookupName",
+      "sqlite3FindFunction",
+      "isAlterableTable",
+      "selectExpander"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:741",
+    "id": "164",
+    "targets": [
+      "sqlite3VdbeChangeP5"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:516",
+    "id": "167",
+    "targets": [
+      "decimalNewFromText"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:554",
+    "id": "169",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:561",
+    "id": "170",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:570",
+    "id": "171",
+    "targets": [
+      "decimalSumStep"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:577",
+    "id": "172",
+    "targets": [
+      "decimalSumStep"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:584",
+    "id": "173",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:927",
+    "id": "182",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_osinst.c:989",
+    "id": "185",
+    "targets": [
+      "0x403240"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:442",
+    "id": "186",
+    "targets": [
+      "unixOpen"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:451",
+    "id": "187",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart",
+      "unixOpen"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:457",
+    "id": "188",
+    "targets": [
+      "unixOpen"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:462",
+    "id": "189",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:497",
+    "id": "190",
+    "targets": [
+      "unixDelete"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:533",
+    "id": "191",
+    "targets": [
+      "0x4031f0",
+      "unixClose"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:539",
+    "id": "192",
+    "targets": [
+      "cksmRegisterVfs"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:558",
+    "id": "193",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart",
+      "unixRead"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:584",
+    "id": "194",
+    "targets": [
+      "tclQuotaCallback"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:596",
+    "id": "195",
+    "targets": [
+      "unixWrite"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:605",
+    "id": "196",
+    "targets": [
+      "unixTruncate"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:623",
+    "id": "197",
+    "targets": [
+      "unixSync"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:637",
+    "id": "198",
+    "targets": [
+      "unixFileSize"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:654",
+    "id": "199",
+    "targets": [
+      "cksmRegisterVfs",
+      "unixLock"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:661",
+    "id": "200",
+    "targets": [
+      "unixUnlock"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:675",
+    "id": "202",
+    "targets": [
+      "unixFileControl"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:688",
+    "id": "203",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:695",
+    "id": "204",
+    "targets": [
+      "unixDeviceCharacteristics"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:234",
+    "id": "209",
+    "targets": [
+      "tclCallbackDestructor"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:878",
+    "id": "210",
+    "targets": [
+      "tclCallbackDestructor"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:905",
+    "id": "211",
+    "targets": [
+      "unixFullPathname"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:914",
+    "id": "212",
+    "targets": [
+      "0x4030c0",
+      "quotaFileSize"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:915",
+    "id": "213",
+    "targets": [
+      "quotaClose"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:946",
+    "id": "214",
+    "targets": [
+      "unixFullPathname"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:1019",
+    "id": "215",
+    "targets": [
+      "tclQuotaCallback"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:1065",
+    "id": "216",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart",
+      "unixDelete"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:1241",
+    "id": "217",
+    "targets": [
+      "unixFullPathname"
+    ]
+  },
+  {
+    "line": "src/test_quota.c:1267",
+    "id": "218",
+    "targets": [
+      "unixDelete"
+    ]
+  },
+  {
+    "line": "src/test_superlock.c:159",
+    "id": "219",
+    "targets": [
+      "unixShmLock"
+    ]
+  },
+  {
+    "line": "src/test_superlock.c:160",
+    "id": "220",
+    "targets": [
+      "base85",
+      "unixShmLock"
+    ]
+  },
+  {
+    "line": "src/test_superlock.c:55",
+    "id": "221",
+    "targets": [
+      "superlock_busy"
+    ]
+  },
+  {
+    "line": "src/test_superlock.c:134",
+    "id": "222",
+    "targets": [
+      "_fini",
+      "unixShmMap"
+    ]
+  },
+  {
+    "line": "src/test_superlock.c:100",
+    "id": "223",
+    "targets": [
+      "_fini",
+      "unixShmLock"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:226",
+    "id": "224",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart",
+      "posixOpen"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:242",
+    "id": "226",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:252",
+    "id": "227",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:272",
+    "id": "229",
+    "targets": [
+      "csv_append"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:282",
+    "id": "230",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:292",
+    "id": "231",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:357",
+    "id": "238",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:367",
+    "id": "239",
+    "targets": [
+      "sqlite3WhereCodeOneLoopStart"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:377",
+    "id": "240",
+    "targets": [
+      "fuzzerFilter"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:407",
+    "id": "242",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:418",
+    "id": "243",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:740",
+    "id": "244",
+    "targets": [
+      "test_syscall_defaultvfs",
+      "test_syscall_uninstall",
+      "test_syscall_install",
+      "test_syscall_fault",
+      "test_syscall_errno",
+      "test_syscall_reset",
+      "test_syscall_exists",
+      "test_syscall_list",
+      "test_syscall_pagesize"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:448",
+    "id": "245",
+    "targets": [
+      "sqlite3ParserAddCleanup",
+      "allocateBtreePage",
+      "unixGetSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:449",
+    "id": "246",
+    "targets": [
+      "unixSetSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:474",
+    "id": "247",
+    "targets": [
+      "unixSetSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:498",
+    "id": "248",
+    "targets": [
+      "unixSetSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:503",
+    "id": "249",
+    "targets": [
+      "unixSetSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:534",
+    "id": "250",
+    "targets": [
+      "unixGetSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:633",
+    "id": "251",
+    "targets": [
+      "unixNextSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:635",
+    "id": "252",
+    "targets": [
+      "unixNextSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:685",
+    "id": "253",
+    "targets": [
+      "sqlite3_blob_open",
+      "simulateVtabError",
+      "recoverLostAndFoundInsert",
+      "recoverVfsDetectPagesize",
+      "unixSetSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:692",
+    "id": "254",
+    "targets": [
+      "unixGetSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_syscall.c:694",
+    "id": "255",
+    "targets": [
+      "unixSetSystemCall"
+    ]
+  },
+  {
+    "line": "src/test_thread.c:358",
+    "id": "256",
+    "targets": [
+      "sqlthread_spawn"
+    ]
+  },
+  {
+    "line": "src/test_vfs.c:1623",
+    "id": "257",
+    "targets": [
+      "unixShmLock"
+    ]
+  },
+  {
+    "line": "src/test_vfs.c:1664",
+    "id": "258",
+    "targets": [
+      "tvfsShmMap"
+    ]
+  },
+  {
+    "line": "src/test_vfs.c:1130",
+    "id": "259",
+    "targets": [
+      "unixFullPathname"
+    ]
+  },
+  {
+    "line": "src/test_vfs.c:898",
+    "id": "261",
+    "targets": [
+      "unixShmMap"
+    ]
+  },
+  {
+    "line": "src/test_vfs.c:949",
+    "id": "262",
+    "targets": [
+      "unixShmLock"
+    ]
+  },
+  {
+    "line": "src/test_vfs.c:1014",
+    "id": "263",
+    "targets": [
+      "unionFilter",
+      "fromBase85",
+      "test_snprintf_int",
+      "unixShmBarrier"
+    ]
+  },
+  {
+    "line": "src/test_vfs.c:1031",
+    "id": "264",
+    "targets": [
+      "carrayConnect",
+      "test_exec_hex",
+      "testHexToBin",
+      "unixShmUnmap"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:879",
+    "id": "265",
+    "targets": [
+      "apndWriteMark",
+      "sqlite3_mprintf_long",
+      "xSqlCallback"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2209",
+    "id": "266",
+    "targets": [
+      "unionFilter",
+      "closureAvlBalance",
+      "closureBestIndex",
+      "test_mprintf_n"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2306",
+    "id": "267",
+    "targets": [
+      "sqlite3_carray_bind",
+      "test_exec_hex",
+      "test_setsubtype",
+      "unixRead",
+      "memdbRead"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2360",
+    "id": "268",
+    "targets": [
+      "zipfileFinal",
+      "zipfileStep",
+      "unixFileSize",
+      "memdbFileSize"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2408",
+    "id": "269",
+    "targets": [
+      "decimalNewFromText"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2436",
+    "id": "270",
+    "targets": [
+      "decimalNewFromText"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2441",
+    "id": "N/A",
+    "targets": [
+      "doUnionNext",
+      "sqlite3PagerWrite"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2451",
+    "id": "N/A",
+    "targets": [
+      "fromBase85",
+      "test_mprintf_n",
+      "test_eval",
+      "unixFileSize",
+      "memdbFileSize",
+      "init_api_ptr",
+      "test_exec_printf",
+      "test_decode"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2456",
+    "id": "N/A",
+    "targets": [
+      "decimalSumInverse",
+      "unixLock",
+      "memdbLock",
+      "decimalNewFromText"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2461",
+    "id": "N/A",
+    "targets": [
+      "decimalNewFromText",
+      "memdbUnlock",
+      "unixUnlock",
+      "sqlite3_carray_bind",
+      "test_exec_hex"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2471",
+    "id": "N/A",
+    "targets": [
+      "unixFileControl",
+      "memdbFileControl",
+      "closureValueOfKey",
+      "test_exec_hex",
+      "test_extract"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2476",
+    "id": "287",
+    "targets": [
+      "fromBase64",
+      "sqlite3_snprintf_str"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2481",
+    "id": "N/A",
+    "targets": [
+      "memdbDeviceCharacteristics",
+      "unixDeviceCharacteristics",
+      "sqlite3_mprintf_str",
+      "fromBase64"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2488",
+    "id": "N/A",
+    "targets": [
+      "allBase85",
+      "test_exec_printf",
+      "decimalNewFromText"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2493",
+    "id": "292",
+    "targets": [
+      "decimalNewFromText",
+      "unixShmLock"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2500",
+    "id": "294",
+    "targets": [
+      "unixShmBarrier"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2507",
+    "id": "N/A",
+    "targets": [
+      "carrayConnect",
+      "tointegerFunc",
+      "totypeDoubleToInt"
+    ]
+  },
+  {
+    "line": "ext/recover/sqlite3recover.c:2271",
+    "id": "298",
+    "targets": [
+      "unixRead",
+      "memdbRead"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:524",
+    "id": "299",
+    "targets": [
+      "unixOpen"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:530",
+    "id": "300",
+    "targets": [
+      "unixOpen"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:532",
+    "id": "301",
+    "targets": [
+      "unixFileSize"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:554",
+    "id": "303",
+    "targets": [
+      "unixClose"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:575",
+    "id": "304",
+    "targets": [
+      "unixDelete"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:587",
+    "id": "305",
+    "targets": [
+      "unixAccess"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:595",
+    "id": "306",
+    "targets": [
+      "unixFullPathname"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:607",
+    "id": "310",
+    "targets": [
+      "closureAvlBalance",
+      "test_exec_printf",
+      "test_extract"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:613",
+    "id": "312",
+    "targets": [
+      "sqlite3_table_column_metadata",
+      "test_config_sorterref",
+      "sqlite3IndexedByLookup",
+      "testBestIndexObj",
+      "file_control_sizehint_test"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:616",
+    "id": "313",
+    "targets": [
+      "dbReleaseColumnNames"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:619",
+    "id": "314",
+    "targets": [
+      "decimalNewFromText",
+      "unixGetLastError"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:629",
+    "id": "316",
+    "targets": [
+      "patternCompare",
+      "sqlite3FinishCoding",
+      "allocateBtreePage",
+      "sqlite3_intck_error",
+      "sqlite3_test_control",
+      "sqlite3Select",
+      "readJournalHdr"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:495",
+    "id": "319",
+    "targets": [
+      "pcache1Destroy",
+      "trimFunc",
+      "cellSizePtr",
+      "sqlite3CreateForeignKey",
+      "sqlite3AddColumn",
+      "walIndexRecover",
+      "sqlite3JournalOpen",
+      "sqlite3WhereCodeOneLoopStart",
+      "sqlite3DbStrNDup",
+      "sqlite3MemCompare",
+      "sqlite3Select",
+      "sqlite3GetToken",
+      "cellSizePtrIdxLeaf",
+      "unixRead"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:448",
+    "id": "320",
+    "targets": [
+      "sqlite3ParseUri",
+      "unicodeFunc",
+      "pcache1Destroy",
+      "writeJournalHdr",
+      "btreeParseCellPtrNoPayload",
+      "unixRead",
+      "apndRead"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:475",
+    "id": "321",
+    "targets": [
+      "pcache1Fetch",
+      "pcache1Destroy",
+      "unixRead"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:229",
+    "id": "322",
+    "targets": [
+      "unixClose"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:243",
+    "id": "323",
+    "targets": [
+      "unixRead"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:292",
+    "id": "324",
+    "targets": [
+      "unixWrite"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:304",
+    "id": "325",
+    "targets": [
+      "tcl_thread_argv",
+      "recoverWriteDataStep",
+      "unixTruncate"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:312",
+    "id": "326",
+    "targets": [
+      "tcl_thread_argv",
+      "unixSync"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:330",
+    "id": "327",
+    "targets": [
+      "unixLock"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:338",
+    "id": "328",
+    "targets": [
+      "sqlite3_step",
+      "tcl_thread_stmt_get",
+      "sorter_test_sort4_helper",
+      "tclFilter",
+      "cannotBeFunction",
+      "get_autocommit",
+      "test_function_utf16be",
+      "vfs_initfail_test",
+      "lookupName",
+      "sqlite3GenerateConstraintChecks",
+      "sqlite3VdbeUsesBtree",
+      "selectExpander",
+      "unixUnlock"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:346",
+    "id": "329",
+    "targets": [
+      "decimalNewFromText"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:357",
+    "id": "330",
+    "targets": [
+      "unixFileControl"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:377",
+    "id": "332",
+    "targets": [
+      "sqlite3Reprepare",
+      "unixDeviceCharacteristics"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:389",
+    "id": "333",
+    "targets": [
+      "skipNonB64",
+      "sqlite3_snprintf_str"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:401",
+    "id": "335",
+    "targets": [
+      "intckSaveKey"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:407",
+    "id": "336",
+    "targets": [
+      "sqlite3_table_column_metadata",
+      "test_barrier",
+      "sorter_test_sort4_helper",
+      "tclNext",
+      "sqlite3ViewGetColumnNames",
+      "vfs_initfail_test"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:429",
+    "id": "338",
+    "targets": [
+      "sqlite3DeleteFrom",
+      "sqlite3SrcListAppend"
+    ]
+  },
+  {
+    "line": "ext/misc/appendvfs.c:267",
+    "id": "339",
+    "targets": [
+      "unixWrite"
+    ]
+  },
+  {
+    "line": "ext/misc/carray.c:425",
+    "id": "341",
+    "targets": [
+      "sqlite3DeleteFrom",
+      "sqlite3SrcListAppend",
+      "sqlite3_free"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:693",
+    "id": "342",
+    "targets": [
+      "unixOpen"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:699",
+    "id": "343",
+    "targets": [
+      "unixOpen"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:703",
+    "id": "344",
+    "targets": [
+      "cksmFileControl"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:724",
+    "id": "345",
+    "targets": [
+      "unixDelete"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:732",
+    "id": "346",
+    "targets": [
+      "unixAccess"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:740",
+    "id": "347",
+    "targets": [
+      "unixFullPathname"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:755",
+    "id": "352",
+    "targets": [
+      "unixRandomness"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:771",
+    "id": "356",
+    "targets": [
+      "test_create_function_v2"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:784",
+    "id": "358",
+    "targets": [
+      "makeDirectory",
+      "decimalMulFunc",
+      "fsdirSetErrmsg",
+      "fileStat"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:790",
+    "id": "359",
+    "targets": [
+      "sqlite3_table_column_metadata",
+      "test_mmap_warm",
+      "tclFunction",
+      "sqlite3IndexedByLookup",
+      "file_control_sizehint_test"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:405",
+    "id": "361",
+    "targets": [
+      "unixClose",
+      "nolockClose"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:434",
+    "id": "362",
+    "targets": [
+      "sqlite3_table_column_metadata",
+      "test_config_sorterref",
+      "testBestIndexObj",
+      "sqlite3IndexedByLookup",
+      "file_control_sizehint_test",
+      "unixRead"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:496",
+    "id": "363",
+    "targets": [
+      "sqlite3_transfer_bindings",
+      "test_decode_hexdb",
+      "sqlite3ProcessJoin",
+      "tclDequote",
+      "test_create_function_v2",
+      "unixWrite"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:504",
+    "id": "364",
+    "targets": [
+      "sqlite3_transfer_bindings",
+      "test_decode_hexdb",
+      "sqlite3ProcessJoin",
+      "tclDequote",
+      "test_create_function_v2",
+      "unixTruncate"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:512",
+    "id": "365",
+    "targets": [
+      "sqlite3_trace",
+      "test_autovacuum_pages",
+      "testBestIndexObj",
+      "vfs_list",
+      "unixSync"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:521",
+    "id": "366",
+    "targets": [
+      "sqlite3_transfer_bindings",
+      "test_decode_hexdb",
+      "tclDequote",
+      "test_create_function_v2",
+      "unixFileSize"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:529",
+    "id": "367",
+    "targets": [
+      "unixLock"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:537",
+    "id": "368",
+    "targets": [
+      "unixUnlock"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:545",
+    "id": "369",
+    "targets": [
+      "fsdirNext.2441",
+      "fuzzerOpen",
+      "sqlite3ConstructBloomFilter",
+      "sqlite3WhereExplainOneScan",
+      "sorter_test_sort4_helper",
+      "decimal_result_sci",
+      "btree_eof",
+      "sqlite3BitvecSet",
+      "randStr",
+      "fsdirBestIndex.2436",
+      "test_destructor16",
+      "decimalCmpFunc",
+      "tclLoadStaticExtensionCmd",
+      "dbdataNext",
+      "readfileFunc",
+      "test_transfer_bind",
+      "vfs_unlink_test",
+      "test_limit",
+      "test_column_type",
+      "getDbPointer",
+      "writefileFunc",
+      "sqlite3ExplainVtabInit",
+      "fuzzerNext",
+      "fuzzerFilter",
+      "recoverVfsShmLock",
+      "btree_first"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:595",
+    "id": "370",
+    "targets": [
+      "unixFileControl"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:615",
+    "id": "372",
+    "targets": [
+      "recoverVfsRead",
+      "unixDeviceCharacteristics"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:627",
+    "id": "373",
+    "targets": [
+      "unixShmMap"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:633",
+    "id": "374",
+    "targets": [
+      "unixShmLock"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:639",
+    "id": "375",
+    "targets": [
+      "tointegerFunc",
+      "unixShmBarrier"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:645",
+    "id": "376",
+    "targets": [
+      "stmtrandFunc",
+      "unixShmUnmap"
+    ]
+  },
+  {
+    "line": "ext/misc/cksumvfs.c:662",
+    "id": "377",
+    "targets": [
+      "tointegerFunc",
+      "totypeDoubleToInt"
+    ]
+  },
+  {
+    "line": "ext/misc/closure.c:348",
+    "id": "379",
+    "targets": [
+      "sqlite3_free"
+    ]
+  },
+  {
+    "line": "ext/misc/mmapwarm.c:86",
+    "id": "380",
+    "targets": [
+      "unixFetch"
+    ]
+  },
+  {
+    "line": "ext/misc/mmapwarm.c:92",
+    "id": "381",
+    "targets": [
+      "unixUnfetch"
+    ]
+  },
+  {
+    "line": "ext/misc/regexp.c:517",
+    "id": "382",
+    "targets": [
+      "re_next_char",
+      "re_next_char_nocase"
+    ]
+  },
+  {
+    "line": "ext/misc/regexp.c:605",
+    "id": "383",
+    "targets": [
+      "re_next_char"
+    ]
+  },
+  {
+    "line": "ext/misc/regexp.c:613",
+    "id": "384",
+    "targets": [
+      "re_next_char"
+    ]
+  },
+  {
+    "line": "ext/misc/regexp.c:267",
+    "id": "385",
+    "targets": [
+      "re_next_char",
+      "re_next_char_nocase"
+    ]
+  },
+  {
+    "line": "ext/misc/zipfile.c:1521",
+    "id": "386",
+    "targets": [
+      "unixCurrentTimeInt64"
+    ]
+  },
+  {
+    "line": "ext/misc/zipfile.c:1525",
+    "id": "387",
+    "targets": [
+      "sqlite3ExprCollSeq"
+    ]
+  },
+  {
+    "line": "sqlite3.c:29321",
+    "id": "388",
+    "targets": [
+      "pthreadMutexHeld",
+      "wrMutexHeld",
+      "counterMutexHeld"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30869",
+    "id": "393",
+    "targets": [
+      "stmtrandFunc",
+      "totypeAtoF",
+      "torealFunc",
+      "sqlite3MemFree"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30772",
+    "id": "396",
+    "targets": [
+      "stmtrandFunc",
+      "totypeAtoF",
+      "torealFunc",
+      "faultsimMalloc"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26782",
+    "id": "409",
+    "targets": [
+      "faultsimBeginBenign"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26788",
+    "id": "410",
+    "targets": [
+      "sqlite3GenerateConstraintChecks",
+      "faultsimEndBenign"
+    ]
+  },
+  {
+    "line": "sqlite3.c:29288",
+    "id": "412",
+    "targets": [
+      "pthreadMutexTry",
+      "counterMutexTry"
+    ]
+  },
+  {
+    "line": "sqlite3.c:29330",
+    "id": "413",
+    "targets": [
+      "pthreadMutexNotheld",
+      "counterMutexNotheld"
+    ]
+  },
+  {
+    "line": "sqlite3.c:84133",
+    "id": "414",
+    "targets": [
+      "sqlite3VdbeAddOp4Int"
+    ]
+  },
+  {
+    "line": "sqlite3.c:44849",
+    "id": "429",
+    "targets": [
+      "access"
+    ]
+  },
+  {
+    "line": "sqlite3.c:44913",
+    "id": "430",
+    "targets": [
+      "unlink"
+    ]
+  },
+  {
+    "line": "sqlite3.c:45017",
+    "id": "432",
+    "targets": [
+      "openDirectory"
+    ]
+  },
+  {
+    "line": "sqlite3.c:45061",
+    "id": "434",
+    "targets": [
+      "access"
+    ]
+  },
+  {
+    "line": "sqlite3.c:40826",
+    "id": "439",
+    "targets": [
+      "mkdir"
+    ]
+  },
+  {
+    "line": "sqlite3.c:40880",
+    "id": "440",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:40772",
+    "id": "441",
+    "targets": [
+      "access"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43719",
+    "id": "442",
+    "targets": [
+      "unlink"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43743",
+    "id": "443",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:39227",
+    "id": "449",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43864",
+    "id": "450",
+    "targets": [
+      "fstat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43798",
+    "id": "451",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43802",
+    "id": "452",
+    "targets": [
+      "_fini",
+      "ts_mremap"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43818",
+    "id": "453",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43824",
+    "id": "454",
+    "targets": [
+      "_fini",
+      "ts_mmap"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43005",
+    "id": "455",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:42978",
+    "id": "456",
+    "targets": [
+      "unixGetpagesize",
+      "ts_getpagesize"
+    ]
+  },
+  {
+    "line": "sqlite3.c:42930",
+    "id": "458",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:42367",
+    "id": "459",
+    "targets": [
+      "fstat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:44508",
+    "id": "460",
+    "targets": [
+      "access"
+    ]
+  },
+  {
+    "line": "sqlite3.c:42865",
+    "id": "462",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:44463",
+    "id": "463",
+    "targets": [
+      "stat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:44465",
+    "id": "464",
+    "targets": [
+      "access"
+    ]
+  },
+  {
+    "line": "sqlite3.c:39374",
+    "id": "466",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:42126",
+    "id": "468",
+    "targets": [
+      "fstat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:45125",
+    "id": "471",
+    "targets": [
+      "readlink"
+    ]
+  },
+  {
+    "line": "sqlite3.c:40061",
+    "id": "478",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43333",
+    "id": "479",
+    "targets": [
+      "fstat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43385",
+    "id": "480",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43162",
+    "id": "481",
+    "targets": [
+      "fstat64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:43055",
+    "id": "482",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:40150",
+    "id": "483",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:131804",
+    "id": "487",
+    "targets": [
+      "_fini",
+      "degToRad",
+      "radToDeg"
+    ]
+  },
+  {
+    "line": "sqlite3.c:131829",
+    "id": "488",
+    "targets": [
+      "_fini"
+    ]
+  },
+  {
+    "line": "sqlite3.c:89442",
+    "id": "491",
+    "targets": [
+      "nocaseCollatingFunc",
+      "test_collate_func",
+      "alignmentCollFunc"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26543",
+    "id": "493",
+    "targets": [
+      "unixGetLastError",
+      "apndGetLastError",
+      "multiplexGetLastError"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26516",
+    "id": "494",
+    "targets": [
+      "unixDlOpen"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26519",
+    "id": "497",
+    "targets": [
+      "unixDlError"
+    ]
+  },
+  {
+    "line": "sqlite3.c:91752",
+    "id": "499",
+    "targets": [
+      "free_test_auxdata"
+    ]
+  },
+  {
+    "line": "sqlite3.c:183504",
+    "id": "502",
+    "targets": [
+      "sqlite3_free"
+    ]
+  },
+  {
+    "line": "sqlite3.c:182618",
+    "id": "505",
+    "targets": [
+      "DbRollbackHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:87952",
+    "id": "506",
+    "targets": [
+      "DbCommitHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:157489",
+    "id": "507",
+    "targets": [
+      "echoSavepoint"
+    ]
+  },
+  {
+    "line": "sqlite3.c:72184",
+    "id": "508",
+    "targets": [
+      "btreeParseCellPtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:72121",
+    "id": "509",
+    "targets": [
+      "btreeParseCellPtrIndex"
+    ]
+  },
+  {
+    "line": "sqlite3.c:72079",
+    "id": "510",
+    "targets": [
+      "btreeParseCellPtrIndex"
+    ]
+  },
+  {
+    "line": "sqlite3.c:72162",
+    "id": "511",
+    "targets": [
+      "btreeParseCellPtrNoPayload"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26453",
+    "id": "521",
+    "targets": [
+      "recoverVfsUnfetch",
+      "unixUnfetch",
+      "tvfsUnfetch"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26442",
+    "id": "524",
+    "targets": [
+      "unixShmMap",
+      "cksmShmMap",
+      "multiplexShmMap",
+      "tvfsShmMap",
+      "devsymShmMap",
+      "cfShmMap"
+    ]
+  },
+  {
+    "line": "sqlite3.c:35204",
+    "id": "525",
+    "targets": [
+      "faultSimCallback"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54795",
+    "id": "531",
+    "targets": [
+      "pagerStress"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54802",
+    "id": "532",
+    "targets": [
+      "pcache1Fetch",
+      "testpcacheFetch"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54900",
+    "id": "533",
+    "targets": [
+      "pcache1Unpin"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26426",
+    "id": "535",
+    "targets": [
+      "unixShmLock",
+      "recoverVfsShmLock",
+      "cksmShmLock",
+      "multiplexShmLock",
+      "tvfsShmLock",
+      "devsymShmLock",
+      "cfShmLock"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26418",
+    "id": "537",
+    "targets": [
+      "cfSectorSize",
+      "devsymSectorSize",
+      "tvfsSectorSize",
+      "unixSectorSize"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26450",
+    "id": "542",
+    "targets": [
+      "unixFetch"
+    ]
+  },
+  {
+    "line": "sqlite3.c:60329",
+    "id": "543",
+    "targets": [
+      "pageReinit"
+    ]
+  },
+  {
+    "line": "sqlite3.c:68779",
+    "id": "544",
+    "targets": [
+      "pagerUndoCallback"
+    ]
+  },
+  {
+    "line": "sqlite3.c:157367",
+    "id": "547",
+    "targets": [
+      "echoSync",
+      "dbpageSync"
+    ]
+  },
+  {
+    "line": "sqlite3.c:157340",
+    "id": "548",
+    "targets": [
+      "echoCommit",
+      "echoRollback",
+      "zipfileCommit",
+      "zipfileRollback"
+    ]
+  },
+  {
+    "line": "sqlite3.c:74859",
+    "id": "549",
+    "targets": [
+      "test_autovacuum_pages_callback"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26429",
+    "id": "550",
+    "targets": [
+      "unixShmBarrier",
+      "recoverVfsShmBarrier",
+      "cksmShmBarrier",
+      "multiplexShmBarrier",
+      "tvfsShmBarrier",
+      "devsymShmBarrier",
+      "cfShmBarrier"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26540",
+    "id": "551",
+    "targets": [
+      "unixSleep",
+      "tvfsSleep"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26432",
+    "id": "552",
+    "targets": [
+      "unixShmUnmap",
+      "cksmShmUnmap",
+      "multiplexShmUnmap",
+      "tvfsShmUnmap",
+      "devsymShmUnmap"
+    ]
+  },
+  {
+    "line": "sqlite3.c:74521",
+    "id": "553",
+    "targets": [
+      "btreeParseCellPtr",
+      "btreeParseCellPtrIndex",
+      "btreeParseCellPtrNoPayload"
+    ]
+  },
+  {
+    "line": "sqlite3.c:72246",
+    "id": "555",
+    "targets": [
+      "btreeParseCellPtr",
+      "btreeParseCellPtrIndex",
+      "btreeParseCellPtrNoPayload"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54985",
+    "id": "556",
+    "targets": [
+      "pcache1Fetch"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54993",
+    "id": "557",
+    "targets": [
+      "pcache1Rekey"
+    ]
+  },
+  {
+    "line": "sqlite3.c:61152",
+    "id": "558",
+    "targets": [
+      "btreeInvokeBusyHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:88678",
+    "id": "560",
+    "targets": [
+      "jsonCacheDeleteGeneric",
+      "free_test_auxdata",
+      "sqlite3re_free",
+      "sqlite3_free"
+    ]
+  },
+  {
+    "line": "sqlite3.c:67124",
+    "id": "564",
+    "targets": [
+      "btreeInvokeBusyHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:55247",
+    "id": "566",
+    "targets": [
+      "assertTruncateConstraintCb"
+    ]
+  },
+  {
+    "line": "sqlite3.c:182864",
+    "id": "567",
+    "targets": [
+      "DbBusyHandler",
+      "sqliteDefaultBusyCallback",
+      "superlockBusyHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26373",
+    "id": "568",
+    "targets": [
+      "unixCheckReservedLock",
+      "cfCheckReservedLock",
+      "tvfsCheckReservedLock",
+      "nolockCheckReservedLock",
+      "dotlockCheckReservedLock",
+      "multiplexCheckReservedLock"
+    ]
+  },
+  {
+    "line": "sqlite3.c:127785",
+    "id": "572",
+    "targets": [
+      "tclCollateNeeded"
+    ]
+  },
+  {
+    "line": "sqlite3.c:127795",
+    "id": "573",
+    "targets": [
+      "test_collate_needed_cb"
+    ]
+  },
+  {
+    "line": "sqlite3.c:143248",
+    "id": "574",
+    "targets": [
+      "sqlite3DbFree",
+      "sqlite3DeleteTableGeneric"
+    ]
+  },
+  {
+    "line": "sqlite3.c:35380",
+    "id": "577",
+    "targets": [
+      "DbProgressHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:157555",
+    "id": "581",
+    "targets": [
+      "tclFindFunction",
+      "echoFindFunction",
+      "zipfileFindFunction"
+    ]
+  },
+  {
+    "line": "sqlite3.c:161735",
+    "id": "587",
+    "targets": [
+      "tclFindFunction"
+    ]
+  },
+  {
+    "line": "sqlite3.c:76744",
+    "id": "589",
+    "targets": [
+      "sqlite3VdbeRecordCompare",
+      "vdbeRecordCompareInt",
+      "vdbeRecordCompareString"
+    ]
+  },
+  {
+    "line": "sqlite3.c:76758",
+    "id": "590",
+    "targets": [
+      "btreeParseCellPtrIndex"
+    ]
+  },
+  {
+    "line": "sqlite3.c:76575",
+    "id": "592",
+    "targets": [
+      "sqlite3VdbeRecordCompare",
+      "vdbeRecordCompareInt",
+      "vdbeRecordCompareString"
+    ]
+  },
+  {
+    "line": "sqlite3.c:183143",
+    "id": "594",
+    "targets": [
+      "sqlite3_free"
+    ]
+  },
+  {
+    "line": "sqlite3.c:183155",
+    "id": "595",
+    "targets": [
+      "cf2Destroy",
+      "sqlite3_free"
+    ]
+  },
+  {
+    "line": "sqlite3.c:55208",
+    "id": "597",
+    "targets": [
+      "pcache1Shrink"
+    ]
+  },
+  {
+    "line": "sqlite3.c:182356",
+    "id": "598",
+    "targets": [
+      "DbTraceV2Handler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:182525",
+    "id": "600",
+    "targets": [
+      "testCreateCollationDel"
+    ]
+  },
+  {
+    "line": "sqlite3.c:182558",
+    "id": "601",
+    "targets": [
+      "sqlite3_free"
+    ]
+  },
+  {
+    "line": "sqlite3.c:94471",
+    "id": "602",
+    "targets": [
+      "DbProgressHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:95138",
+    "id": "603",
+    "targets": [
+      "DbTraceV2Handler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:99161",
+    "id": "604",
+    "targets": [
+      "DbUpdateHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:99328",
+    "id": "605",
+    "targets": [
+      "DbUpdateHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:101169",
+    "id": "607",
+    "targets": [
+      "jsonGroupInverse",
+      "percentInverse",
+      "groupConcatInverse",
+      "sumInverse",
+      "cume_distInvFunc",
+      "percent_rankInvFunc",
+      "ntileInvFunc",
+      "last_valueInvFunc",
+      "countInverse",
+      "sumintInverse"
+    ]
+  },
+  {
+    "line": "sqlite3.c:101908",
+    "id": "617",
+    "targets": [
+      "echoRename"
+    ]
+  },
+  {
+    "line": "sqlite3.c:101979",
+    "id": "618",
+    "targets": [
+      "dbpageUpdate",
+      "spellfix1Update",
+      "echoUpdate",
+      "tclvarUpdate",
+      "zipfileUpdate"
+    ]
+  },
+  {
+    "line": "sqlite3.c:102310",
+    "id": "620",
+    "targets": [
+      "DbTraceHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:102579",
+    "id": "623",
+    "targets": [
+      "DbProgressHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:80168",
+    "id": "624",
+    "targets": [
+      "btreeParseCellPtr",
+      "btreeParseCellPtrIndex"
+    ]
+  },
+  {
+    "line": "sqlite3.c:80179",
+    "id": "625",
+    "targets": [
+      "cellSizePtrIdxLeaf",
+      "cellSizePtrTableLeaf",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:80548",
+    "id": "629",
+    "targets": [
+      "cellSizePtrIdxLeaf"
+    ]
+  },
+  {
+    "line": "sqlite3.c:83468",
+    "id": "630",
+    "targets": [
+      "row_numberValueFunc",
+      "sumFinalize",
+      "countFinalize",
+      "minMaxValue",
+      "jsonArrayValue",
+      "jsonObjectValue",
+      "percentValue",
+      "groupConcatValue",
+      "avgFinalize",
+      "noopValueFunc",
+      "rankValueFunc",
+      "ntileValueFunc",
+      "totalFinalize",
+      "cume_distValueFunc",
+      "dense_rankValueFunc",
+      "percent_rankValueFunc",
+      "last_valueValueFunc",
+      "testWindowValue",
+      "sumintValue"
+    ]
+  },
+  {
+    "line": "sqlite3.c:157432",
+    "id": "631",
+    "targets": [
+      "dbpageBegin",
+      "echoBegin",
+      "zipfileBegin"
+    ]
+  },
+  {
+    "line": "sqlite3.c:157307",
+    "id": "633",
+    "targets": [
+      "echoDestroy",
+      "tclDisconnect",
+      "csvtabDisconnect",
+      "statDisconnect",
+      "fuzzerDisconnect",
+      "intarrayDestroy",
+      "unionDisconnect",
+      "wholenumberDisconnect",
+      "zipfileDisconnect"
+    ]
+  },
+  {
+    "line": "sqlite3.c:81551",
+    "id": "634",
+    "targets": [
+      "btreeParseCellPtr",
+      "btreeParseCellPtrIndex",
+      "btreeParseCellPtrNoPayload"
+    ]
+  },
+  {
+    "line": "sqlite3.c:81616",
+    "id": "635",
+    "targets": [
+      "cellSizePtrNoPayload",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:104789",
+    "id": "639",
+    "targets": [
+      "vdbeSorterCompare",
+      "vdbeSorterCompareInt",
+      "vdbeSorterCompareText"
+    ]
+  },
+  {
+    "line": "sqlite3.c:105210",
+    "id": "640",
+    "targets": [
+      "vdbeSorterCompare",
+      "vdbeSorterCompareInt",
+      "vdbeSorterCompareText"
+    ]
+  },
+  {
+    "line": "sqlite3.c:77935",
+    "id": "641",
+    "targets": [
+      "cellSizePtrNoPayload",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:79447",
+    "id": "647",
+    "targets": [
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:78549",
+    "id": "648",
+    "targets": [
+      "cellSizePtrTableLeaf",
+      "cellSizePtrIdxLeaf",
+      "cellSizePtrNoPayload",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:78193",
+    "id": "651",
+    "targets": [
+      "cellSizePtrNoPayload",
+      "cellSizePtrIdxLeaf",
+      "cellSizePtr",
+      "cellSizePtrTableLeaf"
+    ]
+  },
+  {
+    "line": "sqlite3.c:78277",
+    "id": "652",
+    "targets": [
+      "cellSizePtrTableLeaf",
+      "cellSizePtrNoPayload",
+      "cellSizePtrIdxLeaf",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:72231",
+    "id": "654",
+    "targets": [
+      "cellSizePtrTableLeaf",
+      "cellSizePtrIdxLeaf",
+      "cellSizePtrNoPayload",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:77749",
+    "id": "655",
+    "targets": [
+      "btreeParseCellPtrIndex",
+      "btreeParseCellPtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:78030",
+    "id": "656",
+    "targets": [
+      "cellSizePtrIdxLeaf",
+      "cellSizePtrTableLeaf",
+      "cellSizePtr"
+    ]
+  },
+  {
+    "line": "sqlite3.c:183924",
+    "id": "659",
+    "targets": [
+      "testCreateCollationDel"
+    ]
+  },
+  {
+    "line": "sqlite3.c:138845",
+    "id": "660",
+    "targets": [
+      "registerTestFunctions",
+      "Md5_Register",
+      "cksmRegisterFunc",
+      "multiplexFuncInit",
+      "sqr_init",
+      "cube_init",
+      "broken_init"
+    ]
+  },
+  {
+    "line": "sqlite3.c:103061",
+    "id": "661",
+    "targets": [
+      "sqlite3BtreePutData",
+      "sqlite3BtreePayloadChecked"
+    ]
+  },
+  {
+    "line": "sqlite3.c:26554",
+    "id": "662",
+    "targets": [
+      "unixCurrentTimeInt64"
+    ]
+  },
+  {
+    "line": "sqlite3.c:90608",
+    "id": "664",
+    "targets": [
+      "DbProfileHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:90612",
+    "id": "665",
+    "targets": [
+      "DbTraceV2Handler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:91271",
+    "id": "666",
+    "targets": [
+      "sqlite3WalDefaultHook",
+      "DbWalHandler"
+    ]
+  },
+  {
+    "line": "sqlite3.c:25017",
+    "id": "667",
+    "targets": [
+      "testLocaltime"
+    ]
+  },
+  {
+    "line": "sqlite3.c:29228",
+    "id": "668",
+    "targets": [
+      "pthreadMutexEnd",
+      "wrMutexEnd",
+      "counterMutexEnd"
+    ]
+  },
+  {
+    "line": "sqlite3.c:30635",
+    "id": "669",
+    "targets": [
+      "sqlite3MemShutdown",
+      "wrMemShutdown"
+    ]
+  },
+  {
+    "line": "sqlite3.c:54626",
+    "id": "670",
+    "targets": [
+      "pcache1Shutdown",
+      "wrPCacheShutdown",
+      "testpcacheShutdown"
+    ]
+  }
+]
