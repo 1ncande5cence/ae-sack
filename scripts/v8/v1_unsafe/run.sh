@@ -1,0 +1,23 @@
+# Script for V8 unsafe command V1
+
+# -------------------- generate subgt input ------------------------------------
+
+# in x64.debug folder
+
+# ./d8.fuzz --enable-os-system test.js
+# mv log/address_log log/subgt-extract/success_log
+
+# -------------------- do substitution --------------------------------------
+# in x64.debug folder
+
+# export AFL_NO_AFFINITY=1
+# export SACK=/ae-sack
+# $SACK/AFL/afl-fuzz -c ./log/sack.conf -d -m none -i ./input -o ./output/ -t 5000+ -- ./d8.fuzz @@
+
+
+# -------------------- result analysis --------------------------------------
+
+# use analyze.sh at the current x64.debug folder
+
+# the result is in the result.*/ folder report_satisfied.txt
+
