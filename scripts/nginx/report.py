@@ -122,7 +122,7 @@ def generate_report(unique_attack_log_path, line_log_path, func_map_path, output
     finally:
         if output_f:
             output_f.close()
-            print(f"Report also saved to: {output_file}")
+            #print(f"Report also saved to: {output_file}")
 
 def main():
     import sys
