@@ -38,7 +38,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 # curl localhost
 # mv log/address_log log/subgt-extract/success_log
 
-# -------------------- do branch flipping --------------------------------------
+# -------------------- do substitution --------------------------------------
 # in current folder
 
 # terminal 1

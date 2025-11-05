@@ -49,7 +49,7 @@ cp $SACK/scripts/sudo/u1_log/sudo.conf /etc/sudo.conf
 ./sudo.fuzz ls /root
 mv log/address_log log/subgt-extract/success_log
 
-# -------------------- do branch flipping --------------------------------------
+# -------------------- do substitution --------------------------------------
 # cd src/bin
 # export AFL_NO_AFFINITY=1
 # export SACK=/ae-sack
