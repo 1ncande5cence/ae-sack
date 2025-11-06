@@ -17,7 +17,7 @@
 
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the current x64.debug folder
+# use corresponding analyze.sh at the current x64.debug folder
 
 # the result is in the result.*/ folder report_satisfied.txt
 

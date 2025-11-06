@@ -51,6 +51,6 @@ python3 subgt_addresslog_gen.py ./subgt.json
 
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the ./bin/sbin/ folder
+# use corresponding analyze.sh at the /target/httpd-restirct/ folder
 
 # the result is in the result.*/ folder report_satisfied.txt

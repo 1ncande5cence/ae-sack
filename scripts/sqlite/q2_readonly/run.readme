@@ -10,7 +10,7 @@
 
 # -------------------- result analysis --------------------------------------
 
-# use analyze.sh at the bin_readonly folder
+# use corresponding analyze.sh at the bin_readonly folder
 
 # the result is in the result.*/ folder report_satisfied.txt
 
