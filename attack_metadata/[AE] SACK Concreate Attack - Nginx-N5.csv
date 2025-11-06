@@ -1,0 +1,70 @@
+Oracle,Security Feature,iCall Location,Time,Flipfrom,Flipto,Note
+Nginx-N5,Logging,ngx_conf_file.c:463,21,ngx_http_log_set_log,ngx_http_auth_basic_user_file,
+,,ngx_http.c:211,1,ngx_http_log_create_loc_conf,ngx_http_fastcgi_create_loc_conf,
+,,,1,,ngx_http_memcached_create_loc_conf,
+,,,1,,ngx_http_proxy_create_loc_conf,
+,,,1,,ngx_http_referer_create_conf,
+,,,1,,ngx_http_scgi_create_loc_conf,
+,,,1,,ngx_http_try_files_create_loc_conf,
+,,,1,,ngx_http_uwsgi_create_loc_conf,
+,,ngx_http.c:310,1,ngx_http_log_init,ngx_http_access_init,
+,,,1,,ngx_http_auth_basic_init,
+,,,1,,ngx_http_autoindex_init,
+,,,1,,ngx_http_charset_postconfiguration,
+,,,1,,ngx_http_chunked_filter_init,
+,,,1,,ngx_http_copy_filter_init,
+,,,1,,ngx_http_core_postconfiguration,
+,,,1,,ngx_http_gzip_filter_init,
+,,,1,,ngx_http_header_filter_init,
+,,,1,,ngx_http_headers_filter_init,
+,,,1,,ngx_http_index_init,
+,,,1,,ngx_http_limit_conn_init,
+,,,1,,ngx_http_limit_req_init,
+,,,1,,ngx_http_mirror_init,
+,,,1,,ngx_http_modsecurity_init,
+,,,1,,ngx_http_not_modified_filter_init,
+,,,1,,ngx_http_postpone_filter_init,
+,,,1,,ngx_http_range_body_filter_init,
+,,,1,,ngx_http_range_header_filter_init,
+,,,1,,ngx_http_rewrite_init,
+,,,1,,ngx_http_ssi_filter_init,
+,,,1,,ngx_http_static_init,
+,,,1,,ngx_http_try_files_init,
+,,,1,,ngx_http_userid_init,
+,,,1,,ngx_http_write_filter_init,
+,,ngx_http.c:597,1,ngx_http_log_merge_loc_conf,ngx_http_gzip_merge_conf,
+,,,23,ngx_http_copy_filter_merge_conf,ngx_http_access_merge_loc_conf,False Positive
+,,,23,,ngx_http_auth_basic_merge_loc_conf,False Positive
+,,,23,,ngx_http_autoindex_merge_loc_conf,False Positive
+,,,23,,ngx_http_browser_merge_conf,False Positive
+,,,23,,ngx_http_headers_merge_conf,False Positive
+,,,23,,ngx_http_limit_conn_merge_conf,"False Positive, Location Dependent"
+,,,23,,ngx_http_log_merge_loc_conf,False Positive
+,,,23,,ngx_http_memcached_merge_loc_conf,False Positive
+,,,23,,ngx_http_mirror_merge_loc_conf,False Positive
+,,,23,,ngx_http_rewrite_merge_loc_conf,False Positive
+,,ngx_http.c:650,4,ngx_http_log_merge_loc_conf,ngx_http_gzip_merge_conf,
+,,,4,,ngx_http_userid_merge_conf,
+,,,92,ngx_http_copy_filter_merge_conf,ngx_http_access_merge_loc_conf,False Positive
+,,,,,ngx_http_auth_basic_merge_loc_conf,False Positive
+,,,,,ngx_http_autoindex_merge_loc_conf,False Positive
+,,,,,ngx_http_headers_merge_conf,False Positive
+,,,,,ngx_http_log_merge_loc_conf,False Positive
+,,,,,ngx_http_mirror_merge_loc_conf,False Positive
+,,,,,ngx_http_rewrite_merge_loc_conf,False Positive
+,,ngx_http_core_module.c:2949,1,,ngx_http_fastcgi_create_loc_conf,
+,,,,,ngx_http_memcached_create_loc_conf,
+,,,,,ngx_http_proxy_create_loc_conf,
+,,,,,ngx_http_referer_create_conf,
+,,,,,ngx_http_scgi_create_loc_conf,
+,,,,,ngx_http_try_files_create_loc_conf,
+,,,,,ngx_http_uwsgi_create_loc_conf,
+,,ngx_http_core_module.c:3075,1,ngx_http_log_create_loc_conf,ngx_http_fastcgi_create_loc_conf,
+,,,,,ngx_http_memcached_create_loc_conf,
+,,,,,ngx_http_modsecurity_create_conf,
+,,,,,ngx_http_proxy_create_loc_conf,
+,,,,,ngx_http_referer_create_conf,
+,,,,,ngx_http_scgi_create_loc_conf,
+,,,,,ngx_http_try_files_create_loc_conf,
+,,,,,ngx_http_uwsgi_create_loc_conf,
+,,ngx_http_request.c:3806,0,ngx_http_log_handler,ngx_http_modsecurity_log_handler,

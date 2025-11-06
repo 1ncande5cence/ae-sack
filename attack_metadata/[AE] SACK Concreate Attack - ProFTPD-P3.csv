@@ -1,0 +1,8 @@
+Oracle,Security Feature,iCall Location,Time,Flipfrom,Flipto,Note
+ProFTPD-P3,User permission control,modules.c:59,10,set_denyall,core_quit,
+,,,10,,pw_getpwent,
+,,,10,,core_post_pass,
+,,,10,,pw_getgrent,
+,,,10,,auth_err_pass,
+,,,10,,core_syst,
+,,,10,,end_ifmodule,

@@ -1,0 +1,112 @@
+Oracle,Security Feature,iCall Location,Time,Flipfrom,Flipto,Note
+Nginx-N2,Rate Limiting,ngx_conf_file.c:463,22,,ngx_conf_set_keyval_slot,
+,,,22,,ngx_http_set_complex_value_slot,
+,,,22,,ngx_http_upstream_param_set_slot,
+,,ngx_http.c:211,8,ngx_http_limit_conn_create_conf,ngx_http_access_create_loc_conf,
+,,,8,,ngx_http_copy_filter_create_conf,
+,,,8,,ngx_http_index_create_loc_conf,
+,,,8,,ngx_http_try_files_create_loc_conf,
+,,,9,ngx_http_limit_req_create_conf,ngx_http_access_create_loc_conf,Location Dependent
+,,,9,,ngx_http_browser_create_conf,
+,,,9,,ngx_http_copy_filter_create_conf,Location Dependent
+,,,9,,ngx_http_core_create_loc_conf,
+,,,9,,ngx_http_index_create_loc_conf,Location Dependent
+,,,9,,ngx_http_log_create_loc_conf,
+,,,9,,ngx_http_memcached_create_loc_conf,
+,,,9,,ngx_http_rewrite_create_loc_conf,Location Dependent
+,,,9,,ngx_http_try_files_create_loc_conf,
+,,ngx_http.c:310,0,ngx_http_core_postconfiguration,ngx_http_log_init,Location Dependent
+,,,10,ngx_http_limit_req_init,ngx_http_access_init,
+,,,10,,ngx_http_auth_basic_init,
+,,,10,,ngx_http_autoindex_init,
+,,,10,,ngx_http_charset_postconfiguration,
+,,,10,,ngx_http_chunked_filter_init,
+,,,10,,ngx_http_copy_filter_init,
+,,,10,,ngx_http_core_postconfiguration,
+,,,10,,ngx_http_gzip_filter_init,
+,,,10,,ngx_http_header_filter_init,
+,,,10,,ngx_http_headers_filter_init,
+,,,10,,ngx_http_index_init,
+,,,10,,ngx_http_limit_conn_init,
+,,,10,,ngx_http_log_init,Location Dependent
+,,,10,,ngx_http_mirror_init,
+,,,10,,ngx_http_not_modified_filter_init,
+,,,10,,ngx_http_postpone_filter_init,
+,,,10,,ngx_http_range_body_filter_init,
+,,,10,,ngx_http_range_header_filter_init,
+,,,10,,ngx_http_rewrite_init,
+,,,10,,ngx_http_ssi_filter_init,
+,,,10,,ngx_http_static_init,
+,,,10,,ngx_http_try_files_init,
+,,,10,,ngx_http_userid_init,
+,,,10,,ngx_http_write_filter_init,
+,,,11,ngx_http_rewrite_init,ngx_http_log_init,False Positive
+,,,3,ngx_http_autoindex_init,ngx_http_log_init,False Positive
+,,,5,ngx_http_mirror_init,ngx_http_log_init,False Positive
+,,,6,ngx_http_try_files_init,ngx_http_log_init,False Positive
+,,,7,ngx_http_auth_basic_init,ngx_http_log_init,False Positive
+,,,8,ngx_http_access_init,ngx_http_log_init,False Positive
+,,,9,ngx_http_limit_conn_init,ngx_http_log_init,False Positive
+,,ngx_http.c:597,8,,ngx_http_access_merge_loc_conf,
+,,,8,,ngx_http_auth_basic_merge_loc_conf,
+,,,8,,ngx_http_autoindex_merge_loc_conf,
+,,,8,,ngx_http_charset_merge_loc_conf,
+,,,8,,ngx_http_copy_filter_merge_conf,
+,,,8,,ngx_http_gzip_merge_conf,
+,,,8,,ngx_http_headers_merge_conf,
+,,,8,,ngx_http_index_merge_loc_conf,
+,,,8,,ngx_http_limit_conn_merge_conf,
+,,,8,,ngx_http_log_merge_loc_conf,
+,,,8,,ngx_http_mirror_merge_loc_conf,
+,,,8,,ngx_http_referer_merge_conf,
+,,,8,,ngx_http_ssi_merge_loc_conf,
+,,,8,,ngx_http_userid_merge_conf,
+,,ngx_http.c:650,0,ngx_http_core_merge_loc_conf,ngx_http_userid_merge_conf,False Positive
+,,,32,ngx_http_limit_req_merge_conf,ngx_http_access_merge_loc_conf,
+,,,32,,ngx_http_auth_basic_merge_loc_conf,
+,,,32,,ngx_http_autoindex_merge_loc_conf,
+,,,32,,ngx_http_charset_merge_loc_conf,
+,,,32,,ngx_http_copy_filter_merge_conf,
+,,,32,,ngx_http_headers_merge_conf,
+,,,32,,ngx_http_index_merge_loc_conf,
+,,,32,,ngx_http_limit_conn_merge_conf,
+,,,32,,ngx_http_log_merge_loc_conf,
+,,,32,,ngx_http_mirror_merge_loc_conf,
+,,,32,,ngx_http_referer_merge_conf,
+,,,32,,ngx_http_ssi_merge_loc_conf,
+,,,32,,ngx_http_userid_merge_conf,
+,,ngx_http_core_module.c:2949,8,,ngx_http_rewrite_create_loc_conf,
+,,ngx_http_core_module.c:875,1,ngx_http_core_find_config_phase,ngx_http_core_post_access_phase,
+,,,1,,ngx_http_core_post_rewrite_phase,
+,,,13,ngx_http_core_find_config_phase,ngx_http_core_post_access_phase,Duplicate
+,,,13,,ngx_http_core_post_rewrite_phase,Duplicate
+,,,16,ngx_http_core_generic_phase,ngx_http_core_find_config_phase,
+,,,16,,ngx_http_core_post_access_phase,
+,,,16,,ngx_http_core_post_rewrite_phase,
+,,,27,ngx_http_core_find_config_phase,ngx_http_core_post_access_phase,Duplicate
+,,,27,,ngx_http_core_post_rewrite_phase,Duplicate
+,,,30,ngx_http_core_generic_phase,ngx_http_core_find_config_phase,Duplicate
+,,,30,,ngx_http_core_post_access_phase,Duplicate
+,,,30,,ngx_http_core_post_rewrite_phase,Duplicate
+,,,4,ngx_http_core_generic_phase,ngx_http_core_find_config_phase,Duplicate
+,,,4,,ngx_http_core_post_access_phase,Duplicate
+,,,4,,ngx_http_core_post_rewrite_phase,Duplicate
+,,ngx_http_core_module.c:897,0,ngx_http_limit_req_handler,ngx_http_limit_conn_handler,
+,,,0,,ngx_http_mirror_handler,
+,,,0,,ngx_http_try_files_handler,
+,,,4,ngx_http_limit_req_handler,ngx_http_limit_conn_handler,Duplicate
+,,,4,,ngx_http_mirror_handler,Duplicate
+,,,4,,ngx_http_try_files_handler,Duplicate
+,,,8,ngx_http_limit_req_handler,ngx_http_limit_conn_handler,Duplicate
+,,,8,,ngx_http_mirror_handler,Duplicate
+,,,8,,ngx_http_try_files_handler,Duplicate
+,,ngx_http_variables.c:637,0,ngx_http_variable_binary_remote_addr,ngx_http_proxy_host_variable,
+,,,0,,ngx_http_proxy_internal_chunked_variable,
+,,,0,,ngx_http_upstream_status_variable,
+,,,0,,ngx_http_variable_remote_user,
+,,,0,,ngx_http_variable_request,
+,,,7,ngx_http_variable_binary_remote_addr,ngx_http_proxy_host_variable,Duplicate
+,,,7,,ngx_http_proxy_internal_chunked_variable,Duplicate
+,,,7,,ngx_http_upstream_status_variable,Duplicate
+,,,7,,ngx_http_variable_remote_user,Duplicate
+,,,7,,ngx_http_variable_request,Duplicate

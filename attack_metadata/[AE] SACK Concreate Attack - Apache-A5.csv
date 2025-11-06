@@ -1,0 +1,12 @@
+Oracle,Security Feature,iCall Location,Time,Flipfrom,Flipto,Note
+Apache-A5,Block malicious URL,request.c:80,1,file_cache_xlat,ap_core_translate,
+,,,2,x_translate_name,ap_core_translate,
+,,,2,,file_cache_xlat,
+,,,2,,log_debug_translate_name,
+,,,2,,lua_translate_name_harness,
+,,,2,,lua_translate_name_harness_first,
+,,,2,,lua_translate_name_harness_last,
+,,,2,,mva_translate,
+,,,2,,translate_alias_redir,
+,,,2,,translate_userdir,
+,,,2,,xlate_name,

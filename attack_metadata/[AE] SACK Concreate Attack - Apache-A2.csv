@@ -1,0 +1,4 @@
+Oracle,Security Feature,iCall Location,Time,Flipfrom,Flipto,Note
+Apache-A2,Web app firewall,protocol.c:2584,1,x_post_read_request,event_post_read_request,
+,,,1,,proxy_detect,
+,,,1,,ssl_hook_ReadReq,

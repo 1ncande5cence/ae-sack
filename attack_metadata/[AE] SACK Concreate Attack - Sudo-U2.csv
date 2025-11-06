@@ -1,0 +1,2 @@
+Oracle,Security Feature,iCall Location,Time,Flipfrom,Flipto,Note
+Sudo-U2,Extra approval,sudo_conf.c:758,2,parse_plugin,parse_debug,

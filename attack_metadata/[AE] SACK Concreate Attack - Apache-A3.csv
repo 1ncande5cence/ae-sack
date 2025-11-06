@@ -1,0 +1,5 @@
+Oracle,Security Feature,iCall Location,Time,Flipfrom,Flipto,Note
+Apache-A3,Restrict methods,request.c:90,3,am_check_access,log_debug_check_access,
+,,,3,,lua_access_checker_harness_last,
+,,,3,,ssl_hook_Access,
+,,,3,,x_check_access,

@@ -1,0 +1,12 @@
+Oracle,Security Feature,iCall Location,Time,Flipfrom,Flipto,Note
+Apache-A4,Logging,util_filter.c:553,2,ap_core_input_filter,logio_in_filter,False Positive
+,,,2,,reqtimeout_filter,False Positive
+,,protocol.c:2586,3,log_after,ExportLogTransaction,
+,,,3,,ImportLogTransaction,
+,,,3,,x_log_transaction,
+,,,3,,log_debug_log_transaction,
+,,,3,,logio_transaction,
+,,,3,,lua_log_transaction_harness,
+,,connection.c:39,1,core_create_conn,x_create_connection,False Positive
+,,connection.c:42,2,x_process_connection,h2_c2_hook_process,False Positive
+,,,2,,ssl_hook_process_connection,False Positive
