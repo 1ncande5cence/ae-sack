@@ -50,6 +50,10 @@ This step uses a crawler to fetch the documentation from the `START_URL`.
    ```bash
    python3 general_crawler.py
    ```
+3. Remove large release file to reduce token usage:
+   ```
+   rm -rf ./downloaded_docs/release_*`
+   ```
 
 #### Input and Output
 

@@ -66,13 +66,13 @@ Run or follow the following commands in the corresponding experiment folder.
    This is optional because our docker image already pre-build the target programs.
 
 2. **Run the Attack Engine**  
-   Follow the instructions and the specified working directory in `run.sh` to launch the attack engine. We do not provide it as a directly executable script because some programs require interaction with the request sender, and the execution sequence is critical.
+   Follow the instructions and the specified working directory in `run.readme` to launch the attack engine. We do not provide it as a directly executable script because some programs require interaction with the request sender, and the execution sequence is critical.
    ```bash
-   /ae-sack/scripts/{target_program}/{target_oracle}/run.sh
+   /ae-sack/scripts/{target_program}/{target_oracle}/run.readme
    ```
 
 3. **Collect and Analyze Results**
-   Follow the location instructions provided in `run.sh`, and ensure that `analyze.sh` is executed from the appropriate directory.
+   Follow the location instructions provided in `run.readme`, and ensure that `analyze.sh` is executed from the appropriate directory.
    ```bash
    /ae-sack/scripts/{target_program}/{target_oracle}/analyze.sh
    ```
@@ -96,11 +96,11 @@ Run or follow the following commands in the corresponding experiment folder.
 3. **Run the attack engine:**
    Follow the instructions in:
    ```bash
-   /ae-sack/scripts/nginx/n1_auth/run.sh
+   /ae-sack/scripts/nginx/n1_auth/run.readme
    ```
    Start the attack engine at the right location.
 4. **Collect the result:**
-   After finishing substitution, use the following script at the right location `./bin/sbin`, as suggested in `run.sh`
+   After finishing substitution, use the following script at the right location `./bin/sbin`, as suggested in `run.readme`
    ```bash
    /ae-sack/scripts/nginx/n1_auth/analyze.sh
    ```

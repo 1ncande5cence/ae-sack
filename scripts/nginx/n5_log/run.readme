@@ -1,7 +1,6 @@
 # Script for Nginx logging N5
 
-# -------------------- build project with wllvm --------------------------------
-
+# -------------------- do substitution --------------------------------------
 # in ./bin/sbin/ folder
 
 # terminal 1 
