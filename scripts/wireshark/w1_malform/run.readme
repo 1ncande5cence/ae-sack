@@ -1,14 +1,18 @@
 # Script for Wireshark Malform W1
 
+# -------------------- cd to target location ------------------------------------
+
+cd /target/wireshark/w1-malform/build/run
+
 # -------------------- do substitution --------------------------------------
 # in ./build/run/ folder
 
-# export AFL_NO_AFFINITY=1
-# export SACK=/ae-sack
-# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m none -i ./input/ -o ./output/ -t 1000+ -- ./tshark.fuzz -r @@
+export AFL_NO_AFFINITY=1
+export SACK=/ae-sack
+$SACK/AFL/afl-fuzz -c ./log/sack.conf -m none -i ./input/ -o ./output/ -t 1000+ -- ./tshark.fuzz -r @@
 
 # -------------------- result analysis --------------------------------------
 
-# use corresponding analyze.sh at the ./build/run/ folder
+# use corresponding analyze.sh at the /target/wireshark/w1-malform/build/run folder
 
 # the result is in the result.*/ folder report_satisfied.txt

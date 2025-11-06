@@ -63,6 +63,6 @@ mkdir oracle
 
 # -------------------- result analysis --------------------------------------
 
-# use corresponding analyze.sh at the bin_oracle1_auth folder
+# use corresponding analyze.sh at the /target/proftpd/proftpd-auth/bin_oracle1_auth folder
 
 # the result is in the result.*/ folder report_satisfied.txt

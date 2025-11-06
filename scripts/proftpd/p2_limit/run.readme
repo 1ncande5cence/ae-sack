@@ -1,20 +1,25 @@
 # Script for Proftpd limit P2
 
+# -------------------- cd to target location ------------------------------------
+
+cd /target/proftpd/proftpd-limit/bin
+
+
 # -------------------- do substitution --------------------------------------
-# in ./bin folder
+
 # terminal 1
-# python3 ftpreq_limit_oracle1.py
+python3 ftpreq_limit_oracle1.py
 
 # terminal 2
-# export AFL_NO_AFFINITY=1
-# export SACK=/ae-sack
-# cp $SACK/scripts/proftpd/p2_limit/proftpd.conf /tmp/
-# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /tmp/proftpd.conf -d 5 -X
+export AFL_NO_AFFINITY=1
+export SACK=/ae-sack
+cp $SACK/scripts/proftpd/p2_limit/proftpd.conf /tmp/
+$SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000 -- ./proftpd.fuzz -n -c /tmp/proftpd.conf -d 5 -X
 
 # when substitution finish, stop the python script
 
 # -------------------- result analysis --------------------------------------
 
-# use corresponding analyze.sh at the ./bin folder
+# use corresponding analyze.sh at the /target/proftpd/proftpd-limit/bin folder
 
 # the result is in the result.*/ folder report_satisfied.txt

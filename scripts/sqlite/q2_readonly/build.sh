@@ -50,7 +50,7 @@ python3 subgt_addresslog_gen.py ./subgt.json
 
 # -------------------- result analysis --------------------------------------
 
-# use corresponding analyze.sh at the bin_safemode folder
+# use corresponding analyze.sh at the /target/sqlite/sqlite-readonly/bin_readonly folder
 
 # the result is in the result.*/ folder report_satisfied.txt
 

@@ -37,8 +37,8 @@ This table outlines the relationship between each tested oracle, the location of
 | Nginx-N3       | /ae-sack/scripts/nginx/n3_waf     | `sackae/sack_main:latest` | /target/nginx/nginx-waf/  |
 | Nginx-N4       | /ae-sack/scripts/nginx/n4_restrict     | `sackae/sack_main:latest` | /target/nginx/nginx-disable-method/  |
 | Nginx-N5       | /ae-sack/scripts/nginx/n5_log     | `sackae/sack_main:latest` | /target/nginx/nginx-log/  |
-| SQLite3-Q1       | /ae-sack/scripts/sqlite/q1_unsafe     | `sackae/sack_main:latest` | /target/sqlite/sqlite-readonly/  |
-| SQLite3-Q2       | /ae-sack/scripts/sqlite/q2_readonly     | `sackae/sack_main:latest` | /target/sqlite/sqlite-unsafe/  |
+| SQLite3-Q1       | /ae-sack/scripts/sqlite/q1_unsafe     | `sackae/sack_main:latest` | /target/sqlite/sqlite-unsafe/  |
+| SQLite3-Q2       | /ae-sack/scripts/sqlite/q2_readonly     | `sackae/sack_main:latest` | /target/sqlite/sqlite-readonly/  |
 | ProFTPD-P1       | /ae-sack/scripts/proftpd/p1_auth     | `sackae/sack_main:latest` | /target/proftpd/proftpd-auth/  |
 | ProFTPD-P2       | /ae-sack/scripts/proftpd/p2_limit     | `sackae/sack_main:latest` | /target/proftpd/proftpd-limit/  |
 | ProFTPD-P3       | /ae-sack/scripts/proftpd/p3_priv    | `sackae/sack_main:latest` | /target/proftpd/proftpd-priv/  |

@@ -67,6 +67,6 @@ mkdir oracle
 
 # -------------------- result analysis --------------------------------------
 
-# use corresponding analyze.sh at the ./bin folder
+# use corresponding analyze.sh at the /target/proftpd/proftpd-limit/bin folder
 
 # the result is in the result.*/ folder report_satisfied.txt

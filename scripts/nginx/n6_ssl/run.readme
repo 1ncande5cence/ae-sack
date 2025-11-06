@@ -1,19 +1,22 @@
 # Script for Nginx SSL encryption N6
 
+# -------------------- cd to target location ------------------------------------
+
+cd /target/nginx/nginx-ssl/bin/sbin
+
 
 # -------------------- do substitution --------------------------------------
-# in ./bin/sbin/ folder
 
 # terminal 1 
-# python3 send_request_https.py
+python3 send_request_https.py
 
 # terminal 2
-# export AFL_NO_AFFINITY=1
-# export SACK=/ae-sack
-# $SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
+export AFL_NO_AFFINITY=1
+export SACK=/ae-sack
+$SACK/AFL/afl-fuzz -c ./log/sack.conf -m 100M -i ./input/ -o output/ -t 1000+ -- ./nginx.fuzz
 
 # terminal 3
-# ngrep -W byline -d lo -t '' 'port 80 or port 443' >log/sniff_log
+ngrep -W byline -d lo -t '' 'port 80 or port 443' >log/sniff_log
 
 
 # -------------------- result analysis --------------------------------------
