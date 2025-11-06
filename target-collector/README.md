@@ -6,8 +6,7 @@ We adopt a lightweight strategy for generating test cases:
 - When official test suites are available, we use them directly.  
 - Otherwise, we provide minimal test cases that exercise basic program functionality.
 
-For a given program, icall targets triggered by different oracles can be **merged** to form a better **sub‑ground truth** target set.  
-Different oracles cover different features of the program; merging them provides broader coverage.
+For a given program, icall targets triggered by different oracles can be **merged** to form a better **sub‑ground truth** target set.  Different oracles cover different features of the program; merging them provides broader coverage.
 
 You may follow either method for any target program to reproduce the target‑collection process.
 
@@ -61,7 +60,7 @@ Each target program/oracle has a reproduction guide in:
 
 ## Example: Collecting Sub‑Ground‑Truth Targets for **Nginx**
 
-1. Navigate to each oracle folder and follow the instructions in its  
+1. Navigate to each oracle folder (`/ae-sack/scripts/{target_program}/{target_oracle}`) and follow the instructions in its  
    `subgt_collection.md` to run the program (with one or two inputs).  
    Save each resulting `address_log` in the corresponding directory.
 
@@ -88,7 +87,7 @@ Each target program/oracle has a reproduction guide in:
 
 ## Simplified Demonstration Experiments [For AE Evaluation]
 
-Since full sub‑groundtruth collection involves multiple manual steps (running test cases, collecting logs, merging results), we provide two simplified examples:
+Since full sub‑groundtruth collection involves multiple manual steps (running test cases, collecting logs, merging results), we provide two examples (One for minimal test case and one for test suite):
 
 ### 1. Minimal Test Case Example (Nginx / `n1_auth` Oracle)
 We use the `Nginx-N1` oracle as a minimal demonstration.  
@@ -148,6 +147,7 @@ mkdir -p log/subgt-extract
 
 ####  Verification Methods
 
+
 **Step 1: Generate visible JSON from collected logs**
 ```bash
 python3 address_to_json.py \
@@ -164,11 +164,11 @@ Compare the generated `merged_icalls.json` with the reference:
 
 **Step 2: Use collected sub-ground truth to find attacks**
 
-Run the attack engine with the collected sub-ground-truth log following the instructions.  
+Run the attack engine with the collected sub-ground-truth log following the [`instruction`](../scripts/README.md).  
 It should reproduce the same attacks as reported.
 
 ### 2. Official Test Suite Example (SQLite3)
-We also describe the exact steps used for SQLite3, which relies on its full official test suite.
+We also provide the exact steps used for SQLite3, which depends on its complete official test suite. Because the procedure is complex and time‑consuming, we do not recommend reproducing it.
 
 #### Test Suite-Based Collection
 
@@ -297,6 +297,3 @@ You can now compare `merged_sqlite.json` with the reference version at:
 /ae-sack/subgt/merged_sqlite.json
 ```
 The result should be similar.
-
-Similar to the example of Nginx, run the attack engine with the collected sub-ground-truth log following the instructions.  
-It should reproduce the same attacks as reported.

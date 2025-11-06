@@ -331,7 +331,7 @@
 #define MAP_SIZE            65536
 #endif
 
-#define MAX_ENTER_TIME      10
+#define MAX_ENTER_TIME      1000
 /* Maximum allocator request size (keep well under INT_MAX): */
 
 #define MAX_ALLOC           0x40000000

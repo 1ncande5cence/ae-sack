@@ -1,5 +1,23 @@
-This folder contains the code and original experimental data for oracle generation.
+## Oracle Generation
 
-To reproduce the results, please navigate to the corresponding target program folder (e.g., oracle_generation_{target_program}) and follow the instructions in the README.md file within that folder.
+This directory contains the full codebase and original experimental data used for oracle generation.
 
-If you’d like to test the pipeline on a new program, simply copy the oracle_generation_template folder and use the duplicated version as your working directory.
+### Reproducing Existing Results
+
+To reproduce results for a specific target program:
+
+1. Navigate to the corresponding folder:
+   ```
+   cd oracle_generation_{target_program}
+   ```
+2. Follow the instructions in `./oracle_generation_{target_program}/README.md` file.
+
+### Testing a New Program
+
+To test the oracle generation pipeline on a new target program:
+
+1. Copy the template directory:
+   ```bash
+   cp -r oracle_generation_template oracle_generation_newtarget
+   ```
+2. Use the new folder (`oracle_generation_newtarget`) as your working directory.

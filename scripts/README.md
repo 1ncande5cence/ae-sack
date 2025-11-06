@@ -26,31 +26,33 @@ Each test is executed within a corresponding experiment folder:
 ```
 /target/{target_program}/{target_oracle}/ or /target/{target_oracle}/
 ```
-### Map between script and experiment folder
+### Mapping Between Evaluation Components and File Structure
+
+This table outlines the relationship between each tested oracle, the location of its corresponding scripts, the Docker image used for evaluation, and the associated experiment folder.
 
 | Tested Oracle | Script Location                    | Tested Image      | Experiment Folder                |
 |----------------|------------------------------------|-------------------|----------------------------------|
-| Nginx-N1       | /ae-sack/scripts/nginx/n1_auth     | sack_main | /target/nginx/nginx-basic-auth/  |
-| Nginx-N2       | /ae-sack/scripts/nginx/n2_rate     | sack_main | /target/nginx/nginx-rate-limit/  |
-| Nginx-N3       | /ae-sack/scripts/nginx/n3_waf     | sack_main | /target/nginx/nginx-waf/  |
-| Nginx-N4       | /ae-sack/scripts/nginx/n4_restrict     | sack_main | /target/nginx/nginx-disable-method/  |
-| Nginx-N5       | /ae-sack/scripts/nginx/n5_log     | sack_main | /target/nginx/nginx-log/  |
-| SQLite3-Q1       | /ae-sack/scripts/sqlite/q1_unsafe     | sack_main | /target/sqlite/sqlite-readonly/  |
-| SQLite3-Q2       | /ae-sack/scripts/sqlite/q2_readonly     | sack_main | /target/sqlite/sqlite-unsafe/  |
-| ProFTPD-P1       | /ae-sack/scripts/proftpd/p1_auth     | sack_main | /target/proftpd/proftpd-auth/  |
-| ProFTPD-P2       | /ae-sack/scripts/proftpd/p2_limit     | sack_main | /target/proftpd/proftpd-limit/  |
-| ProFTPD-P3       | /ae-sack/scripts/proftpd/p3_priv    | sack_main | /target/proftpd/proftpd-priv/  |
-| ProFTPD-P4       | /ae-sack/scripts/proftpd/p4_root     | sack_main | /target/proftpd/proftpd-root/  |
-| Sudo-U1       | /ae-sack/scripts/sudo/u1_log     | sack_sudo | /target/sudo-log/  |
-| Sudo-U1       | /ae-sack/scripts/sudo/u2_approve     | sack_sudo | /target/sudo-approve/  |
-| Sudo-U1       | /ae-sack/scripts/sudo/u3_auth     | sack_sudo | /target/sudo-auth/  |
-| Apache-A1       | /ae-sack/scripts/apache/a1_auth     | sack_apache | /target/httpd-auth/  |
-| Apache-A2       | /ae-sack/scripts/apache/a2_waf     | sack_apache | /target/httpd-waf/  |
-| Apache-A3       | /ae-sack/scripts/apache/a3_restrict     | sack_apache | /target/httpd-restrict/  |
-| Apache-A4       | /ae-sack/scripts/apache/a4_log     | sack_apache | /target/httpd-log/  |
-| Apache-A5       | /ae-sack/scripts/apache/a5_block     | sack_apache | /target/httpd-block/  |
-| Wireshark-W1       | /ae-sack/scripts/wireshark/w1-malform     | sack_apache | /target/wireshark/w1-malform  |
-| V8-V1       | /ae-sack/scripts/v8/v1_unsafe     | sack_v8 | /target/v8/v1_unsafe  |
+| Nginx-N1       | /ae-sack/scripts/nginx/n1_auth     | `sackae/sack_main:latest` | /target/nginx/nginx-basic-auth/  |
+| Nginx-N2       | /ae-sack/scripts/nginx/n2_rate     | `sackae/sack_main:latest` | /target/nginx/nginx-rate-limit/  |
+| Nginx-N3       | /ae-sack/scripts/nginx/n3_waf     | `sackae/sack_main:latest` | /target/nginx/nginx-waf/  |
+| Nginx-N4       | /ae-sack/scripts/nginx/n4_restrict     | `sackae/sack_main:latest` | /target/nginx/nginx-disable-method/  |
+| Nginx-N5       | /ae-sack/scripts/nginx/n5_log     | `sackae/sack_main:latest` | /target/nginx/nginx-log/  |
+| SQLite3-Q1       | /ae-sack/scripts/sqlite/q1_unsafe     | `sackae/sack_main:latest` | /target/sqlite/sqlite-readonly/  |
+| SQLite3-Q2       | /ae-sack/scripts/sqlite/q2_readonly     | `sackae/sack_main:latest` | /target/sqlite/sqlite-unsafe/  |
+| ProFTPD-P1       | /ae-sack/scripts/proftpd/p1_auth     | `sackae/sack_main:latest` | /target/proftpd/proftpd-auth/  |
+| ProFTPD-P2       | /ae-sack/scripts/proftpd/p2_limit     | `sackae/sack_main:latest` | /target/proftpd/proftpd-limit/  |
+| ProFTPD-P3       | /ae-sack/scripts/proftpd/p3_priv    | `sackae/sack_main:latest` | /target/proftpd/proftpd-priv/  |
+| ProFTPD-P4       | /ae-sack/scripts/proftpd/p4_root     | `sackae/sack_main:latest` | /target/proftpd/proftpd-root/  |
+| Sudo-U1       | /ae-sack/scripts/sudo/u1_log     | `sackae/sack_sudo:latest` | /target/sudo-log/  |
+| Sudo-U1       | /ae-sack/scripts/sudo/u2_approve     | `sackae/sack_sudo:latest` | /target/sudo-approve/  |
+| Sudo-U1       | /ae-sack/scripts/sudo/u3_auth     | `sackae/sack_sudo:latest` | /target/sudo-auth/  |
+| Apache-A1       | /ae-sack/scripts/apache/a1_auth     | `sackae/sack_apache:latest`| /target/httpd-auth/  |
+| Apache-A2       | /ae-sack/scripts/apache/a2_waf     | `sackae/sack_apache:latest`| /target/httpd-waf/  |
+| Apache-A3       | /ae-sack/scripts/apache/a3_restrict     | `sackae/sack_apache:latest`| /target/httpd-restrict/  |
+| Apache-A4       | /ae-sack/scripts/apache/a4_log     | `sackae/sack_apache:latest`| /target/httpd-log/  |
+| Apache-A5       | /ae-sack/scripts/apache/a5_block     | `sackae/sack_apache:latest`| /target/httpd-block/  |
+| Wireshark-W1       | /ae-sack/scripts/wireshark/w1-malform     | `sackae/sack_apache:latest`| /target/wireshark/w1-malform  |
+| V8-V1       | /ae-sack/scripts/v8/v1_unsafe     | `sackae/sack_v8:latest` | /target/v8/v1_unsafe  |
 
 
 
@@ -111,7 +113,7 @@ Run or follow the following commands in the corresponding experiment folder.
 You can verify the results in one of the following ways:
 
 1. **Compare Attack Count**  
-   Check whether the number of attacks matches the value reported in the paper’s Table.I (ion) and Table.III A0-A2.
+   Check whether the number of generated attacks aligns with the values reported in Table I (ion) and Table III (A0–A2) of the paper.
 
 2. **Compare Concrete Attacks**  
    Compare the collected attack logs in `report_satisfied.txt` with the metadata provided in the `/ae-sack/attack_metadata` directory. You can use `csvlook {target-program}-{target-oracle}.csv | less` to see the original attacks SACK discovered.
@@ -123,8 +125,7 @@ We assume the attack number and the concreate attack is similar to what we repor
 ### Note on Reproduced Attack Numbers
 The number of reproduced attacks may differ slightly (either higher or lower) from those reported in the paper. This variation is expected and can be attributed to several factors:
 
-•	**Configuration or dependency changes**: The configuration files or dependencies changes may affect parsing logic and result in different SUB attacks.  
-•	**Directory or layout simplification**: We restructured the layout or directories of some target programs for simplicity, which may also influence parsing behavior and attack visibility.  
+•  **Configuration and Directory Simplification**: We simplified the configuration files and restructured the directory layouts of certain target programs to improve clarity and consistency. These changes may affect parsing logic and could lead to differences in SUB attack visibility or behavior.  
 •	**Merged attacks with identical targets**: Some attacks share the same original and substituted target functions; we merged such cases after confirming equivalence using gdb.  
 •	**Removal of false positives**: A few false positives were manually identified and removed during the validation process.  
 •	**Improved analysis scripts**: Compared to the original scripts, the updated analysis scripts better filter out false positives (e.g., distinguishing HTTP responses like 200 0 as non-attacks).  
