@@ -4,7 +4,7 @@ set -euo pipefail
 # Script for Wireshark malform W1
 export SACK=/ae-sack
 
-#mode_suffix="runtime"
+mode_suffix="runtime"
 
 # Step 1: Create a timestamped result directory
 timestamp=$(date +"%Y%m%d%H%M%S")

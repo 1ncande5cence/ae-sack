@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Script for Sudo logging U1
 
-#mode_suffix="runtime"
+mode_suffix="runtime"
 
 # Step 1: Create a timestamped result directory
 timestamp=$(date +"%Y%m%d%H%M%S")

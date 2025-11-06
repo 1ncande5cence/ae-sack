@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Script for Sudo authentication U3
 
-#mode_suffix="runtime"
+mode_suffix="runtime"
 
 # Step 1: Create a timestamped result directory
 timestamp=$(date +"%Y%m%d%H%M%S")
