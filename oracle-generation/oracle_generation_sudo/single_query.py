@@ -32,7 +32,7 @@ def generate_prompt():
 
 def extract_with_retry(prompt, result_file, max_retries=3):
     """Extract content with retry logic for API errors"""
-    client = OpenAI()
+    client = OpenAI(base_url="https://openrouter.ai/api/v1")
     
     for attempt in range(max_retries):
         try:

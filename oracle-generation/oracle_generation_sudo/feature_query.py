@@ -66,7 +66,7 @@ class Feature(BaseModel):
 class OutputFormat(BaseModel):
     features: List[Feature]
 
-client = OpenAI()
+client = OpenAI(base_url="https://openrouter.ai/api/v1")
 
 def generate_output(model, sys_prompt, user_prompt, temperature):
     start_time = time.time()
