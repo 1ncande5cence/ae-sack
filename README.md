@@ -30,9 +30,9 @@ Each image shares a similar directory layout, with this repository located at /a
 | Docker Image                | Targeted Programs/Oracles                                         | Size     |
 |-----------------------------|-------------------------------------------------------------------|----------|
 | `sackae/sack_main:latest`   | Nginx (N1–N6), SQLite3 (Q1–Q2), ProFTPD (P1–P4), Wireshark (W1)   | 19.8 GB  |
-| `sackae/sack_sudo:latest`   | Sudo (U1–U3)                                                      | 3.6 GB   |
+| `sackae/sack_sudo:latest`   | Sudo (U1–U3)                                                      | 3.72 GB   |
 | `sackae/sack_apache:latest` | Apache (A1–A5)                                                    | 5.2 GB   |
-| `sackae/sack_v8:latest`     | V8 (V1)                                                           | 10 GB    |
+| `sackae/sack_v8:latest`     | V8 (V1)                                                           | 20.6 GB    |
 
 
 - **Oracle constructor**
