@@ -93,12 +93,12 @@ This table outlines the relationship between each tested oracle, the location of
 
 ## Instructions
 
-- **Oracle Constructor**  
+- **Experiment 1 (E1) - Claim (C1): Oracle Constructor**  
   Refer to the [`README.md`](./oracle-generation/README.md) in `/ae-sack/oracle-generation/` for instructions.
 
-- **Target Collector**  
+- **Experiment 2 (E2) - Claim (C2): Target Collector**  
   Refer to the [`README.md`](./target-collector/README.md) in `/ae-sack/target-collector/` for detailed guidance on running target collection.
 
-- **Attack Engine**  
+- **Experiment 3 (E3) - Claim (C3): Attack Engine**  
   Follow the [`README.md`](./scripts/README.md) in `/ae-sack/scripts/` to execute and validate attack generation experiments.
 
