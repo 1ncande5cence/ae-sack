@@ -100,7 +100,7 @@ Run or follow the following commands in the corresponding experiment folder.
    ```
    Start the attack engine at the right location.
 4. **Collect the result:**
-   After finishing substitution, use the following script at the right location `./bin/sbin`, as suggested in `run.readme`
+   After finishing substitution, use the following script at the right location `/target/nginx/nginx-basic-auth/bin/sbin`, as suggested in `run.readme`
    ```bash
    /ae-sack/scripts/nginx/n1_auth/analyze.sh
    ```
