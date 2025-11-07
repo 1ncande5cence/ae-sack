@@ -113,7 +113,7 @@ Run or follow the following commands in the corresponding experiment folder.
 You can verify the results in one of the following ways:
 
 1. **Compare Attack Count**  
-   Check whether the number of generated attacks aligns with the values reported in Table I (ion) and Table III (A0–A2) of the paper.
+   Check whether the number of generated attacks aligns with the values reported in Table I (ion) and Table III (A0–A1) of the paper.
 
 2. **Compare Concrete Attacks**  
    Compare the collected attack logs in `report_satisfied.txt` with the metadata provided in the `/ae-sack/attack_metadata` directory. You can use `csvlook {target-program}-{target-oracle}.csv | less` to see the original attacks SACK discovered.
