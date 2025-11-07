@@ -85,7 +85,9 @@ This table outlines the relationship between each tested oracle, the location of
   docker run --cap-add=SYS_PTRACE \
              --name ae-sack-main \
              --security-opt seccomp=unconfined \
-             -it sackae/sack_main:latest /bin/bash
+             -it sackae/sack_main:latest \
+             tail -f /dev/null
+  docker exec -it ae-sack-main /bin/bash           
   ```
 
 - **Step 4: Follow the Provided Instructions to Run the Experiments**
