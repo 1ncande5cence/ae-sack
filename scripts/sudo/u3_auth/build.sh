@@ -55,6 +55,6 @@ cp $SACK/scripts/sudo/u3_auth/sudo.conf /etc/sudo.conf
 
 # -------------------- result analysis --------------------------------------
 
-# use corresponding analyze.sh at the ./bin/sbin/ folder
+# use corresponding analyze.sh from /ae-sack/scripts/{target_program}/{target_oracle} in the directory workdir ./bin/sbin/ folder
 
 # the result is in the result.*/ folder report_satisfied.txt

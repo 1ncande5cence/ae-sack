@@ -21,7 +21,7 @@ $SACK/AFL/afl-fuzz -c ./log/sack.conf -d -m none -i ./input -o ./output/ -t 5000
 
 # -------------------- result analysis --------------------------------------
 
-# use corresponding analyze.sh at the current /target/v8/v1_unsafe/x64.debug folder
+# use corresponding analyze.sh from /ae-sack/scripts/{target_program}/{target_oracle} in the directory workdir current /target/v8/v1_unsafe/x64.debug folder
 
 # the result is in the result.*/ folder report_satisfied.txt
 

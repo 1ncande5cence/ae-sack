@@ -46,6 +46,6 @@ python3 subgt_addresslog_gen.py ./subgt.json
 # when substitution finish, stop the python script
 # -------------------- result analysis --------------------------------------
 
-# use corresponding analyze.sh at the /target/nginx/nginx-log/bin/sbin folder
+# use corresponding analyze.sh from /ae-sack/scripts/{target_program}/{target_oracle} in the directory workdir /target/nginx/nginx-log/bin/sbin folder
 
 # the result is in the result.*/ folder report_satisfied.txt

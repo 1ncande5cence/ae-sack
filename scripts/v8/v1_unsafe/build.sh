@@ -62,7 +62,7 @@ objdump -d ./d8.fuzz | grep ">:" > ./log/func_map
 
 # -------------------- result analysis --------------------------------------
 
-# use corresponding analyze.sh at the bin_safemode folder
+# use corresponding analyze.sh from /ae-sack/scripts/{target_program}/{target_oracle} in the directory workdir bin_safemode folder
 
 # the result is in the result.*/ folder report_satisfied.txt
 

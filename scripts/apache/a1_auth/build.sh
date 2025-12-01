@@ -54,6 +54,6 @@ python3 subgt_addresslog_gen.py ./subgt.json
 
 # -------------------- result analysis --------------------------------------
 
-# use corresponding analyze.sh at the /target/httpd-auth/ folder
+# use corresponding analyze.sh from /ae-sack/scripts/{target_program}/{target_oracle} in the directory workdir /target/httpd-auth/
 
 # the result is in the result.*/ folder report_satisfied.txt
