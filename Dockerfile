@@ -61,6 +61,9 @@ RUN ls -al ./wllvm && \
 
 # copy and install dependencies
 # build AFL
+
+# Requires host:
+#   echo core | sudo tee /proc/sys/kernel/core_pattern
 COPY AFL ./AFL
 RUN apt-get install libjansson-dev libjsoncpp-dev -y
 RUN cd ./AFL/ && \

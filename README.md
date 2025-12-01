@@ -92,6 +92,29 @@ This table outlines the relationship between each tested oracle, the location of
 
 - **Step 4: Follow the Provided Instructions to Run the Experiments**
 
+#### [New] Zenodo Link
+In addition to pulling images from DockerHub, the Dockerfile, all Docker images, 
+and this repository are archived on Zenodo at 🔗[https://doi.org/10.5281/zenodo.17782315] for permanent access.
+
+The Zenodo archive includes the following OCI image tarballs:
+
+`sack_main_latest.oci.tar` -> sackae/sack_main:latest  
+`sack_sudo_latest.oci.tar`  -> sackae/sack_sudo:latest  
+`sack_apache_latest.oci.tar`  -> sackae/sack_apache:latest  
+`sack_v8_latest.oci.tar` -> sackae/sack_v8:latest
+
+To convert an OCI archive from Zenodo into a Docker-compatible archive, use:
+```
+apt-get install -y skopeo
+
+# Convert OCI → Docker
+skopeo copy oci-archive:sack_main_latest.oci.tar \
+             docker-archive:sack_main_latest.docker.tar
+
+# Load into Docker
+docker load -i sack_main_docker.tar
+```
+
 
 ## Instructions
 
