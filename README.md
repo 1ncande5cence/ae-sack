@@ -113,6 +113,11 @@ skopeo copy oci-archive:sack_main_latest.oci.tar \
 
 # Load into Docker
 docker load -i sack_main_latest.docker.tar
+# Example output:
+#   Loaded image ID: sha256:<IMAGE_ID>
+
+# Tag the image
+docker tag sha256:<IMAGE_ID> sack_main:latest
 ```
 
 
