@@ -112,7 +112,7 @@ skopeo copy oci-archive:sack_main_latest.oci.tar \
              docker-archive:sack_main_latest.docker.tar
 
 # Load into Docker
-docker load -i sack_main_docker.tar
+docker load -i sack_main_latest.docker.tar
 ```
 
 
