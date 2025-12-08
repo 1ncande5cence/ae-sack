@@ -26,6 +26,16 @@
    This code is the rewrite of afl-as.h's main_payload.
 */
 
+/*
+   Modifications for SACK
+   -------------------------------------
+
+   Modified by Zhechang Zhang, 2025.
+
+   These modifications remain under the original Apache 2.0 license
+   and retain all original copyright and attribution notices.
+*/
+
 #include "../android-ashmem.h"
 #include "../config.h"
 #include "../types.h"

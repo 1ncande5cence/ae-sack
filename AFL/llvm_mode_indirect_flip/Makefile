@@ -4,6 +4,16 @@
 # Added build profile menu for MAP_SIZE
 #
 
+#
+#    Modifications for SACK
+#    -------------------------------------
+
+#    Modified by Zhechang Zhang, 2025.
+
+#    These modifications remain under the original Apache 2.0 license
+#    and retain all original copyright and attribution notices.
+#
+
 PREFIX       ?= /usr/local
 HELPER_PATH   = $(PREFIX)/lib/afl
 BIN_PATH      = $(PREFIX)/bin

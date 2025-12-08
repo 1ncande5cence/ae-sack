@@ -28,6 +28,16 @@
 
 */
 
+/*
+   Modifications for SACK
+   -------------------------------------
+
+   Modified by Zhechang Zhang, 2025.
+
+   These modifications remain under the original Apache 2.0 license
+   and retain all original copyright and attribution notices.
+*/
+
 #define AFL_MAIN
 #include "android-ashmem.h"
 #define MESSAGES_TO_STDOUT

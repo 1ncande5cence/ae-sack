@@ -13,6 +13,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 
+# /*
+#    Modifications for SACK
+#    -------------------------------------
+
+#    Modified by Zhechang Zhang, 2025.
+
+#    These modifications remain under the original Apache 2.0 license
+#    and retain all original copyright and attribution notices.
+# */
+
 # Add defaults for both
 MAP_SIZE   ?= 65536
 

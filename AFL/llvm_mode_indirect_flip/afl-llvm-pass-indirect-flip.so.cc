@@ -29,6 +29,16 @@
    in ../afl-as.h.
 */
 
+/*
+   Modifications for SACK
+   -------------------------------------
+
+   Modified by Zhechang Zhang, 2025.
+
+   These modifications remain under the original Apache 2.0 license
+   and retain all original copyright and attribution notices.
+*/
+
 #define AFL_LLVM_PASS
 
 #include <unordered_set>
