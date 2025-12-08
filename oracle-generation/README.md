@@ -13,8 +13,7 @@ To reproduce results for a specific target program:
 2. Follow the instructions in `./oracle_generation_{target_program}/README.md` file.
 
 
-### Provided API Key for evaluation
-We provide a **OpenRouter API key** with a usage limit of **$15** to support reproducibility and evaluation. (Located in the Appendix)
+### API Key for evaluation
 
 To stay within the budget, we recommend that reviewers **test a subset of the programs step-by-step** and **compare the outputs** against the reference results provided in the `metadata/` folder, as well as the oracle generation source described in each program’s `README.md` (`./oracle_generation_{target_program}/README.md`).
 
