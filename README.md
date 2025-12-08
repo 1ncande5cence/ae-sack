@@ -1,4 +1,4 @@
-# [Artifact Evaluation] SACK: Systematic Generation of Function Substitution Attacks Against Control-Flow Integrity
+# SACK: Systematic Generation of Function Substitution Attacks Against Control-Flow Integrity
 
 _function substitution_ attacks (_sub_ attacks): 
 altering function pointers between CFI-allowed targets.
@@ -18,6 +18,11 @@ targets during benign execution.
 Perform substitutions and security violation check, report
 successful _sub_ attacks.
 
+<p align="left">
+<img src="images/sack-overview.png" width="100%" alt="The overview of SACK" border="1">
+</p>
+
+Please check our paper published on NDSS 2026 for more details.
 
 ## AE Environment
 
@@ -96,28 +101,33 @@ This table outlines the relationship between each tested oracle, the location of
 In addition to pulling images from DockerHub, the Dockerfile, all Docker images, 
 and this repository are archived on Zenodo at 🔗[https://doi.org/10.5281/zenodo.17782315] for permanent access.
 
-The Zenodo archive includes the following OCI image tarballs:
+The Zenodo archive includes the following OCI image tarballs. Here is the mapping to their corresponding Docker image tags:
 
-`sack_main_latest.oci.tar` -> sackae/sack_main:latest  
-`sack_sudo_latest.oci.tar`  -> sackae/sack_sudo:latest  
-`sack_apache_latest.oci.tar`  -> sackae/sack_apache:latest  
-`sack_v8_latest.oci.tar` -> sackae/sack_v8:latest
+| OCI Archive File                  | Docker Image Tag              |
+|-----------------------------------|------------------------------|
+| `sack_main_latest.oci.tar`        | `sackae/sack_main:latest`    |
+| `sack_sudo_latest.oci.tar`        | `sackae/sack_sudo:latest`    |
+| `sack_apache_latest.oci.tar`      | `sackae/sack_apache:latest`  |
+| `sack_v8_latest.oci.tar`          | `sackae/sack_v8:latest`      |
+
 
 To convert an OCI archive from Zenodo into a Docker-compatible archive, use:
 ```
 apt-get install -y skopeo
 
-# Convert OCI → Docker
+# Convert oci-archive to docker-archive
 skopeo copy oci-archive:sack_main_latest.oci.tar \
              docker-archive:sack_main_latest.docker.tar
 
-# Load into Docker
+# Load into docker
 docker load -i sack_main_latest.docker.tar
 # Example output:
 #   Loaded image ID: sha256:<IMAGE_ID>
 
 # Tag the image
 docker tag sha256:<IMAGE_ID> sack_main:latest
+
+# Then continue with Step 3 from the "How to Use" section.
 ```
 
 
@@ -132,3 +142,30 @@ docker tag sha256:<IMAGE_ID> sack_main:latest
 - **Experiment 3 (E3) - Claim (C3): Attack Engine**  
   Follow the [`README.md`](./scripts/README.md) in `/ae-sack/scripts/` to execute and validate attack generation experiments.
 
+## Authors
+
+* Zhechang Zhang zbz5352@psu.edu
+* Hengkai Ye hengkai@psu.edu
+* Song Liu songliu@udel.edu
+* Hong Hu honghu@psu.edu
+
+
+## Publication
+
+```bib
+SACK: Systematic Generation of Function Substitution Attacks Against Control-Flow Integrity
+
+@inproceedings{zhang:sack,
+  title        = {{SACK: Systematic Generation of Function Substitution Attacks Against Control-Flow Integrity}},
+  author       = {Zhechang Zhang and Hengkai Ye and Song Liu and Hong Hu},
+  booktitle    = {Proceedings of the 33rd Annual Network and Distributed System Security Symposium (NDSS 2026)},
+  month        = feb,
+  year         = {2026},
+  address      = {San Diego, CA},
+}
+```
+
+## Acknowledgment
+
+We thank National Science Foundation (NSF) for supporting our work.
+This research is supported by NSF under grant CNS-2247652 and CNS-233984.
